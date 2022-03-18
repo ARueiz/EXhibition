@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    public class ＡController : Controller
+    public class AController : Controller
     {
         // GET: Ａ
         public ActionResult Index()
