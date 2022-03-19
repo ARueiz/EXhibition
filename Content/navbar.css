@@ -1,0 +1,55 @@
+.hamburgerMenu {
+    display: none;
+    border: none;
+    background-color: white
+}
+
+.navDrop {
+    margin-top: 10px;
+    display: none;
+    /*transition: 0.3s;*/
+}
+
+ul{
+    list-style-type: none;
+}
+
+a{
+    text-decoration:none;
+}
+
+.font5{
+    color: black;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .navInline {
+        display: none;
+    }
+
+    .hamburgerMenu {
+        display: block;
+    }
+
+    .sideDropDown{
+        display: block;
+    }
+
+}
+
+.displayItem{
+    display: block;
+}
+
+@media (min-width: 768px) {
+    .displayItem{
+        display: none;
+    }
+
+    .sideDropDown{
+        display: none;
+    }
+}
+
+
