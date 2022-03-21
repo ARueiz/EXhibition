@@ -146,6 +146,7 @@
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
     <Content Include="Content\Bootstrap\bootstrap5.0.2.min.css" />
+    <Content Include="Content\myLogin.css" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
@@ -181,6 +182,7 @@
     <Content Include="Content\Bootstrap\bootstrap-grid.min.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-grid.css.map" />
     <None Include="Scripts\JQuery\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery.qrcode.min.js" />
     <Content Include="Scripts\JQuery\jquery-3.4.1.js" />
     <Content Include="Scripts\JQuery\jquery-3.4.1.min.js" />
     <Content Include="Scripts\JQuery\jquery-3.4.1.slim.js" />
@@ -192,6 +194,7 @@
     <Content Include="Scripts\JQuery\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\navbar.js" />
+    <Content Include="Scripts\Vue.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
