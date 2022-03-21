@@ -12,6 +12,12 @@ namespace EXhibition
     {
         protected void Application_Start()
         {
+
+            if (HttpContext.Current.IsDebuggingEnabled)
+            {
+                System.Diagnostics.Debug.WriteLine("is debug mode");
+            }
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
