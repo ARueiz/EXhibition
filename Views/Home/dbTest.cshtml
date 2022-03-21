@@ -1,0 +1,16 @@
+﻿@model IEnumerable<EXhibition.Models.users>
+@{
+    ViewBag.Title = "dbTest";
+}
+
+<h2>dbTest</h2>
+
+@foreach (var item in Model)
+{
+    <ul>
+        <li>@Html.DisplayFor(modelItem => item.UID)</li>
+        <li>@Html.DisplayFor(modelItem => item.name)</li>
+        <li>@Html.DisplayFor(modelItem => item.email)</li>
+        <li>@Html.DisplayFor(modelItem => item.phone)</li>
+    </ul>
+}

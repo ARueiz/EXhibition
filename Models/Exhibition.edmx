@@ -1,0 +1,472 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ExhibitionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="events">
+          <Key>
+            <PropertyRef Name="EVID" />
+          </Key>
+          <Property Name="EVID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HID" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="startdate" Type="date" Nullable="false" />
+          <Property Name="enddate" Type="date" Nullable="false" />
+          <Property Name="venue" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="image" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="floorplanimg" Type="nvarchar" MaxLength="50" />
+          <Property Name="category" Type="nvarchar" MaxLength="50" />
+          <Property Name="eventinfo" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="note" Type="nvarchar" MaxLength="500" />
+          <Property Name="ticketprice" Type="money" Nullable="false" />
+          <Property Name="verify" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="exhibitinfo">
+          <Key>
+            <PropertyRef Name="EVID" />
+            <PropertyRef Name="EID" />
+          </Key>
+          <Property Name="EVID" Type="int" Nullable="false" />
+          <Property Name="EID" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="20" />
+          <Property Name="link" Type="nvarchar" MaxLength="100" />
+          <Property Name="image" Type="nvarchar" MaxLength="50" />
+          <Property Name="boothnumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="productinfo" Type="nvarchar" MaxLength="500" />
+          <Property Name="status" Type="nvarchar" MaxLength="50" />
+          <Property Name="verify" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="exhibitors">
+          <Key>
+            <PropertyRef Name="EID" />
+          </Key>
+          <Property Name="EID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="link" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="64" Nullable="false" />
+          <Property Name="verify" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="hosts">
+          <Key>
+            <PropertyRef Name="HID" />
+          </Key>
+          <Property Name="HID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="link" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="64" Nullable="false" />
+          <Property Name="image" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="verify" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tickets">
+          <Key>
+            <PropertyRef Name="EVID" />
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="EVID" Type="int" Nullable="false" />
+          <Property Name="UID" Type="int" Nullable="false" />
+          <Property Name="paid" Type="bit" Nullable="false" />
+          <Property Name="passed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="phone" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="password" Type="nchar" MaxLength="64" Nullable="false" />
+          <Property Name="verify" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__events__HID__2E1BDC42">
+          <End Role="hosts" Type="Self.hosts" Multiplicity="1" />
+          <End Role="events" Type="Self.events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hosts">
+              <PropertyRef Name="HID" />
+            </Principal>
+            <Dependent Role="events">
+              <PropertyRef Name="HID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__exhibitinf__EVID__31EC6D26">
+          <End Role="events" Type="Self.events" Multiplicity="1" />
+          <End Role="exhibitinfo" Type="Self.exhibitinfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="events">
+              <PropertyRef Name="EVID" />
+            </Principal>
+            <Dependent Role="exhibitinfo">
+              <PropertyRef Name="EVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__exhibitinfo__EID__32E0915F">
+          <End Role="exhibitors" Type="Self.exhibitors" Multiplicity="1" />
+          <End Role="exhibitinfo" Type="Self.exhibitinfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exhibitors">
+              <PropertyRef Name="EID" />
+            </Principal>
+            <Dependent Role="exhibitinfo">
+              <PropertyRef Name="EID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__EVID__37A5467C">
+          <End Role="events" Type="Self.events" Multiplicity="1" />
+          <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="events">
+              <PropertyRef Name="EVID" />
+            </Principal>
+            <Dependent Role="tickets">
+              <PropertyRef Name="EVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__UID__38996AB5">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UID" />
+            </Principal>
+            <Dependent Role="tickets">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExhibitionModelStoreContainer">
+          <EntitySet Name="events" EntityType="Self.events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="exhibitinfo" EntityType="Self.exhibitinfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="exhibitors" EntityType="Self.exhibitors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="hosts" EntityType="Self.hosts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tickets" EntityType="Self.tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__events__HID__2E1BDC42" Association="Self.FK__events__HID__2E1BDC42">
+            <End Role="hosts" EntitySet="hosts" />
+            <End Role="events" EntitySet="events" />
+          </AssociationSet>
+          <AssociationSet Name="FK__exhibitinf__EVID__31EC6D26" Association="Self.FK__exhibitinf__EVID__31EC6D26">
+            <End Role="events" EntitySet="events" />
+            <End Role="exhibitinfo" EntitySet="exhibitinfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__exhibitinfo__EID__32E0915F" Association="Self.FK__exhibitinfo__EID__32E0915F">
+            <End Role="exhibitors" EntitySet="exhibitors" />
+            <End Role="exhibitinfo" EntitySet="exhibitinfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__EVID__37A5467C" Association="Self.FK__Tickets__EVID__37A5467C">
+            <End Role="events" EntitySet="events" />
+            <End Role="tickets" EntitySet="tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__UID__38996AB5" Association="Self.FK__Tickets__UID__38996AB5">
+            <End Role="users" EntitySet="users" />
+            <End Role="tickets" EntitySet="tickets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExhibitionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="events">
+          <Key>
+            <PropertyRef Name="EVID" />
+          </Key>
+          <Property Name="EVID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HID" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="startdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="enddate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="venue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="floorplanimg" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="eventinfo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="note" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="ticketprice" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="verify" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="hosts" Relationship="Self.FK__events__HID__2E1BDC42" FromRole="events" ToRole="hosts" />
+          <NavigationProperty Name="exhibitinfo" Relationship="Self.FK__exhibitinf__EVID__31EC6D26" FromRole="events" ToRole="exhibitinfo" />
+          <NavigationProperty Name="tickets" Relationship="Self.FK__Tickets__EVID__37A5467C" FromRole="events" ToRole="tickets" />
+        </EntityType>
+        <EntityType Name="exhibitinfo">
+          <Key>
+            <PropertyRef Name="EVID" />
+            <PropertyRef Name="EID" />
+          </Key>
+          <Property Name="EVID" Type="Int32" Nullable="false" />
+          <Property Name="EID" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="link" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="boothnumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="productinfo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="verify" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="events" Relationship="Self.FK__exhibitinf__EVID__31EC6D26" FromRole="exhibitinfo" ToRole="events" />
+          <NavigationProperty Name="exhibitors" Relationship="Self.FK__exhibitinfo__EID__32E0915F" FromRole="exhibitinfo" ToRole="exhibitors" />
+        </EntityType>
+        <EntityType Name="exhibitors">
+          <Key>
+            <PropertyRef Name="EID" />
+          </Key>
+          <Property Name="EID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="link" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="64" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="verify" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="exhibitinfo" Relationship="Self.FK__exhibitinfo__EID__32E0915F" FromRole="exhibitors" ToRole="exhibitinfo" />
+        </EntityType>
+        <EntityType Name="hosts">
+          <Key>
+            <PropertyRef Name="HID" />
+          </Key>
+          <Property Name="HID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="link" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="64" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="verify" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="events" Relationship="Self.FK__events__HID__2E1BDC42" FromRole="hosts" ToRole="events" />
+        </EntityType>
+        <EntityType Name="tickets">
+          <Key>
+            <PropertyRef Name="EVID" />
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="EVID" Type="Int32" Nullable="false" />
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <Property Name="paid" Type="Boolean" Nullable="false" />
+          <Property Name="passed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="events" Relationship="Self.FK__Tickets__EVID__37A5467C" FromRole="tickets" ToRole="events" />
+          <NavigationProperty Name="users" Relationship="Self.FK__Tickets__UID__38996AB5" FromRole="tickets" ToRole="users" />
+        </EntityType>
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="UID" />
+          </Key>
+          <Property Name="UID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="64" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="verify" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tickets" Relationship="Self.FK__Tickets__UID__38996AB5" FromRole="users" ToRole="tickets" />
+        </EntityType>
+        <Association Name="FK__events__HID__2E1BDC42">
+          <End Role="hosts" Type="Self.hosts" Multiplicity="1" />
+          <End Role="events" Type="Self.events" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="hosts">
+              <PropertyRef Name="HID" />
+            </Principal>
+            <Dependent Role="events">
+              <PropertyRef Name="HID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__exhibitinf__EVID__31EC6D26">
+          <End Role="events" Type="Self.events" Multiplicity="1" />
+          <End Role="exhibitinfo" Type="Self.exhibitinfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="events">
+              <PropertyRef Name="EVID" />
+            </Principal>
+            <Dependent Role="exhibitinfo">
+              <PropertyRef Name="EVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__EVID__37A5467C">
+          <End Role="events" Type="Self.events" Multiplicity="1" />
+          <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="events">
+              <PropertyRef Name="EVID" />
+            </Principal>
+            <Dependent Role="tickets">
+              <PropertyRef Name="EVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__exhibitinfo__EID__32E0915F">
+          <End Role="exhibitors" Type="Self.exhibitors" Multiplicity="1" />
+          <End Role="exhibitinfo" Type="Self.exhibitinfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="exhibitors">
+              <PropertyRef Name="EID" />
+            </Principal>
+            <Dependent Role="exhibitinfo">
+              <PropertyRef Name="EID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__UID__38996AB5">
+          <End Role="users" Type="Self.users" Multiplicity="1" />
+          <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UID" />
+            </Principal>
+            <Dependent Role="tickets">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExhibitionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="events" EntityType="Self.events" />
+          <EntitySet Name="exhibitinfo" EntityType="Self.exhibitinfo" />
+          <EntitySet Name="exhibitors" EntityType="Self.exhibitors" />
+          <EntitySet Name="hosts" EntityType="Self.hosts" />
+          <EntitySet Name="tickets" EntityType="Self.tickets" />
+          <EntitySet Name="users" EntityType="Self.users" />
+          <AssociationSet Name="FK__events__HID__2E1BDC42" Association="Self.FK__events__HID__2E1BDC42">
+            <End Role="hosts" EntitySet="hosts" />
+            <End Role="events" EntitySet="events" />
+          </AssociationSet>
+          <AssociationSet Name="FK__exhibitinf__EVID__31EC6D26" Association="Self.FK__exhibitinf__EVID__31EC6D26">
+            <End Role="events" EntitySet="events" />
+            <End Role="exhibitinfo" EntitySet="exhibitinfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__EVID__37A5467C" Association="Self.FK__Tickets__EVID__37A5467C">
+            <End Role="events" EntitySet="events" />
+            <End Role="tickets" EntitySet="tickets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__exhibitinfo__EID__32E0915F" Association="Self.FK__exhibitinfo__EID__32E0915F">
+            <End Role="exhibitors" EntitySet="exhibitors" />
+            <End Role="exhibitinfo" EntitySet="exhibitinfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tickets__UID__38996AB5" Association="Self.FK__Tickets__UID__38996AB5">
+            <End Role="users" EntitySet="users" />
+            <End Role="tickets" EntitySet="tickets" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExhibitionModelStoreContainer" CdmEntityContainer="ExhibitionEntities">
+          <EntitySetMapping Name="events">
+            <EntityTypeMapping TypeName="ExhibitionModel.events">
+              <MappingFragment StoreEntitySet="events">
+                <ScalarProperty Name="EVID" ColumnName="EVID" />
+                <ScalarProperty Name="HID" ColumnName="HID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="startdate" ColumnName="startdate" />
+                <ScalarProperty Name="enddate" ColumnName="enddate" />
+                <ScalarProperty Name="venue" ColumnName="venue" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="floorplanimg" ColumnName="floorplanimg" />
+                <ScalarProperty Name="category" ColumnName="category" />
+                <ScalarProperty Name="eventinfo" ColumnName="eventinfo" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="ticketprice" ColumnName="ticketprice" />
+                <ScalarProperty Name="verify" ColumnName="verify" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exhibitinfo">
+            <EntityTypeMapping TypeName="ExhibitionModel.exhibitinfo">
+              <MappingFragment StoreEntitySet="exhibitinfo">
+                <ScalarProperty Name="EVID" ColumnName="EVID" />
+                <ScalarProperty Name="EID" ColumnName="EID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="boothnumber" ColumnName="boothnumber" />
+                <ScalarProperty Name="productinfo" ColumnName="productinfo" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="verify" ColumnName="verify" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="exhibitors">
+            <EntityTypeMapping TypeName="ExhibitionModel.exhibitors">
+              <MappingFragment StoreEntitySet="exhibitors">
+                <ScalarProperty Name="EID" ColumnName="EID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="verify" ColumnName="verify" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="hosts">
+            <EntityTypeMapping TypeName="ExhibitionModel.hosts">
+              <MappingFragment StoreEntitySet="hosts">
+                <ScalarProperty Name="HID" ColumnName="HID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="link" ColumnName="link" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="verify" ColumnName="verify" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tickets">
+            <EntityTypeMapping TypeName="ExhibitionModel.tickets">
+              <MappingFragment StoreEntitySet="tickets">
+                <ScalarProperty Name="EVID" ColumnName="EVID" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="paid" ColumnName="paid" />
+                <ScalarProperty Name="passed" ColumnName="passed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="users">
+            <EntityTypeMapping TypeName="ExhibitionModel.users">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="verify" ColumnName="verify" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="無" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

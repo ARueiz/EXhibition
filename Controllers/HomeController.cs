@@ -1,10 +1,14 @@
-﻿using System;
+﻿using EXhibition.Models;
+using System;
+using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
     public class HomeController : Controller
     {
+        private ExhibitionEntities db = new ExhibitionEntities();
         public ActionResult Index()
         {
             return View();
@@ -29,6 +33,13 @@ namespace EXhibition.Controllers
             var a = Environment.GetEnvironmentVariable("myValue");
             ViewBag.data = a;
             return View();
+        }
+
+        public ActionResult dbTest()
+        {
+            var exists = db.users.Any(m => m.UID == 2);
+
+            return Content(exists.ToString(), "text/plain", Encoding.UTF8);
         }
     }
 }
