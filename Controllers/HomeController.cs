@@ -30,5 +30,10 @@ namespace EXhibition.Controllers
             ViewBag.data = a;
             return View();
         }
+
+        public ActionResult LoginExample()
+        {
+            return View();
+        }
     }
 }

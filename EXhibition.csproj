@@ -208,6 +208,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\getEnv.cshtml" />
     <Content Include="Views\PartView\Navbar.cshtml" />
+    <Content Include="Views\Home\LoginExample.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
