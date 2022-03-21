@@ -1,40 +1,52 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap5.0.2.min.css")
     @Scripts.Render("~/bundles/modernizr")
+    @Styles.Render("~/Content/navbar.css")
+    @Styles.Render("~/Content/w3.css")
+    @Scripts.Render("~/Scripts/navbar.js")
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("應用程式名稱", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+    <!-- Navbar (sit on top) -->
+    <div class="w3-top">
+        <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+            <a href="#home" class="w3-bar-item w3-button d-inline-block indexItem">展覽館</a>
+            <!-- Float links to the right. Hide them on small screens -->
+
+            <div class="w3-right w3-hide-small navInline">
+                <a href="#projects" class="w3-bar-item w3-button">資訊</a>
+                <a href="#about" class="w3-bar-item w3-button">更多</a>
+                <a href="#contact" class="w3-bar-item w3-button">登入</a>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("首頁", "Index", "Home")</li>
-                    <li>@Html.ActionLink("關於", "About", "Home")</li>
-                    <li>@Html.ActionLink("連絡人", "Contact", "Home")</li>
+
+            <div class="d-flex justify-content-end">
+                <button class="hamburgerMenu" onclick="NavDropDown()" style="border: none;background-color: white">
+                    <img src="./icon/list.svg" height="38px" alt="">
+                </button>
+            </div>
+
+            <div class="navDrop">
+                <ul class="d-inline-block w-100 p-0" style="text-align: center">
+                    <li><a href="#projects" class="p-2 d-block font5">資訊</a></li>
+                    <li><a href="#projects" class="d-block p-2 font5">更多</a></li>
+                    <li><a href="#projects" class="d-block p-2 font5">登入</a></li>
                 </ul>
             </div>
+
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
-        </footer>
+    <div class="">
+        <div class="w3-bar w3-white w3-wide w3-padding w3-card">
+            <div class="w3-right" style="height: 38px"></div>
+        </div>
     </div>
+    @RenderBody()
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
