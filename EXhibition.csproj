@@ -152,18 +152,18 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Image\Icon\list.svg" />
-    <Content Include="Scripts\bootstrap.bundle.js" />
-    <Content Include="Scripts\bootstrap.bundle.min.js" />
-    <Content Include="Scripts\bootstrap.esm.js" />
-    <Content Include="Scripts\bootstrap.esm.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.esm.min.js.map" />
-    <Content Include="Scripts\bootstrap.esm.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\Bootstrap\bootstrap.bundle.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap.esm.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap.esm.min.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\Bootstrap\bootstrap.min.js.map" />
+    <Content Include="Scripts\Bootstrap\bootstrap.js.map" />
+    <Content Include="Scripts\Bootstrap\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\Bootstrap\bootstrap.esm.js.map" />
+    <Content Include="Scripts\Bootstrap\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\Bootstrap\bootstrap.bundle.js.map" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css.map" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.css.map" />
     <Content Include="Content\Bootstrap\bootstrap.min.css.map" />
@@ -180,16 +180,16 @@
     <Content Include="Content\Bootstrap\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-grid.min.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-grid.css.map" />
-    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
-    <Content Include="Scripts\jquery-3.4.1.js" />
-    <Content Include="Scripts\jquery-3.4.1.min.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.js" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <None Include="Scripts\JQuery\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\JQuery\jquery-3.4.1.js" />
+    <Content Include="Scripts\JQuery\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\JQuery\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\JQuery\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\JQuery\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\JQuery\jquery.validate.js" />
+    <Content Include="Scripts\JQuery\jquery.validate.min.js" />
+    <Content Include="Scripts\JQuery\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\JQuery\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\navbar.js" />
     <Content Include="Web.config" />
@@ -217,8 +217,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Scripts\JQuery\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\JQuery\jquery-3.4.1.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
