@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EXhibition.Controllers
@@ -24,6 +21,13 @@ namespace EXhibition.Controllers
         {
             ViewBag.Message = "Your contact page.";
 
+            return View();
+        }
+
+        public ActionResult GetEnv()
+        {
+            var a = Environment.GetEnvironmentVariable("myValue");
+            ViewBag.data = a;
             return View();
         }
     }
