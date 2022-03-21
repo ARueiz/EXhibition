@@ -6,45 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
     @Styles.Render("~/Content/bootstrap5.0.2.min.css")
-    @Scripts.Render("~/bundles/modernizr")
+    @*@Scripts.Render("~/bundles/modernizr")*@
     @Styles.Render("~/Content/navbar.css")
     @Styles.Render("~/Content/w3.css")
     @Scripts.Render("~/Scripts/navbar.js")
 </head>
 <body>
-    <!-- Navbar (sit on top) -->
-    <div class="w3-top">
-        <div class="w3-bar w3-white w3-wide w3-padding w3-card">
-            <a href="#home" class="w3-bar-item w3-button d-inline-block indexItem">展覽館</a>
-            <!-- Float links to the right. Hide them on small screens -->
 
-            <div class="w3-right w3-hide-small navInline">
-                <a href="#projects" class="w3-bar-item w3-button">資訊</a>
-                <a href="#about" class="w3-bar-item w3-button">更多</a>
-                <a href="#contact" class="w3-bar-item w3-button">登入</a>
-            </div>
+    @{
+        Html.RenderAction("Navbar", "PartView");
+    }
 
-            <div class="d-flex justify-content-end">
-                <button class="hamburgerMenu" onclick="NavDropDown()" style="border: none;background-color: white">
-                    <img src="./icon/list.svg" height="38px" alt="">
-                </button>
-            </div>
-
-            <div class="navDrop">
-                <ul class="d-inline-block w-100 p-0" style="text-align: center">
-                    <li><a href="#projects" class="p-2 d-block font5">資訊</a></li>
-                    <li><a href="#projects" class="d-block p-2 font5">更多</a></li>
-                    <li><a href="#projects" class="d-block p-2 font5">登入</a></li>
-                </ul>
-            </div>
-
-        </div>
-    </div>
-    <div class="">
-        <div class="w3-bar w3-white w3-wide w3-padding w3-card">
-            <div class="w3-right" style="height: 38px"></div>
-        </div>
-    </div>
     @RenderBody()
 
 
