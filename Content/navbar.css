@@ -1,3 +1,8 @@
+a, a:hover, a:focus, a:active {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
 .hamburgerMenu {
     display: none;
     border: none;
@@ -10,15 +15,15 @@
     /*transition: 0.3s;*/
 }
 
-ul{
+ul {
     list-style-type: none;
 }
 
-a{
-    text-decoration:none;
+a {
+    text-decoration: none;
 }
 
-.font5{
+.font5 {
     color: black;
     font-size: 16px;
 }
@@ -32,24 +37,21 @@ a{
         display: block;
     }
 
-    .sideDropDown{
+    .sideDropDown {
         display: block;
     }
-
 }
 
-.displayItem{
+.displayItem {
     display: block;
 }
 
 @media (min-width: 768px) {
-    .displayItem{
+    .displayItem {
         display: none;
     }
 
-    .sideDropDown{
+    .sideDropDown {
         display: none;
     }
 }
-
-

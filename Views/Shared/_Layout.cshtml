@@ -5,11 +5,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
-    @Styles.Render("~/Content/bootstrap5.0.2.min.css")
+
     @*@Scripts.Render("~/bundles/modernizr")*@
+
     @Styles.Render("~/Content/navbar.css")
-    @Styles.Render("~/Content/w3.css")
     @Scripts.Render("~/Scripts/navbar.js")
+    @Styles.Render("~/Content/w3.css")
+    @Styles.Render("~/Content/Bootstrap/bootstrap.min.css")
+    @Scripts.Render("~/Scripts/bootstrap.bundle.min.js")
+    @Scripts.Render("~/bundles/jquery")
 </head>
 <body>
 
@@ -19,9 +23,7 @@
 
     @RenderBody()
 
-
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    
     @RenderSection("scripts", required: false)
 </body>
 </html>
