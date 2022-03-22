@@ -46,7 +46,6 @@ namespace EXhibition.Controllers
         public ActionResult LoginExample()
         {
             return View();
-
         }
     }
 }
