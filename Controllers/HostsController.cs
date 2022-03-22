@@ -11,18 +11,21 @@ namespace EXhibition.Controllers
     {
         private ExhibitionEntities db = new ExhibitionEntities();
         // GET: Hosts
+        public ActionResult publicVersion()
+        {
+            return View();
+        }
+
 
         //黃亭愷
         public ActionResult Index(int id)
         {
-            
             return View();
         }
 
         //林昶廷
         public ActionResult EditHost()
         {
-
             return View();
         }
 
