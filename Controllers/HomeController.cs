@@ -1,10 +1,14 @@
-﻿using System;
+﻿using EXhibition.Models;
+using System;
+using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
     public class HomeController : Controller
     {
+        private ExhibitionEntities db = new ExhibitionEntities();
         public ActionResult Index()
         {
             return View();
@@ -31,9 +35,19 @@ namespace EXhibition.Controllers
             return View();
         }
 
+<<<<<<< HEAD
+        public ActionResult dbTest()
+        {
+            var exists = db.users.Any(m => m.UID == 2);
+
+            //string tmp = Environment.GetEnvironmentVariable("SQL_PASSWORD");
+
+            return Content(exists.ToString(), "text/plain", Encoding.UTF8);
+=======
         public ActionResult LoginExample()
         {
             return View();
+>>>>>>> 64e27f489a103560a5a1c107b03258be18265386
         }
     }
 }
