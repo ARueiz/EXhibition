@@ -9,7 +9,7 @@ namespace EXhibition.Controllers
 {
     public class HostsController : Controller
     {
-        private ExhibitionEntities db = new ExhibitionEntities();
+        private DBConnector db = new DBConnector();
         // GET: Hosts
         public ActionResult publicVersion()
         {

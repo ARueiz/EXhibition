@@ -9,7 +9,7 @@ namespace EXhibition.Controllers
 {
     public class HomeController : Controller
     {
-        private ExhibitionEntities db = new ExhibitionEntities();
+        private DBConnector db = new DBConnector();
         public ActionResult Index()
         {
             return View();
@@ -51,7 +51,7 @@ namespace EXhibition.Controllers
 
         public ActionResult test2()
         {
-            List<Models.exhibitinfo> b = db.exhibitinfo.ToList();
+            var b = db.exhibitinfo.ToList();
             return Json( new { code = 200 , data = b }, JsonRequestBehavior.AllowGet);
         }
     }
