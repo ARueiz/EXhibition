@@ -35,7 +35,6 @@ namespace EXhibition.Controllers
             return View();
         }
 
-<<<<<<< HEAD
         public ActionResult dbTest()
         {
             var exists = db.users.Any(m => m.UID == 2);
@@ -43,11 +42,11 @@ namespace EXhibition.Controllers
             //string tmp = Environment.GetEnvironmentVariable("SQL_PASSWORD");
 
             return Content(exists.ToString(), "text/plain", Encoding.UTF8);
-=======
+        }
         public ActionResult LoginExample()
         {
             return View();
->>>>>>> 64e27f489a103560a5a1c107b03258be18265386
+
         }
     }
 }
