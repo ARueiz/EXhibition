@@ -12,7 +12,7 @@ namespace EXhibition
                         "~/Scripts/JQuery/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
-                        "~/Scripts/jquery.validate*"));
+                        "~/Scripts/JQuery/jquery.validate*"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
@@ -23,8 +23,8 @@ namespace EXhibition
                       "~/Scripts/Bootstrap/bootstrap.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/Bootstrap/bootstrap.css",
+                      "~/Content/Bootstrap/site.css"));
         }
     }
 }
