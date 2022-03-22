@@ -270,7 +270,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\getEnv.cshtml" />
     <Content Include="Views\Home\dbTest.cshtml" />
-    <Content Include="Views\PartView\Navbar.cshtml" />
+    <Content Include="Views\PartView\_NavbarVisitor.cshtml" />
     <Content Include="Views\Home\LoginExample.cshtml" />
     <Content Include="Views\Home\dbTest.cshtml" />
     <Content Include="Views\hosts\Create.cshtml" />
@@ -278,11 +278,9 @@
     <Content Include="Views\hosts\Details.cshtml" />
     <Content Include="Views\hosts\Edit.cshtml" />
     <Content Include="Views\hosts\Index.cshtml" />
-
     <Content Include="Views\hosts\EditEvent.cshtml" />
-
     <Content Include="Views\hosts\publicVersion.cshtml" />
-
+    <Content Include="Views\PartView\_NavbarUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
