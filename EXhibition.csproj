@@ -278,6 +278,7 @@
     <Content Include="Views\hosts\Details.cshtml" />
     <Content Include="Views\hosts\Edit.cshtml" />
     <Content Include="Views\hosts\Index.cshtml" />
+    <Content Include="Views\hosts\publicVersion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

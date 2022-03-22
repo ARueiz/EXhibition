@@ -11,6 +11,11 @@ namespace EXhibition.Controllers
     {
         private ExhibitionEntities db = new ExhibitionEntities();
         // GET: Hosts
+        public ActionResult publicVersion()
+        {
+            return View();
+        }
+
 
         //黃亭愷
         public ActionResult Index(int id)
@@ -40,9 +45,6 @@ namespace EXhibition.Controllers
             外，沒有可以肯定的事。請諸位將這段
             話在心中
             默念三遍。
-             
-             
-             
              
              
              */
