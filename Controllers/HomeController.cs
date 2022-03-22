@@ -39,6 +39,8 @@ namespace EXhibition.Controllers
         {
             var exists = db.users.Any(m => m.UID == 2);
 
+            //string tmp = Environment.GetEnvironmentVariable("SQL_PASSWORD");
+
             return Content(exists.ToString(), "text/plain", Encoding.UTF8);
         }
     }

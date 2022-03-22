@@ -18,6 +18,7 @@ namespace EXhibition.Models
         public ExhibitionEntities()
             : base("name=ExhibitionEntities")
         {
+            Database.Connection.ConnectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
