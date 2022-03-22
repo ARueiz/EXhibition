@@ -31,7 +31,7 @@ namespace EXhibition.Controllers
 
         public ActionResult GetEnv()
         {
-            var a = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
+            var a = Environment.GetEnvironmentVariable("myValue");
             ViewBag.data = a;
             return View();
         }
