@@ -45,6 +45,7 @@ namespace EXhibition.Controllers
         }
         public ActionResult LoginExample()
         {
+            // test hotfix
             return View();
 
         }
