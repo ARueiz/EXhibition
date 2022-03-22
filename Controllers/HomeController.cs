@@ -1,5 +1,6 @@
 ﻿using EXhibition.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
@@ -30,7 +31,7 @@ namespace EXhibition.Controllers
 
         public ActionResult GetEnv()
         {
-            var a = Environment.GetEnvironmentVariable("myValue");
+            var a = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
             ViewBag.data = a;
             return View();
         }
@@ -46,6 +47,12 @@ namespace EXhibition.Controllers
         public ActionResult LoginExample()
         {
             return View();
+        }
+
+        public ActionResult test2()
+        {
+            List<Models.exhibitinfo> b = db.exhibitinfo.ToList();
+            return Json( new { code = 200 , data = b }, JsonRequestBehavior.AllowGet);
         }
     }
 }
