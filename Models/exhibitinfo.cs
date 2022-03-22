@@ -16,14 +16,13 @@ namespace EXhibition.Models
     {
         public int EVID { get; set; }
         public int EID { get; set; }
-        public string name { get; set; }
-        public string phone { get; set; }
         public string link { get; set; }
         public string image { get; set; }
         public string boothnumber { get; set; }
         public string productinfo { get; set; }
         public string status { get; set; }
         public bool verify { get; set; }
+        public int id { get; set; }
     
         public virtual events events { get; set; }
         public virtual exhibitors exhibitors { get; set; }

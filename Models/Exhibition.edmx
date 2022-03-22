@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ExhibitionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ExhibitionModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="events">
           <Key>
             <PropertyRef Name="EVID" />
@@ -15,7 +15,7 @@
           <Property Name="startdate" Type="date" Nullable="false" />
           <Property Name="enddate" Type="date" Nullable="false" />
           <Property Name="venue" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="image" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="image" Type="nvarchar" MaxLength="50" />
           <Property Name="floorplanimg" Type="nvarchar" MaxLength="50" />
           <Property Name="category" Type="nvarchar" MaxLength="50" />
           <Property Name="eventinfo" Type="nvarchar" MaxLength="500" Nullable="false" />
@@ -25,13 +25,11 @@
         </EntityType>
         <EntityType Name="exhibitinfo">
           <Key>
-            <PropertyRef Name="EVID" />
-            <PropertyRef Name="EID" />
+            <PropertyRef Name="id" />
           </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EVID" Type="int" Nullable="false" />
           <Property Name="EID" Type="int" Nullable="false" />
-          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="phone" Type="nvarchar" MaxLength="20" />
           <Property Name="link" Type="nvarchar" MaxLength="100" />
           <Property Name="image" Type="nvarchar" MaxLength="50" />
           <Property Name="boothnumber" Type="nvarchar" MaxLength="50" />
@@ -61,7 +59,7 @@
           <Property Name="email" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="link" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="password" Type="nchar" MaxLength="64" Nullable="false" />
-          <Property Name="image" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="image" Type="nvarchar" MaxLength="50" />
           <Property Name="verify" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tickets">
@@ -173,8 +171,7 @@
             <End Role="tickets" EntitySet="tickets" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ExhibitionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -188,7 +185,7 @@
           <Property Name="startdate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="enddate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="venue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="floorplanimg" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="eventinfo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
@@ -201,13 +198,10 @@
         </EntityType>
         <EntityType Name="exhibitinfo">
           <Key>
-            <PropertyRef Name="EVID" />
-            <PropertyRef Name="EID" />
+            <PropertyRef Name="id" />
           </Key>
           <Property Name="EVID" Type="Int32" Nullable="false" />
           <Property Name="EID" Type="Int32" Nullable="false" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="link" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="boothnumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -216,6 +210,7 @@
           <Property Name="verify" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="events" Relationship="Self.FK__exhibitinf__EVID__31EC6D26" FromRole="exhibitinfo" ToRole="events" />
           <NavigationProperty Name="exhibitors" Relationship="Self.FK__exhibitinfo__EID__32E0915F" FromRole="exhibitinfo" ToRole="exhibitors" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <EntityType Name="exhibitors">
           <Key>
@@ -240,7 +235,7 @@
           <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="link" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="64" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="image" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="verify" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="events" Relationship="Self.FK__events__HID__2E1BDC42" FromRole="hosts" ToRole="events" />
         </EntityType>
@@ -384,10 +379,9 @@
           <EntitySetMapping Name="exhibitinfo">
             <EntityTypeMapping TypeName="ExhibitionModel.exhibitinfo">
               <MappingFragment StoreEntitySet="exhibitinfo">
+                <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="EVID" ColumnName="EVID" />
                 <ScalarProperty Name="EID" ColumnName="EID" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="link" ColumnName="link" />
                 <ScalarProperty Name="image" ColumnName="image" />
                 <ScalarProperty Name="boothnumber" ColumnName="boothnumber" />
