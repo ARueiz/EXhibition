@@ -49,9 +49,29 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult test1()
+        {
+
+            var b = from userTable in db.users
+                    join ticketTable in db.tickets on userTable.UID equals ticketTable.UID
+                    select new
+                    {
+                        name = userTable.name,
+                        phone = userTable.phone,
+
+                    };
+            return Json(new { code = 200, data = b }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult test2()
         {
-            var b = db.exhibitinfo.ToList();
+
+            var b = from userTable in db.users
+                    join ticketTable in db.tickets on userTable.UID equals ticketTable.UID 
+                    select new { 
+                        name = userTable.name , phone = userTable.phone ,
+
+                    } ;
             return Json( new { code = 200 , data = b }, JsonRequestBehavior.AllowGet);
         }
     }
