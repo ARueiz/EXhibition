@@ -205,6 +205,7 @@
     <Content Include="Image\Dev\Art lover-rafiki.png" />
     <Content Include="Image\Dev\Art lover-rafiki.svg" />
     <Content Include="Image\Dev\login-bro-host.png" />
+    <Content Include="Image\Dev\login-bro-user.png" />
     <Content Include="Models\Exhibition.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Exhibition.Context.cs</LastGenOutput>
@@ -265,6 +266,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\PartView\navbar.js" />
     <Content Include="Scripts\Vue.js" />
+    <Content Include="Image\Dev\login-bro-exhibitor.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -296,6 +298,10 @@
     <Content Include="Views\Home\UserLogin.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Home\HostLogin.cshtml" />
+    <Content Include="Views\PartView\_SideBarUser.cshtml" />
+    <Content Include="Views\PartView\_SideBarHost.cshtml" />
+    <Content Include="Views\PartView\_SideBarExhibitor.cshtml" />
+    <Content Include="Views\Home\ExhibtiorLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

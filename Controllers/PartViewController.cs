@@ -13,5 +13,23 @@ namespace EXhibition.Controllers
             else
                 return PartialView("_NavbarUser");
         }
+
+        public ActionResult SideBar()
+        {
+            int authId = Session["auth"] == null ? 1 : (int)Session["auth"];
+            if (authId == 1)
+            {
+                return PartialView("_SideBarUser");
+            }
+            else if (authId == 2)
+            {
+                return PartialView("_SideBarHost");
+            }
+            else
+            {
+                return PartialView("_SideBarExhibitor");
+            }
+        }
+
     }
 }
