@@ -18,7 +18,7 @@ namespace EXhibition.Controllers
 
 
         //黃亭愷
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
             return View();
         }

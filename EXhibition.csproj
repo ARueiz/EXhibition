@@ -133,6 +133,7 @@
     <Compile Include="Controllers\HostApiController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\PartViewController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UsersApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -165,6 +166,7 @@
     <Compile Include="Models\hosts.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\ReturnData.cs" />
     <Compile Include="Models\tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
@@ -194,6 +196,7 @@
     <Content Include="Content\Bootstrap\bootstrap5.0.2.min.css" />
     <Content Include="Content\myLogin.css" />
     <Content Include="Content\navbar.css" />
+    <Content Include="Content\Login\userLogin.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -289,6 +292,7 @@
     <Content Include="Views\PartView\_NavbarUser.cshtml" />
     <Content Include="Views\hosts\CreateEvent.cshtml" />
     <Content Include="Views\Home\UserLogin.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
