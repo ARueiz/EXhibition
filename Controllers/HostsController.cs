@@ -38,6 +38,17 @@ namespace EXhibition.Controllers
         //邱品叡
         public ActionResult CreateEvent()
         {
+            Session["HID"] = 2;
+
+            int HID = (int)Session["HID"];
+
+            var info = db.hosts.Where(h => h.HID == HID).Select(h => new
+            {
+                h.name
+            }).ToList();
+
+            ViewBag.hostname = info[0].name;
+
             return View();
         }
     }
