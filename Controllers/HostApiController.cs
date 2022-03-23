@@ -76,5 +76,11 @@ namespace EXhibition.Controllers
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult List()
+        {
+            var host = db.hosts.ToList();
+            return Json(host, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
