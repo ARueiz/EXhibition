@@ -288,16 +288,13 @@
     <Content Include="Views\hosts\publicVersion.cshtml" />
     <Content Include="Views\PartView\_NavbarUser.cshtml" />
     <Content Include="Views\hosts\CreateEvent.cshtml" />
+    <Content Include="Views\Home\UserLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
-
-    <Folder Include="Image\Dev\" />
-
-    <Folder Include="Views\UsersApi\" />
     <Folder Include="Views\HostApi\" />
-
+    <Folder Include="Views\UsersApi\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

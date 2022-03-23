@@ -28,6 +28,21 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult UserLogin()
+        {
+            return View();
+        }
+
+        public ActionResult ExhibtiorLogin()
+        {
+            return View();
+        }
+
+        public ActionResult HostLogin()
+        {
+            return View();
+        }
+
         public ActionResult GetEnv()
         {
             var a = Environment.GetEnvironmentVariable("myValue");
