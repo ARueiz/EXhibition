@@ -130,6 +130,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HostApiController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\PartViewController.cs" />
     <Compile Include="Global.asax.cs">
@@ -287,6 +288,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Views\HostApi\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
