@@ -195,6 +195,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Image\Dev\Art lover-rafiki.png" />
     <Content Include="Image\Dev\Art lover-rafiki.svg" />
     <Content Include="Models\Exhibition.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
