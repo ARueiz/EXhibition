@@ -133,6 +133,7 @@
     <Compile Include="Controllers\HostApiController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\PartViewController.cs" />
+    <Compile Include="Controllers\UserApiController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\UsersApiController.cs" />
     <Compile Include="Global.asax.cs">
@@ -261,7 +262,7 @@
     <Content Include="Scripts\JQuery\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\JQuery\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\navbar.js" />
+    <Content Include="Scripts\PartView\navbar.js" />
     <Content Include="Scripts\Vue.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -298,6 +299,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Views\HostApi\" />
+    <Folder Include="Views\UserApi\" />
     <Folder Include="Views\UsersApi\" />
   </ItemGroup>
   <ItemGroup>

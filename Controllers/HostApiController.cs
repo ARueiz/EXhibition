@@ -11,15 +11,6 @@ namespace EXhibition.Controllers
     {
 
         DBConnector db = new DBConnector();
-
-        public ActionResult Login()
-        {
-            ReturnData r = new ReturnData();
-            r.message = "登入成功";
-            r.status = "success";
-            r.data = new { url = "/" };
-            return Json(r,JsonRequestBehavior.AllowGet);
-        }
         
         public ActionResult Index(int? id)
         {

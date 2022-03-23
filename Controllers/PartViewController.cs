@@ -7,11 +7,11 @@ namespace EXhibition.Controllers
         // GET: PartView
         public ActionResult Navbar()
         {
-            int x = 1;
-            if (x == 1)
-                return PartialView("_NavbarUser");
-            else
+
+            if (Session["auth"] == null)
                 return PartialView("_NavbarVisitor");
+            else
+                return PartialView("_NavbarUser");
         }
     }
 }
