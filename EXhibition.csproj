@@ -204,6 +204,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Image\Dev\Art lover-rafiki.png" />
     <Content Include="Image\Dev\Art lover-rafiki.svg" />
+    <Content Include="Image\Dev\login-bro-host.png" />
     <Content Include="Models\Exhibition.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Exhibition.Context.cs</LastGenOutput>
@@ -294,6 +295,7 @@
     <Content Include="Views\hosts\CreateEvent.cshtml" />
     <Content Include="Views\Home\UserLogin.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Home\HostLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
