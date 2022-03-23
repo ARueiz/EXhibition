@@ -1,0 +1,137 @@
+﻿
+@{
+    ViewBag.Title = "CreateEvent";
+}
+<!-- Form & image -->
+<div class="container h-100 mt-3" id="VuePage">
+    <div class="row d-flex justify-content-evenly h-100">
+        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-9 col-sm-12 card shadow-sm">
+            <!-- Form -->
+            <div class="card-body m-3">
+                <form action="/" method="post">
+                    <h2>新增展覽/活動</h2>
+                    <div class="mb-2">
+                        <h5>主辦方：{{hostname}}</h5>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">展覽名稱</label>
+                        <input type="text" class="form-control" v-model="name">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <label class="form-label">開始日期</label>
+                            <input type="date" class="form-control" v-model="startdate">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label">結束日期</label>
+                            <input type="date" class="form-control" v-model="enddate">
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <label class="form-label">展覽封面圖</label>
+                            <input type="file" class="form-control" v-model="image">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label">場地平面圖</label>
+                            <input type="file" class="form-control" v-model="floorplanimg">
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">場地地址</label>
+                        <input type="text" class="form-control" v-model="venue">
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <label class="form-label">分類</label>
+                            <input type="text" class="form-control" v-model="category">
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label">票價</label>
+                            <input type="text" class="form-control" v-model="ticketprice">
+                        </div>
+
+                    </div>
+                    <div class="mb-2 ">
+                        <label class="form-label">展覽資訊</label>
+                        <textarea class="form-control col-sm-4" v-model="eventinfo"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" v-on:click="">建立展覽</button>
+                </form>
+            </div>
+        </div>
+        <!-- img -->
+        <div class="col-xxl-6 col-xl-5 col-lg-6 col-md-9 col-sm-12">
+            <div class="mb-2">
+                <img src="~/Image/Dev/Art lover-rafiki.svg" class="img-fluid" alt="Responsive image">
+            </div>
+            <div class="mb-2 text-center">
+                <a href="https://storyset.com/inspiration" class="link-primary">Inspiration illustrations by Storyset</a>
+            </div>
+        </div>
+
+            <!-- Modal -->
+            <div class="modal" id="ErrorAlert" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">錯誤訊息</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="ErrorMsg">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        </div>
+</div>
+
+@section scripts {
+    <script>
+        var VuePage = new Vue({
+            el: '#VuePage',
+            data: function () {
+                    var data = {
+                        hostname: '',
+                        name: '',
+                        startdate: '',
+                        enddate: '',
+                        venue: '',
+                        image: '',
+                        floorplanimg: '',
+                        category: '',
+                        eventinfo: '',
+                        note: '',
+                        ticketprice:'',
+
+                    };
+
+                return data;
+            }
+            , methods: {
+                  @*AJax 範本
+                    DoRegister: function () {
+                    var self = this;
+
+                    axios.post('@Url.Content("~/Home/DoSendMail")', {
+                        email: self.form.email,
+                        content: self.form.content
+                    })
+                    .then(function (response) {
+                        console.log(response);
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                    }*@
+            }
+        })
+    </script>
+}
