@@ -3,8 +3,6 @@
     .form-title {
         text-align: center;
     }
-
-
 }
 
 body {
@@ -27,10 +25,10 @@ body {
     border: 0px solid red;
 }
 
-.wrap-img img {
-    width: 100%;
-    height: 100%;
-}
+    .wrap-img img {
+        width: 100%;
+        height: 100%;
+    }
 
 .form-title {
     margin-bottom: 25px;
@@ -53,15 +51,15 @@ input {
     -ms-appearance: unset !important;
 }
 
-input[type=checkbox] {
-    -moz-appearance: checkbox !important;
-    -webkit-appearance: checkbox !important;
-    -o-appearance: checkbox !important;
-    -ms-appearance: checkbox !important;
-}
+    input[type=checkbox] {
+        -moz-appearance: checkbox !important;
+        -webkit-appearance: checkbox !important;
+        -o-appearance: checkbox !important;
+        -ms-appearance: checkbox !important;
+    }
 
 .btn-login {
-    background-color: #6dabe4;
+    background-color: #9bc7f3;
     padding: 8px 20px;
     border: 0px solid unset;
     border-radius: 5px;
@@ -84,4 +82,16 @@ input[type=checkbox] {
     background-color: #dcdcdc;
     margin-top: 15px;
     margin-bottom: 15px;
+}
+
+button.btn-qrcode {
+    border: 0 none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    background-color: #b6fdf7;
+}
+
+canvas { /* or some other selector */
+    width: 180px;
+    height: 180px;
 }

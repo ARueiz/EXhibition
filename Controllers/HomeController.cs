@@ -84,12 +84,14 @@ namespace EXhibition.Controllers
         public ActionResult test2()
         {
             var b = from userTable in db.users
-                    join ticketTable in db.tickets on userTable.UID equals ticketTable.UID 
-                    select new { 
-                        name = userTable.name , phone = userTable.phone ,
+                    join ticketTable in db.tickets on userTable.UID equals ticketTable.UID
+                    select new
+                    {
+                        name = userTable.name,
+                        phone = userTable.phone,
 
-                    } ;
-            return Json( new { code = 200 , data = b }, JsonRequestBehavior.AllowGet);
+                    };
+            return Json(new { code = 200, data = b }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult test3(Models.hosts hosts)
@@ -121,7 +123,8 @@ namespace EXhibition.Controllers
         public ActionResult test4(int? id = 1)
         {
             DateTime t = DateTime.Parse("2022/02/01");
-            var a = db.users.Select(e => new {
+            var a = db.users.Select(e => new
+            {
                 編號 = e.UID,
                 電子郵件 = e.email,
                 price = 2500
@@ -166,7 +169,7 @@ namespace EXhibition.Controllers
             db.users.Add(user);
             var a = db.SaveChanges();
 
-            return Json(user,JsonRequestBehavior.AllowGet);
+            return Json(user, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult test8(Models.users user)
@@ -177,7 +180,7 @@ namespace EXhibition.Controllers
             db.users.Add(user);
             var a = db.SaveChanges();
 
-            return Json(user,JsonRequestBehavior.DenyGet);
+            return Json(user, JsonRequestBehavior.DenyGet);
         }
 
 
