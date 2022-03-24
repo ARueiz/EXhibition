@@ -55,14 +55,29 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.Cors.5.2.7\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.AspNet.WebApi.WebHost.5.2.7\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -129,13 +144,18 @@
     <Compile Include="App_Start\BundleConfig2.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HostApiController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\PartViewController.cs" />
+    <Compile Include="Controllers\UserApiController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UsersApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CROS.cs" />
     <Compile Include="Models\DBConnector.cs" />
     <Compile Include="Models\events.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
@@ -164,6 +184,8 @@
     <Compile Include="Models\hosts.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginData.cs" />
+    <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ReturnData.cs" />
     <Compile Include="Models\tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
@@ -191,14 +213,26 @@
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
     <Content Include="Content\Bootstrap\bootstrap5.0.2.min.css" />
+    <Content Include="Content\Index-part1.css" />
+    <Content Include="Content\Index-part2.css" />
     <Content Include="Content\myLogin.css" />
+    <Content Include="Content\myTicketList.css" />
     <Content Include="Content\navbar.css" />
+    <Content Include="Content\Login\userLogin.css" />
+    <Content Include="Content\Template\dashboard-sidebar.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Image\Dev\Art lover-rafiki.png" />
     <Content Include="Image\Dev\Art lover-rafiki.svg" />
+    <Content Include="Image\Dev\login-bro-host.png" />
+    <Content Include="Image\Dev\login-bro-user.png" />
+    <Content Include="Image\Test\eighty-six.png" />
+    <Content Include="Image\Test\fruit01.png" />
+    <Content Include="Image\Test\reZero.png" />
+    <Content Include="Image\Test\tea01.png" />
+    <Content Include="Image\Test\world-Porsche.jpg" />
     <Content Include="Models\Exhibition.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Exhibition.Context.cs</LastGenOutput>
@@ -217,6 +251,7 @@
       <DependentUpon>Exhibition.edmx</DependentUpon>
     </Content>
     <Content Include="Image\Icon\list.svg" />
+    <Content Include="Scripts\axios.min.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.bundle.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.bundle.min.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.esm.js" />
@@ -245,6 +280,7 @@
     <Content Include="Content\Bootstrap\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-grid.min.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-grid.css.map" />
+    <Content Include="Scripts\home.json" />
     <None Include="Scripts\JQuery\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery.qrcode.min.js" />
     <Content Include="Scripts\JQuery\jquery-3.4.1.js" />
@@ -257,8 +293,9 @@
     <Content Include="Scripts\JQuery\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\JQuery\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\navbar.js" />
+    <Content Include="Scripts\PartView\navbar.js" />
     <Content Include="Scripts\Vue.js" />
+    <Content Include="Image\Dev\login-bro-exhibitor.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -289,11 +326,24 @@
     <Content Include="Views\hosts\CreateEvent.cshtml" />
     <Content Include="Views\hosts\EditHost.cshtml" />
     <Content Include="Views\hosts\EditHost1.cshtml" />
+    <Content Include="Views\Home\UserLogin.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Home\HostLogin.cshtml" />
+    <Content Include="Views\PartView\_SideBarUser.cshtml" />
+    <Content Include="Views\PartView\_SideBarHost.cshtml" />
+    <Content Include="Views\PartView\_SideBarExhibitor.cshtml" />
+    <Content Include="Views\Home\ExhibtiorLogin.cshtml" />
+    <Content Include="Views\Shared\_DashboardLayout.cshtml" />
+    <Content Include="Views\PartView\_NavbarHost.cshtml" />
+    <Content Include="Views\User\MyTicketList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Image\Host\" />
     <Folder Include="Views\HostApi\" />
+    <Folder Include="Views\UserApi\" />
+    <Folder Include="Views\UsersApi\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "CreateEvent";
 }
 <!-- Form & image -->
@@ -8,47 +7,47 @@
         <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-9 col-sm-12 card shadow-sm">
             <!-- Form -->
             <div class="card-body m-3">
-                <form action="/" method="post">
+                <form enctype="multipart/form-data" v-on:submit.prevent="DoCreateEvent()">
                     <h2>新增展覽/活動</h2>
                     <div class="mb-2">
                         <h5>主辦方：{{hostname}}</h5>
                     </div>
                     <div class="mb-2">
                         <label class="form-label">展覽名稱</label>
-                        <input type="text" class="form-control" v-model="name">
+                        <input type="text" class="form-control" v-model="name" required="required">
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <label class="form-label">開始日期</label>
-                            <input type="date" class="form-control" v-model="startdate">
+                            <input type="date" class="form-control" v-model="startdate" :min="today" required="required">
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label">結束日期</label>
-                            <input type="date" class="form-control" v-model="enddate">
+                            <input type="date" class="form-control" v-model="enddate" :min="today" required="required">
                         </div>
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <label class="form-label">展覽封面圖</label>
-                            <input type="file" class="form-control" v-model="image">
+                            <input type="file" class="form-control" id="image" v-on:change="imageChange()" accept="image/jpeg,image/png" required="required">
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label">場地平面圖</label>
-                            <input type="file" class="form-control" v-model="floorplanimg">
+                            <input type="file" class="form-control" id="floorplanimg" v-on:change="floorplanimgChange()" accept="image/jpeg,image/png" required="required">
                         </div>
                     </div>
                     <div class="mb-2">
                         <label class="form-label">場地地址</label>
-                        <input type="text" class="form-control" v-model="venue">
+                        <input type="text" class="form-control" v-model="venue" required="required">
                     </div>
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <label class="form-label">分類</label>
-                            <input type="text" class="form-control" v-model="category">
+                            <input type="text" class="form-control" v-model="category" required="required">
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label">票價</label>
-                            <input type="text" class="form-control" v-model="ticketprice">
+                            <input type="text" class="form-control" v-model="ticketprice" required="required">
                         </div>
 
                     </div>
@@ -56,7 +55,7 @@
                         <label class="form-label">展覽資訊</label>
                         <textarea class="form-control col-sm-4" v-model="eventinfo"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary" v-on:click="">建立展覽</button>
+                    <button type="submit" class="btn btn-primary">建立展覽</button>
                 </form>
             </div>
         </div>
@@ -70,67 +69,102 @@
             </div>
         </div>
 
-            <!-- Modal -->
-            <div class="modal" id="ErrorAlert" tabindex="-1">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">錯誤訊息</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id="ErrorMsg">
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-        </div>
+        <!-- Modal -->
+        <div class="modal" id="ErrorAlert" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">新增成功</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="ErrorMsg">
+                        展覽/活動 新增成功 點擊確認前往展覽頁面
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("確定", "Index", new { }, new { @class = "btn btn-info", @role = "button"})
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
 </div>
 
 @section scripts {
     <script>
+
         var VuePage = new Vue({
             el: '#VuePage',
-            data: function () {
-                    var data = {
-                        hostname: '',
-                        name: '',
-                        startdate: '',
-                        enddate: '',
-                        venue: '',
-                        image: '',
-                        floorplanimg: '',
-                        category: '',
-                        eventinfo: '',
-                        note: '',
-                        ticketprice:'',
-
-                    };
-
-                return data;
+            data: {
+                    HID : "@ViewBag.sessionHID",
+                    today: new Date().toISOString().slice(0, 10),
+                    hostname: "@ViewBag.hostname",
+                    name: '友DO市集',
+                    startdate: '2022-03-26',
+                    enddate: '2022-03-27',
+                    venue: '台南市安南區環福街123號',
+                    image: '',
+                    floorplanimg: '',
+                    category: '市集',
+                    eventinfo: '三月是被受祝福的月份，更是一個新的開始。我們受邀參加廟前的市集改革活動，為老社區帶入新靈魂。',
+                    note: '',
+                    ticketprice: '250',
+                    FormData: new FormData(),
             }
             , methods: {
-                  @*AJax 範本
-                    DoRegister: function () {
-                    var self = this;
+                    imageChange: function () {
+                        let theFile = document.querySelector('#image');
+                        this.$data.image = theFile.files[0].name;
+                        console.log(theFile.files[0]);
 
-                    axios.post('@Url.Content("~/Home/DoSendMail")', {
-                        email: self.form.email,
-                        content: self.form.content
-                    })
-                    .then(function (response) {
-                        console.log(response);
+                        this.$data.FormData.set("image", theFile.files[0]);
+                    },
+                    floorplanimgChange: function () {
+                        let theFile = document.querySelector('#floorplanimg');
+                        this.$data.floorplanimg = theFile.files[0].name;
+                        console.log(theFile.files[0]);
 
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                        this.$data.FormData.set("floorplanimg", theFile.files[0]);
+                    },
+                    DoCreateEvent: function () {
+                        event.preventDefault()
+                        var self = this;
 
-                    }*@
+                        //console.log(this.$data.FormData.get('image'));
+                        //console.log(this.$data.FormData.get('floorplanimg'));
+
+                        //格式化圖片名稱
+                        let EVname = "EV_UID" + self.HID + "_";
+                        let FPname = "FP_UID" + self.HID + "_";
+                        let startFormat = self.startdate.replaceAll("-", "").substring(2);
+                        let endFormat = self.enddate.replaceAll("-", "").substring(2);
+
+                        self.image = EVname + startFormat + "_" + endFormat + ".png";
+                        self.floorplanimg = FPname + startFormat + "_" + endFormat + ".png";
+
+                        this.$data.FormData.append("name", self.name);
+                        this.$data.FormData.append("startdate", self.startdate);
+                        this.$data.FormData.append("enddate", self.enddate);
+                        this.$data.FormData.append("venue", self.venue);
+                        this.$data.FormData.append("image", self.image);
+                        this.$data.FormData.append("floorplanimg", self.floorplanimg);
+                        this.$data.FormData.append("category", self.category);
+                        this.$data.FormData.append("eventinfo", self.eventinfo);
+                        this.$data.FormData.append("ticketprice", self.ticketprice);
+
+
+                        axios.post('@Url.Content("~/HostApi/DoCreateEvent")', this.$data.FormData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                        .then(function (response) {
+                            console.log(response.data);
+                            if (response.data.status == "success") {
+                                var myModal = new bootstrap.Modal(document.getElementById("ErrorAlert"), {});
+                                myModal.show();
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                    }
             }
         })
     </script>

@@ -23,9 +23,33 @@ namespace EXhibition.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
-
             return View();
+        }
+
+        public ActionResult UserLogin()
+        {
+            return View();
+        }
+
+        public ActionResult ExhibtiorLogin()
+        {
+            return View();
+        }
+
+        public ActionResult HostLogin()
+        {
+            return View();
+        }
+
+        public ActionResult ExhibitionList()
+        {
+            return View();
+        }
+
+        public ActionResult Logout()
+        {
+            Session["auth"] = null;
+            return RedirectToAction("index");
         }
 
         public ActionResult GetEnv()
@@ -48,9 +72,30 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult test1()
+        {
+
+            var b = from userTable in db.users
+                    join ticketTable in db.tickets on userTable.UID equals ticketTable.UID
+                    select new
+                    {
+                        name = userTable.name,
+                        phone = userTable.phone,
+
+                    };
+            return Json(new { code = 200, data = b }, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult test2()
         {
-            var b = db.exhibitinfo.ToList();
+            var b = from userTable in db.users
+                    join ticketTable in db.tickets on userTable.UID equals ticketTable.UID
+                    select new
+                    {
+                        name = userTable.name,
+                        phone = userTable.phone,
+
+                    };
             return Json(new { code = 200, data = b }, JsonRequestBehavior.AllowGet);
         }
 
@@ -83,7 +128,8 @@ namespace EXhibition.Controllers
         public ActionResult test4(int? id = 1)
         {
             DateTime t = DateTime.Parse("2022/02/01");
-            var a = db.users.Select(e => new {
+            var a = db.users.Select(e => new
+            {
                 編號 = e.UID,
                 電子郵件 = e.email,
                 price = 2500
@@ -128,7 +174,7 @@ namespace EXhibition.Controllers
             db.users.Add(user);
             var a = db.SaveChanges();
 
-            return Json(user,JsonRequestBehavior.AllowGet);
+            return Json(user, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult test8(Models.users user)
@@ -139,7 +185,7 @@ namespace EXhibition.Controllers
             db.users.Add(user);
             var a = db.SaveChanges();
 
-            return Json(user,JsonRequestBehavior.DenyGet);
+            return Json(user, JsonRequestBehavior.DenyGet);
         }
 
 

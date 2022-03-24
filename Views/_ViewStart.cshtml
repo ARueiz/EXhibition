@@ -1,3 +1,25 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@{
+    string ControllerName = Convert.ToString(HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"]);
+    switch (ControllerName.ToUpper())
+    {
+        case "USER":
+            Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+            break;
+
+        case "HOST":
+            Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+            break;
+
+        case "EXHIBITOR":
+            Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+            break;
+
+        default:
+            Layout = "~/Views/Shared/_Layout.cshtml";
+            break;
+    }
+}   

@@ -1,0 +1,58 @@
+.main-content {
+    background-color: rgb(250, 250, 252);
+}
+
+.sideBar {
+    max-height: 100%;
+    background-color: white;
+    color: rgb(107, 109, 111) !important;
+}
+
+.side-item {
+    color: rgb(107, 109, 111) !important;
+}
+
+.side-item:hover {
+    background-color: rgb(241, 244, 252) !important;
+    color: #636eff !important;
+}
+
+.selectItem {
+    color: rgb(54, 86, 184);
+    background-color: rgb(237, 241, 250) !important;
+}
+
+.dropSideBar {
+    display: none;
+}
+
+.fullSideBar {
+    display: block;
+}
+
+.offcanvasButton{
+    border-radius: 0% 30% 30% 0%;
+    position: fixed;
+    top: 30%;
+}
+
+@media (max-width: 768px) {
+
+    .dropSideBar {
+        display: block;
+        height: 25%;
+    }
+
+    .fullSideBar {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 576px) {
+    #contain {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+

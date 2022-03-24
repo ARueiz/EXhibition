@@ -1,17 +1,11 @@
 ﻿@{
     ViewBag.Title = "Contact";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
-
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<h2>ASP.NET 如何取得 Request URL 的各個部分</h2>
+<br />
+<hr />
+<h4>Request.PhysicalPath : @Request.PhysicalPath</h4>
+<h4>Request.Path : @Request.Path</h4>
+<h4>Request.Url.AbsoluteUri : @Request.Url.AbsoluteUri</h4>
+<h4>Request.Url.Authority : @Request.Url.Authority</h4>
+<h4>Request.Url.Port : @Request.Url.Port</h4>

@@ -10,14 +10,18 @@
     @*@Scripts.Render("~/bundles/modernizr")*@
 
     @Styles.Render("~/Content/navbar.css")
-    @Scripts.Render("~/Scripts/navbar.js")
+    @Scripts.Render("~/Scripts/PartView/navbar.js")
     @Styles.Render("~/Content/w3.css")
     @Styles.Render("~/Content/Bootstrap/bootstrap.min.css")
     @Scripts.Render("~/Scripts/Bootstrap/bootstrap.bundle.min.js")
-    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jquery")*@
     @Scripts.Render("~/Scripts/Vue.js")
+    @Scripts.Render("~/Scripts/axios.min.js")
 
     @RenderSection("styles", required: false)
+
+    <!-- icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
 
 </head>
 <body>

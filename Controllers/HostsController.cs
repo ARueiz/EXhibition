@@ -18,7 +18,7 @@ namespace EXhibition.Controllers
 
 
         //黃亭愷
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
             return View();
         }
@@ -38,6 +38,18 @@ namespace EXhibition.Controllers
         //邱品叡
         public ActionResult CreateEvent()
         {
+            Session["HID"] = 2;
+
+            int HID = (int)Session["HID"];
+
+            var info = db.hosts.Where(h => h.HID == HID).Select(h => new
+            {
+                h.name
+            }).ToList();
+
+            ViewBag.hostname = info[0].name;
+            ViewBag.sessionHID = Session["HID"];
+
             return View();
         }
     }

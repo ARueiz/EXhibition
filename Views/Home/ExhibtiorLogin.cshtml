@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "ExhibtiorLogin";
+}
+
+
+@section styles{
+    <link href="~/Content/Login/userLogin.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+            integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+            crossorigin="anonymous"></script>
+    <script src="~/Scripts/jquery.qrcode.min.js"></script>
+}
+
+<div class="container-fluid pt-5 d-flex justify-content-center" id="app" style="">
+
+    <div class="col-md-8 login-panel">
+        <div class="row">
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="wrap-img d-inline-block">
+                    <img src="~/Image/Dev/login-bro-exhibitor.png" alt="">
+                    <small>
+                        <a style="margin-top:0px;display: block;margin-bottom: 10px"
+                           href="https://storyset.com/business">Business illustrations by Storyset</a>
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-6 p-4">
+                <h2 class="form-title rwd-form">主辦單位登入</h2>
+                <div class="form-login">
+                    <div v-if="showQRPage === false">
+                        <div class="d-flex justify-content-center">
+                            <div class="d-block w-100">
+                                <div class="form-group flex-wrap d-flex align-items-center w-100 ">
+                                    <label for="your_name" class="col-1"><i class="fa-solid fa-user"></i></label>
+                                    <input type="text" v-model="account" class="col-10" name="your_name" id="your_name"
+                                           placeholder="帳號" />
+                                </div>
+                                <div class="form-group flex-wrap d-flex align-items-center w-100">
+                                    <label for="your_pass" class="col-1"><i class="fa-solid fa-lock"></i></label>
+                                    <input type="password" v-model="password" class="col-10" name="your_pass" id="your_pass"
+                                           placeholder="密碼" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 不可以用 v-if 的原因為 DOM 渲染期間 div 尚未產生，這時候抓不到 qrcodeBox -->
+                    <div v-show="showQRPage === true">
+                        <div class="d-flex justify-content-center">
+                            <div id="qrcodeBox"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group d-flex flex-wrap align-items-center mt-3">
+                        <input type="checkbox" name="remember-me" id="remember-me" class="agree-term"
+                               v-model="cookieAccount" />
+                        <label for="remember-me" style="padding-left: 8px"
+                               class="label-agree-term"><span><span></span></span>記住我</label>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button class="btn-login btn" v-on:click="login()">
+                            登入
+                        </button>
+                        <div class="d-inline-block">
+                            <a href="#" class="p-0 d-inline-block" style="margin-right: 25px">用戶註冊</a>
+                            <a href="#" class="p-0 d-inline-block">忘記密碼</a>
+                        </div>
+                    </div>
+                    <div class="break-line"></div>
+                    <div class="d-block d-flex justify-content-center">
+                        <button class="btn-qrcode" v-on:click="showQRPage = !showQRPage;createQRCode()">
+                            QR code 登入
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                account: '',
+                password: '',
+                qrCodeLoginToke: '',
+                cookieAccount: false,
+                showQRPage: false
+            }
+        },
+        created() {
+            let user = this.getCookie("account");
+            if (user !== "") {
+                this.cookieAccount = true
+                this.account = user
+            } else {
+                this.cookieAccount = false
+            }
+        },
+        methods: {
+            login() {
+
+                let json = {
+                    account: this.account,
+                    password: this.password
+                }
+
+                fetch('/UserApi/Login', {
+                    body: JSON.stringify(json), // must match 'Content-Type' header
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, same-origin, *omit
+                    headers: {
+                        'user-agent': 'Mozilla/4.0 MDN Example',
+                        'content-type': 'application/json'
+                    },
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, cors, *same-origin
+                    redirect: 'follow', // manual, *follow, error
+                    referrer: 'no-referrer', // *client, no-referrer
+                }).then(response => response.json()).then(res => {
+                    if (res.status === "success") {
+                        window.location.href = res.data.url
+                    } else {
+                        alert(res.message)
+                    }
+                })
+
+            },
+            setCookie(cname, cvalue, exdays) {
+                const d = new Date();
+                d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                let expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            },
+            getCookie(cname) {
+                let name = cname + "=";
+                let ca = document.cookie.split(';');
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            },
+            setRememberUser() {
+                const account = this.account
+                const self = this
+                if (self.cookieAccount == true) {
+                    const d = new Date();
+                    d.setTime(d.getTime() + (24 * 60 * 60 * 1000));
+                    let expires = "expires=" + d.toUTCString();
+                    document.cookie = 'account' + "=" + account + ";" + expires + ";path=/";
+                } else {
+                    const d = new Date();
+                    d.setTime(d.getTime());
+                    let expires = "expires=" + d.toUTCString();
+                    document.cookie = 'account' + "=" + account + ";" + expires + ";path=/";
+                }
+            },
+            createQRCode() {
+                document.getElementById('qrcodeBox').innerHTML = "";
+                $('#qrcodeBox').qrcode('http://www.google.com');
+            },
+        },
+        watch: {
+            cookieAccount() {
+                this.setRememberUser();
+            },
+            showQRPage() {
+                if (this.showQRPage) {
+                    this.createQRCode()
+                }
+            }
+        }
+    })
+</script>
+
+
+
