@@ -243,6 +243,7 @@
       <DependentUpon>Exhibition.edmx</DependentUpon>
     </Content>
     <Content Include="Image\Icon\list.svg" />
+    <Content Include="Scripts\axios.min.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.bundle.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.bundle.min.js" />
     <Content Include="Scripts\Bootstrap\bootstrap.esm.js" />
@@ -329,6 +330,7 @@
     <Folder Include="Data\" />
     <Folder Include="Views\HostApi\" />
     <Folder Include="Views\UserApi\" />
+    <Folder Include="Image\Host\" />
     <Folder Include="Views\UsersApi\" />
   </ItemGroup>
   <ItemGroup>
