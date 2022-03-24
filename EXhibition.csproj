@@ -145,13 +145,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ExhibitorApiController.cs" />
+    <Compile Include="Controllers\ExhibitorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HostApiController.cs" />
+    <Compile Include="Controllers\HostController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\PartViewController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UsersApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -184,7 +186,6 @@
     <Compile Include="Models\hosts.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ReturnData.cs" />
     <Compile Include="Models\Tickets.cs">
@@ -334,14 +335,17 @@
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Views\PartView\_NavbarHost.cshtml" />
     <Content Include="Views\User\MyTicketList.cshtml" />
+    <Content Include="Views\Host\CreateEvent.cshtml" />
+    <Content Include="Views\Host\publicVersion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Image\Host\" />
+    <Folder Include="Views\ExhibitorApi\" />
+    <Folder Include="Views\Exhibitor\" />
     <Folder Include="Views\HostApi\" />
     <Folder Include="Views\UserApi\" />
-    <Folder Include="Views\UsersApi\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
