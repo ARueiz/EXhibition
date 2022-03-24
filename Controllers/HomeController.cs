@@ -41,6 +41,11 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult ExhibitionList()
+        {
+            return View();
+        }
+
         public ActionResult Logout()
         {
             Session["auth"] = null;

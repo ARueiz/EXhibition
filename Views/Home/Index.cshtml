@@ -138,7 +138,11 @@
         },
         created() {
             const self = this;
-            fetch('/Scripts/home.json')
+            fetch('/Scripts/home.json', {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
+                }
+            })
                 .then(res => res.json()).then(res => {
                     self.hotExhibition = res;
                     self.hotExhibition = res.slice(0, 4);
