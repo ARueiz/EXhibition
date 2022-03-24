@@ -229,6 +229,7 @@
     <Content Include="Image\Dev\login-bro-user.png" />
     <Content Include="Image\Test\eighty-six.png" />
     <Content Include="Image\Test\fruit01.png" />
+    <Content Include="Image\Test\reZero.png" />
     <Content Include="Image\Test\tea01.png" />
     <Content Include="Image\Test\world-Porsche.jpg" />
     <Content Include="Models\Exhibition.Context.tt">
@@ -335,9 +336,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Image\Host\" />
     <Folder Include="Views\HostApi\" />
     <Folder Include="Views\UserApi\" />
-    <Folder Include="Image\Host\" />
     <Folder Include="Views\UsersApi\" />
   </ItemGroup>
   <ItemGroup>
