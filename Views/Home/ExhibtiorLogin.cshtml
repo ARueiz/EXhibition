@@ -108,7 +108,7 @@
                     password: this.password
                 }
 
-                fetch('http://localhost/', {
+                fetch('/UserApi/Login', {
                     body: JSON.stringify(json), // must match 'Content-Type' header
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                     credentials: 'same-origin', // include, same-origin, *omit
