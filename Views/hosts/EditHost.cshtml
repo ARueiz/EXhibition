@@ -3,76 +3,61 @@
     ViewBag.Title = "EditHost";
 }
 
-<h2>EditHost</h2>
-
-
 <div class="container h-100 mt-3" id="VuePage">
     <div class="row justify-content-sm-center h-100">
-        <table class="table" >
-            <tr>
-                <th id="app">
-                    1
-                </th>
-                <th>
-                    2
-                </th>
-                <th>
-                    3
-                </th>
-                <th>
-                    4
-                </th>
-                <th>
-                    5
-                </th>
-                <th>
-                    6
-                </th>
-                <th></th>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>phone</th>
+                    <th>email</th>
+                    <th>link</th>
+                    <th>password</th>
+                    
+                </tr>
+            </thead>
+            <tr v-for="item in res">
+                <td>{{item.name }}</td>
+                <td>{{item.phone }}</td>
+                <td>{{item.email  }}</td>
+                <td>{{item.link  }}</td>
+                <td>{{item.password  }}</td>
+                <td>
+                    <input type="submit" value="修改" />
+                </td>
             </tr>
         </table>
     </div>
 </div>
 
 @section scripts {
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script>
 
-        const app = document.querySelector('#app')
-
-        const xhr = new XMLHttpRequest();
-
-        xhr.onload = function () {
-            let data = JSON.parse(xhr.responseText);
-            app.textContent = data[0].name;
-
-        }
-
-
-        xhr.open('get', ~/HostApi/List,true);
-        xhr.send();
-
-
-
-    </script>
-
-
-
-
-
-    @*<script>
         var VuePage = new Vue({
-            el: '#app',
-            data: return {
-                res:{}
+            el: '#VuePage',
+            data: {
+                res: [],
+
             },
+
+            mounted() {
+                axios
+                    .get('/HostApi/List')
+                    .then(function (response) {
+                        VuePage.res = response.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    });
+            },
+
             methods: {
-               
-           
-                        
-                       
-                
-            }
+
+
+
+            },
         });
-    </script>*@
+    </script>
 }
