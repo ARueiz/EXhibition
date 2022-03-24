@@ -213,6 +213,8 @@
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
     <Content Include="Content\Bootstrap\bootstrap5.0.2.min.css" />
+    <Content Include="Content\Index-part1.css" />
+    <Content Include="Content\Index-part2.css" />
     <Content Include="Content\myLogin.css" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\Login\userLogin.css" />
@@ -225,6 +227,10 @@
     <Content Include="Image\Dev\Art lover-rafiki.svg" />
     <Content Include="Image\Dev\login-bro-host.png" />
     <Content Include="Image\Dev\login-bro-user.png" />
+    <Content Include="Image\Test\eighty-six.png" />
+    <Content Include="Image\Test\fruit01.png" />
+    <Content Include="Image\Test\tea01.png" />
+    <Content Include="Image\Test\world-Porsche.jpg" />
     <Content Include="Models\Exhibition.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Exhibition.Context.cs</LastGenOutput>
@@ -271,6 +277,7 @@
     <Content Include="Content\Bootstrap\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-grid.min.css.map" />
     <Content Include="Content\Bootstrap\bootstrap-grid.css.map" />
+    <Content Include="Scripts\home.json" />
     <None Include="Scripts\JQuery\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery.qrcode.min.js" />
     <Content Include="Scripts\JQuery\jquery-3.4.1.js" />
