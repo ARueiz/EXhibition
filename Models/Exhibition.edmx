@@ -62,6 +62,29 @@
           <Property Name="image" Type="nvarchar" MaxLength="50" />
           <Property Name="verify" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="orderDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="orderId" Type="int" Nullable="false" />
+          <Property Name="price" Type="int" />
+          <Property Name="ticketId" Type="int" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="paypalId" Type="nvarchar" MaxLength="50" />
+          <Property Name="createDateTime" Type="datetime" />
+          <Property Name="userId" Type="int" />
+          <Property Name="totalPrice" Type="int" />
+          <Property Name="discount" Type="int" />
+          <Property Name="finalPrice" Type="int" />
+          <Property Name="isPay" Type="bit" />
+          <Property Name="paypal_Id" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Tickets">
           <Key>
             <PropertyRef Name="TID" />
@@ -148,6 +171,8 @@
           <EntitySet Name="exhibitinfo" EntityType="Self.exhibitinfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="exhibitors" EntityType="Self.exhibitors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hosts" EntityType="Self.hosts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orderDetail" EntityType="Self.orderDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__events__HID__2E1BDC42" Association="Self.FK__events__HID__2E1BDC42">
@@ -314,6 +339,8 @@
             <End Role="users" EntitySet="users" />
             <End Role="Tickets" EntitySet="Tickets" />
           </AssociationSet>
+          <EntitySet Name="orderDetail" EntityType="ExhibitionModel.orderDetail" />
+          <EntitySet Name="orders" EntityType="ExhibitionModel.orders" />
           </EntityContainer>
         <EntityType Name="Tickets">
           <Key>
@@ -351,6 +378,29 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="orderDetail">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="orderId" Type="Int32" Nullable="false" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="ticketId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="paypalId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="createDateTime" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" />
+          <Property Name="totalPrice" Type="Int32" />
+          <Property Name="discount" Type="Int32" />
+          <Property Name="finalPrice" Type="Int32" />
+          <Property Name="isPay" Type="Boolean" />
+          <Property Name="paypal_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -438,6 +488,31 @@
                 <ScalarProperty Name="UID" ColumnName="UID" />
                 <ScalarProperty Name="EVID" ColumnName="EVID" />
                 <ScalarProperty Name="TID" ColumnName="TID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orderDetail">
+            <EntityTypeMapping TypeName="ExhibitionModel.orderDetail">
+              <MappingFragment StoreEntitySet="orderDetail">
+                <ScalarProperty Name="ticketId" ColumnName="ticketId" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="orderId" ColumnName="orderId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="ExhibitionModel.orders">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="paypal_Id" ColumnName="paypal_Id" />
+                <ScalarProperty Name="isPay" ColumnName="isPay" />
+                <ScalarProperty Name="finalPrice" ColumnName="finalPrice" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+                <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="createDateTime" ColumnName="createDateTime" />
+                <ScalarProperty Name="paypalId" ColumnName="paypalId" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

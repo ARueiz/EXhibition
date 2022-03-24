@@ -16,6 +16,8 @@
         <EntityTypeShape EntityType="ExhibitionModel.Tickets" Width="1.5" PointX="7.25" PointY="1.75" IsExpanded="true" />
         <AssociationConnector Association="ExhibitionModel.FK__Tickets__EVID__70DDC3D8" />
         <AssociationConnector Association="ExhibitionModel.FK__Tickets__UID__71D1E811" />
+        <EntityTypeShape EntityType="ExhibitionModel.orderDetail" Width="1.5" PointX="5.375" PointY="5.75" />
+        <EntityTypeShape EntityType="ExhibitionModel.orders" Width="1.5" PointX="7.375" PointY="5.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -31,5 +31,7 @@ namespace EXhibition.Models
         public virtual DbSet<hosts> hosts { get; set; }
         public virtual DbSet<users> users { get; set; }
         public virtual DbSet<Tickets> Tickets { get; set; }
+        public virtual DbSet<orderDetail> orderDetail { get; set; }
+        public virtual DbSet<orders> orders { get; set; }
     }
 }
