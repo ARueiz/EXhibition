@@ -337,6 +337,9 @@
     <Content Include="Views\User\MyTicketList.cshtml" />
     <Content Include="Views\Host\CreateEvent.cshtml" />
     <Content Include="Views\Host\publicVersion.cshtml" />
+    <Content Include="Views\Home\RegisterHost.cshtml" />
+    <Content Include="Views\Home\RegisterExhibitor.cshtml" />
+    <Content Include="Views\Home\RegisterUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
