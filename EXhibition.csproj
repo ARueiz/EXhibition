@@ -288,6 +288,7 @@
     <Content Include="Views\PartView\_NavbarUser.cshtml" />
     <Content Include="Views\hosts\CreateEvent.cshtml" />
     <Content Include="Views\hosts\EditHost.cshtml" />
+    <Content Include="Views\hosts\EditHost1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

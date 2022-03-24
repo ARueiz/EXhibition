@@ -23,7 +23,7 @@
                 <td>{{item.link  }}</td>
                 <td>{{item.password  }}</td>
                 <td>
-                    <input type="submit" value="修改" />
+                    @Html.ActionLink("確定", "EditHost1", new { }, new { @class = "btn btn-info", @role = "button" })
                 </td>
             </tr>
         </table>
@@ -42,18 +42,18 @@
 
             },
 
-            mounted() {
-                axios
-                    .get('/HostApi/List')
-                    .then(function (response) {
-                        VuePage.res = response.data
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    });
-            },
-
+                mounted() {
+                    axios
+                        .get('/HostApi/List')
+                        .then(function (response) {
+                            VuePage.res = response.data
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        });
+                },
             methods: {
+
 
 
 
