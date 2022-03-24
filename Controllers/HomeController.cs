@@ -26,26 +26,49 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        // 使用者登入
         public ActionResult UserLogin()
         {
             return View();
         }
 
+        // 廠商登入
         public ActionResult ExhibtiorLogin()
         {
             return View();
         }
 
+        // 主辦單位登入
         public ActionResult HostLogin()
         {
             return View();
         }
 
+        // 展覽列表
         public ActionResult ExhibitionList()
         {
             return View();
         }
 
+        // 註冊 主辦單位
+        public ActionResult RegisterHost()
+        {
+            return View();
+        }
+
+        // 註冊 廠商
+        public ActionResult RegisterExhibitor()
+        {
+            return View();
+        }
+
+        // 註冊 用戶
+        public ActionResult RegisterUser()
+        {
+            return View();
+        }
+
+        // 登出
         public ActionResult Logout()
         {
             Session["auth"] = null;
@@ -58,7 +81,6 @@ namespace EXhibition.Controllers
             ViewBag.data = a;
             return View();
         }
-
         public ActionResult dbTest()
         {
             var exists = db.users.Any(m => m.UID == 2);
@@ -71,12 +93,11 @@ namespace EXhibition.Controllers
         {
             return View();
         }
-
         public ActionResult test1()
         {
 
             var b = from userTable in db.users
-                    join ticketTable in db.tickets on userTable.UID equals ticketTable.UID
+                    join ticketTable in db.Tickets on userTable.UID equals ticketTable.UID
                     select new
                     {
                         name = userTable.name,
@@ -85,11 +106,10 @@ namespace EXhibition.Controllers
                     };
             return Json(new { code = 200, data = b }, JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult test2()
         {
             var b = from userTable in db.users
-                    join ticketTable in db.tickets on userTable.UID equals ticketTable.UID
+                    join ticketTable in db.Tickets on userTable.UID equals ticketTable.UID
                     select new
                     {
                         name = userTable.name,
@@ -98,7 +118,6 @@ namespace EXhibition.Controllers
                     };
             return Json(new { code = 200, data = b }, JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult test3(Models.hosts hosts)
         {
 
@@ -117,14 +136,12 @@ namespace EXhibition.Controllers
             returnData.data = h;
             return Json(returnData, JsonRequestBehavior.AllowGet);
         }
-
         public class ttt
         {
             public int 編號 { get; set; }
             public string 電子郵件 { get; set; }
             public double price { get; set; }
         }
-
         public ActionResult test4(int? id = 1)
         {
             DateTime t = DateTime.Parse("2022/02/01");
@@ -137,11 +154,9 @@ namespace EXhibition.Controllers
             //a.price = a.price * 0.7;
             return Json(a, JsonRequestBehavior.AllowGet);
         }
-
-
         public ActionResult test5()
         {
-            var a = db.users.Join(db.tickets, ticketTable => ticketTable.UID,
+            var a = db.users.Join(db.Tickets, ticketTable => ticketTable.UID,
                 userTable => userTable.UID,
                 (userTable, ticketTable) => new
                 {
@@ -151,11 +166,9 @@ namespace EXhibition.Controllers
                 });
             return Json(a, JsonRequestBehavior.AllowGet);
         }
-
-
         public string test6()
         {
-            var a = db.users.Join(db.tickets, ticketTable => ticketTable.UID,
+            var a = db.users.Join(db.Tickets, ticketTable => ticketTable.UID,
                 userTable => userTable.UID,
                 (userTable, ticketTable) => new
                 {
@@ -165,7 +178,6 @@ namespace EXhibition.Controllers
                 }).ToString();
             return a;
         }
-
         public ActionResult test7(Models.users user)
         {
             user.password = "11111111";
@@ -176,7 +188,6 @@ namespace EXhibition.Controllers
 
             return Json(user, JsonRequestBehavior.AllowGet);
         }
-
         public ActionResult test8(Models.users user)
         {
             user.password = "11111111";

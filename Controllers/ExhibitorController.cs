@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    public class UsersApiController : Controller
+    public class ExhibitorController : Controller
     {
-        // GET: UsersApi
+        // GET: Exhibitor
         public ActionResult Index()
         {
             return View();

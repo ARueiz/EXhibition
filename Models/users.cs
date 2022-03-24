@@ -17,7 +17,7 @@ namespace EXhibition.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public users()
         {
-            this.tickets = new HashSet<tickets>();
+            this.Tickets = new HashSet<Tickets>();
         }
     
         public int UID { get; set; }
@@ -28,6 +28,6 @@ namespace EXhibition.Models
         public bool verify { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tickets> tickets { get; set; }
+        public virtual ICollection<Tickets> Tickets { get; set; }
     }
 }
