@@ -124,8 +124,9 @@
                     referrer: 'no-referrer', // *client, no-referrer
                 }).then(response => response.json()).then(res => {
                     if (res.status === "success") {
-                        window.location.href = res.data.url
-                        //console.log(res)
+                        this.account = ''
+                        this.password = ''
+                        window.location.href = res.data.url                        
                     } else {
                         alert(res.message)
                     }

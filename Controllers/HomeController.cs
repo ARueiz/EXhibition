@@ -46,12 +46,6 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        public ActionResult Logout()
-        {
-            Session["auth"] = null;
-            return RedirectToAction("index");
-        }
-
         public ActionResult RegisterHost()
         {
             return View();
@@ -67,6 +61,11 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult Logout()
+        {
+            Session["auth"] = null;
+            return RedirectToAction("index");
+        }
         public ActionResult GetEnv()
         {
             var a = Environment.GetEnvironmentVariable("myValue");

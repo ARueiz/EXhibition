@@ -112,5 +112,14 @@ namespace EXhibition.Controllers
             }
 
         }
+
+        public ActionResult Login(Models.Login login)
+        {
+            Models.ReturnData returnData = new Models.ReturnData(); 
+            returnData.status = "success";
+            returnData.data = new { url = "/Host" };
+            return Json(returnData,JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
