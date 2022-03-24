@@ -88,48 +88,51 @@
     <div class="col-md-8 login-panel">
         <div class="row">
             <div class="col-md-6 p-4">
-                <h2 class="form-title rwd-form">會員註冊</h2>
+                <h2 class="form-title rwd-form">廠商註冊</h2>
                 <div class="form-login">
-                    <div class="form-group">
-                        <label for="inputUsername">姓名</label>
-                        <input type="text" class="form-control" id="inputUsername" aria-describedby="emailHelp"
-                               placeholder="請輸入姓名" required v-model="Name">
-                    </div>
+                    <form v-on:submit.prevent="sendRegister()">
+                        <div class="form-group">
+                            <label for="inputUsername">名稱</label>
+                            <input type="text" class="form-control" id="inputUsername" aria-describedby="emailHelp"
+                                   placeholder="請輸入姓名" required v-model="Name">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="inputUserPhone">電話</label>
-                        <input type="text" class="form-control" id="inputUserPhone" aria-describedby="emailHelp"
-                               placeholder="請輸入電話" required v-model="Phone">
-                    </div>
+                        <div class="form-group">
+                            <label for="inputUserPhone">電話</label>
+                            <input type="text" class="form-control" id="inputUserPhone" aria-describedby="emailHelp"
+                                   placeholder="請輸入電話" required v-model="Phone">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="inputUserEmail">Email</label>
-                        <input type="email" class="form-control" id="inputUserEmail" aria-describedby="emailHelp"
-                               placeholder="請輸入 email" required v-model="Email">
-                    </div>
+                        <div class="form-group">
+                            <label for="inputUserEmail">Email</label>
+                            <input type="email" class="form-control" id="inputUserEmail" aria-describedby="emailHelp"
+                                   placeholder="請輸入 email" required v-model="Email">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="inputUserEmail">官方網站連結</label>
-                        <input type="text" class="form-control" id="inputUserEmail" aria-describedby="emailHelp"
-                               placeholder="請輸入連結" required v-model="link">
-                    </div>
+                        <div class="form-group">
+                            <label for="inputUserEmail">官方網站連結</label>
+                            <input type="text" class="form-control" id="inputUserEmail" aria-describedby="emailHelp"
+                                   placeholder="請輸入連結" required v-model="link">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="password1">密碼</label>
-                        <input type="password" class="form-control" id="password1" aria-describedby="emailHelp"
-                               placeholder="請輸入密碼" required v-model="Password">
-                    </div>
+                        <div class="form-group">
+                            <label for="password1">密碼</label>
+                            <input type="password" minlength="8" class="form-control" id="password1" aria-describedby="emailHelp"
+                                   placeholder="請輸入密碼" required v-model="Password">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="password2">再次驗證</label>
-                        <input type="password" class="form-control" id="password2" aria-describedby="emailHelp"
-                               placeholder="請輸入密碼" required v-model="Password2">
-                    </div>
-                    <div class="d-flex justify-content-center">
-                        <button @@click="sendRegister" class="w-50 signup">送出</button>
-                    </div>
-
-
+                        <div class="form-group">
+                            <label for="password2">再次驗證</label>
+                            <input type="password" class="form-control" id="password2" aria-describedby="emailHelp"
+                                   placeholder="請輸入密碼" required v-model="Password2">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" @@click="sendRegister" class="w-50 signup">
+                                <span v-show="processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                送出
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="col-md-6 d-flex justify-content-center">
@@ -158,23 +161,37 @@
                 Email: '',
                 Password: '',
                 Password2: '',
-                link:''
+                link: '',
+                processing: false
             }
         },
         methods: {
             sendRegister() {
+
+                if (this.Password != this.Password2) {
+                    alert('密碼驗證錯誤')
+                    return
+                } else if (this.processing == true) {
+                    return
+                }
+
+                this.processing = true
+
                 let self = this
+
                 let body = {
                     name: self.Name,
-                    phone: self.phone,
-                    email: self.email,
+                    phone: self.Phone,
+                    email: self.Email,
                     Password: self.Password,
                     link: self.link
                 }
+
                 let headers = {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
                 }
+
                 fetch('/ExhibitorApi/Register', {
                     method: "POST",
                     headers: headers,
@@ -184,8 +201,14 @@
                 }).then(response => response.json())
                     .then(json => {
                         if (json.status == 'success') {
+                            this.processing = false
+                            self.Name = ''
+                            self.Phone = ''
+                            self.Email = ''
+                            self.link = ''
                             window.location.href = json.data.url
                         } else {
+                            this.processing = false
                             alert(json.message)
                         }
                     });

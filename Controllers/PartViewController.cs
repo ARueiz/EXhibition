@@ -16,7 +16,7 @@ namespace EXhibition.Controllers
 
         public ActionResult SideBarRWD()
         {
-            int authId = Session["auth"] == null ? 1 : (int)Session["auth"];
+            int authId = Session["auth"] == null ? 0 : (int)Session["auth"];
             if (authId == 1)
             {
                 return PartialView("_SideBarUser");

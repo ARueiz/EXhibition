@@ -8,6 +8,7 @@ namespace EXhibition.Controllers
 
         Models.DBConnector db = new Models.DBConnector();
 
+        [HttpPost]
         public ActionResult Register(Models.exhibitors exhibitor)
         {
             Models.ReturnData r = new Models.ReturnData();
@@ -19,11 +20,13 @@ namespace EXhibition.Controllers
             }
             catch (Exception ex)
             {
-                r.status = "error";
-                r.message = "加入失敗";
+                r.status = Models.RetrunStatus.Error;
+                r.message = "註冊失敗";
                 return Json(r, JsonRequestBehavior.AllowGet);
             }
-
+            r.status = Models.RetrunStatus.Success;
+            r.message = "註冊成功";
+            r.data = new { url = "/Home/ExhibtiorLogin" };
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 

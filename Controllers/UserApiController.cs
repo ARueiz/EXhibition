@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using EXhibition.Models;
+using System;
 using System.Web.Mvc;
-using EXhibition.Models;
 
 namespace EXhibition.Controllers
-{    
+{
     public class UserApiController : Controller
     {
 
@@ -16,29 +13,32 @@ namespace EXhibition.Controllers
         {
             ReturnData r = new ReturnData();
             r.message = "登入成功";
-            r.status = "success";
-            r.data = new { url = "/" , mylogin = login };
+            r.status = RetrunStatus.Error;
+            r.data = new { url = "/", mylogin = login };
             Session["auth"] = 1;
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult Register(Models.users user)
         {
-            user.UID = 0; 
+            user.UID = 0;
             ReturnData r = new ReturnData();
-            //user.UID = 1;
             users u = db.users.Add(user);
             try
             {
                 db.SaveChanges();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
+                r.status = RetrunStatus.Error;
                 r.message = "註冊失敗";
                 r.data = u;
                 return Json(r, JsonRequestBehavior.AllowGet);
             }
+            r.status = RetrunStatus.Success;
             r.message = "註冊成功";
-            r.data = u ;            
+            r.data = new { url = "/Home/UserLogin" };
             return Json(r, JsonRequestBehavior.AllowGet);
         }
     }

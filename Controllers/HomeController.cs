@@ -26,46 +26,55 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        // 使用者登入
         public ActionResult UserLogin()
         {
             return View();
         }
 
+        // 廠商登入
         public ActionResult ExhibtiorLogin()
         {
             return View();
         }
 
+        // 主辦單位登入
         public ActionResult HostLogin()
         {
             return View();
         }
 
+        // 展覽列表
         public ActionResult ExhibitionList()
         {
             return View();
         }
 
+        // 註冊 主辦單位
         public ActionResult RegisterHost()
         {
             return View();
         }
 
+        // 註冊 廠商
         public ActionResult RegisterExhibitor()
         {
             return View();
         }
 
+        // 註冊 用戶
         public ActionResult RegisterUser()
         {
             return View();
         }
 
+        // 登出
         public ActionResult Logout()
         {
             Session["auth"] = null;
             return RedirectToAction("index");
         }
+
         public ActionResult GetEnv()
         {
             var a = Environment.GetEnvironmentVariable("myValue");

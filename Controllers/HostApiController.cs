@@ -121,5 +121,27 @@ namespace EXhibition.Controllers
             return Json(returnData,JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public ActionResult Register(Models.hosts host)
+        {
+            Models.ReturnData r = new ReturnData();
+            db.hosts.Add(host);
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                r.status = Models.RetrunStatus.Error;
+                r.message = "註冊失敗";
+                return Json(r, JsonRequestBehavior.AllowGet);
+            }
+
+            r.status = Models.RetrunStatus.Success;
+            r.message = "註冊成功";
+            r.data = new { url = "/Home/HostLogin" };
+            return Json(r);
+        }
+
     }
 }

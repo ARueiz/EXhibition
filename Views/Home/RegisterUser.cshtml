@@ -89,7 +89,8 @@
         <div class="row">
             <div class="col-md-6 p-4">
                 <h2 class="form-title rwd-form">會員註冊</h2>
-                <div class="form-login">
+                <form class="form-login" v-on:submit.prevent="sendRegister()">
+
                     <div class="form-group">
                         <label for="inputUsername">姓名</label>
                         <input type="text" class="form-control" id="inputUsername" aria-describedby="emailHelp"
@@ -111,7 +112,7 @@
                     <div class="form-group">
                         <label for="password1">密碼</label>
                         <input type="password" class="form-control" id="password1" aria-describedby="emailHelp"
-                               placeholder="請輸入密碼" required v-model="Password">
+                               placeholder="請輸入密碼" minlength="8" required v-model="Password">
                     </div>
 
                     <div class="form-group">
@@ -119,12 +120,14 @@
                         <input type="password" class="form-control" id="password2" aria-describedby="emailHelp"
                                placeholder="請輸入密碼" required v-model="Password2">
                     </div>
+
                     <div class="d-flex justify-content-center">
-                        <button @@click="sendRegister" class="w-50 signup">送出</button>
+                        <button type="submit" class="w-50 signup">
+                            <span v-show="processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            送出
+                        </button>
                     </div>
-
-
-                </div>
+                </form>
             </div>
             <div class="col-md-6 d-flex justify-content-center">
                 <div class="d-flex align-content-end h-100">
@@ -151,18 +154,31 @@
                 Phone: '',
                 Email: '',
                 Password: '',
-                Password2: ''
+                Password2: '',
+                processing: false
             }
         },
         methods: {
             sendRegister() {
+
+                if (this.Password != this.Password2 ) {
+                    alert('密碼驗證錯誤')
+                    return
+                } else if (this.processing == true) {
+                    return
+                }
+
+                this.processing = true
+
                 let self = this
+
                 let body = {
                     name: self.Name,
-                    phone: self.phone,
-                    email: self.email,
+                    phone: self.Phone,
+                    email: self.Email,
                     Password: self.Password,
                 }
+
                 let headers = {
                     "Content-Type": "application/json",
                     "Accept": "application/json",
@@ -174,9 +190,15 @@
                     // 別忘了把主體参數轉成字串，否則資料會變成[object Object]，它無法被成功儲存在後台
                     body: JSON.stringify(body)
                 }).then(response => response.json()).then(json => {
+                    console.log(json)
                     if (json.status == 'success') {
+                        this.processing = false
+                        self.Name = ''
+                        self.Phone = ''
+                        self.Email = ''
                         window.location.href = json.data.url
                     } else {
+                        this.processing = false
                         alert(json.message)
                     }
                 });
