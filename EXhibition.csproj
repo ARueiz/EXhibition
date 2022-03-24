@@ -233,8 +233,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="Image\Dev\Art lover-rafiki.png" />
     <Content Include="Image\Dev\Art lover-rafiki.svg" />
-    <Content Include="Image\Dev\Register-host.png" />
     <Content Include="Image\Dev\Register-user.png" />
+    <Content Include="Image\Dev\Register-host.png" />
     <Content Include="Image\Dev\Register-exhibitor.png" />
     <Content Include="Image\Dev\login-bro-host.png" />
     <Content Include="Image\Dev\login-bro-user.png" />
