@@ -48,6 +48,7 @@ namespace EXhibition.Controllers
             }).ToList();
 
             ViewBag.hostname = info[0].name;
+            ViewBag.sessionHID = Session["HID"];
 
             return View();
         }
