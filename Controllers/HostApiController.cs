@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EXhibition.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -79,5 +80,39 @@ namespace EXhibition.Controllers
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
+
+        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events){
+
+            //儲存 封面圖 to Image/Host
+            string strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.image;
+            image.SaveAs(strPath);
+
+            //儲存 平面圖 to Image/Host
+            strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.floorplanimg;
+            floorplanimg.SaveAs(strPath);
+
+            //儲存資料到DB
+            events.HID = (int)Session["HID"];
+            db.events.Add(events);
+            int result = db.SaveChanges();
+            
+            if(result > 0)
+            {
+                ReturnData data = new ReturnData();
+                data.status = "success";
+                data.message = "新增成功!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                ReturnData data = new ReturnData();
+                data.status = "failed";
+                data.message = "新增失敗!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+
+        }
     }
 }
