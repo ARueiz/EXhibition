@@ -2,25 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http.Cors;
 using System.Web.Mvc;
 using EXhibition.Models;
 
 namespace EXhibition.Controllers
 {
+    [Models.AllowCrossSiteJson]
     public class UserApiController : Controller
     {
-        // GET: UserApi
-        public ActionResult Index()
-        {
-            return View();
-        }
 
-        public ActionResult Login()
+        public ActionResult Login(Models.Login login)
         {
             ReturnData r = new ReturnData();
             r.message = "登入成功";
             r.status = "success";
-            r.data = new { url = "/" };
+            r.data = new { url = "/" , mylogin = login };
             Session["auth"] = 1;
             return Json(r, JsonRequestBehavior.AllowGet);
         }
