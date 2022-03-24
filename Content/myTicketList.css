@@ -1,0 +1,54 @@
+﻿@media screen and (max-width: 576px) {
+    #contain {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+.boxShadow {
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.19), 0 4px 4px 0 rgba(0, 0, 0, 0.19);
+}
+
+.badgeNow {
+    background-color: rgb(229, 249, 237);
+    color: rgb(29, 183, 95);
+}
+
+.badgeDefault {
+    padding: 5px;
+    width: 90px;
+    text-align: center;
+    /*line-height: 20px;*/
+    /*height: 25px;*/
+    border-radius: 5px;
+}
+
+.badgePresale {
+    background-color: #fff7f6;
+    color: #ff8577;
+}
+
+.badgeOver {
+    background-color: #C0C4CC;
+    color: #606266;
+}
+
+.offcanvasButton {
+    border-radius: 0% 30% 30% 0%;
+    position: fixed;
+    top: 30%;
+}
+
+.myTicketBox {
+    border-left: 6px solid #00a6ff;
+    border-radius: .25rem;
+    background-color: white;
+}
+
+.ticketImg {
+    /*border-top-left-radius: calc(.25rem - 1px);*/
+    border-top-right-radius: calc(.25rem - 1px);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
