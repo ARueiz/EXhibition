@@ -198,6 +198,7 @@
     <Content Include="Content\myLogin.css" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\Login\userLogin.css" />
+    <Content Include="Content\Template\dashboard-sidebar.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -302,6 +303,8 @@
     <Content Include="Views\PartView\_SideBarHost.cshtml" />
     <Content Include="Views\PartView\_SideBarExhibitor.cshtml" />
     <Content Include="Views\Home\ExhibtiorLogin.cshtml" />
+    <Content Include="Views\Shared\_DashboardLayout.cshtml" />
+    <Content Include="Views\PartView\_NavbarHost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

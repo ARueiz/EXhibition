@@ -1,0 +1,77 @@
+﻿
+@{
+    ViewBag.Title = "_DashboardLayout";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 我的 ASP.NET 應用程式</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    @*@Scripts.Render("~/bundles/modernizr")*@
+
+    @Styles.Render("~/Content/navbar.css")
+    @Scripts.Render("~/Scripts/PartView/navbar.js")
+    @Styles.Render("~/Content/w3.css")
+    @Styles.Render("~/Content/Bootstrap/bootstrap.min.css")
+    @Scripts.Render("~/Scripts/Bootstrap/bootstrap.bundle.min.js")
+    @*@Scripts.Render("~/bundles/jquery")*@
+    @Scripts.Render("~/Scripts/Vue.js")
+
+    @RenderSection("styles", required: false)
+
+    <!-- icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+
+    @Styles.Render("~/Content/Template/dashboard-sidebar.css")
+
+</head>
+<body>
+
+    @{
+        Html.RenderAction("Navbar", "PartView");
+        Html.RenderAction("SideBarRWD", "PartView");
+    }
+
+    
+
+    <div class="row main-content m-0" style="min-height: 100vh;margin-left:0px;margin-right0px;">
+
+        <div class="sideBar col-md-2 d-flex flex-column flex-shrink-0 p-3 col-md-2 	d-none d-md-block"
+             style="background-color: white">
+            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <span class="fs-4 text-dark">個人中心</span>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li>
+                    <a href="#" class="nav-link side-item">查看票券</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link side-item">購買紀錄</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link side-item">活動專區</a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link side-item">個人資料</a>
+                </li>
+            </ul>
+        </div>
+
+        @RenderBody()
+
+    </div>
+
+
+
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
