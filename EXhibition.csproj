@@ -187,7 +187,7 @@
     <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\ReturnData.cs" />
-    <Compile Include="Models\tickets.cs">
+    <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\users.cs">
@@ -328,9 +328,9 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
+    <Folder Include="Image\Host\" />
     <Folder Include="Views\HostApi\" />
     <Folder Include="Views\UserApi\" />
-    <Folder Include="Image\Host\" />
     <Folder Include="Views\UsersApi\" />
   </ItemGroup>
   <ItemGroup>

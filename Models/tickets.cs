@@ -12,8 +12,9 @@ namespace EXhibition.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tickets
+    public partial class Tickets
     {
+        public int TID { get; set; }
         public int EVID { get; set; }
         public int UID { get; set; }
         public bool paid { get; set; }

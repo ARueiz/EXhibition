@@ -18,7 +18,6 @@ namespace EXhibition.Models
         public ExhibitionEntities()
             : base("name=ExhibitionEntities")
         {
-            Database.Connection.ConnectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -30,7 +29,7 @@ namespace EXhibition.Models
         public virtual DbSet<exhibitinfo> exhibitinfo { get; set; }
         public virtual DbSet<exhibitors> exhibitors { get; set; }
         public virtual DbSet<hosts> hosts { get; set; }
-        public virtual DbSet<tickets> tickets { get; set; }
         public virtual DbSet<users> users { get; set; }
+        public virtual DbSet<Tickets> Tickets { get; set; }
     }
 }

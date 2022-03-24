@@ -71,7 +71,7 @@ namespace EXhibition.Controllers
         {
 
             var b = from userTable in db.users
-                    join ticketTable in db.tickets on userTable.UID equals ticketTable.UID
+                    join ticketTable in db.Tickets on userTable.UID equals ticketTable.UID
                     select new
                     {
                         name = userTable.name,
@@ -84,7 +84,7 @@ namespace EXhibition.Controllers
         public ActionResult test2()
         {
             var b = from userTable in db.users
-                    join ticketTable in db.tickets on userTable.UID equals ticketTable.UID
+                    join ticketTable in db.Tickets on userTable.UID equals ticketTable.UID
                     select new
                     {
                         name = userTable.name,
@@ -136,7 +136,7 @@ namespace EXhibition.Controllers
 
         public ActionResult test5()
         {
-            var a = db.users.Join(db.tickets, ticketTable => ticketTable.UID,
+            var a = db.users.Join(db.Tickets, ticketTable => ticketTable.UID,
                 userTable => userTable.UID,
                 (userTable, ticketTable) => new
                 {
@@ -150,7 +150,7 @@ namespace EXhibition.Controllers
 
         public string test6()
         {
-            var a = db.users.Join(db.tickets, ticketTable => ticketTable.UID,
+            var a = db.users.Join(db.Tickets, ticketTable => ticketTable.UID,
                 userTable => userTable.UID,
                 (userTable, ticketTable) => new
                 {

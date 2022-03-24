@@ -62,11 +62,11 @@
           <Property Name="image" Type="nvarchar" MaxLength="50" />
           <Property Name="verify" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="tickets">
+        <EntityType Name="Tickets">
           <Key>
-            <PropertyRef Name="EVID" />
-            <PropertyRef Name="UID" />
+            <PropertyRef Name="TID" />
           </Key>
+          <Property Name="TID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="EVID" Type="int" Nullable="false" />
           <Property Name="UID" Type="int" Nullable="false" />
           <Property Name="paid" Type="bit" Nullable="false" />
@@ -119,26 +119,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Tickets__EVID__37A5467C">
+        <Association Name="FK__Tickets__EVID__70DDC3D8">
           <End Role="events" Type="Self.events" Multiplicity="1" />
-          <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="events">
               <PropertyRef Name="EVID" />
             </Principal>
-            <Dependent Role="tickets">
+            <Dependent Role="Tickets">
               <PropertyRef Name="EVID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Tickets__UID__38996AB5">
+        <Association Name="FK__Tickets__UID__71D1E811">
           <End Role="users" Type="Self.users" Multiplicity="1" />
-          <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
+          <End Role="Tickets" Type="Self.Tickets" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="users">
               <PropertyRef Name="UID" />
             </Principal>
-            <Dependent Role="tickets">
+            <Dependent Role="Tickets">
               <PropertyRef Name="UID" />
             </Dependent>
           </ReferentialConstraint>
@@ -148,7 +148,7 @@
           <EntitySet Name="exhibitinfo" EntityType="Self.exhibitinfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="exhibitors" EntityType="Self.exhibitors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hosts" EntityType="Self.hosts" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tickets" EntityType="Self.tickets" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__events__HID__2E1BDC42" Association="Self.FK__events__HID__2E1BDC42">
             <End Role="hosts" EntitySet="hosts" />
@@ -162,13 +162,13 @@
             <End Role="exhibitors" EntitySet="exhibitors" />
             <End Role="exhibitinfo" EntitySet="exhibitinfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__Tickets__EVID__37A5467C" Association="Self.FK__Tickets__EVID__37A5467C">
+          <AssociationSet Name="FK__Tickets__EVID__70DDC3D8" Association="Self.FK__Tickets__EVID__70DDC3D8">
             <End Role="events" EntitySet="events" />
-            <End Role="tickets" EntitySet="tickets" />
+            <End Role="Tickets" EntitySet="Tickets" />
           </AssociationSet>
-          <AssociationSet Name="FK__Tickets__UID__38996AB5" Association="Self.FK__Tickets__UID__38996AB5">
+          <AssociationSet Name="FK__Tickets__UID__71D1E811" Association="Self.FK__Tickets__UID__71D1E811">
             <End Role="users" EntitySet="users" />
-            <End Role="tickets" EntitySet="tickets" />
+            <End Role="Tickets" EntitySet="Tickets" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -194,7 +194,7 @@
           <Property Name="verify" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="hosts" Relationship="Self.FK__events__HID__2E1BDC42" FromRole="events" ToRole="hosts" />
           <NavigationProperty Name="exhibitinfo" Relationship="Self.FK__exhibitinf__EVID__31EC6D26" FromRole="events" ToRole="exhibitinfo" />
-          <NavigationProperty Name="tickets" Relationship="Self.FK__Tickets__EVID__37A5467C" FromRole="events" ToRole="tickets" />
+          <NavigationProperty Name="Tickets" Relationship="ExhibitionModel.FK__Tickets__EVID__70DDC3D8" FromRole="events" ToRole="Tickets" />
         </EntityType>
         <EntityType Name="exhibitinfo">
           <Key>
@@ -239,18 +239,6 @@
           <Property Name="verify" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="events" Relationship="Self.FK__events__HID__2E1BDC42" FromRole="hosts" ToRole="events" />
         </EntityType>
-        <EntityType Name="tickets">
-          <Key>
-            <PropertyRef Name="EVID" />
-            <PropertyRef Name="UID" />
-          </Key>
-          <Property Name="EVID" Type="Int32" Nullable="false" />
-          <Property Name="UID" Type="Int32" Nullable="false" />
-          <Property Name="paid" Type="Boolean" Nullable="false" />
-          <Property Name="passed" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="events" Relationship="Self.FK__Tickets__EVID__37A5467C" FromRole="tickets" ToRole="events" />
-          <NavigationProperty Name="users" Relationship="Self.FK__Tickets__UID__38996AB5" FromRole="tickets" ToRole="users" />
-        </EntityType>
         <EntityType Name="users">
           <Key>
             <PropertyRef Name="UID" />
@@ -261,7 +249,7 @@
           <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="64" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="verify" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="tickets" Relationship="Self.FK__Tickets__UID__38996AB5" FromRole="users" ToRole="tickets" />
+          <NavigationProperty Name="Tickets" Relationship="ExhibitionModel.FK__Tickets__UID__71D1E811" FromRole="users" ToRole="Tickets" />
         </EntityType>
         <Association Name="FK__events__HID__2E1BDC42">
           <End Role="hosts" Type="Self.hosts" Multiplicity="1" />
@@ -287,18 +275,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Tickets__EVID__37A5467C">
-          <End Role="events" Type="Self.events" Multiplicity="1" />
-          <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="events">
-              <PropertyRef Name="EVID" />
-            </Principal>
-            <Dependent Role="tickets">
-              <PropertyRef Name="EVID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK__exhibitinfo__EID__32E0915F">
           <End Role="exhibitors" Type="Self.exhibitors" Multiplicity="1" />
           <End Role="exhibitinfo" Type="Self.exhibitinfo" Multiplicity="*" />
@@ -311,24 +287,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Tickets__UID__38996AB5">
-          <End Role="users" Type="Self.users" Multiplicity="1" />
-          <End Role="tickets" Type="Self.tickets" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="UID" />
-            </Principal>
-            <Dependent Role="tickets">
-              <PropertyRef Name="UID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ExhibitionEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="events" EntityType="Self.events" />
           <EntitySet Name="exhibitinfo" EntityType="Self.exhibitinfo" />
           <EntitySet Name="exhibitors" EntityType="Self.exhibitors" />
           <EntitySet Name="hosts" EntityType="Self.hosts" />
-          <EntitySet Name="tickets" EntityType="Self.tickets" />
           <EntitySet Name="users" EntityType="Self.users" />
           <AssociationSet Name="FK__events__HID__2E1BDC42" Association="Self.FK__events__HID__2E1BDC42">
             <End Role="hosts" EntitySet="hosts" />
@@ -338,20 +301,57 @@
             <End Role="events" EntitySet="events" />
             <End Role="exhibitinfo" EntitySet="exhibitinfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__Tickets__EVID__37A5467C" Association="Self.FK__Tickets__EVID__37A5467C">
-            <End Role="events" EntitySet="events" />
-            <End Role="tickets" EntitySet="tickets" />
-          </AssociationSet>
           <AssociationSet Name="FK__exhibitinfo__EID__32E0915F" Association="Self.FK__exhibitinfo__EID__32E0915F">
             <End Role="exhibitors" EntitySet="exhibitors" />
             <End Role="exhibitinfo" EntitySet="exhibitinfo" />
           </AssociationSet>
-          <AssociationSet Name="FK__Tickets__UID__38996AB5" Association="Self.FK__Tickets__UID__38996AB5">
-            <End Role="users" EntitySet="users" />
-            <End Role="tickets" EntitySet="tickets" />
+          <EntitySet Name="Tickets" EntityType="ExhibitionModel.Tickets" />
+          <AssociationSet Name="FK__Tickets__EVID__70DDC3D8" Association="ExhibitionModel.FK__Tickets__EVID__70DDC3D8">
+            <End Role="events" EntitySet="events" />
+            <End Role="Tickets" EntitySet="Tickets" />
           </AssociationSet>
-        </EntityContainer>
-      </Schema>
+          <AssociationSet Name="FK__Tickets__UID__71D1E811" Association="ExhibitionModel.FK__Tickets__UID__71D1E811">
+            <End Role="users" EntitySet="users" />
+            <End Role="Tickets" EntitySet="Tickets" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Tickets">
+          <Key>
+            <PropertyRef Name="TID" />
+          </Key>
+          <Property Name="TID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EVID" Type="Int32" Nullable="false" />
+          <Property Name="UID" Type="Int32" Nullable="false" />
+          <Property Name="paid" Type="Boolean" Nullable="false" />
+          <Property Name="passed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="events" Relationship="ExhibitionModel.FK__Tickets__EVID__70DDC3D8" FromRole="Tickets" ToRole="events" />
+          <NavigationProperty Name="users" Relationship="ExhibitionModel.FK__Tickets__UID__71D1E811" FromRole="Tickets" ToRole="users" />
+        </EntityType>
+        <Association Name="FK__Tickets__EVID__70DDC3D8">
+          <End Type="ExhibitionModel.events" Role="events" Multiplicity="1" />
+          <End Type="ExhibitionModel.Tickets" Role="Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="events">
+              <PropertyRef Name="EVID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="EVID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tickets__UID__71D1E811">
+          <End Type="ExhibitionModel.users" Role="users" Multiplicity="1" />
+          <End Type="ExhibitionModel.Tickets" Role="Tickets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="UID" />
+            </Principal>
+            <Dependent Role="Tickets">
+              <PropertyRef Name="UID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -418,16 +418,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tickets">
-            <EntityTypeMapping TypeName="ExhibitionModel.tickets">
-              <MappingFragment StoreEntitySet="tickets">
-                <ScalarProperty Name="EVID" ColumnName="EVID" />
-                <ScalarProperty Name="UID" ColumnName="UID" />
-                <ScalarProperty Name="paid" ColumnName="paid" />
-                <ScalarProperty Name="passed" ColumnName="passed" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="users">
             <EntityTypeMapping TypeName="ExhibitionModel.users">
               <MappingFragment StoreEntitySet="users">
@@ -437,6 +427,17 @@
                 <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="verify" ColumnName="verify" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tickets">
+            <EntityTypeMapping TypeName="ExhibitionModel.Tickets">
+              <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="passed" ColumnName="passed" />
+                <ScalarProperty Name="paid" ColumnName="paid" />
+                <ScalarProperty Name="UID" ColumnName="UID" />
+                <ScalarProperty Name="EVID" ColumnName="EVID" />
+                <ScalarProperty Name="TID" ColumnName="TID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
