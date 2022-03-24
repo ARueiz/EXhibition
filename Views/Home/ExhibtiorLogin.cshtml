@@ -62,7 +62,7 @@
                             登入
                         </button>
                         <div class="d-inline-block">
-                            <a href="#" class="p-0 d-inline-block" style="margin-right: 25px">用戶註冊</a>
+                            <a href="/Home/RegisterExhibitor" class="p-0 d-inline-block" style="margin-right: 25px">註冊</a>
                             <a href="#" class="p-0 d-inline-block">忘記密碼</a>
                         </div>
                     </div>
@@ -121,11 +121,12 @@
                     redirect: 'follow', // manual, *follow, error
                     referrer: 'no-referrer', // *client, no-referrer
                 }).then(response => response.json()).then(res => {
-                    if (res.status === "success") {
-                        window.location.href = res.data.url
-                    } else {
-                        alert(res.message)
-                    }
+                    console.log(res)
+                    //if (res.status === "success") {
+                    //    window.location.href = res.data.url
+                    //} else {
+                    //    alert(res.message)
+                    //}
                 })
 
             },

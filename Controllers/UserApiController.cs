@@ -9,6 +9,7 @@ namespace EXhibition.Controllers
 
         DBConnector db = new DBConnector();
 
+        [HttpPost]
         public ActionResult Login(Models.Login login)
         {
             ReturnData r = new ReturnData();
