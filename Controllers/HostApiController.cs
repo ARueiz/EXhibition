@@ -7,6 +7,7 @@ using EXhibition.Models;
 
 namespace EXhibition.Controllers
 {
+    [AllowCrossSiteJson]
     public class HostApiController : Controller
     {
 
