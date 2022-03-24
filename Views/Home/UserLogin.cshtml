@@ -109,7 +109,7 @@
                     password: this.password
                 }
 
-                /*
+                
                 fetch('/UserApi/Login', {
                     body: JSON.stringify(json), // must match 'Content-Type' header
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -124,23 +124,23 @@
                     referrer: 'no-referrer', // *client, no-referrer
                 }).then(response => response.json()).then(res => {
                     if (res.status === "success") {
-                        // window.location.href = res.data.url
-                        console.log(res)
+                        window.location.href = res.data.url
+                        //console.log(res)
                     } else {
                         alert(res.message)
                     }
                 })
-                */
+                
 
 
-                axios.post('/UserApi/Login', {
-                    account: this.account,
-                    password: this.password
-                }).then(
-                    (response) => response.data
-                ).then(function (res) {
-                    console.log(res)
-                });
+                //axios.post('/UserApi/Login', {
+                //    account: this.account,
+                //    password: this.password
+                //}).then(
+                //    (response) => response.data
+                //).then(function (res) {
+                //    console.log(res)
+                //});
 
             },
             setCookie(cname, cvalue, exdays) {
