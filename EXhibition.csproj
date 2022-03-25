@@ -349,7 +349,7 @@
     <Content Include="Views\Home\ExhibitiorLogin.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Views\PartView\_NavbarHost.cshtml" />
-    <Content Include="Views\hosts\展覽列表.cshtml" />
+    <!--<Content Include="Views\hosts\展覽列表.cshtml" />-->
     <Content Include="Views\User\MyTicketList.cshtml" />
     <Content Include="Views\Host\CreateEvent.cshtml" />
     <Content Include="Views\Host\publicVersion.cshtml" />
