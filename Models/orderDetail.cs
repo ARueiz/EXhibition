@@ -12,15 +12,11 @@ namespace EXhibition.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Tickets
+    public partial class orderDetail
     {
-        public int TID { get; set; }
-        public int EVID { get; set; }
-        public int UID { get; set; }
-        public bool paid { get; set; }
-        public bool passed { get; set; }
-    
-        public virtual events events { get; set; }
-        public virtual users users { get; set; }
+        public int id { get; set; }
+        public int orderId { get; set; }
+        public Nullable<int> price { get; set; }
+        public Nullable<int> ticketId { get; set; }
     }
 }

@@ -1,0 +1,238 @@
+﻿
+@{
+    ViewBag.Title = "RegisterHost";
+}
+
+@section    styles{
+    <style>
+
+        @@media screen and (max-width: 768px) {
+            .form-title {
+                text-align: center;
+            }
+        }
+
+        body {
+            background: #f8f8f8;
+        }
+
+        .login-panel {
+            border-radius: 10px;
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .wrap-img {
+            max-height: 400px;
+            height: 100%;
+            width: 100%;
+            border: 0px solid red;
+        }
+
+            .wrap-img img {
+                width: 100%;
+                height: 100%;
+            }
+
+        .form-title {
+            margin-bottom: 25px;
+        }
+
+        input {
+            box-sizing: border-box;
+            display: inline-block;
+            border: none;
+            border-bottom: 1px solid #999;
+            padding: 6px 15px;
+        }
+
+        input {
+            outline: none;
+            appearance: unset !important;
+            -moz-appearance: unset !important;
+            -webkit-appearance: unset !important;
+            -o-appearance: unset !important;
+            -ms-appearance: unset !important;
+        }
+
+            input[type=checkbox] {
+                -moz-appearance: checkbox !important;
+                -webkit-appearance: checkbox !important;
+                -o-appearance: checkbox !important;
+                -ms-appearance: checkbox !important;
+            }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        @@media screen and (max-width: 768px) {
+            .rwd-form {
+                padding-top: 50px;
+            }
+        }
+
+        button.signup {
+            border: 0 none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            background-color: #9fe5ed;
+        }
+    </style>
+}
+
+
+<div class="container-fluid pt-3 d-flex justify-content-center" id="app" style="">
+
+    <div class="col-md-8 login-panel">
+        <div class="row">
+            <div class="col-md-6 p-4">
+                <h2 class="form-title rwd-form">主辦單位註冊</h2>
+                <div class="form-login">
+                    <form v-on:submit.prevent="sendRegister()">
+                        <div class="form-group">
+                            <label for="inputUsername">名稱</label>
+                            <input type="text" class="form-control" id="inputUsername" aria-describedby="emailHelp"
+                                   placeholder="請輸入姓名" required v-model="Name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputUserPhone">電話</label>
+                            <input type="text" class="form-control" id="inputUserPhone" aria-describedby="emailHelp"
+                                   placeholder="請輸入電話" required v-model="Phone">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputUserEmail">Email</label>
+                            <input type="email" class="form-control" id="inputUserEmail" aria-describedby="emailHelp"
+                                   placeholder="請輸入 email" required v-model="Email">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputUserEmail">官方網站連結</label>
+                            <input type="text" class="form-control" id="inputUserEmail" aria-describedby="emailHelp"
+                                   placeholder="請輸入連結" required v-model="link">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password1">密碼</label>
+                            <input type="password" minlength="8" class="form-control" id="password1" aria-describedby="emailHelp"
+                                   placeholder="請輸入密碼" required v-model="Password">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password2">再次驗證</label>
+                            <input type="password" class="form-control" id="password2" aria-describedby="emailHelp"
+                                   placeholder="請輸入密碼" required v-model="Password2">
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" @@click="sendRegister" class="w-50 signup">
+                                <span v-show="processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                送出
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+                <div class="d-flex align-content-end h-100">
+                    <div class="wrap-img d-inline-block align-self-center">
+                        <img src="~/Image/Dev/Register-host.png" alt="">
+                        <small>
+                            <a style="margin-top:0px;display: block;margin-bottom: 10px"
+                               href="https://storyset.com/business">Business illustrations by Storyset</a>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">請稍後</h5>
+                    <button>close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                Name: '',
+                Phone: '',
+                Email: '',
+                Password: '',
+                Password2: '',
+                link: '',
+                processing: false
+            }
+        },
+        methods: {
+            sendRegister() {
+
+                let loadModal = $('#loadingModal')
+                loadModal.modal('show')
+
+                if (this.Password != this.Password2) {
+                    loadModal.modal('hide')
+                    alert('密碼驗證錯誤')
+                    return
+                } else if (this.processing == true) {
+                    loadModal.modal('hide')
+                    return
+                }
+
+                this.processing = true
+
+                let self = this
+
+                let body = {
+                    name: self.Name,
+                    phone: self.Phone,
+                    email: self.Email,
+                    Password: self.Password,
+                    link: self.link
+                }
+
+                let headers = {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json",
+                }
+
+                fetch('/HostApi/Register', {
+                    method: "POST",
+                    headers: headers,
+                    // https://ithelp.ithome.com.tw/articles/10252941
+                    // 別忘了把主體参數轉成字串，否則資料會變成[object Object]，它無法被成功儲存在後台
+                    body: JSON.stringify(body)
+                }).then(response => response.json())
+                    .then(json => {
+                        loadModal.modal('hide')
+                        if (json.status == 'success') {
+                            this.processing = false
+                            self.Name = ''
+                            self.Phone = ''
+                            self.Email = ''
+                            self.link = ''
+                            window.location.href = json.data.url
+                        } else {
+                            this.processing = false
+                            alert(json.message)
+                        }
+                    });
+            }
+        }
+    })
+</script>
+

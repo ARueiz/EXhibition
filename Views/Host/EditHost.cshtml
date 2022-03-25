@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "EditHost2.0";
+}
+
+<div class="container h-100 mt-3" id="VuePage">
+    <div class="row justify-content-sm-center h-100">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>phone</th>
+                    <th>email</th>
+                    <th>link</th>
+                    <th>password</th>
+
+                </tr>
+            </thead>
+            <tr v-for="item in res">
+                <td>{{item.name }}</td>
+                <td>{{item.phone }}</td>
+                <td>{{item.email  }}</td>
+                <td>{{item.link }}</td>
+                <td>{{item.password  }}</td>
+                <td>
+
+                </td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+@section scripts {
+
+
+    <script>
+
+        var VuePage = new Vue({
+            el: '#VuePage',
+            data: {
+                res: [],
+
+            },
+            mounted() {
+                axios
+                    .get('/HostApi/List')
+                    .then(function (response) {
+                        VuePage.res = response.data
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    });
+
+            },
+            methods: {
+
+
+
+
+            },
+        });
+    </script>
+}

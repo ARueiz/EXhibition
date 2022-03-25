@@ -14,11 +14,13 @@ namespace EXhibition.Models
     
     public partial class events
     {
+        
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public events()
         {
             this.exhibitinfo = new HashSet<exhibitinfo>();
-            this.tickets = new HashSet<tickets>();
+            this.Tickets = new HashSet<Tickets>();
         }
     
         public int EVID { get; set; }
@@ -39,6 +41,6 @@ namespace EXhibition.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<exhibitinfo> exhibitinfo { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tickets> tickets { get; set; }
+        public virtual ICollection<Tickets> Tickets { get; set; }
     }
 }

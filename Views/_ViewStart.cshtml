@@ -4,6 +4,7 @@
 
 @{
     string ControllerName = Convert.ToString(HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"]);
+
     switch (ControllerName.ToUpper())
     {
         case "USER":
@@ -22,4 +23,13 @@
             Layout = "~/Views/Shared/_Layout.cshtml";
             break;
     }
+
+
+    string ActionName = Convert.ToString(HttpContext.Current.Request.RequestContext.RouteData.Values["Action"]);
+
+    if (ActionName.ToUpper().Equals("REGISTER"))
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
 }   

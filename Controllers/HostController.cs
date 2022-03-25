@@ -5,10 +5,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-
 namespace EXhibition.Controllers
 {
-    public class HostsController : Controller
+    public class HostController : Controller
     {
         private DBConnector db = new DBConnector();
         // GET: Hosts
@@ -35,43 +34,6 @@ namespace EXhibition.Controllers
         {
             return View();
         }
-
-        public ActionResult 展覽列表(int? num=1)
-        {
-            int x;
-            List<Models.events> info = new List<Models.events>();
-            if (num < 0 || num == 1) {
-                num = 1;
-                x = 0;
-                info = db.events.OrderBy(y => y.EVID).Skip(x).Take(5).ToList();
-
-            }
-            else
-            {
-                x = (int)num*5;
-                info = db.events.OrderBy(y => y.EVID).Skip(x).Take(5).ToList();
-
-            }
-
-            foreach (var i in info)
-            {
-                i.image = Request.Url.Authority + @"/image/host/" + i.image;
-
-            }
-
-
-            return Json(info, JsonRequestBehavior.AllowGet);
-
-            
-
-        }
-
-     
-
-
-
-
-   
 
         //邱品叡
         public ActionResult CreateEvent()

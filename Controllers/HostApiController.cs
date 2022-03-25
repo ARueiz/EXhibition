@@ -3,13 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Http.Cors;
 using System.Web.Mvc;
 using EXhibition.Models;
 
 namespace EXhibition.Controllers
 {
-    [Models.AllowCrossSiteJson]
     public class HostApiController : Controller
     {
 
@@ -80,6 +78,34 @@ namespace EXhibition.Controllers
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult showlist(int? num = 1)
+        {
+            int x;
+            List<Models.events> info = new List<Models.events>();
+            if (num < 0 || num == 1)
+            {
+                num = 1;
+                x = 0;
+                info = db.events.OrderBy(y => y.EVID).Skip(x).Take(5).ToList();
+
+            }
+            else
+            {
+                x = (int)num * 5;
+                info = db.events.OrderBy(y => y.EVID).Skip(x).Take(5).ToList();
+
+            }
+
+            foreach (var i in info)
+            {
+                i.image = Request.Url.Authority + @"/image/host/" + i.image;
+
+            }
+
+
+            return Json(info, JsonRequestBehavior.AllowGet);
+        }
+
 
         public ActionResult List()
         {
@@ -123,5 +149,38 @@ namespace EXhibition.Controllers
 
         }
 
+<<<<<<< HEAD
+=======
+        public ActionResult Login(Models.Login login)
+        {
+            Models.ReturnData returnData = new Models.ReturnData(); 
+            returnData.status = "success";
+            returnData.data = new { url = "/Host" };
+            return Json(returnData,JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult Register(Models.hosts host)
+        {
+            Models.ReturnData r = new ReturnData();
+            db.hosts.Add(host);
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                r.status = Models.RetrunStatus.Error;
+                r.message = "註冊失敗";
+                return Json(r, JsonRequestBehavior.AllowGet);
+            }
+
+            r.status = Models.RetrunStatus.Success;
+            r.message = "註冊成功";
+            r.data = new { url = "/Home/HostLogin" };
+            return Json(r);
+        }
+
+>>>>>>> develop
     }
 }
