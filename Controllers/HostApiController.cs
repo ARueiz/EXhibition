@@ -109,13 +109,14 @@ namespace EXhibition.Controllers
 
         public ActionResult List()
         {
-            var host = db.hosts.ToList();
+            var host = db.exhibitors.ToList();
             return Json(host, JsonRequestBehavior.AllowGet);
         }
 
 
 
-        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events){
+        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events)
+        {
 
             //儲存 封面圖 to Image/Host
             string strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.image;
@@ -129,8 +130,8 @@ namespace EXhibition.Controllers
             events.HID = (int)Session["HID"];
             db.events.Add(events);
             int result = db.SaveChanges();
-            
-            if(result > 0)
+
+            if (result > 0)
             {
                 ReturnData data = new ReturnData();
                 data.status = "success";
@@ -146,11 +147,8 @@ namespace EXhibition.Controllers
 
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
-
         }
 
-<<<<<<< HEAD
-=======
         public ActionResult Login(Models.Login login)
         {
             Models.ReturnData returnData = new Models.ReturnData(); 
@@ -181,6 +179,6 @@ namespace EXhibition.Controllers
             return Json(r);
         }
 
->>>>>>> develop
+
     }
 }
