@@ -106,6 +106,8 @@ namespace EXhibition.Controllers
             return Json(info, JsonRequestBehavior.AllowGet);
         }
 
+        
+
 
         public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events){
 

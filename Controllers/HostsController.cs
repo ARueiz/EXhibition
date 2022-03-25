@@ -36,42 +36,67 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        public ActionResult 展覽列表(int? num=1)
+       public ActionResult showexhibitor(int? index)
         {
-            int x;
-            List<Models.events> info = new List<Models.events>();
-            if (num < 0 || num == 1) {
-                num = 1;
-                x = 0;
-                info = db.events.OrderBy(y => y.EVID).Skip(x).Take(5).ToList();
+            Models.ReturnData rd = new Models.ReturnData();
 
-            }
-            else
+            if(index == null)
             {
-                x = (int)num*5;
-                info = db.events.OrderBy(y => y.EVID).Skip(x).Take(5).ToList();
-
+                rd.message = "Id 錯誤";
+                rd.status = "error";
+                
+                return Json(rd, JsonRequestBehavior.AllowGet);
             }
+            int i = (int)index;
+            Models.exhibitors data = db.exhibitors.Find(i);
 
-            foreach (var i in info)
-            {
-                i.image = Request.Url.Authority + @"/image/host/" + i.image;
-
-            }
-
-
-            return Json(info, JsonRequestBehavior.AllowGet);
 
             
 
+            return Json(data,JsonRequestBehavior.AllowGet);
         }
 
-     
+        public ActionResult editexhibitor(Models.exhibitors host)
+        {
+
+            Models.ReturnData rd = new Models.ReturnData();
+            if(host.EID == null)
+            {
+                rd.message = "Id 錯誤";
+                rd.status = "error";               
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            var data = db.exhibitors.Find(host.EID);
+
+            if(data == null)
+            {
+                rd.message = "Id 錯誤";
+                rd.status = "error";
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            data.name = host.name;
+            data.email = host.email;
+            data.password = host.password;
+            data.phone = host.phone;
+            data.link = host.link;
+
+            db.SaveChanges();
+
+            rd.message = "成功";
+            rd.status = "success";
+            return Json(rd, JsonRequestBehavior.AllowGet);
+        }
 
 
 
 
-   
+
+
+
 
         //邱品叡
         public ActionResult CreateEvent()
