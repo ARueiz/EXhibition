@@ -36,60 +36,7 @@ namespace EXhibition.Controllers
             return View();
         }
 
-       public ActionResult showexhibitor(int? index)
-        {
-            Models.ReturnData rd = new Models.ReturnData();
-
-            if(index == null)
-            {
-                rd.message = "Id 錯誤";
-                rd.status = "error";
-                
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
-            int i = (int)index;
-            Models.exhibitors data = db.exhibitors.Find(i);
-
-
-            
-
-            return Json(data,JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult editexhibitor(Models.exhibitors host)
-        {
-
-            Models.ReturnData rd = new Models.ReturnData();
-            if(host.EID == null)
-            {
-                rd.message = "Id 錯誤";
-                rd.status = "error";               
-
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
-
-            var data = db.exhibitors.Find(host.EID);
-
-            if(data == null)
-            {
-                rd.message = "Id 錯誤";
-                rd.status = "error";
-
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
-
-            data.name = host.name;
-            data.email = host.email;
-            data.password = host.password;
-            data.phone = host.phone;
-            data.link = host.link;
-
-            db.SaveChanges();
-
-            rd.message = "成功";
-            rd.status = "success";
-            return Json(rd, JsonRequestBehavior.AllowGet);
-        }
+      
 
 
 
