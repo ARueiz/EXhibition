@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace EXhibition.Controllers
 {
     public class HostsController : Controller
@@ -35,12 +36,42 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        public ActionResult 展覽列表()
+        public ActionResult 展覽列表(int? num=1)
         {
-            var info = (from s in db.exhibitors select s).ToList();
+            int x;
+            List<Models.events> info = new List<Models.events>();
+            if (num < 0 || num == 1) {
+                num = 1;
+                x = 0;
+                info = db.events.OrderBy(y => y.EVID).Skip(x).Take(5).ToList();
 
-            return Json(info,JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                x = (int)num*5;
+                info = db.events.OrderBy(y => y.EVID).Skip(x).Take(5).ToList();
+
+            }
+
+            foreach (var i in info)
+            {
+                i.image = Request.Url.Authority + @"/image/host/" + i.image;
+
+            }
+
+
+            return Json(info, JsonRequestBehavior.AllowGet);
+
+            
+
         }
+
+     
+
+
+
+
+   
 
         //邱品叡
         public ActionResult CreateEvent()
