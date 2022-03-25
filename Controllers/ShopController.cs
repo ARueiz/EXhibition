@@ -6,19 +6,12 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    public class ExhibitorController : Controller
+    public class ShopController : Controller
     {
-        // 廠商 首頁
+        // GET: Shop
         public ActionResult Index()
         {
             return View();
         }
-
-        // 廠商 參加展覽
-        public ActionResult JoinExhibition()
-        {
-            return View();
-        }
-
     }
 }

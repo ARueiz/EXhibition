@@ -14,6 +14,8 @@ namespace EXhibition.Models
     
     public partial class events
     {
+        
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public events()
         {

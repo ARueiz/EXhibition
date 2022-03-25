@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace EXhibition.Controllers
 {
     public class HostsController : Controller
@@ -35,12 +36,14 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        public ActionResult 展覽列表()
-        {
-            var info = (from s in db.exhibitors select s).ToList();
+      
 
-            return Json(info,JsonRequestBehavior.AllowGet);
-        }
+
+
+
+
+
+
 
         //邱品叡
         public ActionResult CreateEvent()

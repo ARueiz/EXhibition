@@ -3,35 +3,21 @@
     ViewBag.Title = "_SideBarExhibitor";
 }
 
-<div class="d-block d-md-none">
-    <button class="btn btn-primary offcanvasButton" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" style="font-size: 20px;">
-        <i class="bi bi-chevron-bar-right"></i>
-    </button>
-</div>
-
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">個人中心</h5>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-        @*<a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-            <span class="fs-4">個人中心</span>
-        </a>*@
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li>
-                <a href="#" class="nav-link selectItem" aria-current="page">新增展覽</a>
-            </li>
-            <li>
-                <a href="#" class="nav-link side-item">展覽列表</a>
-            </li>
-            @*<li>
-                <a href="#" class="nav-link side-item"></a>
-            </li>*@
-            <li>
-                <a href="#" class="nav-link side-item">個人資料</a>
-            </li>
-        </ul>
-    </div>
+<div class="sideBar col-md-2 d-flex flex-column flex-shrink-0 p-3 col-md-2 	d-none d-md-block"
+     style="background-color: white">
+    <a href="/Exhibitior" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <span class="fs-4 text-dark">參展商主頁</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li>
+            <a href="/Exhibitior/JoinExhibition" class="nav-link side-item">新增展覽</a>
+        </li>
+        <li>
+            <a href="#" class="nav-link side-item">已建立展覽列表</a>
+        </li>
+        <li>
+            <a href="#" class="nav-link side-item">個人資料</a>
+        </li>
+    </ul>
 </div>

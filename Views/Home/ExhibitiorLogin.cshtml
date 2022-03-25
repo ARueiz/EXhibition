@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "ExhibtiorLogin";
+    ViewBag.Title = "ExhibitiorLogin";
 }
 
 
@@ -108,7 +108,7 @@
                     password: this.password
                 }
 
-                fetch('/UserApi/Login', {
+                fetch('/ExhibitorApi/Login', {
                     body: JSON.stringify(json), // must match 'Content-Type' header
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                     credentials: 'same-origin', // include, same-origin, *omit
@@ -121,12 +121,13 @@
                     redirect: 'follow', // manual, *follow, error
                     referrer: 'no-referrer', // *client, no-referrer
                 }).then(response => response.json()).then(res => {
-                    console.log(res)
-                    //if (res.status === "success") {
-                    //    window.location.href = res.data.url
-                    //} else {
-                    //    alert(res.message)
-                    //}
+                    if (res.status === "success") {
+                        this.account = ''
+                        this.password = ''
+                        window.location.href = res.data.url
+                    } else {
+                        alert(res.message)
+                    }
                 })
 
             },
