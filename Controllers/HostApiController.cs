@@ -219,7 +219,8 @@ namespace EXhibition.Controllers
 
         public ActionResult Login(Models.Login login)
         {
-            Models.ReturnData returnData = new Models.ReturnData(); 
+            Models.ReturnData returnData = new Models.ReturnData();
+            Session["auth"] = 3;
             returnData.status = "success";
             returnData.data = new { url = "/Host" };
             return Json(returnData,JsonRequestBehavior.AllowGet);

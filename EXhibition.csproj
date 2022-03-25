@@ -152,6 +152,8 @@
     <Compile Include="Controllers\HostController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\PartViewController.cs" />
+    <Compile Include="Controllers\ShopApiController.cs" />
+    <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -193,6 +195,10 @@
     <Compile Include="Models\orders.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PartView\CommonParam.cs" />
+    <Compile Include="Models\PartView\HostNavbarParam.cs" />
+    <Compile Include="Models\PartView\ExhibitiorNavbarParam.cs" />
+    <Compile Include="Models\PartView\UserNavbarParam.cs" />
     <Compile Include="Models\ReturnData.cs" />
     <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
@@ -337,12 +343,13 @@
     <Content Include="Views\Home\UserLogin.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Home\HostLogin.cshtml" />
-    <Content Include="Views\PartView\_SideBarUser.cshtml" />
-    <Content Include="Views\PartView\_SideBarHost.cshtml" />
-    <Content Include="Views\PartView\_SideBarExhibitor.cshtml" />
-    <Content Include="Views\Home\ExhibtiorLogin.cshtml" />
+    <Content Include="Views\PartView\_SideBarUserBtn.cshtml" />
+    <Content Include="Views\PartView\_SideBarHostBtn.cshtml" />
+    <Content Include="Views\PartView\_SideBarExhibitorBtn.cshtml" />
+    <Content Include="Views\Home\ExhibitiorLogin.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Views\PartView\_NavbarHost.cshtml" />
+    <Content Include="Views\hosts\展覽列表.cshtml" />
     <Content Include="Views\User\MyTicketList.cshtml" />
     <Content Include="Views\Host\CreateEvent.cshtml" />
     <Content Include="Views\Host\publicVersion.cshtml" />
@@ -352,6 +359,13 @@
     <Content Include="Views\Exhibitor\Index.cshtml" />
     <Content Include="Views\Host\Index.cshtml" />
     <Content Include="Views\PartView\_NavbarExhibitor.cshtml" />
+<<<<<<< HEAD
+=======
+    <Content Include="Views\PartView\_SideBarExhibitor.cshtml" />
+    <Content Include="Views\PartView\_SideBarHost.cshtml" />
+    <Content Include="Views\PartView\_SideBarUser.cshtml" />
+    <Content Include="Views\User\MyTicketDetail.cshtml" />
+>>>>>>> dv6230
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -359,6 +373,8 @@
     <Folder Include="Image\Host\" />
     <Folder Include="Views\ExhibitorApi\" />
     <Folder Include="Views\HostApi\" />
+    <Folder Include="Views\Shopping\" />
+    <Folder Include="Views\Shop\" />
     <Folder Include="Views\UserApi\" />
     <Folder Include="Views\UsersApi\" />
   </ItemGroup>
