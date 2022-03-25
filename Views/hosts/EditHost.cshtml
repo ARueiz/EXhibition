@@ -23,15 +23,16 @@
                 <td>{{item.link  }}</td>
                 <td>{{item.password  }}</td>
                 <td>
-                    @Html.ActionLink("確定", "EditHost1", new { }, new { @class = "btn btn-info", @role = "button" })
+                    @Html.ActionLink("修改", "EditHost1", new { }, new { @class = "btn btn-info", @role = "button" })
                 </td>
             </tr>
         </table>
+
     </div>
 </div>
 
 @section scripts {
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    
 
     <script>
 
