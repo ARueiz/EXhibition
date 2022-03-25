@@ -145,13 +145,15 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ExhibitorApiController.cs" />
+    <Compile Include="Controllers\ExhibitorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HostApiController.cs" />
+    <Compile Include="Controllers\HostController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\PartViewController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UsersApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -184,10 +186,15 @@
     <Compile Include="Models\hosts.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\LoginData.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\orderDetail.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\orders.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ReturnData.cs" />
-    <Compile Include="Models\tickets.cs">
+    <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\users.cs">
@@ -216,6 +223,7 @@
     <Content Include="Content\Index-part1.css" />
     <Content Include="Content\Index-part2.css" />
     <Content Include="Content\myLogin.css" />
+    <Content Include="Content\myTicketList.css" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\Login\userLogin.css" />
     <Content Include="Content\Template\dashboard-sidebar.css" />
@@ -225,10 +233,14 @@
     <Content Include="Content\Site.css" />
     <Content Include="Image\Dev\Art lover-rafiki.png" />
     <Content Include="Image\Dev\Art lover-rafiki.svg" />
+    <Content Include="Image\Dev\Register-user.png" />
+    <Content Include="Image\Dev\Register-host.png" />
+    <Content Include="Image\Dev\Register-exhibitor.png" />
     <Content Include="Image\Dev\login-bro-host.png" />
     <Content Include="Image\Dev\login-bro-user.png" />
     <Content Include="Image\Test\eighty-six.png" />
     <Content Include="Image\Test\fruit01.png" />
+    <Content Include="Image\Test\reZero.png" />
     <Content Include="Image\Test\tea01.png" />
     <Content Include="Image\Test\world-Porsche.jpg" />
     <Content Include="Models\Exhibition.Context.tt">
@@ -331,15 +343,33 @@
     <Content Include="Views\Home\ExhibtiorLogin.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Views\PartView\_NavbarHost.cshtml" />
+
     <Content Include="Views\hosts\展覽列表.cshtml" />
+
+    <Content Include="Views\User\MyTicketList.cshtml" />
+    <Content Include="Views\Host\CreateEvent.cshtml" />
+    <Content Include="Views\Host\publicVersion.cshtml" />
+    <Content Include="Views\Home\RegisterHost.cshtml" />
+    <Content Include="Views\Home\RegisterExhibitor.cshtml" />
+    <Content Include="Views\Home\RegisterUser.cshtml" />
+    <Content Include="Views\Exhibitor\Index.cshtml" />
+    <Content Include="Views\Host\Index.cshtml" />
+    <Content Include="Views\PartView\_NavbarExhibitor.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Image\Host\" />
+
     <Folder Include="Views\HostApi\" />
     <Folder Include="Views\UserApi\" />
     <Folder Include="Views\UsersApi\" />
+
+    <Folder Include="Views\ExhibitorApi\" />
+    <Folder Include="Views\HostApi\" />
+    <Folder Include="Views\UserApi\" />
+
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "公版";
+}
+
+<div class="container h-100 mt-3" id="VuePage">
+    <div class="row justify-content-sm-center h-100">
+        <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+            <h2>公版範本</h2>
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" class="form-control" v-model="form.email">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email內容</label>
+                <input type="text" class="form-control" v-model="form.content">
+            </div>
+            <button type="submit" class="btn btn-primary" v-on:click="DoRegister()">Submit</button>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        @*var VuePage = new Vue({
+            el: '#VuePage',
+            data: function () {
+                  Data範本
+                    var data = {
+                    form: {
+                        name: '',
+                        content:'',
+                    }
+
+                };
+
+                return data;
+            }
+            , methods: {
+                  AJax 範本
+                    DoRegister: function () {
+                    var self = this;
+
+                    axios.post('@Url.Content("~/Home/DoSendMail")', {
+                        email: self.form.email,
+                        content: self.form.content
+                    })
+                    .then(function (response) {
+                        console.log(response);
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                }
+            }
+        })*@
+    </script>
+}

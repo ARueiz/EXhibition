@@ -13,5 +13,10 @@ namespace EXhibition.Controllers
         {
             return View();
         }
+
+        public ActionResult MyTicketList()
+        {
+            return View();
+        }
     }
 }

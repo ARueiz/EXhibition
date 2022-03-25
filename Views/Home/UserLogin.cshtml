@@ -61,7 +61,7 @@
                             登入
                         </button>
                         <div class="d-inline-block">
-                            <a href="#" class="p-0 d-inline-block" style="margin-right: 25px">用戶註冊</a>
+                            <a href="/Home/RegisterUser" class="p-0 d-inline-block" style="margin-right: 25px">註冊</a>
                             <a href="#" class="p-0 d-inline-block">忘記密碼</a>
                         </div>
                     </div>
@@ -109,7 +109,7 @@
                     password: this.password
                 }
 
-                /*
+                
                 fetch('/UserApi/Login', {
                     body: JSON.stringify(json), // must match 'Content-Type' header
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -124,23 +124,24 @@
                     referrer: 'no-referrer', // *client, no-referrer
                 }).then(response => response.json()).then(res => {
                     if (res.status === "success") {
-                        // window.location.href = res.data.url
-                        console.log(res)
+                        this.account = ''
+                        this.password = ''
+                        window.location.href = res.data.url                        
                     } else {
                         alert(res.message)
                     }
                 })
-                */
+                
 
 
-                axios.post('/UserApi/Login', {
-                    account: this.account,
-                    password: this.password
-                }).then(
-                    (response) => response.data
-                ).then(function (res) {
-                    console.log(res)
-                });
+                //axios.post('/UserApi/Login', {
+                //    account: this.account,
+                //    password: this.password
+                //}).then(
+                //    (response) => response.data
+                //).then(function (res) {
+                //    console.log(res)
+                //});
 
             },
             setCookie(cname, cvalue, exdays) {
