@@ -244,6 +244,7 @@
     <Content Include="Image\Dev\Register-exhibitor.png" />
     <Content Include="Image\Dev\login-bro-host.png" />
     <Content Include="Image\Dev\login-bro-user.png" />
+    <Content Include="Image\Host\pexels-photo-10147530.jpeg" />
     <Content Include="Image\Test\eighty-six.png" />
     <Content Include="Image\Test\fruit01.png" />
     <Content Include="Image\Test\reZero.png" />
@@ -367,7 +368,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
-    <Folder Include="Image\Host\" />
     <Folder Include="Views\ExhibitorApi\" />
     <Folder Include="Views\HostApi\" />
     <Folder Include="Views\Shopping\" />
