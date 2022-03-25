@@ -113,10 +113,10 @@
             , methods: {
                     imageChange: function () {
                         let theFile = document.querySelector('#image');
-                        this.$data.image = theFile.files[0].name;
+                    this.image = theFile.files[0].name;
                         console.log(theFile.files[0]);
 
-                        this.$data.FormData.set("image", theFile.files[0]);
+                    this.$data.FormData.set("image", theFile.files[0]);
                     },
                     floorplanimgChange: function () {
                         let theFile = document.querySelector('#floorplanimg');
