@@ -26,13 +26,14 @@ namespace EXhibition.Controllers
             }
             r.status = Models.RetrunStatus.Success;
             r.message = "註冊成功";
-            r.data = new { url = "/Home/ExhibtiorLogin" };
+            r.data = new { url = "/Home/ExhibitiorLogin" };
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Login(Models.Login login)
         {
             Models.ReturnData returnData = new Models.ReturnData();
+            Session["auth"] = 2;
             returnData.status = "success";
             returnData.data = new { url = "/Exhibitor" };
             return Json(returnData, JsonRequestBehavior.AllowGet);

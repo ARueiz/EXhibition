@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
-namespace EXhibition
+namespace EXhibition { 
     public class WebApiConfig
     {
         public static void Register(HttpConfiguration config)
@@ -13,7 +13,7 @@ namespace EXhibition
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "{controller}/{action}",
+                routeTemplate: "api/{controller}/{action}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

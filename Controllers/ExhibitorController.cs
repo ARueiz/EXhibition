@@ -8,10 +8,17 @@ namespace EXhibition.Controllers
 {
     public class ExhibitorController : Controller
     {
-        // GET: Exhibitor
+        // 廠商 首頁
         public ActionResult Index()
         {
             return View();
         }
+
+        // 廠商 參加展覽
+        public ActionResult JoinExhibition()
+        {
+            return View();
+        }
+
     }
 }

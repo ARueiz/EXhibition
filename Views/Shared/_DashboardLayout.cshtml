@@ -36,44 +36,21 @@
 
     @{
         Html.RenderAction("Navbar", "PartView");
-        Html.RenderAction("SideBarRWD", "PartView");
+        Html.RenderAction("SideBarBtn", "PartView");
     }
-
 
 
     <div class="row main-content m-0" style="min-height: 100vh;margin-left:0px;margin-right0px;">
 
-        <div class="sideBar col-md-2 d-flex flex-column flex-shrink-0 p-3 col-md-2 	d-none d-md-block"
-             style="background-color: white">
-            <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <span class="fs-4 text-dark">個人中心</span>
-            </a>
-            <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li>
-                    <a href="#" class="nav-link side-item">查看票券</a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link side-item">購買紀錄</a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link side-item">活動專區</a>
-                </li>
-                <li>
-                    <a href="#" class="nav-link side-item">個人資料</a>
-                </li>
-            </ul>
-        </div>
+        @{ 
+            Html.RenderAction("SideBar", "PartView");
+        }
 
         <div class="col-md-10">
             @RenderBody()
-        </div>        
+        </div>
 
     </div>
-
-
-
-
 
     @RenderSection("scripts", required: false)
 </body>

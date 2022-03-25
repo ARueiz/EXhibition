@@ -10,24 +10,31 @@ namespace EXhibition.Controllers
 
             if (Session["auth"] == null)
                 return PartialView("_NavbarVisitor");
-            else
+            else if ((int)Session["auth"] == 3)
+                return PartialView("_NavbarHost");
+            else if ((int)Session["auth"] == 2)
+                return PartialView("_NavbarExhibitor");
+            else if ((int)Session["auth"] == 1)
                 return PartialView("_NavbarUser");
+            else
+                return PartialView("_NavbarVisitor");
+
         }
 
-        public ActionResult SideBarRWD()
+        public ActionResult SideBarBtn()
         {
             int authId = Session["auth"] == null ? 0 : (int)Session["auth"];
             if (authId == 1)
             {
-                return PartialView("_SideBarUser");
+                return PartialView("_SideBarUserBtn");
             }
             else if (authId == 2)
             {
-                return PartialView("_SideBarHost");
+                return PartialView("_SideBarExhibitorBtn");
             }
             else
             {
-                return PartialView("_SideBarExhibitor");
+                return PartialView("_SideBarHostBtn");
             }
         }
 
@@ -40,11 +47,11 @@ namespace EXhibition.Controllers
             }
             else if (authId == 2)
             {
-                return PartialView("_SideBarHost");
+                return PartialView("_SideBarExhibitor");
             }
             else
             {
-                return PartialView("_SideBarExhibitor");
+                return PartialView("_SideBarHost");
             }
         }
 

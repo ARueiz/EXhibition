@@ -1,6 +1,9 @@
-﻿
+﻿@using EXhibition.Models.PartView 
 @{
     ViewBag.Title = "_NavbarUser";
+    string CenterLink = HostPartViewParam.CenterLink;    
+    string ShopLink = CommonParam.ShopLink;    
+    string LogoutLink = CommonParam.LogoutLink;
 }
 
 <div class="w3-top">
@@ -9,8 +12,9 @@
         <!-- Float links to the right. Hide them on small screens -->
 
         <div class="w3-right w3-hide-small navInline">
-            <a href="/Host" class="w3-bar-item w3-button">會員中心</a>            
-            <a href="/Home/Logout" class="w3-bar-item w3-button">登出</a>
+            <a href="@ShopLink" class="w3-bar-item w3-button">展覽列表</a>
+            <a href="@CenterLink" class="w3-bar-item w3-button">會員中心</a>
+            <a href="@LogoutLink" class="w3-bar-item w3-button">登出</a>
         </div>
 
         <div class="d-flex justify-content-end">
@@ -21,8 +25,15 @@
 
         <div class="navDrop">
             <ul class="d-inline-block w-100 p-0" style="text-align: center">
-                <li><a href="/Host" class="d-block p-2 font5">會員中心</a></li>
-                <li><a href="/Home/Logout" class="d-block p-2 font5">登出</a></li>
+                <li>
+                    <a href="@ShopLink" class="d-block p-2 font5">展覽列表</a>
+                </li>
+                <li>
+                    <a href="@CenterLink" class="d-block p-2 font5">會員中心</a>
+                </li>
+                <li>
+                    <a href="@LogoutLink" class="d-block p-2 font5">登出</a>
+                </li>
             </ul>
         </div>
 

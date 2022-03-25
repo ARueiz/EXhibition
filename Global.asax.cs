@@ -16,10 +16,11 @@ namespace EXhibition
 
             if (HttpContext.Current.IsDebuggingEnabled)
             {
-                System.Diagnostics.Debug.WriteLine("is debug mode");
+                System.Diagnostics.Debug.WriteLine("debug mode");
             }
 
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
