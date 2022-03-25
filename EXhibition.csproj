@@ -359,13 +359,10 @@
     <Content Include="Views\Exhibitor\Index.cshtml" />
     <Content Include="Views\Host\Index.cshtml" />
     <Content Include="Views\PartView\_NavbarExhibitor.cshtml" />
-<<<<<<< HEAD
-=======
     <Content Include="Views\PartView\_SideBarExhibitor.cshtml" />
     <Content Include="Views\PartView\_SideBarHost.cshtml" />
     <Content Include="Views\PartView\_SideBarUser.cshtml" />
     <Content Include="Views\User\MyTicketDetail.cshtml" />
->>>>>>> dv6230
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
