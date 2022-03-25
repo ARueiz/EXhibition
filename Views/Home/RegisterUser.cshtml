@@ -3,7 +3,7 @@
     ViewBag.Title = "RegisterUser";
 }
 
-@section    styles{
+@section    styles{    
     <style>
 
         @@media screen and (max-width: 768px) {
@@ -143,6 +143,19 @@
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">請稍後</h5>
+                    <button>close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -161,10 +174,15 @@
         methods: {
             sendRegister() {
 
-                if (this.Password != this.Password2 ) {
+                let loadModal = $('#loadingModal')
+                loadModal.modal('show')
+
+                if (this.Password != this.Password2) {
+                    loadModal.modal('hide')
                     alert('密碼驗證錯誤')
                     return
                 } else if (this.processing == true) {
+                    loadModal.modal('hide')
                     return
                 }
 
@@ -183,6 +201,7 @@
                     "Content-Type": "application/json",
                     "Accept": "application/json",
                 }
+
                 fetch('/UserApi/Register', {
                     method: "POST",
                     headers: headers,
@@ -190,7 +209,7 @@
                     // 別忘了把主體参數轉成字串，否則資料會變成[object Object]，它無法被成功儲存在後台
                     body: JSON.stringify(body)
                 }).then(response => response.json()).then(json => {
-                    console.log(json)
+                    loadModal.modal('hide')
                     if (json.status == 'success') {
                         this.processing = false
                         self.Name = ''

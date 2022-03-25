@@ -35,6 +35,13 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult 展覽列表()
+        {
+            var info = (from s in db.exhibitors select s).ToList();
+
+            return Json(info,JsonRequestBehavior.AllowGet);
+        }
+
         //邱品叡
         public ActionResult CreateEvent()
         {

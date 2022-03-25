@@ -343,6 +343,9 @@
     <Content Include="Views\Home\ExhibtiorLogin.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Views\PartView\_NavbarHost.cshtml" />
+
+    <Content Include="Views\hosts\展覽列表.cshtml" />
+
     <Content Include="Views\User\MyTicketList.cshtml" />
     <Content Include="Views\Host\CreateEvent.cshtml" />
     <Content Include="Views\Host\publicVersion.cshtml" />
@@ -352,14 +355,21 @@
     <Content Include="Views\Exhibitor\Index.cshtml" />
     <Content Include="Views\Host\Index.cshtml" />
     <Content Include="Views\PartView\_NavbarExhibitor.cshtml" />
+
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Image\Host\" />
+
+    <Folder Include="Views\HostApi\" />
+    <Folder Include="Views\UserApi\" />
+    <Folder Include="Views\UsersApi\" />
+
     <Folder Include="Views\ExhibitorApi\" />
     <Folder Include="Views\HostApi\" />
     <Folder Include="Views\UserApi\" />
+
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
