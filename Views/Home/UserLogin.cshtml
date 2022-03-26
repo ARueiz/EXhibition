@@ -130,7 +130,7 @@
                 }).then(response => response.json()).then(res => {
                     if (res.status === "success") {
                         clearInterval(self.timer);
-                        //window.location.href = res.data.url                        
+                        window.location.href = '/user' //res.data.url
                     } else {
                         console.log(res)
                     }

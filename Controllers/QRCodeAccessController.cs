@@ -47,7 +47,7 @@ namespace EXhibition.Controllers
             //}
 
 
-            Models.ReturnData returnData = new Models.ReturnData()
+            ReturnData returnData = new ReturnData()
             {
                 status = RetrunStatus.Success,
                 message = "成功登入",

@@ -8,14 +8,16 @@
     <div id="video-container">
         <video id="qr-video" style="width: 100% !important; height: 100% !important;"></video>
     </div>
-    <button class="btn btn-primary" id="start-button">Start</button>
-    <button class="btn btn-primary" id="stop-button">Stop</button>
-    <h5>Detected QR code: </h5>
-    <span id="cam-qr-result">None</span>
-    <br>
-    <h5>Last detected at: </h5>
-    <span id="cam-qr-result-timestamp"></span>
-    <br>
+    <button class="btn btn-primary" id="start-button">開始掃描</button>
+    <button class="btn btn-primary" id="stop-button">停止掃描</button>
+
+    <div class="d-none">        
+        <h5>Detected QR code: </h5>
+        <span id="cam-qr-result">None</span>
+        <br>
+        <h5>Last detected at: </h5>
+        <span id="cam-qr-result-timestamp"></span>
+    </div>
 </div>
 
 @section scripts{
