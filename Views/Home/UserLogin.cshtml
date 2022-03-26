@@ -67,7 +67,7 @@
                     </div>
                     <div class="break-line"></div>
                     <div class="d-block d-flex justify-content-center">
-                        <button class="btn-qrcode" v-on:click="showQRPage = !showQRPage;createQRCode()">
+                        <button class="btn-qrcode" v-on:click="qrCodeLogin()">                            
                             QR code 登入
                         </button>
                     </div>
@@ -85,9 +85,10 @@
             return {
                 account: '',
                 password: '',
-                qrCodeLoginToke: '',
+                qrCodeLoginToken: 'default',
                 cookieAccount: false,
-                showQRPage: false
+                showQRPage: false,
+                isCreateQRcode : false , 
             }
         },
         created() {
@@ -168,18 +169,30 @@
             },
             createQRCode() {
                 document.getElementById('qrcodeBox').innerHTML = "";
-                $('#qrcodeBox').qrcode('http://www.google.com');
+                $('#qrcodeBox').qrcode(this.qrCodeLoginToken);
             },
+            qrCodeLogin() {
+                let self = this
+                if (this.isCreateQRcode == false) {
+                    fetch('/api/QRCodeAccess/GetLoginToken')
+                        .then(function (response) {
+                            return response.json();
+                        })
+                        .then(function (myJson) {
+                            self.qrCodeLoginToken = myJson.token
+                            self.showQRPage = !self.showQRPage;
+                            self.createQRCode();
+                        });
+                    this.isCreateQRcode = true;
+                } else {
+                    this.showQRPage = !this.showQRPage;
+                }                                 
+            }
         },
         watch: {
             cookieAccount() {
                 this.setRememberUser();
             },
-            showQRPage() {
-                if (this.showQRPage) {
-                    this.createQRCode()
-                }
-            }
         }
     })
 </script>
