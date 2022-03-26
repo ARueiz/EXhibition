@@ -33,16 +33,42 @@
         const camHasFlash = document.getElementById('cam-has-flash');
         const camQrResult = document.getElementById('cam-qr-result');
         const camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp');
+        let token = '';
 
         function setResult(label, result) {
             console.log(result.data);
             label.textContent = result.data;
+            token = result.data;
             camQrResultTimestamp.textContent = new Date().toString();
             label.style.color = 'teal';
             clearTimeout(label.highlightTimeout);
             label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
             scanner.stop();
-            alert(result.data);
+        }
+
+        function postLoginApi() {
+            fetch('/Api/QRCodeAccess/PostLogin', {
+                body: JSON.stringify({
+                    token: token
+                }), // must match 'Content-Type' header
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, same-origin, *omit
+                headers: {
+                    'user-agent': 'Mozilla/4.0 MDN Example',
+                    'content-type': 'application/json'
+                },
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, cors, *same-origin
+                redirect: 'follow', // manual, *follow, error
+                referrer: 'no-referrer', // *client, no-referrer
+            }).then(response => response.json()).then(res => {
+                if (res.status === "success") {
+                    clearInterval(self.timer);
+                    window.location.href = '/user' //res.data.url
+                } else {
+                    console.log(res)
+                }
+            })
         }
 
         const scanner = new QrScanner(video, result => setResult(camQrResult, result), {
