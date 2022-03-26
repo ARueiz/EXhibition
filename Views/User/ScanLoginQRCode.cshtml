@@ -11,7 +11,7 @@
     <button class="btn btn-primary" id="start-button">開始掃描</button>
     <button class="btn btn-primary" id="stop-button">停止掃描</button>
 
-    <div class="d-none">        
+    <div class="d-none">
         <h5>Detected QR code: </h5>
         <span id="cam-qr-result">None</span>
         <br>
@@ -44,6 +44,7 @@
             clearTimeout(label.highlightTimeout);
             label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
             scanner.stop();
+            postLoginApi();
         }
 
         function postLoginApi() {
