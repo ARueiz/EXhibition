@@ -248,5 +248,18 @@ namespace EXhibition.Controllers
             return Json(r);
         }
 
+        public ActionResult editExhibitorJoinStatus(Models.exhibitinfo e,string reason,bool isAllow)
+        {
+            if (isAllow) // 允許加入
+            {
+               
+            }
+            else  // 拒絕加入，加上拒絕原因
+            {
+
+            }
+            return Json(new { id = e.EID , resaon = reason , isAllow = isAllow } ,JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

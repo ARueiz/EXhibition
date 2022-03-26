@@ -52,5 +52,12 @@ namespace EXhibition.Controllers
 
             return View();
         }
+
+        // 洪奕生 主辦單位>展覽列表>查看資訊
+        public ActionResult EventDetail()
+        {
+            return View();
+        }
+
     }
 }
