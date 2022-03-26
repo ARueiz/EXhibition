@@ -3,94 +3,107 @@
     ViewBag.Title = "EventDetail";
 }
 
-<style>
+@section styles{
+    <style>
 
-    .img-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: 10% 100%;
-    }
+        .img-wrap {
+            height: 256px;
+        }
 
-    .detail-box {
-        padding: 25px;
-    }
+            .img-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 10% 100%;
+            }
 
-    .detail-item {
-        border-left: 2px solid #00bcd4;
-        padding-left: 20px;
-        margin-top: 25px;
-        margin-bottom: 25px;
-    }
+        .detail-box {
+            padding: 25px;
+        }
 
-    .block-line {
-        height: 1px;
-        width: 100%;
-        background-color: lightslategray;
-        margin-top: 25px;
-        margin-bottom: 25px;
-    }
+        .detail-item {
+            border-left: 2px solid #00bcd4;
+            padding-left: 20px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
 
-    .reject-btn {
-        line-height: 24px;
-        border: 0 none;
-        border-radius: 5px;
-        background-color: #f1636f;
-        padding: 5px 15px;
-    }
+        .block-line {
+            height: 1px;
+            width: 100%;
+            background-color: lightslategray;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
 
-    .allow-btn {
-        line-height: 24px;
-        border: 0 none;
-        border-radius: 5px;
-        background-color: #a3e287;
-        padding: 5px 15px;
-    }
+        .reject-btn {
+            line-height: 24px;
+            border: 0 none;
+            border-radius: 5px;
+            background-color: #f1636f;
+            padding: 5px 15px;
+        }
 
-    .table-row-center td {
-        vertical-align: middle;
-    }
+        .allow-btn {
+            line-height: 24px;
+            border: 0 none;
+            border-radius: 5px;
+            background-color: #a3e287;
+            padding: 5px 15px;
+        }
 
-    .exhibitor-table {
-        margin-top: 20px;
-        max-height: 300px;
-        overflow: auto;
-    }
+        .table-row-center td {
+            vertical-align: middle;
+        }
 
-    .box-item {
-        padding: 10px;
-    }
+        .exhibitor-table {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow: auto;
+        }
 
-    .edit-btn {
-        text-decoration: none;
-        line-height: 24px;
-        border: 0 none;
-        border-radius: 5px;
-        background-color: #61c1f1;
-        padding: 5px 15px;
-        color: black;
-    }
+        .box-item {
+            padding: 10px;
+        }
 
-    .text-reject {
-        color: #fc2c2c;
-    }
+        .edit-btn {
+            text-decoration: none;
+            line-height: 24px;
+            border: 0 none;
+            border-radius: 5px;
+            background-color: #61c1f1;
+            padding: 5px 15px;
+            color: black;
+        }
 
-    .text-allow {
-        color: #0bb60b;
-    }
-</style>
+        .text-reject {
+            color: #fc2c2c;
+        }
 
-<div class="p-5" id="contain">
-    <p class="h2"><b>展覽資訊</b></p>
+        .text-allow {
+            color: #0bb60b;
+        }
+
+        .contain-box {
+            padding: 28px 5px;
+        }
+    </style>
+}
+
+
+<div class="contain-box" id="contain">
+    <p class="h2">
+        <b>展覽資訊</b>
+    </p>
     <div class="d-block d-flex flex-wrap">
         <div class="col-md-5 detail-box">
             <div class="img-wrap">
-                <img src="./images/eighty-six.png" alt="">
+                <img :src="imgUrl" alt="">
             </div>
         </div>
         <div class="col-md-7 detail-box">
             <div class="">
-                <div class="detail-item">
+                <div class="detail-item" style="margin-top:0px">
                     <h5>展覽時間</h5>{{ start }} ~ {{ end }}
                 </div>
                 <div class="detail-item">
@@ -222,28 +235,29 @@
                 end: '2022/04/30',
                 location: '高雄市',
                 organizer: '測試協辦單位',
+                imgUrl: 'https://i.imgur.com/pn85Bx2.jpeg',
                 content: '莊周在過去曾經講過，君子之交淡若水，小人之交甘若醴; 君子淡以親，小人甘以絕。' +
                     '這似乎解答了我的疑惑。張華曾經提到過，一個人一天也不能沒有理想，但憑僥倖，' +
                     '怕吃苦，沒有真才實學，再好的理想也實現不了。這段話可說是震撼了我。伊朗曾提' +
                     '出，聰明才智是撥動社會的槓桿。但願諸位理解後能從中有所成長。說到唬爛，你會想' +
                     '到什麼呢？這必定是個前衛大膽的想法。如果此時我們選擇忽略唬爛，那後果可想而知。',
                 allowList: [
-                    {EID: 10, name: '測試12344', time: '2022/02/23'},
-                    {EID: 10, name: '測試2341', time: '2022/02/23'},
-                    {EID: 10, name: '測試1234', time: '2022/02/23'},
-                    {EID: 10, name: '測試gewrg', time: '2022/02/23'},
-                    {EID: 10, name: '測試sdgf', time: '2022/02/23'},
-                    {EID: 10, name: '測試wert', time: '2022/02/23'},
-                    {EID: 10, name: '測試6346', time: '2022/02/23'}
+                    { EID: 10, name: '測試12344', time: '2022/02/23' },
+                    { EID: 10, name: '測試2341', time: '2022/02/23' },
+                    { EID: 10, name: '測試1234', time: '2022/02/23' },
+                    { EID: 10, name: '測試gewrg', time: '2022/02/23' },
+                    { EID: 10, name: '測試sdgf', time: '2022/02/23' },
+                    { EID: 10, name: '測試wert', time: '2022/02/23' },
+                    { EID: 10, name: '測試6346', time: '2022/02/23' }
                 ],
                 rejectList: [
-                    {EID: 10, name: '測試12344', time: '2022/02/23'},
-                    {EID: 10, name: '測試2341', time: '2022/02/23'},
-                    {EID: 10, name: '測試1234', time: '2022/02/23'},
-                    {EID: 10, name: '測試gewrg', time: '2022/02/23'},
-                    {EID: 10, name: '測試sdgf', time: '2022/02/23'},
-                    {EID: 10, name: '測試wert', time: '2022/02/23'},
-                    {EID: 10, name: '測試6346', time: '2022/02/23'}
+                    { EID: 10, name: '測試12344', time: '2022/02/23' },
+                    { EID: 10, name: '測試2341', time: '2022/02/23' },
+                    { EID: 10, name: '測試1234', time: '2022/02/23' },
+                    { EID: 10, name: '測試gewrg', time: '2022/02/23' },
+                    { EID: 10, name: '測試sdgf', time: '2022/02/23' },
+                    { EID: 10, name: '測試wert', time: '2022/02/23' },
+                    { EID: 10, name: '測試6346', time: '2022/02/23' }
                 ],
                 modalTitle: '',
                 modalContent: '',
@@ -277,11 +291,11 @@
                 loadModal.modal('show')
             },
             sendStatus(value) {
-                let self = this; 
+                let self = this;
                 axios.post('/hostApi/editExhibitorJoinStatus', {
                     EID: this.selectExhibitor.EID,
                     reason: this.inputReason,
-                    isAllow : value
+                    isAllow: value
                 }).then(function (response) {
                     console.log(response.data)
                     self.closeModal();
