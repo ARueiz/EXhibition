@@ -13,7 +13,7 @@ namespace EXhibition.Controllers
 
         DBConnector db = new DBConnector();
         
-        public ActionResult Index(int? id)
+        public ActionResult show_Host(int? id)
         {
 
             Models.ReturnData rd = new Models.ReturnData();
@@ -41,7 +41,7 @@ namespace EXhibition.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(Models.hosts host)
+        public ActionResult Edit_Host(Models.hosts host)
         {
             Models.ReturnData rd = new Models.ReturnData();
 
@@ -78,7 +78,7 @@ namespace EXhibition.Controllers
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult showlist(int? num = 1)
+        public ActionResult show_host_list(int? num = 1)
         {
             int x;
             List<Models.events> info = new List<Models.events>();
@@ -105,6 +105,82 @@ namespace EXhibition.Controllers
 
             return Json(info, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult showOnlyExhibition(int? index)
+        {
+            Models.ReturnData rd = new ReturnData();
+            if(index == null)
+            {
+                rd.message = "Id 錯誤";
+                rd.status = "error";
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            int i = (int)index;
+
+            var data = db.events.Find(i);
+            return Json(data,JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
+        public ActionResult showexhibitor(int? index)
+        {
+            Models.ReturnData rd = new Models.ReturnData();
+
+            if (index == null)
+            {
+                rd.message = "Id 錯誤";
+                rd.status = "error";
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+            int i = (int)index;
+            Models.exhibitors data = db.exhibitors.Find(i);
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult editexhibitor(Models.exhibitors host)
+        {
+
+            Models.ReturnData rd = new Models.ReturnData();
+            if (host.EID == null)
+            {
+                rd.message = "Id 錯誤";
+                rd.status = "error";
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            var data = db.exhibitors.Find(host.EID);
+
+            if (data == null)
+            {
+                rd.message = "Id 錯誤";
+                rd.status = "error";
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            data.name = host.name;
+            data.email = host.email;
+            data.password = host.password;
+            data.phone = host.phone;
+            data.link = host.link;
+
+            db.SaveChanges();
+
+            rd.message = "成功";
+            rd.status = "success";
+            return Json(rd, JsonRequestBehavior.AllowGet);
+        }
+
+
+
 
 
         public ActionResult List()
@@ -151,7 +227,8 @@ namespace EXhibition.Controllers
 
         public ActionResult Login(Models.Login login)
         {
-            Models.ReturnData returnData = new Models.ReturnData(); 
+            Models.ReturnData returnData = new Models.ReturnData();
+            Session["auth"] = 3;
             returnData.status = "success";
             returnData.data = new { url = "/Host" };
             return Json(returnData,JsonRequestBehavior.AllowGet);

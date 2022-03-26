@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Http;
 
 namespace EXhibition
 {
@@ -15,8 +16,11 @@ namespace EXhibition
 
             if (HttpContext.Current.IsDebuggingEnabled)
             {
-                System.Diagnostics.Debug.WriteLine("is debug mode");
+                System.Diagnostics.Debug.WriteLine("debug mode");
             }
+
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+            GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

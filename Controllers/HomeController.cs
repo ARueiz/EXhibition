@@ -33,7 +33,7 @@ namespace EXhibition.Controllers
         }
 
         // 廠商登入
-        public ActionResult ExhibtiorLogin()
+        public ActionResult ExhibitiorLogin()
         {
             return View();
         }
