@@ -17,8 +17,8 @@ namespace EXhibition.Models
         public int id { get; set; }
         public string paypalId { get; set; }
         public Nullable<System.DateTime> createDateTime { get; set; }
-        public Nullable<int> userId { get; set; }
-        public Nullable<int> totalPrice { get; set; }
+        public int userId { get; set; }
+        public int totalPrice { get; set; }
         public Nullable<int> discount { get; set; }
         public Nullable<int> finalPrice { get; set; }
         public Nullable<bool> isPay { get; set; }

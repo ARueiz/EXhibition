@@ -67,7 +67,7 @@
                     </div>
                     <div class="break-line"></div>
                     <div class="d-block d-flex justify-content-center">
-                        <button class="btn-qrcode" v-on:click="qrCodeLogin()">                            
+                        <button class="btn-qrcode" v-on:click="qrCodeLogin()">
                             QR code 登入
                         </button>
                     </div>
@@ -88,17 +88,55 @@
                 qrCodeLoginToken: 'default',
                 cookieAccount: false,
                 showQRPage: false,
-                isCreateQRcode : false , 
+                isCreateQRcode: false,
+                timer : '' 
             }
         },
         created() {
+
             let user = this.getCookie("account");
+
             if (user !== "") {
                 this.cookieAccount = true
                 this.account = user
             } else {
                 this.cookieAccount = false
             }
+
+            const self = this
+            fetch('/api/QRCodeAccess/GetLoginToken')
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (myJson) {
+                    self.qrCodeLoginToken = myJson.token
+                });
+
+            this.timer = setInterval(function () {
+                fetch('/Api/QRCodeAccess/PostLogin', {
+                    body: JSON.stringify({
+                        token: self.qrCodeLoginToken
+                    }), // must match 'Content-Type' header
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, same-origin, *omit
+                    headers: {
+                        'user-agent': 'Mozilla/4.0 MDN Example',
+                        'content-type': 'application/json'
+                    },
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, cors, *same-origin
+                    redirect: 'follow', // manual, *follow, error
+                    referrer: 'no-referrer', // *client, no-referrer
+                }).then(response => response.json()).then(res => {
+                    if (res.status === "success") {
+                        clearInterval(self.timer);
+                        //window.location.href = res.data.url                        
+                    } else {
+                        console.log(res)
+                    }
+                })
+
+            }, 2500);
         },
         methods: {
             login() {
@@ -108,7 +146,7 @@
                     password: this.password
                 }
 
-                
+
                 fetch('/UserApi/Login', {
                     body: JSON.stringify(json), // must match 'Content-Type' header
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -125,12 +163,12 @@
                     if (res.status === "success") {
                         this.account = ''
                         this.password = ''
-                        window.location.href = res.data.url                        
+                        window.location.href = res.data.url
                     } else {
                         alert(res.message)
                     }
                 })
-                
+
             },
             setCookie(cname, cvalue, exdays) {
                 const d = new Date();
@@ -172,21 +210,8 @@
                 $('#qrcodeBox').qrcode(this.qrCodeLoginToken);
             },
             qrCodeLogin() {
-                let self = this
-                if (this.isCreateQRcode == false) {
-                    fetch('/api/QRCodeAccess/GetLoginToken')
-                        .then(function (response) {
-                            return response.json();
-                        })
-                        .then(function (myJson) {
-                            self.qrCodeLoginToken = myJson.token
-                            self.showQRPage = !self.showQRPage;
-                            self.createQRCode();
-                        });
-                    this.isCreateQRcode = true;
-                } else {
-                    this.showQRPage = !this.showQRPage;
-                }                                 
+                this.createQRCode();
+                this.showQRPage = !this.showQRPage;
             }
         },
         watch: {

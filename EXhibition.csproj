@@ -160,6 +160,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account.cs" />
     <Compile Include="Models\CROS.cs" />
     <Compile Include="Models\DBConnector.cs" />
     <Compile Include="Models\events.cs">
@@ -186,6 +187,7 @@
     <Compile Include="Models\exhibitors.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GlobalVariables.cs" />
     <Compile Include="Models\hosts.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -370,6 +372,7 @@
     <Content Include="Views\PartView\_SideBarUser.cshtml" />
     <Content Include="Views\User\MyTicketDetail.cshtml" />
     <Content Include="Views\Host\EventDetail.cshtml" />
+    <Content Include="Views\User\ScanLoginQRCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

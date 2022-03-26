@@ -22,7 +22,7 @@
           <Property Name="note" Type="nvarchar" MaxLength="500" />
           <Property Name="ticketprice" Type="money" Nullable="false" />
           <Property Name="verify" Type="bit" Nullable="false" />
-          <Property Name="createAt" Type="datetime" Nullable="false" />
+          <Property Name="createAt" Type="datetime" />
         </EntityType>
         <EntityType Name="exhibitinfo">
           <Key>
@@ -81,8 +81,8 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="paypalId" Type="nvarchar" MaxLength="50" />
           <Property Name="createDateTime" Type="datetime" />
-          <Property Name="userId" Type="int" />
-          <Property Name="totalPrice" Type="int" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="totalPrice" Type="int" Nullable="false" />
           <Property Name="discount" Type="int" />
           <Property Name="finalPrice" Type="int" />
           <Property Name="isPay" Type="bit" />
@@ -94,7 +94,9 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="token" Type="nvarchar" MaxLength="100" />
-          <Property Name="createTime" Type="datetime" Nullable="false" />
+          <Property Name="createAt" Type="datetime" />
+          <Property Name="accountType" Type="nvarchar" MaxLength="50" />
+          <Property Name="accountId" Type="int" />
         </EntityType>
         <EntityType Name="Tickets">
           <Key>
@@ -106,6 +108,7 @@
           <Property Name="paid" Type="bit" Nullable="false" />
           <Property Name="passed" Type="bit" Nullable="false" />
           <Property Name="token" Type="nvarchar" MaxLength="100" />
+          <Property Name="createAt" Type="datetime" />
         </EntityType>
         <EntityType Name="users">
           <Key>
@@ -233,7 +236,7 @@
           <NavigationProperty Name="hosts" Relationship="Self.FK__events__HID__2E1BDC42" FromRole="events" ToRole="hosts" />
           <NavigationProperty Name="exhibitinfo" Relationship="Self.FK__exhibitinf__EVID__31EC6D26" FromRole="events" ToRole="exhibitinfo" />
           <NavigationProperty Name="Tickets" Relationship="ExhibitionModel.FK__Tickets__EVID__70DDC3D8" FromRole="events" ToRole="Tickets" />
-          <Property Name="createAt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createAt" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="exhibitinfo">
           <Key>
@@ -371,6 +374,7 @@
           <NavigationProperty Name="events" Relationship="ExhibitionModel.FK__Tickets__EVID__70DDC3D8" FromRole="Tickets" ToRole="events" />
           <NavigationProperty Name="users" Relationship="ExhibitionModel.FK__Tickets__UID__71D1E811" FromRole="Tickets" ToRole="users" />
           <Property Name="token" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="createAt" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK__Tickets__EVID__70DDC3D8">
           <End Type="ExhibitionModel.events" Role="events" Multiplicity="1" />
@@ -412,8 +416,8 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="paypalId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="createDateTime" Type="DateTime" Precision="3" />
-          <Property Name="userId" Type="Int32" />
-          <Property Name="totalPrice" Type="Int32" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="totalPrice" Type="Int32" Nullable="false" />
           <Property Name="discount" Type="Int32" />
           <Property Name="finalPrice" Type="Int32" />
           <Property Name="isPay" Type="Boolean" />
@@ -425,7 +429,9 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="token" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="createTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createAt" Type="DateTime" Precision="3" />
+          <Property Name="accountType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="accountId" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -512,6 +518,7 @@
           <EntitySetMapping Name="Tickets">
             <EntityTypeMapping TypeName="ExhibitionModel.Tickets">
               <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="createAt" ColumnName="createAt" />
                 <ScalarProperty Name="token" ColumnName="token" />
                 <ScalarProperty Name="passed" ColumnName="passed" />
                 <ScalarProperty Name="paid" ColumnName="paid" />
@@ -549,7 +556,9 @@
           <EntitySetMapping Name="QRCodeLoginToken">
             <EntityTypeMapping TypeName="ExhibitionModel.QRCodeLoginToken">
               <MappingFragment StoreEntitySet="QRCodeLoginToken">
-                <ScalarProperty Name="createTime" ColumnName="createTime" />
+                <ScalarProperty Name="accountId" ColumnName="accountId" />
+                <ScalarProperty Name="accountType" ColumnName="accountType" />
+                <ScalarProperty Name="createAt" ColumnName="createAt" />
                 <ScalarProperty Name="token" ColumnName="token" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
