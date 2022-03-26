@@ -48,7 +48,7 @@
         }
 
         function postLoginApi() {
-            fetch('/Api/QRCodeAccess/PostLogin', {
+            fetch('/Api/QRCodeAccess/PostSaveToken', {
                 body: JSON.stringify({
                     token: token
                 }), // must match 'Content-Type' header
