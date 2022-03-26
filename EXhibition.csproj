@@ -199,6 +199,9 @@
     <Compile Include="Models\PartView\HostNavbarParam.cs" />
     <Compile Include="Models\PartView\ExhibitiorNavbarParam.cs" />
     <Compile Include="Models\PartView\UserNavbarParam.cs" />
+    <Compile Include="Models\QRCodeLoginToken.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ReturnData.cs" />
     <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>

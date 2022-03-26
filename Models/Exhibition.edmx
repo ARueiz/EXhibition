@@ -94,6 +94,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="token" Type="nvarchar" MaxLength="100" />
+          <Property Name="createTime" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Tickets">
           <Key>
@@ -424,6 +425,7 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="token" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="createTime" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -547,6 +549,7 @@
           <EntitySetMapping Name="QRCodeLoginToken">
             <EntityTypeMapping TypeName="ExhibitionModel.QRCodeLoginToken">
               <MappingFragment StoreEntitySet="QRCodeLoginToken">
+                <ScalarProperty Name="createTime" ColumnName="createTime" />
                 <ScalarProperty Name="token" ColumnName="token" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

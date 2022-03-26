@@ -16,5 +16,6 @@ namespace EXhibition.Models
     {
         public int id { get; set; }
         public string token { get; set; }
+        public System.DateTime createTime { get; set; }
     }
 }
