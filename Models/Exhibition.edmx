@@ -22,6 +22,7 @@
           <Property Name="note" Type="nvarchar" MaxLength="500" />
           <Property Name="ticketprice" Type="money" Nullable="false" />
           <Property Name="verify" Type="bit" Nullable="false" />
+          <Property Name="createAt" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="exhibitinfo">
           <Key>
@@ -36,6 +37,8 @@
           <Property Name="productinfo" Type="nvarchar" MaxLength="500" />
           <Property Name="status" Type="nvarchar" MaxLength="50" />
           <Property Name="verify" Type="bit" Nullable="false" />
+          <Property Name="reviewDateTime" Type="datetime" />
+          <Property Name="reason" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="exhibitors">
           <Key>
@@ -85,6 +88,13 @@
           <Property Name="isPay" Type="bit" />
           <Property Name="paypal_Id" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="QRCodeLoginToken">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="token" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="Tickets">
           <Key>
             <PropertyRef Name="TID" />
@@ -94,6 +104,7 @@
           <Property Name="UID" Type="int" Nullable="false" />
           <Property Name="paid" Type="bit" Nullable="false" />
           <Property Name="passed" Type="bit" Nullable="false" />
+          <Property Name="token" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="users">
           <Key>
@@ -173,6 +184,7 @@
           <EntitySet Name="hosts" EntityType="Self.hosts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="orderDetail" EntityType="Self.orderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QRCodeLoginToken" EntityType="Self.QRCodeLoginToken" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__events__HID__2E1BDC42" Association="Self.FK__events__HID__2E1BDC42">
@@ -220,6 +232,7 @@
           <NavigationProperty Name="hosts" Relationship="Self.FK__events__HID__2E1BDC42" FromRole="events" ToRole="hosts" />
           <NavigationProperty Name="exhibitinfo" Relationship="Self.FK__exhibitinf__EVID__31EC6D26" FromRole="events" ToRole="exhibitinfo" />
           <NavigationProperty Name="Tickets" Relationship="ExhibitionModel.FK__Tickets__EVID__70DDC3D8" FromRole="events" ToRole="Tickets" />
+          <Property Name="createAt" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="exhibitinfo">
           <Key>
@@ -236,6 +249,8 @@
           <NavigationProperty Name="events" Relationship="Self.FK__exhibitinf__EVID__31EC6D26" FromRole="exhibitinfo" ToRole="events" />
           <NavigationProperty Name="exhibitors" Relationship="Self.FK__exhibitinfo__EID__32E0915F" FromRole="exhibitinfo" ToRole="exhibitors" />
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="reviewDateTime" Type="DateTime" Precision="3" />
+          <Property Name="reason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="exhibitors">
           <Key>
@@ -341,6 +356,7 @@
           </AssociationSet>
           <EntitySet Name="orderDetail" EntityType="ExhibitionModel.orderDetail" />
           <EntitySet Name="orders" EntityType="ExhibitionModel.orders" />
+          <EntitySet Name="QRCodeLoginToken" EntityType="ExhibitionModel.QRCodeLoginToken" />
           </EntityContainer>
         <EntityType Name="Tickets">
           <Key>
@@ -353,6 +369,7 @@
           <Property Name="passed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="events" Relationship="ExhibitionModel.FK__Tickets__EVID__70DDC3D8" FromRole="Tickets" ToRole="events" />
           <NavigationProperty Name="users" Relationship="ExhibitionModel.FK__Tickets__UID__71D1E811" FromRole="Tickets" ToRole="users" />
+          <Property Name="token" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__Tickets__EVID__70DDC3D8">
           <End Type="ExhibitionModel.events" Role="events" Multiplicity="1" />
@@ -401,6 +418,13 @@
           <Property Name="isPay" Type="Boolean" />
           <Property Name="paypal_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="QRCodeLoginToken">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="token" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -410,6 +434,7 @@
           <EntitySetMapping Name="events">
             <EntityTypeMapping TypeName="ExhibitionModel.events">
               <MappingFragment StoreEntitySet="events">
+                <ScalarProperty Name="createAt" ColumnName="createAt" />
                 <ScalarProperty Name="EVID" ColumnName="EVID" />
                 <ScalarProperty Name="HID" ColumnName="HID" />
                 <ScalarProperty Name="name" ColumnName="name" />
@@ -429,6 +454,8 @@
           <EntitySetMapping Name="exhibitinfo">
             <EntityTypeMapping TypeName="ExhibitionModel.exhibitinfo">
               <MappingFragment StoreEntitySet="exhibitinfo">
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="reviewDateTime" ColumnName="reviewDateTime" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="EVID" ColumnName="EVID" />
                 <ScalarProperty Name="EID" ColumnName="EID" />
@@ -483,6 +510,7 @@
           <EntitySetMapping Name="Tickets">
             <EntityTypeMapping TypeName="ExhibitionModel.Tickets">
               <MappingFragment StoreEntitySet="Tickets">
+                <ScalarProperty Name="token" ColumnName="token" />
                 <ScalarProperty Name="passed" ColumnName="passed" />
                 <ScalarProperty Name="paid" ColumnName="paid" />
                 <ScalarProperty Name="UID" ColumnName="UID" />
@@ -512,6 +540,14 @@
                 <ScalarProperty Name="userId" ColumnName="userId" />
                 <ScalarProperty Name="createDateTime" ColumnName="createDateTime" />
                 <ScalarProperty Name="paypalId" ColumnName="paypalId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QRCodeLoginToken">
+            <EntityTypeMapping TypeName="ExhibitionModel.QRCodeLoginToken">
+              <MappingFragment StoreEntitySet="QRCodeLoginToken">
+                <ScalarProperty Name="token" ColumnName="token" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
