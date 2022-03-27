@@ -13,6 +13,7 @@ namespace EXhibition.Models
         static public string User = "User";
         static public string Host = "Host";
         static public string Exhibitor = "Exhibitor";
-
+        static public string CartItems = "CartItems";
+        static public string HostImageUrl = @"/image/host/";
     }
 }

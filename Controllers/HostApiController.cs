@@ -237,12 +237,12 @@ namespace EXhibition.Controllers
             }
             catch (Exception)
             {
-                r.status = Models.RetrunStatus.Error;
+                r.status = Models.ReturnStatus.Error;
                 r.message = "註冊失敗";
                 return Json(r, JsonRequestBehavior.AllowGet);
             }
 
-            r.status = Models.RetrunStatus.Success;
+            r.status = Models.ReturnStatus.Success;
             r.message = "註冊成功";
             r.data = new { url = "/Home/HostLogin" };
             return Json(r);
