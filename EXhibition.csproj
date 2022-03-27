@@ -366,6 +366,7 @@
     <Content Include="Views\PartView\_SideBarHost.cshtml" />
     <Content Include="Views\PartView\_SideBarUser.cshtml" />
     <Content Include="Views\User\MyTicketDetail.cshtml" />
+    <Content Include="Views\hosts\DetailsHost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

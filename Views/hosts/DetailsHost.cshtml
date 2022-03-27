@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "EditHost";
+    ViewBag.Title = "DetailsHost";
 }
 
 <div class="container h-100 mt-3" id="VuePage">
@@ -23,14 +23,6 @@
                 <td>{{item.exhibitionname}}</td>
                 <td>{{item.startdate }}</td>
                 <td>{{item.enddate }}</td>
-                <td>
-                    <input type="submit"  value="審核" />
-
-                    <input type="submit" value="編輯" />
-
-                    <input type="submit"  value="明細" v-on:click="Details(item.evid)" />
-                </td>
-
             </tr>
         </table>
 
@@ -38,7 +30,7 @@
 </div>
 
 @section scripts {
-    
+
 
     <script>
 
@@ -47,38 +39,25 @@
             data: {
                 res: [],
 
+
+
             },
 
             mounted() {
-                axios
-                    .get('/HostApi/List')
+                axios.post('/HostApi/PostList')
                     .then(function (response) {
-                        VuePage.res = response.data
-
+                    VuePage.res = response.data
                     })
                     .catch((err) => {
                         console.log(err)
                     });
             },
             methods: {
-                Details: function (va) {
-                    //window.location.href = "/" + "hosts" + "/" + "DetailsHost" + "/" + va
-                    axios.post('/HostApi/PostList', "/" + va)
-                        .then(function (response) {
-                            console.log(response)
-                            console.log(va)
-                        })
-                        .catch((err) => {
-                            console.log(err)
-                        });
-                }
-
-            
             }
         });
 
 
-  
+
 
     </script>
 }

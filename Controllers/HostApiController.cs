@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EXhibition.Models;
+
 
 namespace EXhibition.Controllers
 {
@@ -185,9 +185,52 @@ namespace EXhibition.Controllers
 
         public ActionResult List()
         {
-            var host = db.exhibitors.ToList();
-            return Json(host, JsonRequestBehavior.AllowGet);
+
+
+            var b = from hostsTable in db.hosts
+                    join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
+                    select new
+                    {
+                        name = hostsTable.name,
+                        phone = hostsTable.phone,
+                        startdate = eventsTable.startdate.ToString(),
+                        enddate = eventsTable.enddate.ToString(),
+                        exhibitionname = eventsTable.name,
+                        evid = eventsTable.EVID,
+                        ticketPrice = eventsTable.ticketprice,
+                    };
+
+            return Json( b, JsonRequestBehavior.AllowGet);
         }
+       
+        public ActionResult PostList(int? id )
+        {
+
+            Models.ReturnData rd = new Models.ReturnData();
+
+            if (id == null)
+            {
+                rd.message = "找不到資料 Id 為 null";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            int index = (int)id;
+
+            var a = db.events.Find(index);
+
+            if (a == null || a.HID == 0)
+            {
+                rd.message = "找不到資料";
+                rd.status = "error";
+                rd.data = a;
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(a, JsonRequestBehavior.AllowGet);
+        }
+
+
 
 
 

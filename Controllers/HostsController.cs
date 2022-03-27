@@ -30,6 +30,29 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult DetailsHost()
+        {
+            //Session["EVID"] = 1;
+            //int EVID = (int)Session["EVID"];
+
+            //var info = db.events.Where(h => h.EVID == EVID).Select(a => new
+            //{ 
+            //    a.name, 
+            //    a.startdate, 
+            //    a.enddate, 
+            //    a.ticketprice, 
+            //    a.verify
+            //}).ToList();
+            //ViewBag.hostname = info[0].name;
+            //ViewBag.startdate = info[0].startdate;
+            //ViewBag.enddate = info[0].enddate;
+            //ViewBag.ticketprice = info[0].ticketprice;
+            //ViewBag.verify = info[0].verify;
+            //ViewBag.sessionEVID = Session["EVID"];
+
+            return View();
+        }
+
         //馬誠遠
         public ActionResult EditEvent()
         {
