@@ -373,6 +373,8 @@
     <Content Include="Views\User\MyTicketDetail.cshtml" />
     <Content Include="Views\Host\EventDetail.cshtml" />
     <Content Include="Views\User\ScanLoginQRCode.cshtml" />
+    <Content Include="Views\Shop\Index.cshtml" />
+    <Content Include="Views\Shop\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -380,7 +382,6 @@
     <Folder Include="Views\ExhibitorApi\" />
     <Folder Include="Views\HostApi\" />
     <Folder Include="Views\Shopping\" />
-    <Folder Include="Views\Shop\" />
     <Folder Include="Views\UserApi\" />
     <Folder Include="Views\UsersApi\" />
   </ItemGroup>
