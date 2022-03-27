@@ -161,6 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CROS.cs" />
     <Compile Include="Models\DBConnector.cs" />
     <Compile Include="Models\events.cs">
@@ -374,7 +375,7 @@
     <Content Include="Views\Host\EventDetail.cshtml" />
     <Content Include="Views\User\ScanLoginQRCode.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
-    <Content Include="Views\Shop\Cart.cshtml" />
+    <Content Include="Views\Shop\Shopcart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

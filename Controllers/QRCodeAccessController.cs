@@ -14,14 +14,14 @@ namespace EXhibition.Controllers
 
             if (data == null || data.token == null)
             {
-                return Ok(new ReturnData() { status = RetrunStatus.Error, message = "token 為 null" });
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "token 為 null" });
             }
 
             var info = db.QRCodeLoginToken.Where(x => x.token == data.token).FirstOrDefault();
 
             if (info == null)
             {
-                return Ok(new ReturnData() { status = RetrunStatus.Error, message = "找不到 token" });
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "找不到 token" });
             }
             else
             {
@@ -33,25 +33,25 @@ namespace EXhibition.Controllers
             //if (info.accountType.ToUpper().Equals(GlobalVariables.User.ToUpper()))
             //{
             //    var u = db.users.Where(e => e.UID == info.accountId).FirstOrDefault();
-            //    if (u == null) return Ok(new ReturnData() { status = RetrunStatus.Error, message = "錯誤找不到用戶" });
+            //    if (u == null) return Ok(new ReturnData() { status = ReturnStatus.Error, message = "錯誤找不到用戶" });
             //}
             //else if (info.accountType.ToUpper().Equals(GlobalVariables.Exhibitor.ToUpper()))
             //{
             //    var h = db.hosts.Where(e => e.HID == info.accountId).FirstOrDefault();
-            //    if (h == null) return Ok(new ReturnData() { status = RetrunStatus.Error, message = "錯誤找不到用戶" });
+            //    if (h == null) return Ok(new ReturnData() { status = ReturnStatus.Error, message = "錯誤找不到用戶" });
             //}
             //else if (info.accountType.ToUpper().Equals(GlobalVariables.Host.ToUpper()))
             //{
             //    var ex = db.exhibitors.Where(e => e.EID == info.accountId).FirstOrDefault();
-            //    if (ex == null) return Ok(new ReturnData() { status = RetrunStatus.Error, message = "錯誤找不到用戶" });
+            //    if (ex == null) return Ok(new ReturnData() { status = ReturnStatus.Error, message = "錯誤找不到用戶" });
             //}
 
 
             ReturnData returnData = new ReturnData()
             {
-                status = RetrunStatus.Success,
+                status = ReturnStatus.Success,
                 message = "成功登入",
-                data = new { url = "/user" , info = info }
+                data = new { url = "/user" , info = info }  // 給予對應的後台畫面
             };
 
             return Ok(returnData);
@@ -92,7 +92,7 @@ namespace EXhibition.Controllers
             });
             db.SaveChanges();
 
-            return Ok(new ReturnData() { status = RetrunStatus.Success, message = "成功" });
+            return Ok(new ReturnData() { status = ReturnStatus.Success, message = "成功" });
         }
 
     }

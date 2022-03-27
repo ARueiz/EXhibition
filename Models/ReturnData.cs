@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace EXhibition.Models
 {
 
-    static public class RetrunStatus
+    static public class ReturnStatus
     {
         public static string Success = "success";
         public static string Error = "error";
@@ -17,5 +14,14 @@ namespace EXhibition.Models
         public string message { get; set; }
         public string status { get; set; }
         public Object data { get; set; }
+
+        public ReturnData() { }
+
+        public ReturnData(string message, string status, object data)
+        {
+            this.message = message;
+            this.status = status;
+            this.data = data;
+        }
     }
 }

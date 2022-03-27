@@ -14,7 +14,7 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        public ActionResult Cart()
+        public ActionResult Shopcart()
         {
             return View();
         }
