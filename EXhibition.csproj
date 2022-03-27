@@ -161,6 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CROS.cs" />
     <Compile Include="Models\DBConnector.cs" />
     <Compile Include="Models\events.cs">
@@ -373,6 +374,8 @@
     <Content Include="Views\User\MyTicketDetail.cshtml" />
     <Content Include="Views\Host\EventDetail.cshtml" />
     <Content Include="Views\User\ScanLoginQRCode.cshtml" />
+    <Content Include="Views\Shop\Index.cshtml" />
+    <Content Include="Views\Shop\Shopcart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -380,7 +383,6 @@
     <Folder Include="Views\ExhibitorApi\" />
     <Folder Include="Views\HostApi\" />
     <Folder Include="Views\Shopping\" />
-    <Folder Include="Views\Shop\" />
     <Folder Include="Views\UserApi\" />
     <Folder Include="Views\UsersApi\" />
   </ItemGroup>
