@@ -1,0 +1,93 @@
+﻿a, a:hover, a:focus, a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    line-height: 1.6;
+    background: white;
+}
+
+.top-content {
+    background-color: rgba(0, 0, 0, .25);
+    background-blend-mode: multiply;
+    height: 70vh;
+    align-items: center;
+    text-align: center;
+    padding-top: 4vh;
+    background-image: url("./images/prague-national-museum-hall.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+    .top-content .container {
+        padding-top: 20vh;
+        justify-content: center;
+    }
+
+    .top-content h1 {
+        font-size: 70px;
+        color: aliceblue;
+    }
+
+    .top-content p {
+        font-size: 30px;
+        color: beige;
+    }
+
+.whatHotContent {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.ContentMargin1 {
+    display: block;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+footer {
+    border: none;
+    margin-top: 20px;
+    padding-top: 30px;
+    /*height: 100px;*/
+    background-color: rgb(215, 217, 222);
+}
+
+    footer small {
+        color: #7f7f7f;
+    }
+
+.breakLine {
+    margin-top: 15px;
+    height: 1px;
+    width: 100%;
+    background-color: gray;
+}
+
+.footer-social {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.follow-text {
+    font-size: 18px;
+    color: gray;
+    margin: 15px;
+}
+
+.text-color1 {
+    color: #6a6969;
+}
+
+.aboutBox {
+    padding: 15px;
+    /*border: 1px solid gray;*/
+    border-radius: 5px;
+}
+
+.text-color2 {
+    color: #535353;
+}
