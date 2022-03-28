@@ -37,16 +37,22 @@
 
 </head>
 <body>
+    <div style="z-index: 200">
+        @{
+            Html.RenderAction("Navbar", "PartView");
 
-    @{
-        Html.RenderAction("Navbar", "PartView");
-        Html.RenderAction("SideBarBtn", "PartView");
-    }
+        }
+    </div>
 
+    <div style="z-index: 201;position: relative;" >
+        @{
+            Html.RenderAction("SideBarBtn", "PartView");
 
-    <div class="row main-content m-0" style="min-height: 100vh;margin-left:0px;margin-right0px;">
+        }
+    </div>
+    <div class="row main-content m-0" style="min-height: 100vh;margin-left:0px;margin-right:0px;z-index: 180;" >
 
-        @{ 
+        @{
             Html.RenderAction("SideBar", "PartView");
         }
 
