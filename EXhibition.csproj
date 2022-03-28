@@ -240,6 +240,7 @@
     <Content Include="Content\myTicketList.css" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\Login\userLogin.css" />
+    <Content Include="Content\RegisterLayout.css" />
     <Content Include="Content\Template\dashboard-sidebar.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
