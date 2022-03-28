@@ -14,7 +14,7 @@ namespace EXhibition.Controllers
         {
             ReturnData r = new ReturnData();
             r.message = "登入成功";
-            r.status = RetrunStatus.Success;
+            r.status = ReturnStatus.Success;
             r.data = new { url = "/", mylogin = login };
             Session["auth"] = 1;
             return Json(r, JsonRequestBehavior.AllowGet);
@@ -32,12 +32,12 @@ namespace EXhibition.Controllers
             }
             catch (Exception ex)
             {
-                r.status = RetrunStatus.Error;
+                r.status = ReturnStatus.Error;
                 r.message = "註冊失敗";
                 r.data = u;
                 return Json(r, JsonRequestBehavior.AllowGet);
             }
-            r.status = RetrunStatus.Success;
+            r.status = ReturnStatus.Success;
             r.message = "註冊成功";
             r.data = new { url = "/Home/UserLogin" };
             return Json(r, JsonRequestBehavior.AllowGet);

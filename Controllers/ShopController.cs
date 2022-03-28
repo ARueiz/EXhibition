@@ -13,5 +13,17 @@ namespace EXhibition.Controllers
         {
             return View();
         }
+
+        public ActionResult Shopcart()
+        {
+            return View();
+        }
+
+        public ActionResult Product(int id)
+        {
+            ViewBag.Id = id;
+            return View();
+        }
+
     }
 }
