@@ -194,6 +194,7 @@
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LoginToken.cs" />
+    <Compile Include="Models\NewJsonResult.cs" />
     <Compile Include="Models\orderDetail.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -376,6 +377,7 @@
     <Content Include="Views\User\ScanLoginQRCode.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Shop\Shopcart.cshtml" />
+    <Content Include="Views\Host\EventList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

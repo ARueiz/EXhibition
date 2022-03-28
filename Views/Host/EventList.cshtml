@@ -1,7 +1,8 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "EventList";
 }
+
 
 @section styles{
     <style>
@@ -24,39 +25,9 @@
     </nav>
 
     <div class="row">
-        <section class="col-md-3">
-            <h4 class="w3-margin">偏好搜尋</h4>
-            <div class="border d-none d-md-block">
-                <div class="p-3">
-                    <h4>類型選擇</h4>
-                    <div v-for="element in exhibitionType">
-                        <input type="checkbox" v-model="selectType" :value="element" :id="element"><label :for="element">{{ element }}</label>
-                    </div>
-                    <br>
-                    <h4>日期選擇</h4>
-                    <div class="d-block m-2">
-                        <label for="startDate">開始日期</label> <input id="startDate" type="date">
-                    </div>
-                    <div class="d-block m-2">
-                        <label for="endDate">結束日期</label> <input id="endDate" type="date">
-                    </div>
-                    <br>
-                    <button class="btn btn-success">查詢</button>
-                </div>
-            </div>
-        </section>
-
-        <main class="col-md-9">
+        <main>
             <h3 class="w3-margin">展覽列表</h3>
-            <div class="row" style="padding: 0px 30px">
-                <div class="d-inline-block" style="width: 90%;box-sizing: border-box">
-                    <input type="text" class="w-100">
-                </div>
-                <button class="d-inline-block btn btn-outline-info d-flex align-items-center justify-content-center" style="width: 10%;box-sizing: border-box;height: 28px">
-                    <i style="height: 100%" class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-            <!--            <h3 class="w3-margin">展覽列表</h3>-->
+            <!-- <h3 class="w3-margin">展覽列表</h3> -->
             <div class="w3-row-padding pt-4">
                 <!-- exhibition list start -->
                 <div class="w3-third w3-container mb-5 " v-for="element in exhibitionList">
@@ -76,7 +47,7 @@
                         <p style="height: 30px;text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
                             {{ element.eventinfo }}
                         </p>
-                        <a href="exhibitionDetail1.html" class="w3-button w3-black">更多資訊 or 購票</a>
+                        <a :href="`/Host/EventDetail/?evid=${element.evid}`" class="w3-button w3-black">更多資訊 or 購票</a>
                     </div>
                 </div>
                 <!-- exhibition list end -->
@@ -93,18 +64,17 @@
         data() {
             return {
                 exhibitionList: [],
-                exhibitionType: ["科技", "金融", "其他"],
                 selectType: [],
                 pageNum: 0
             }
         },
         created: function () {
-            this.getTicket();
+            this.getEvent();
         },
         methods: {
-            getTicket() {
+            getEvent() {
                 const self = this;
-                axios.get('/api/ShopApi/GetTicketList/' + self.pageNum)
+                axios.post('@Url.Content("~/HostApi/GetEventList/")' + self.pageNum)
                     .then(function (response) {
                         return response.data
                     }).then(function (response) {
