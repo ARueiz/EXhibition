@@ -1,0 +1,43 @@
+﻿footer {
+    border: none;
+    margin-top: 20px;
+    padding-top: 30px;
+    /*height: 100px;*/
+    background-color: rgb(215, 217, 222);
+}
+
+    footer small {
+        color: #7f7f7f;
+    }
+
+.breakLine {
+    margin-top: 15px;
+    height: 1px;
+    width: 100%;
+    background-color: gray;
+}
+
+.footer-social {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+.follow-text {
+    font-size: 18px;
+    color: gray;
+    margin: 15px;
+}
+
+.text-color1 {
+    color: #6a6969;
+}
+
+.aboutBox {
+    padding: 15px;
+    /*border: 1px solid gray;*/
+    border-radius: 5px;
+}
+
+.text-color2 {
+    color: #535353;
+}

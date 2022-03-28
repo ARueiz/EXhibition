@@ -9,6 +9,7 @@ using System.Web.Http.Cors;
 
 namespace EXhibition.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ShopApiController : ApiController
     {
 
@@ -16,9 +17,7 @@ namespace EXhibition.Controllers
 
 
         // 如果 在 webapiconfig 的 routeTemplate: "api/{controller}/{action}/{id}" 有加上 /{id} 則 id 會自動帶入
-        // 如果 沒有則需要加上 [FromBody] 去取得 帶進來的 json 檔案
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // 如果 沒有則需要加上 [FromBody] 去取得 帶進來的 json 檔案        
         public IHttpActionResult GetTicketList(int? id)
         {
             if (id == null) { id = 0; }

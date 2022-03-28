@@ -55,5 +55,10 @@ namespace EXhibition.Controllers
             }
         }
 
+        public ActionResult Footer()
+        {
+            return PartialView("_Footer");
+        }
+
     }
 }

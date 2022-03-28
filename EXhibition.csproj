@@ -194,6 +194,7 @@
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\LoginToken.cs" />
+    <Compile Include="Models\NewJsonResult.cs" />
     <Compile Include="Models\orderDetail.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -234,12 +235,14 @@
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
     <Content Include="Content\Bootstrap\bootstrap5.0.2.min.css" />
+    <Content Include="Content\footer.css" />
     <Content Include="Content\Index-part1.css" />
     <Content Include="Content\Index-part2.css" />
     <Content Include="Content\myLogin.css" />
     <Content Include="Content\myTicketList.css" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\Login\userLogin.css" />
+    <Content Include="Content\ShoppingCart.css" />
     <Content Include="Content\Template\dashboard-sidebar.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
@@ -376,6 +379,8 @@
     <Content Include="Views\User\ScanLoginQRCode.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Shop\Shopcart.cshtml" />
+    <Content Include="Views\Host\EventList.cshtml" />
+    <Content Include="Views\PartView\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
