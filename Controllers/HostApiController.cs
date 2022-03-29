@@ -180,9 +180,6 @@ namespace EXhibition.Controllers
         }
 
 
-
-
-
         public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events){
 
             //儲存 封面圖 to Image/Host
@@ -284,5 +281,24 @@ namespace EXhibition.Controllers
             return Json(new { id = e.EID , resaon = reason , isAllow = isAllow } ,JsonRequestBehavior.AllowGet);
         }
 
+
+        public ActionResult GetEventList(int? id)
+        {
+            Session["HID"] = 2;
+
+            int HID = Convert.ToInt32(Session["HID"]);
+
+            if (id == null) { id = 0; }
+            int num = (int)id;
+            var list = (from eve in db.events where eve.HID == HID orderby eve.startdate descending select eve).Skip(num).Take(12).ToList();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+
+                list[i].image = "/image/Host/" + list[i].image;
+            }
+
+            return new NewJsonResult() { Data = list};
+        }
     }
 }
