@@ -4,25 +4,24 @@
 }
 
 <h2>EventHistory</h2>
-<div class="col-md-11 mx-auto">
+<div class="col-md-11 mx-auto" id="VuePage">
     <table class="table">
         <thead>
             <tr>
                 <th scope="col">筆</th>
                 <th scope="col">名稱</th>
-                <th scope="col">申請時間</th>
-                <th scope="col"></th>
+                <th scope="col">開始時間</th>
+                <th scope="col">結束時間</th>
                 <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="element in DataList" id="VuePage">
-                <th scope="row">{{even.EVID}}</th>
-                <td>{{even.name}}</td>
-                <td>{{even.startdate}}</td>
-                <td>{{even.enddate}}</td>
-                <td><button type="button" :click="yes(element.id)" class="btn btn-outline-success">核准</button></td>
-                <td><button type="button" class="btn btn-outline-danger">拒絕</button></td>
+            <tr v-for="data in DataList" >
+                <td>{{data.EVID}}</td>
+                <td>{{data.name}}</td>
+                <td>{{data.startdate}}</td>
+                <td>{{data.enddate}}</td>
+                <td><button type="button" class="btn btn-outline-success mx-3">核准</button><button type="button" class="btn btn-outline-danger">拒絕</button></td>
             </tr>
         </tbody>
     </table>
@@ -30,31 +29,27 @@
 
 @section scripts {
     <script>
-
-        var VuePage = new Vue({
+        new Vue({
             el: '#VuePage',
             data: {
-                DataList:[]
-            }
-
-            , mounted: {
-                function() {
-                    axios.get('@Url.Content("~/ExhibitorApi/CanApplyList/2")
+                DataList: [],
+            },
+            mounted() {
+                const self = this
+                axios.post('/ExhibitorApi/CanApplyList')
                     .then(function (response) {
-                        consol.log(response.data)
-                        this.data.DataList = response.data;
+                        self.DataList = response.data
+                        alert(this);
                     })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-                }
-
-            }
-
-            , methods: {
-
-            }
-        })
+            },
+            
+            methods: {
+                
+            },
+        });
     </script>
 }
+
+
+
 
