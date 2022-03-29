@@ -243,6 +243,7 @@
     <Content Include="Content\navbar.css" />
     <Content Include="Content\Login\userLogin.css" />
     <Content Include="Content\ShoppingCart.css" />
+    <Content Include="Content\showHostList.css" />
     <Content Include="Content\Template\dashboard-sidebar.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
@@ -383,7 +384,11 @@
     <Content Include="Views\Shop\Shopcart.cshtml" />
     <Content Include="Views\Host\EventList.cshtml" />
     <Content Include="Views\PartView\_Footer.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\Host\EditHost.cshtml" />
+=======
+    <Content Include="Views\Exhibitor\showHostList.cshtml" />
+>>>>>>> develop
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

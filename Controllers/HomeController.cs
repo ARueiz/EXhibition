@@ -99,7 +99,7 @@ namespace EXhibition.Controllers
             var b = from userTable in db.users
                     join ticketTable in db.Tickets on userTable.UID equals ticketTable.UID
                     select new
-                    {
+                    {                        
                         name = userTable.name,
                         phone = userTable.phone,
 
@@ -199,6 +199,39 @@ namespace EXhibition.Controllers
             return Json(user, JsonRequestBehavior.DenyGet);
         }
 
+        public class GetData
+        {
+            public int EVID { get; set; }
+            public int EID { get; set; }
+            public bool isVerified { get; set; }
+        }
+
+        public ActionResult test11(GetData d)
+        {
+            var ExhibitiorItem = db.exhibitinfo.Where(t => t.EID == d.EID).Where(t => t.EVID == d.EVID).First();
+
+            if (d.isVerified == true)
+            {
+                ExhibitiorItem.status = "允許";
+            }
+            else if(d.isVerified == false)
+            {
+                ExhibitiorItem.status = "拒絕";
+            }
+
+            db.SaveChanges();
+
+
+            return Json(null, JsonRequestBehavior.DenyGet);
+        }
+
+        public ActionResult test12()
+        {
+            var d = DateTime.Now;
+            d = d.AddDays(-5);
+            var a = db.events.Where(e => e.startdate < d).ToList();
+            return Json(a,JsonRequestBehavior.AllowGet);
+        }
 
 
     }

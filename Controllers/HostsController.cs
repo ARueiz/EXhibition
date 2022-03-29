@@ -15,6 +15,11 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult test1()
+        {            
+            return View();
+        }
+
 
         //黃亭愷
         public ActionResult Index()
