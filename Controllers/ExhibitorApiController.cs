@@ -68,6 +68,42 @@ namespace EXhibition.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        //編輯修改廠商
+        public ActionResult editexhibitor(Models.exhibitors exhibitor)
+        {
+
+            Models.ReturnData rd = new Models.ReturnData();
+            if (exhibitor.EID == null)
+            {
+                rd.message = "Id 錯誤";
+                rd.status = "error";
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            var data = db.exhibitors.Find(exhibitor.EID);
+
+            if (data == null)
+            {
+                rd.message = "Id 錯誤";
+                rd.status = "error";
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            data.name = exhibitor.name;
+            data.email = exhibitor.email;
+            data.password = exhibitor.password;
+            data.phone = exhibitor.phone;
+            data.link = exhibitor.link;
+
+            db.SaveChanges();
+
+            rd.message = "成功";
+            rd.status = "success";
+            return Json(rd, JsonRequestBehavior.AllowGet);
+        }
+
         //廠商審核中申請
         public ActionResult NowApplying(int? id)
         {

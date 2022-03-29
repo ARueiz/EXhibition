@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace EXhibition.Controllers
 {
     public class HostController : Controller
@@ -43,6 +44,23 @@ namespace EXhibition.Controllers
         {
             return View();
         }
+
+        public ActionResult searchTag()
+        {
+            var tag = db.TagsName.OrderBy(fer=>fer.id).Take(10).ToList();
+
+            return Json(tag,JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult searchengine(string searchstring)
+        {
+            var tag = db.TagsName.OrderBy(fer => fer.id).Where(fernando=>fernando.tagName.Contains(searchstring)).Take(10).ToList();
+
+
+
+            return Json(tag,JsonRequestBehavior.AllowGet);
+        }
+
 
        
 

@@ -167,6 +167,9 @@
     <Compile Include="Models\events.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\eventTags.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\exhibitinfo.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -209,6 +212,9 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReturnData.cs" />
+    <Compile Include="Models\TagsName.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -235,6 +241,7 @@
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
     <Content Include="Content\Bootstrap\bootstrap5.0.2.min.css" />
+    <Content Include="Content\eventDetail.css" />
     <Content Include="Content\footer.css" />
     <Content Include="Content\Index-part1.css" />
     <Content Include="Content\Index-part2.css" />
@@ -388,6 +395,10 @@
     <Content Include="Views\Host\EditHost.cshtml" />
 
     <Content Include="Views\Exhibitor\showHostList.cshtml" />
+
+
+
+    <Content Include="Views\Exhibitor\eventDetail.cshtml" />
 
   </ItemGroup>
   <ItemGroup>

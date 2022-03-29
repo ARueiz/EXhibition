@@ -24,6 +24,14 @@
           <Property Name="verify" Type="bit" Nullable="false" />
           <Property Name="createAt" Type="datetime" />
         </EntityType>
+        <EntityType Name="eventTags">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="EVID" Type="int" Nullable="false" />
+          <Property Name="tagID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="exhibitinfo">
           <Key>
             <PropertyRef Name="id" />
@@ -97,6 +105,13 @@
           <Property Name="createAt" Type="datetime" />
           <Property Name="accountType" Type="nvarchar" MaxLength="50" />
           <Property Name="accountId" Type="int" />
+        </EntityType>
+        <EntityType Name="TagsName">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="tagName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Tickets">
           <Key>
@@ -183,12 +198,14 @@
         </Association>
         <EntityContainer Name="ExhibitionModelStoreContainer">
           <EntitySet Name="events" EntityType="Self.events" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="eventTags" EntityType="Self.eventTags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="exhibitinfo" EntityType="Self.exhibitinfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="exhibitors" EntityType="Self.exhibitors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hosts" EntityType="Self.hosts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="orderDetail" EntityType="Self.orderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QRCodeLoginToken" EntityType="Self.QRCodeLoginToken" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TagsName" EntityType="Self.TagsName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__events__HID__2E1BDC42" Association="Self.FK__events__HID__2E1BDC42">
@@ -361,6 +378,8 @@
           <EntitySet Name="orderDetail" EntityType="ExhibitionModel.orderDetail" />
           <EntitySet Name="orders" EntityType="ExhibitionModel.orders" />
           <EntitySet Name="QRCodeLoginToken" EntityType="ExhibitionModel.QRCodeLoginToken" />
+          <EntitySet Name="eventTags" EntityType="ExhibitionModel.eventTags" />
+          <EntitySet Name="TagsName" EntityType="ExhibitionModel.TagsName" />
           </EntityContainer>
         <EntityType Name="Tickets">
           <Key>
@@ -432,6 +451,21 @@
           <Property Name="createAt" Type="DateTime" Precision="3" />
           <Property Name="accountType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="accountId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="eventTags">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EVID" Type="Int32" Nullable="false" />
+          <Property Name="tagID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TagsName">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tagName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -560,6 +594,23 @@
                 <ScalarProperty Name="accountType" ColumnName="accountType" />
                 <ScalarProperty Name="createAt" ColumnName="createAt" />
                 <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="eventTags">
+            <EntityTypeMapping TypeName="ExhibitionModel.eventTags">
+              <MappingFragment StoreEntitySet="eventTags">
+                <ScalarProperty Name="tagID" ColumnName="tagID" />
+                <ScalarProperty Name="EVID" ColumnName="EVID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TagsName">
+            <EntityTypeMapping TypeName="ExhibitionModel.TagsName">
+              <MappingFragment StoreEntitySet="TagsName">
+                <ScalarProperty Name="tagName" ColumnName="tagName" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

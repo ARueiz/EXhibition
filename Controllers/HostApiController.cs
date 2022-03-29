@@ -12,7 +12,9 @@ namespace EXhibition.Controllers
     {
 
         DBConnector db = new DBConnector();
-        
+
+
+        //顯示主辦單位
         public ActionResult show_Host(int? id)
         {
 
@@ -40,6 +42,8 @@ namespace EXhibition.Controllers
             return Json(host,JsonRequestBehavior.AllowGet);
         }
 
+
+        //編輯主辦單位
         [HttpPost]
         public ActionResult Edit_Host(Models.hosts host)
         {
@@ -78,6 +82,7 @@ namespace EXhibition.Controllers
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
+        //顯示展覽列表
         public ActionResult show_host_list(int? num = 1)
         {
             int x;
@@ -95,12 +100,14 @@ namespace EXhibition.Controllers
             }
             foreach (var i in info)
             {
-                i.image = Request.Url.Authority + @"/image/host/" + i.image;
+                i.image =  @"/image/host/" + i.image;
             }
             return Json(info, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult showOnlyExhibition(int? index)
+
+        //顯示唯一展覽詳細
+        public ActionResult showEventDetail(int? index)
         {
             Models.ReturnData rd = new ReturnData();
             if(index == null)
@@ -119,7 +126,7 @@ namespace EXhibition.Controllers
 
 
 
-
+        //顯示廠商詳細
 
         public ActionResult showexhibitor(int? index)
         {
@@ -138,40 +145,7 @@ namespace EXhibition.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult editexhibitor(Models.exhibitors host)
-        {
-
-            Models.ReturnData rd = new Models.ReturnData();
-            if (host.EID == null)
-            {
-                rd.message = "Id 錯誤";
-                rd.status = "error";
-
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
-
-            var data = db.exhibitors.Find(host.EID);
-
-            if (data == null)
-            {
-                rd.message = "Id 錯誤";
-                rd.status = "error";
-
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
-
-            data.name = host.name;
-            data.email = host.email;
-            data.password = host.password;
-            data.phone = host.phone;
-            data.link = host.link;
-
-            db.SaveChanges();
-
-            rd.message = "成功";
-            rd.status = "success";
-            return Json(rd, JsonRequestBehavior.AllowGet);
-        }
+       
 
 
 
@@ -239,6 +213,29 @@ namespace EXhibition.Controllers
             //儲存 平面圖 to Image/Host
             strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.floorplanimg;
             floorplanimg.SaveAs(strPath);
+
+            var userInputTags = new List<Models.TagsName>();
+            userInputTags.Add(new TagsName() { id = 1, tagName = "美食" });
+            userInputTags.Add(new TagsName() { id = 2, tagName = "美九" });
+            userInputTags.Add(new TagsName() { id = 3, tagName = "美立" });
+
+            foreach (var item in userInputTags)
+            {
+                var a = db.TagsName.Where(e => e.tagName == item.tagName).FirstOrDefault();
+              
+              
+                if (a==null)
+                {
+                    db.TagsName.Add(new TagsName() { tagName = item.tagName });
+                    db.SaveChanges();
+                }
+
+                //db.eventTags.
+            }
+
+
+            
+
 
             //儲存資料到DB
             events.HID = (int)Session["HID"];
