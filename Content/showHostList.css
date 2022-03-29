@@ -1,0 +1,32 @@
+﻿@media screen and (max-width: 576px) {
+    #contain {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+.sideBar {
+    max-height: 100%;
+}
+
+.border-bottom-black {
+    border-bottom: 2px solid black;
+    padding-bottom: 20px;
+}
+
+.offcanvasButton {
+    border-radius: 0% 30% 30% 0%;
+    position: fixed;
+    top: 30%;
+}
+
+.transition {
+    position: relative;
+    top: 0;
+    transition: all 1s;
+}
+
+    .transition:hover {
+        top: -10px;
+        box-shadow: 5px 8px 5px;
+    }

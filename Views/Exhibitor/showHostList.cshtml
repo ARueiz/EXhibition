@@ -1,0 +1,109 @@
+﻿
+@{
+    ViewBag.Title = "showHostList";
+}
+@*@Styles.Render("~/Content/showHostList")*@
+
+@section styles{
+    <link href="~/Content/showHostList.css" rel="stylesheet" />
+}
+
+<body>
+
+
+    <div class="w3-main col-md-10 mt-3 p-5" id="contain">
+
+        <div class="row mb-3 " style="border-bottom: 2px solid black; padding-bottom: 20px;">
+            <div class="d-inline-block w-50">
+                <h3>展覽列表</h3>
+            </div>
+            <div class="d-inline-block w-50 d-flex justify-content-end m-0 p-0">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        條件選擇
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li>
+                            <a class="dropdown-item" href="#">全部</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">可使用</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">逾期</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container border-bottom-black mb-4">
+            <div class="row">
+                <div class="col-12 col-md-4 " style="padding-bottom: 15px" v-for="element in dataRow">
+                    <div class="card transition " style="width: 18rem;">
+                        <a href="https://bootstrap5.hexschool.com/docs/5.1/components/card/">
+                            <img :src="element.image" class="card-img-top" alt="...">
+                        </a>
+                        <div class="card-body">
+                            <h5 class="card-title">{{element.name}}</h5>
+                            <p class="card-text">
+                                Some quick example text to build on the card title and make up
+                                the
+                                bulk of the card's content.
+                            </p>
+                            <a href="#" class="btn btn-primary">Go somewhere</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <footer>
+            <div class="container ">
+                <div class="row">
+                    <p>© Company 2022/3/18</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        new Vue({
+            el: '#contain',
+            data() {
+                return {
+                    ticketStatus: 'over',
+                    badgeBg: {
+                        over: 'w3-red',
+                        now: 'w3-green',
+                        presale: 'w3-yellow',
+                    },
+                    dataRow: [],
+                }
+            },
+            created: function () {
+
+                this.connect()
+                
+            },
+            methods: {
+                connect() {
+                    const self = this
+                    axios.post('@Url.Content("~/HostApi/show_host_list")').then(function (response) {
+                        self.dataRow = response.data;
+                        console.log(self.dataRow);
+                    })
+                }
+            },
+        })
+    </script>
+
+
+
+</body>

@@ -241,6 +241,7 @@
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
     <Content Include="Content\Bootstrap\bootstrap5.0.2.min.css" />
+    <Content Include="Content\eventDetail.css" />
     <Content Include="Content\footer.css" />
     <Content Include="Content\Index-part1.css" />
     <Content Include="Content\Index-part2.css" />
@@ -249,6 +250,7 @@
     <Content Include="Content\navbar.css" />
     <Content Include="Content\Login\userLogin.css" />
     <Content Include="Content\ShoppingCart.css" />
+    <Content Include="Content\showHostList.css" />
     <Content Include="Content\Template\dashboard-sidebar.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
@@ -387,6 +389,8 @@
     <Content Include="Views\Shop\Shopcart.cshtml" />
     <Content Include="Views\Host\EventList.cshtml" />
     <Content Include="Views\PartView\_Footer.cshtml" />
+    <Content Include="Views\Exhibitor\showHostList.cshtml" />
+    <Content Include="Views\Exhibitor\eventDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

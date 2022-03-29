@@ -20,5 +20,17 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        //展覽列表展示
+        public ActionResult showHostList()
+        {
+            return View();
+        }
+
+        //展覽細節
+        public ActionResult eventDetail()
+        {
+            return View();
+        }
+
     }
 }
