@@ -16,7 +16,6 @@ namespace EXhibition.Controllers
             return View();
         }
 
-
         //黃亭愷
         public ActionResult Index()
         {
@@ -34,6 +33,8 @@ namespace EXhibition.Controllers
         {
             return View();
         }
+
+       
 
         //邱品叡
         public ActionResult CreateEvent()
