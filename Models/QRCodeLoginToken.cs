@@ -12,16 +12,18 @@ namespace EXhibition.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class orders
+    public partial class QRCodeLoginToken
     {
         public int id { get; set; }
-        public string paypalId { get; set; }
-        public Nullable<System.DateTime> createDateTime { get; set; }
-        public int userId { get; set; }
-        public int totalPrice { get; set; }
-        public Nullable<int> discount { get; set; }
-        public Nullable<int> finalPrice { get; set; }
-        public Nullable<bool> isPay { get; set; }
-        public string paypal_Id { get; set; }
+        public string token { get; set; }
+        public Nullable<System.DateTime> createAt { get; set; }
+        public string accountType { get; set; }
+        public Nullable<int> accountId { get; set; }
+
+        public QRCodeLoginToken()
+        {
+            createAt = DateTime.Now;
+        }
+
     }
 }

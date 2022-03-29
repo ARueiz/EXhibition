@@ -33,5 +33,6 @@ namespace EXhibition.Models
         public virtual DbSet<Tickets> Tickets { get; set; }
         public virtual DbSet<orderDetail> orderDetail { get; set; }
         public virtual DbSet<orders> orders { get; set; }
+        public virtual DbSet<QRCodeLoginToken> QRCodeLoginToken { get; set; }
     }
 }

@@ -19,6 +19,8 @@ namespace EXhibition.Models
         public int UID { get; set; }
         public bool paid { get; set; }
         public bool passed { get; set; }
+        public string token { get; set; }
+        public Nullable<System.DateTime> createAt { get; set; }
     
         public virtual events events { get; set; }
         public virtual users users { get; set; }

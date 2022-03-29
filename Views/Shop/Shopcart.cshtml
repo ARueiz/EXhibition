@@ -1,0 +1,158 @@
+﻿
+@{
+    ViewBag.Title = "Shopcart";
+}
+
+@section styles{
+    <link href="~/Content/ShoppingCart.css" rel="stylesheet" />
+}
+
+<div class="container panel d-flex flex-wrap" id="shoppingcart">
+    <div class="col-md-8">
+        <h3><b>購物車</b></h3>
+        <div class="item-cart d-flex flex-wrap mt-3" v-for="element in cart">
+            <div class="item-first col-md-4 p-0" style="">
+                <div class="wrap-img">
+                    <img :src="element.img" alt="">
+                </div>
+            </div>
+            <div class="item-second col-md-6 flex-column d-flex">
+                <div class="">
+                    <h4 class="item-text">商品名稱</h4>
+                    <p class="m-0 p-0">日本樂天股份有限公司</p>
+                    <p class="m-0 p-0 d-flex flex-wrap">
+                        <div class="d-flex flex-wrap">
+                            <div class="col-2 m-0 p-0 num">日期:</div>
+                            <div class="col-10 m-0 p-0 num">2022-02-01 ~ 2022-04-30</div>
+                        </div>
+                    </p>
+                </div>
+                <div class="mt-auto">
+                    <a href="#" class="d-block remove-link">
+                        <i class="fa-solid fa-trash-can" style="padding-right: 8px"></i>移除
+                    </a>
+                </div>
+            </div>
+            <div class="item-third col-md-2">
+                <div class="d-flex justify-content-end">
+                    <p class="price">$ 980</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <aside class="col-md-4" style="padding-left:25px">
+        <h3 class="mb-2"><b>摘要</b></h3>
+        <div class="price-panel d-flex justify-content-between mb-2  mt-5">
+            <span>小記</span>
+            <span class="price">{{ totalPrice }}</span>
+        </div>
+        <div class="price-panel d-flex justify-content-between mb-2">
+            <span>折扣</span>
+            <span class="price">{{ discount }}</span>
+        </div>
+        <div class="price-panel-line"></div>
+        <div class="price-panel d-flex justify-content-between mt-3">
+            <h5 class="m-0">總計</h5>
+            <span class="price">${{ total - discount }}</span>
+        </div>
+        <div class="price-panel-line mt-3"></div>
+        <br>
+        <div class="d-flex justify-content-center">
+            <div class="d-inline-block paypal-btn">
+                <img style="height: 100%;width: 100%"
+                     src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-large.png"
+                     alt="Check out with PayPal" />
+            </div>
+        </div>
+
+    </aside>
+</div>
+
+
+@{
+    Html.RenderAction("Footer", "PartView");
+}
+
+@section scripts{
+    <script>
+        var app = new Vue({
+            el: '#shoppingcart',
+            data() {
+                return {
+                    totalPrice: 0,
+                    discount: 0,
+                    shop_number: 0,
+                    name: 'fernan',
+                    sum: 0,
+                    link: 'putin.html',
+                    dateTime: '',
+                    card_info: [
+                        {
+                            name: 'fernando',
+                            number: '123',
+                            valid_throught: '6/12',
+                            code: '123'
+                        },
+                    ],
+                    cart: [
+                        {
+                            name: '第二十三屆台北國際安全科技應用博覽會',
+                            organizer: '香港商法蘭克福展覽有限公司台灣分公司',
+                            price: 250,
+                            img: '/image/Test/camping.png',
+                        },
+                        {
+                            name: '第二十三屆台北國際安全科技應用博覽會',
+                            organizer: '香港商法蘭克福展覽有限公司台灣分公司',
+                            price: 250,
+                            img: '/image/Test/sony_1024.jpg',
+
+                        },
+                        {
+                            name: '第二十三屆台北國際安全科技應用博覽會',
+                            organizer: '香港商法蘭克福展覽有限公司台灣分公司',
+                            price: 250,
+                            img: '/image/Test/splash.jpg',
+
+                        },
+                        {
+                            name: '第二十三屆台北國際安全科技應用博覽會',
+                            organizer: '香港商法蘭克福展覽有限公司台灣分公司',
+                            price: 250,
+                            img: '/image/Test/world-Porsche.jpg',
+
+                        }
+                    ],
+                }
+            },
+
+            methods: {
+                numberadder: function () {
+                    return this.shop_number++;
+                },
+                // date:function(){
+                //     var date = new Date();
+                //     var hour = (date.getHours() < 10 ? '0' : '') + date.getHours() ;
+                //     var min = (date.getMinutes() <10 ? '0':'')+date.getMinutes();
+                //     var second = (date.getSeconds() <10 ? '0':'')+date.getSeconds();
+                //     this.dateTime = hour + ' : ' + min +' : '+second;
+                // },
+            },
+            computed: {
+                total() {
+                    let a = 0
+                    const self = this
+                    self.cart.forEach(element => {
+                        a = a + element.price
+                    });
+                    return a
+                }
+            },
+        });
+
+        //   setInterval(function () {
+        //     app.date();
+        // }, 1000);
+
+    </script>
+}

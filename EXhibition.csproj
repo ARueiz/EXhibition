@@ -152,6 +152,7 @@
     <Compile Include="Controllers\HostController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\PartViewController.cs" />
+    <Compile Include="Controllers\QRCodeAccessController.cs" />
     <Compile Include="Controllers\ShopApiController.cs" />
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
@@ -159,6 +160,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CROS.cs" />
     <Compile Include="Models\DBConnector.cs" />
     <Compile Include="Models\events.cs">
@@ -185,10 +188,13 @@
     <Compile Include="Models\exhibitors.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GlobalVariables.cs" />
     <Compile Include="Models\hosts.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\LoginToken.cs" />
+    <Compile Include="Models\NewJsonResult.cs" />
     <Compile Include="Models\orderDetail.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -199,6 +205,9 @@
     <Compile Include="Models\PartView\HostNavbarParam.cs" />
     <Compile Include="Models\PartView\ExhibitiorNavbarParam.cs" />
     <Compile Include="Models\PartView\UserNavbarParam.cs" />
+    <Compile Include="Models\QRCodeLoginToken.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ReturnData.cs" />
     <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
@@ -226,12 +235,14 @@
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
     <Content Include="Content\Bootstrap\bootstrap5.0.2.min.css" />
+    <Content Include="Content\footer.css" />
     <Content Include="Content\Index-part1.css" />
     <Content Include="Content\Index-part2.css" />
     <Content Include="Content\myLogin.css" />
     <Content Include="Content\myTicketList.css" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\Login\userLogin.css" />
+    <Content Include="Content\ShoppingCart.css" />
     <Content Include="Content\Template\dashboard-sidebar.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
@@ -367,6 +378,12 @@
     <Content Include="Views\PartView\_SideBarUser.cshtml" />
     <Content Include="Views\User\MyTicketDetail.cshtml" />
     <Content Include="Views\hosts\DetailsHost.cshtml" />
+    <Content Include="Views\Host\EventDetail.cshtml" />
+    <Content Include="Views\User\ScanLoginQRCode.cshtml" />
+    <Content Include="Views\Shop\Index.cshtml" />
+    <Content Include="Views\Shop\Shopcart.cshtml" />
+    <Content Include="Views\Host\EventList.cshtml" />
+    <Content Include="Views\PartView\_Footer.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -374,7 +391,6 @@
     <Folder Include="Views\ExhibitorApi\" />
     <Folder Include="Views\HostApi\" />
     <Folder Include="Views\Shopping\" />
-    <Folder Include="Views\Shop\" />
     <Folder Include="Views\UserApi\" />
     <Folder Include="Views\UsersApi\" />
   </ItemGroup>

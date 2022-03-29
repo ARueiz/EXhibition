@@ -2,10 +2,10 @@
 {
     static public class UserPartViewParam
     {
-        static public string CartLink = "/shop/shopcart";
         static public string CenterLink = "/user";
-
-        static public string MyTicketList = "/user/MyTicketList";
+        static public string CartLink = "/shop/shopcart";        
+        static public string MyTicketList = CenterLink+ "/MyTicketList";
+        static public string ScanLoginQRCode = CenterLink + "/ScanLoginQRCode";
 
     }
 }

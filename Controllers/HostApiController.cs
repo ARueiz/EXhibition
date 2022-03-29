@@ -236,6 +236,7 @@ namespace EXhibition.Controllers
 
         public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events)
         {
+        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events){
 
             //儲存 封面圖 to Image/Host
             string strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.image;
@@ -288,17 +289,49 @@ namespace EXhibition.Controllers
             }
             catch (Exception)
             {
-                r.status = Models.RetrunStatus.Error;
+                r.status = Models.ReturnStatus.Error;
                 r.message = "註冊失敗";
                 return Json(r, JsonRequestBehavior.AllowGet);
             }
 
-            r.status = Models.RetrunStatus.Success;
+            r.status = Models.ReturnStatus.Success;
             r.message = "註冊成功";
             r.data = new { url = "/Home/HostLogin" };
             return Json(r);
         }
 
 
+        public ActionResult editExhibitorJoinStatus(Models.exhibitinfo e,string reason,bool isAllow)
+        {
+            if (isAllow) // 允許加入
+            {
+               
+            }
+            else  // 拒絕加入，加上拒絕原因
+            {
+
+            }
+            return Json(new { id = e.EID , resaon = reason , isAllow = isAllow } ,JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult GetEventList(int? id)
+        {
+            Session["HID"] = 2;
+
+            int HID = Convert.ToInt32(Session["HID"]);
+
+            if (id == null) { id = 0; }
+            int num = (int)id;
+            var list = (from eve in db.events where eve.HID == HID orderby eve.startdate descending select eve).Skip(num).Take(12).ToList();
+
+            for (int i = 0; i < list.Count; i++)
+            {
+
+                list[i].image = "/image/Host/" + list[i].image;
+            }
+
+            return new NewJsonResult() { Data = list};
+        }
     }
 }

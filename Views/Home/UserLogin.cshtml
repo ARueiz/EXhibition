@@ -33,12 +33,12 @@
                                 <div class="form-group flex-wrap d-flex align-items-center w-100 ">
                                     <label for="your_name" class="col-1"><i class="fa-solid fa-user"></i></label>
                                     <input type="text" v-model="account" class="col-10" name="your_name" id="your_name"
-                                           placeholder="帳號" />
+                                           placeholder="帳號" required />
                                 </div>
                                 <div class="form-group flex-wrap d-flex align-items-center w-100">
                                     <label for="your_pass" class="col-1"><i class="fa-solid fa-lock"></i></label>
                                     <input type="password" v-model="password" class="col-10" name="your_pass" id="your_pass"
-                                           placeholder="密碼" />
+                                           placeholder="密碼" required />
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                     </div>
                     <div class="break-line"></div>
                     <div class="d-block d-flex justify-content-center">
-                        <button class="btn-qrcode" v-on:click="showQRPage = !showQRPage;createQRCode()">
+                        <button class="btn-qrcode" v-on:click="qrCodeLogin()">
                             QR code 登入
                         </button>
                     </div>
@@ -78,8 +78,6 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
 <script>
     new Vue({
         el: '#app',
@@ -87,19 +85,58 @@
             return {
                 account: '',
                 password: '',
-                qrCodeLoginToke: '',
+                qrCodeLoginToken: 'default',
                 cookieAccount: false,
-                showQRPage: false
+                showQRPage: false,
+                isCreateQRcode: false,
+                timer : '' 
             }
         },
         created() {
+
             let user = this.getCookie("account");
+
             if (user !== "") {
                 this.cookieAccount = true
                 this.account = user
             } else {
                 this.cookieAccount = false
             }
+
+            const self = this
+            fetch('/api/QRCodeAccess/GetLoginToken')
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (myJson) {
+                    self.qrCodeLoginToken = myJson.token
+                });
+
+            this.timer = setInterval(function () {
+                fetch('/Api/QRCodeAccess/PostLogin', {
+                    body: JSON.stringify({
+                        token: self.qrCodeLoginToken
+                    }), // must match 'Content-Type' header
+                    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                    credentials: 'same-origin', // include, same-origin, *omit
+                    headers: {
+                        'user-agent': 'Mozilla/4.0 MDN Example',
+                        'content-type': 'application/json'
+                    },
+                    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                    mode: 'cors', // no-cors, cors, *same-origin
+                    redirect: 'follow', // manual, *follow, error
+                    referrer: 'no-referrer', // *client, no-referrer
+                }).then(response => response.json()).then(res => {
+                    if (res.status === "success") {
+                        clearInterval(self.timer);
+                        window.location.href = '/user' //res.data.url
+                    } else {
+                        console.log(res)
+                    }
+                })
+
+            }, 2500);
         },
         methods: {
             login() {
@@ -109,7 +146,7 @@
                     password: this.password
                 }
 
-                
+
                 fetch('/UserApi/Login', {
                     body: JSON.stringify(json), // must match 'Content-Type' header
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -126,12 +163,12 @@
                     if (res.status === "success") {
                         this.account = ''
                         this.password = ''
-                        window.location.href = res.data.url                        
+                        window.location.href = res.data.url
                     } else {
                         alert(res.message)
                     }
                 })
-                
+
             },
             setCookie(cname, cvalue, exdays) {
                 const d = new Date();
@@ -170,18 +207,17 @@
             },
             createQRCode() {
                 document.getElementById('qrcodeBox').innerHTML = "";
-                $('#qrcodeBox').qrcode('http://www.google.com');
+                $('#qrcodeBox').qrcode(this.qrCodeLoginToken);
             },
+            qrCodeLogin() {
+                this.createQRCode();
+                this.showQRPage = !this.showQRPage;
+            }
         },
         watch: {
             cookieAccount() {
                 this.setRememberUser();
             },
-            showQRPage() {
-                if (this.showQRPage) {
-                    this.createQRCode()
-                }
-            }
         }
     })
 </script>

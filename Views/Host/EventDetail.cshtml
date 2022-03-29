@@ -1,0 +1,316 @@
+﻿
+@{
+    ViewBag.Title = "EventDetail";
+}
+
+@section styles{
+    <style>
+
+        .img-wrap {
+            height: 256px;
+        }
+
+            .img-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: 10% 100%;
+            }
+
+        .detail-box {
+            padding: 25px;
+        }
+
+        .detail-item {
+            border-left: 2px solid #00bcd4;
+            padding-left: 20px;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        .block-line {
+            height: 1px;
+            width: 100%;
+            background-color: lightslategray;
+            margin-top: 25px;
+            margin-bottom: 25px;
+        }
+
+        .reject-btn {
+            line-height: 24px;
+            border: 0 none;
+            border-radius: 5px;
+            background-color: #f1636f;
+            padding: 5px 15px;
+        }
+
+        .allow-btn {
+            line-height: 24px;
+            border: 0 none;
+            border-radius: 5px;
+            background-color: #a3e287;
+            padding: 5px 15px;
+        }
+
+        .table-row-center td {
+            vertical-align: middle;
+        }
+
+        .exhibitor-table {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow: auto;
+        }
+
+        .box-item {
+            padding: 10px;
+        }
+
+        .edit-btn {
+            text-decoration: none;
+            line-height: 24px;
+            border: 0 none;
+            border-radius: 5px;
+            background-color: #61c1f1;
+            padding: 5px 15px;
+            color: black;
+        }
+
+        .text-reject {
+            color: #fc2c2c;
+        }
+
+        .text-allow {
+            color: #0bb60b;
+        }
+
+        .contain-box {
+            padding: 28px 5px;
+        }
+    </style>
+}
+
+
+<div class="contain-box" id="contain">
+    <p class="h2">
+        <b>展覽資訊</b>
+    </p>
+    <div class="d-block d-flex flex-wrap">
+        <div class="col-md-5 detail-box">
+            <div class="img-wrap">
+                <img :src="imgUrl" alt="">
+            </div>
+        </div>
+        <div class="col-md-7 detail-box">
+            <div class="">
+                <div class="detail-item" style="margin-top:0px">
+                    <h5>展覽時間</h5>{{ start }} ~ {{ end }}
+                </div>
+                <div class="detail-item">
+                    <h5>活動地點</h5>{{ location }}
+                </div>
+                <div class="detail-item">
+                    <h5>主辦單位</h5>{{ organizer }}
+                </div>
+                <a href="#" class="edit-btn">編輯展覽</a>
+            </div>
+        </div>
+        <div>
+            <h5>展覽描述</h5>
+            <div class="describe mt-4">
+                <p>
+                    {{ content }}
+                </p>
+            </div>
+        </div>
+        <div class="block-line"></div>
+        <div class="w-100">
+            <h5 class="m-0">審核通過廠商</h5>
+            <div class="exhibitor-table" style="">
+                <table class="highlight mt-3 table">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 10%">序號</th>
+                            <th scope="col" style="width: 65%">名稱</th>
+                            <th scope="col" style="width: 15%">審核日期</th>
+                            <th scope="col" style="width: 10%">取消批准</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(element,index) in allowList" class="table-row-center">
+                            <td class="">{{ index + 1 }}</td>
+                            <td class="">{{ element.name }}</td>
+                            <td class="">{{ element.time }}</td>
+                            <td class="">
+                                <button v-on:click="rejectExhibitor(index)"
+                                        class="reject-btn btn">
+                                    取消
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="block-line"></div>
+
+        <div class="w-100">
+            <h5 class="m-0">審核失敗廠商</h5>
+            <div class="exhibitor-table">
+                <table class="highlight mt-3 table">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 10%">序號</th>
+                            <th scope="col" style="width: 30%">名稱</th>
+                            <th scope="col" style="width: 35%">原因</th>
+                            <th scope="col" style="width: 15%">審核日期</th>
+                            <th scope="col" style="width: 10%">允許批准</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(element,index) in rejectList" class="table-row-center">
+                            <td class="">{{ index + 1 }}</td>
+                            <td class="">{{ element.name }}</td>
+                            <td class="">{{ element.reason }}</td>
+                            <td class="">{{ element.time }}</td>
+                            <td class="">
+                                <button class="allow-btn btn" v-on:click="allowExhibitor(index)">
+                                    允許
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="RejectModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ modalTitle }}</h5>
+                </div>
+                <div class="modal-body">
+                    <h5 class="text-reject mb-3">{{ modalContent }}</h5>
+                    <label class="form-label">拒絕原因</label>
+                    <input type="text" v-model="inputReason" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" v-on:click="closeModal()" class="btn btn-secondary">取消</button>
+                    <button type="button" v-on:click="sendStatus(false)" class="btn btn-primary">送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="AllowModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ modalTitle }}</h5>
+                </div>
+                <div class="modal-body">
+                    <h5 class="text-allow mb-3">{{ modalContent }}</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" v-on:click="closeModal()" class="btn btn-secondary">取消</button>
+                    <button type="button" v-on:click="sendStatus(true)" class="btn btn-primary">送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    new Vue({
+        el: '#contain',
+        data() {
+            return {
+                rejectModel: false,
+                reason: '',
+                start: '2022/01/02',
+                end: '2022/04/30',
+                location: '高雄市',
+                organizer: '測試協辦單位',
+                imgUrl: 'https://i.imgur.com/pn85Bx2.jpeg',
+                content: '莊周在過去曾經講過，君子之交淡若水，小人之交甘若醴; 君子淡以親，小人甘以絕。' +
+                    '這似乎解答了我的疑惑。張華曾經提到過，一個人一天也不能沒有理想，但憑僥倖，' +
+                    '怕吃苦，沒有真才實學，再好的理想也實現不了。這段話可說是震撼了我。伊朗曾提' +
+                    '出，聰明才智是撥動社會的槓桿。但願諸位理解後能從中有所成長。說到唬爛，你會想' +
+                    '到什麼呢？這必定是個前衛大膽的想法。如果此時我們選擇忽略唬爛，那後果可想而知。',
+                allowList: [
+                    { EID: 10, name: '測試12344', time: '2022/02/23' },
+                    { EID: 10, name: '測試2341', time: '2022/02/23' },
+                    { EID: 10, name: '測試1234', time: '2022/02/23' },
+                    { EID: 10, name: '測試gewrg', time: '2022/02/23' },
+                    { EID: 10, name: '測試sdgf', time: '2022/02/23' },
+                    { EID: 10, name: '測試wert', time: '2022/02/23' },
+                    { EID: 10, name: '測試6346', time: '2022/02/23' }
+                ],
+                rejectList: [
+                    { EID: 10, name: '測試12344', time: '2022/02/23' },
+                    { EID: 10, name: '測試2341', time: '2022/02/23' },
+                    { EID: 10, name: '測試1234', time: '2022/02/23' },
+                    { EID: 10, name: '測試gewrg', time: '2022/02/23' },
+                    { EID: 10, name: '測試sdgf', time: '2022/02/23' },
+                    { EID: 10, name: '測試wert', time: '2022/02/23' },
+                    { EID: 10, name: '測試6346', time: '2022/02/23' }
+                ],
+                modalTitle: '',
+                modalContent: '',
+                inputReason: '',
+                selectExhibitor: {}
+            }
+        },
+        created() {
+            // 請到此 method 去撈取 api
+            this.loadPage();
+        },
+        mounted() {
+
+        },
+        methods: {
+            loadPage() {
+
+            },
+            allowExhibitor(id) {
+                this.selectExhibitor = this.rejectList[id];
+                this.modalTitle = `確定要允許核准嗎?`
+                this.modalContent = `允許 ${this.selectExhibitor.name}`
+                let loadModal = $('#AllowModal')
+                loadModal.modal('show')
+            },
+            rejectExhibitor(id) {
+                this.selectExhibitor = this.allowList[id];
+                this.modalTitle = `確定要拒絕核准嗎?`
+                this.modalContent = `拒絕 ${this.selectExhibitor.name}`
+                let loadModal = $('#RejectModal')
+                loadModal.modal('show')
+            },
+            sendStatus(value) {
+                let self = this;
+                axios.post('/hostApi/editExhibitorJoinStatus', {
+                    EID: this.selectExhibitor.EID,
+                    reason: this.inputReason,
+                    isAllow: value
+                }).then(function (response) {
+                    console.log(response.data)
+                    self.closeModal();
+                }).catch(function (res) {
+                })
+                this.inputReason = ''
+            },
+            closeModal() {
+                let loadModal1 = $('#RejectModal')
+                let loadModal2 = $('#AllowModal')
+                loadModal1.modal('hide')
+                loadModal2.modal('hide')
+            },
+        }
+    })
+
+</script>
+
