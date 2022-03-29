@@ -352,7 +352,6 @@
     <Content Include="Views\hosts\publicVersion.cshtml" />
     <Content Include="Views\PartView\_NavbarUser.cshtml" />
     <Content Include="Views\hosts\CreateEvent.cshtml" />
-    <Content Include="Views\hosts\EditHost.cshtml" />
     <Content Include="Views\hosts\EditHost1.cshtml" />
     <Content Include="Views\Home\UserLogin.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
@@ -377,19 +376,19 @@
     <Content Include="Views\PartView\_SideBarHost.cshtml" />
     <Content Include="Views\PartView\_SideBarUser.cshtml" />
     <Content Include="Views\User\MyTicketDetail.cshtml" />
-    <Content Include="Views\hosts\DetailsHost.cshtml" />
+    <Content Include="Views\Host\DetailsHost.cshtml" />
     <Content Include="Views\Host\EventDetail.cshtml" />
     <Content Include="Views\User\ScanLoginQRCode.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Shop\Shopcart.cshtml" />
     <Content Include="Views\Host\EventList.cshtml" />
     <Content Include="Views\PartView\_Footer.cshtml" />
+    <Content Include="Views\Host\EditHost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Views\ExhibitorApi\" />
-    <Folder Include="Views\HostApi\" />
     <Folder Include="Views\Shopping\" />
     <Folder Include="Views\UserApi\" />
     <Folder Include="Views\UsersApi\" />

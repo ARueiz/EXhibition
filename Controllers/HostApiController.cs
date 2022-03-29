@@ -236,7 +236,7 @@ namespace EXhibition.Controllers
 
         public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events)
         {
-        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events){
+        
 
             //儲存 封面圖 to Image/Host
             string strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.image;
