@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EXhibition.Models;
+
 
 namespace EXhibition.Controllers
 {
@@ -148,7 +148,63 @@ namespace EXhibition.Controllers
        
 
 
-        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events){
+
+
+
+        public ActionResult List()
+        {
+
+
+            var b = from hostsTable in db.hosts
+                    join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
+                    select new
+                    {
+                        name = hostsTable.name,
+                        phone = hostsTable.phone,
+                        startdate = eventsTable.startdate.ToString(),
+                        enddate = eventsTable.enddate.ToString(),
+                        exhibitionname = eventsTable.name,
+                        evid = eventsTable.EVID,
+                        ticketPrice = eventsTable.ticketprice,
+                    };
+
+            return Json( b, JsonRequestBehavior.AllowGet);
+        }
+       
+        public ActionResult PostList(int? id )
+        {
+
+            Models.ReturnData rd = new Models.ReturnData();
+
+            if (id == null)
+            {
+                rd.message = "找不到資料 Id 為 null";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            int index = (int)id;
+
+            var a = db.events.Find(index);
+
+            if (a == null || a.EVID == 0)
+            {
+                rd.message = "找不到資料";
+                rd.status = "error";
+                rd.data = a;
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(a, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
+        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events)
+        {
+        
 
             //儲存 封面圖 to Image/Host
             string strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.image;
@@ -185,8 +241,8 @@ namespace EXhibition.Controllers
             events.HID = (int)Session["HID"];
             db.events.Add(events);
             int result = db.SaveChanges();
-            
-            if(result > 0)
+
+            if (result > 0)
             {
                 ReturnData data = new ReturnData();
                 data.status = "success";
@@ -202,7 +258,6 @@ namespace EXhibition.Controllers
 
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
-
         }
 
         public ActionResult Login(Models.Login login)
@@ -235,6 +290,7 @@ namespace EXhibition.Controllers
             r.data = new { url = "/Home/HostLogin" };
             return Json(r);
         }
+
 
         public ActionResult editExhibitorJoinStatus(Models.exhibitinfo e,string reason,bool isAllow)
         {

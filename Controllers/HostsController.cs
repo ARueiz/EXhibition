@@ -33,6 +33,17 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult DetailsHost(int? id)
+        {
+
+            if (id == null)
+            {
+                id = 0;
+            }
+            ViewBag.id = id;
+            return View();
+        }
+
         //馬誠遠
         public ActionResult EditEvent()
         {
