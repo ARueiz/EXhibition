@@ -38,32 +38,21 @@
             }
 
             , mounted: {
-                axios.get('@Url.Content("~/ExhibitorApi/EventHistory/2")')
+                function() {
+                    axios.get('@Url.Content("~/ExhibitorApi/CanApplyList/2")
                     .then(function (response) {
                         consol.log(response.data)
-                        this.DataList = response.data;
+                        this.data.DataList = response.data;
                     })
                     .catch(function (error) {
                         console.log(error);
                     })
+                }
+
             }
 
             , methods: {
-                    DoCreateEvent: function () {
 
-                        axios.post('@Url.Content("~/HostApi/DoCreateEvent")', this.$data.FormData, { headers: { 'Content-Type': 'multipart/form-data' } })
-                        .then(function (response) {
-                            console.log(response.data);
-                            if (response.data.status == "success") {
-                                var myModal = new bootstrap.Modal(document.getElementById("ErrorAlert"), {});
-                                myModal.show();
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-
-                    }
             }
         })
     </script>

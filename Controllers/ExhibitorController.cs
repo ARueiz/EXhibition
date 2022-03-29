@@ -27,8 +27,8 @@ namespace EXhibition.Controllers
         public ActionResult HistoryList(int? id=2)
         {
             
-            
-            return View( );
+            ViewBag.EID = id;
+            return View();
         }
     }
 }
