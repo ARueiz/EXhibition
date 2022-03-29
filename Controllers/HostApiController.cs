@@ -219,7 +219,7 @@ namespace EXhibition.Controllers
 
             var a = db.events.Find(index);
 
-            if (a == null || a.HID == 0)
+            if (a == null || a.EVID == 0)
             {
                 rd.message = "找不到資料";
                 rd.status = "error";

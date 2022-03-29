@@ -16,16 +16,17 @@
                     <th>---------------------- </th>
                 </tr>
             </thead>
-            <tr v-for="item in res">
-                <td v-show="false" id="evid">{{item.evid}}</td>
-                <td>{{item.name }}</td>
-                <td>{{item.phone }}</td>
-                <td>{{item.exhibitionname}}</td>
-                <td>{{item.startdate }}</td>
-                <td>{{item.enddate }}</td>
+            <tr >
+                <td v-show="false" id="evid">{{res.EVID}}</td>
+                <td>{{ res.name }}</td>
+                <td>{{ res.venue }}</td>
+                <td>{{ res.eventinfo }}</td>
+                <td>{{ res.ticketprice }}</td>
+                <td>{{ res.verify }}</td>
+
             </tr>
         </table>
-
+        
     </div>
 </div>
 
@@ -37,22 +38,30 @@
         var VuePage = new Vue({
             el: '#VuePage',
             data: {
-                res: [],
+                res: [
+                   
 
-
+                ],
+                id: '@ViewBag.id'
+                     
 
             },
 
             mounted() {
-                axios.post('/HostApi/PostList')
+                console.log('run')
+                axios.post('/HostApi/PostList/' + this.id)
                     .then(function (response) {
-                    VuePage.res = response.data
+                       // let list = []
+                        // list.push(response.data)
+                        VuePage.res = response.data               
+                        console.log(response)
                     })
                     .catch((err) => {
                         console.log(err)
                     });
             },
             methods: {
+                
             }
         });
 

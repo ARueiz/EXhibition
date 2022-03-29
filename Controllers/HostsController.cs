@@ -30,7 +30,7 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        public ActionResult DetailsHost()
+        public ActionResult DetailsHost(int? id)
         {
             //Session["EVID"] = 1;
             //int EVID = (int)Session["EVID"];
@@ -49,7 +49,11 @@ namespace EXhibition.Controllers
             //ViewBag.ticketprice = info[0].ticketprice;
             //ViewBag.verify = info[0].verify;
             //ViewBag.sessionEVID = Session["EVID"];
-
+            if (id == null)
+            {
+                id = 0;
+            }
+            ViewBag.id = id;
             return View();
         }
 
