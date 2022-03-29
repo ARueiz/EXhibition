@@ -53,10 +53,10 @@ namespace EXhibition.Controllers
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
 
-            var list = (from info in db.exhibitinfo
-                        join even in db.events on info.EVID equals even.EVID
-                        where info.EID == id
-                        select new{even.EVID, even.name, even.startdate, even.enddate, even.venue }).ToList();
+            var list = (from exhibitinfo in db.exhibitinfo
+                        join events in db.events on exhibitinfo.EVID equals events.EVID
+                        where exhibitinfo.EID == id
+                        select new { events.EVID, events.name, events.startdate, events.enddate, events.venue }).ToList();
 
             if (!list.Any())
             {
@@ -66,6 +66,7 @@ namespace EXhibition.Controllers
             }
 
             return Json(list, JsonRequestBehavior.AllowGet);
+
         }
 
         //廠商審核中申請

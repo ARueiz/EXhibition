@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "HistoryList";
+}
+
+<h2>EventHistory</h2>
+<div class="col-md-11 mx-auto">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">筆</th>
+                <th scope="col">名稱</th>
+                <th scope="col">申請時間</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="element in DataList" id="VuePage">
+                <th scope="row">{{even.EVID}}</th>
+                <td>{{even.name}}</td>
+                <td>{{even.startdate}}</td>
+                <td>{{even.enddate}}</td>
+                <td><button type="button" :click="yes(element.id)" class="btn btn-outline-success">核准</button></td>
+                <td><button type="button" class="btn btn-outline-danger">拒絕</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@section scripts {
+    <script>
+
+        var VuePage = new Vue({
+            el: '#VuePage',
+            data: {
+                DataList:[]
+            }
+
+            , mounted: {
+                axios.get('@Url.Content("~/ExhibitorApi/EventHistory/2")')
+                    .then(function (response) {
+                        consol.log(response.data)
+                        this.DataList = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+            }
+
+            , methods: {
+                    DoCreateEvent: function () {
+
+                        axios.post('@Url.Content("~/HostApi/DoCreateEvent")', this.$data.FormData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                        .then(function (response) {
+                            console.log(response.data);
+                            if (response.data.status == "success") {
+                                var myModal = new bootstrap.Modal(document.getElementById("ErrorAlert"), {});
+                                myModal.show();
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                    }
+            }
+        })
+    </script>
+}
+
