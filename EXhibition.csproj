@@ -167,6 +167,9 @@
     <Compile Include="Models\events.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\eventTags.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\exhibitinfo.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -208,6 +211,9 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReturnData.cs" />
+    <Compile Include="Models\TagsName.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>

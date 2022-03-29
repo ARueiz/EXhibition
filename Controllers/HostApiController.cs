@@ -193,6 +193,29 @@ namespace EXhibition.Controllers
             strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.floorplanimg;
             floorplanimg.SaveAs(strPath);
 
+            var userInputTags = new List<Models.TagsName>();
+            userInputTags.Add(new TagsName() { id = 1, tagName = "美食" });
+            userInputTags.Add(new TagsName() { id = 2, tagName = "美九" });
+            userInputTags.Add(new TagsName() { id = 3, tagName = "美立" });
+
+            foreach (var item in userInputTags)
+            {
+                var a = db.TagsName.Where(e => e.tagName == item.tagName).FirstOrDefault();
+              
+              
+                if (a==null)
+                {
+                    db.TagsName.Add(new TagsName() { tagName = item.tagName });
+                    db.SaveChanges();
+                }
+
+                //db.eventTags.
+            }
+
+
+            
+
+
             //儲存資料到DB
             events.HID = (int)Session["HID"];
             db.events.Add(events);
