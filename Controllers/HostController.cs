@@ -23,8 +23,8 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        //林昶廷  顯示此主辦方所有的展覽列表
-        public ActionResult EditHost()
+        //林昶廷  主辦單位>顯示此主辦方所有的展覽列表
+        public ActionResult ShowHostEvent()
         {
             return View();
         }
