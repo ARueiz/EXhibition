@@ -1,0 +1,86 @@
+﻿.event-table tr {
+    /*line-height: 26px;*/
+}
+
+.status-badge {
+    padding: 5px 12px;
+    width: 90px;
+    text-align: center;
+    border-radius: 5px;
+}
+
+.badgeSuccess {
+    background-color: rgb(229, 249, 237);
+    color: rgb(31, 187, 98);
+}
+
+.badgeFail {
+    background-color: #ffcdc9;
+    color: #ff6858;
+}
+
+.badgeChecking {
+    background-color: #ffe6cf;
+    color: #ff9300;
+}
+
+button {
+    border: none;
+}
+
+.edit-btn {
+    padding: 5px 10px;
+    background-color: #c2d4fa;
+    color: #0c0c0c;
+    border-radius: 5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.status-btn {
+    margin-left: 5px;
+    /*background-color: #ff8484;*/
+    padding: 5px 8px;
+    border-radius: 5px;
+    color: #171717;
+    border: 2px solid transparent;
+}
+
+    .status-btn.all {
+        background-color: #badfff;
+    }
+
+        .status-btn.all:active {
+            background-color: #6ab9ff;
+        }
+
+    .status-btn.success {
+        background-color: #b0ff96;
+    }
+
+        .status-btn.success:active {
+            background-color: #3efc00;
+            /*color: white;*/
+        }
+
+    .status-btn.fail {
+        background-color: #ffccbd;
+    }
+
+        .status-btn.fail:active {
+            background-color: #ff9371;
+        }
+
+    .status-btn.checking {
+        background-color: rgb(248, 243, 178);
+    }
+
+        .status-btn.checking:active {
+            background-color: #fff630;
+        }
+
+    .status-btn:active {
+        border: 2px solid rgba(1, 1, 1, 0.18);
+    }
