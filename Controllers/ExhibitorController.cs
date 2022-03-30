@@ -30,11 +30,8 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        
-
-
         //廠商 可申請展覽
-        public ActionResult HistoryList(int? id=2)
+        public ActionResult CanApplyList(int? id=2)
         {
             
             ViewBag.EID = id;
