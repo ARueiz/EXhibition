@@ -46,7 +46,7 @@ namespace EXhibition.Controllers
         }
 
         //票卷票表
-        public ActionResult ticketList()
+        public ActionResult ticketList(int? id)
         {
             // int id = (int)Session["userid"];
 
