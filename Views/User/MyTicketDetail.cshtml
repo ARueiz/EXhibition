@@ -87,12 +87,10 @@
                 connectAxios: function () {
                     var self = this;
                     axios.get('/UserApi/ticketdetail').then(function (res) {
-                        for (var i in self.dataset) {
-                            var json = JSON.stringify(i.start);
-                            json = JSON.stringify(i.end);
-                        }
                         self.dataset = res.data;
-                        this.createQRCode(self.dataset.token);
+                        
+                       
+                        self.createQRCode(self.dataset.token);
                     })
                 },
                
