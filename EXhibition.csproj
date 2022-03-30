@@ -414,7 +414,6 @@
     <Content Include="Views\Exhibitor\showHostList.cshtml" />
     <Content Include="Views\Exhibitor\eventDetail.cshtml" />
     <Content Include="Views\Exhibitor\CanApplyList.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\Host\EditHostInfo.cshtml" />
     <Content Include="Views\Host\ShowHostEvent.cshtml" />
@@ -423,9 +422,7 @@
     <Content Include="Views\Exhibitor\eventDetail.cshtml" />
     <Content Include="Views\Shop\CheckoutSuccess.cshtml" />
     <Content Include="Views\Shop\Product.cshtml" />
-=======
     <Content Include="Views\Exhibitor\NowApplying.cshtml" />
->>>>>>> Azraekclash
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
