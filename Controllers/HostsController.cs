@@ -195,12 +195,6 @@ namespace EXhibition.Controllers
         }
 
 
-
-
-
-
-
-
         //邱品叡
         public ActionResult CreateEvent()
         {

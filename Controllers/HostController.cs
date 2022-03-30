@@ -23,7 +23,7 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        //林昶廷
+        //林昶廷  顯示此主辦方所有的展覽列表
         public ActionResult EditHost()
         {
             return View();
@@ -39,6 +39,7 @@ namespace EXhibition.Controllers
             ViewBag.id = id;
             return View();
         }
+
         //馬誠遠
         public ActionResult EditEvent()
         {
@@ -60,8 +61,6 @@ namespace EXhibition.Controllers
 
             return Json(tag,JsonRequestBehavior.AllowGet);
         }
-
-
        
 
         //邱品叡
@@ -82,10 +81,10 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        // 邱品叡 主辦單位>展覽列表>查看資訊
-        public ActionResult EventList()
-        {            
-            
+        // 邱品叡 主辦單位>修改個人資料
+        public ActionResult EditHostInfo()
+        {
+
             return View();
         }
 

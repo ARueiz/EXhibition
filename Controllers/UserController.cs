@@ -25,6 +25,11 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult EditUser()
+        {
+            return View();
+        }
+
         public ActionResult ScanLoginQRCode()
         {
             return View();
