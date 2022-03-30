@@ -409,20 +409,17 @@
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Shop\Shopcart.cshtml" />
     <Content Include="Views\PartView\_Footer.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\Exhibitor\showHostList.cshtml" />
     <Content Include="Views\Exhibitor\eventDetail.cshtml" />
     <Content Include="Views\Exhibitor\CanApplyList.cshtml" />
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\Host\EditHostInfo.cshtml" />
     <Content Include="Views\Host\ShowHostEvent.cshtml" />
-=======
     <Content Include="Views\Host\EditHost.cshtml" />
     <Content Include="Views\Exhibitor\showHostList.cshtml" />
     <Content Include="Views\Exhibitor\eventDetail.cshtml" />
     <Content Include="Views\Shop\CheckoutSuccess.cshtml" />
     <Content Include="Views\Shop\Product.cshtml" />
->>>>>>> dv6230
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
