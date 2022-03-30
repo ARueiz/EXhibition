@@ -23,7 +23,6 @@ namespace EXhibition.Controllers
             return View();
         }
 
-
         //展覽列表展示
         public ActionResult showHostList()
         {
@@ -38,5 +37,11 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        //廠商 正進行審核的活動列表
+        public ActionResult NowApplying(int? id=2)
+        {
+            ViewBag.EID = id;
+            return View();
+        }
     }
 }
