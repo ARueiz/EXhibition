@@ -14,6 +14,7 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        //票卷列表
         public ActionResult MyTicketList()
         {
             return View();
