@@ -218,6 +218,7 @@
     <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TicketToken.cs" />
     <Compile Include="Models\users.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -420,6 +421,7 @@
     <Content Include="Views\Exhibitor\eventDetail.cshtml" />
     <Content Include="Views\Shop\CheckoutSuccess.cshtml" />
     <Content Include="Views\Shop\Product.cshtml" />
+    <Content Include="Views\Host\CheckTicket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

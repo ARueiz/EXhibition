@@ -95,5 +95,15 @@ namespace EXhibition.Controllers
             return Ok(new ReturnData() { status = ReturnStatus.Success, message = "成功" });
         }
 
+        public IHttpActionResult PostCheckTicket(Models.CheckTicket ticket)
+        {
+            
+            if (ticket == null) return Ok(new ReturnData() { status = ReturnStatus.Error });
+
+
+
+            return Ok("1234");
+        }
+
     }
 }
