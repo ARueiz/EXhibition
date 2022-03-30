@@ -36,16 +36,20 @@ namespace EXhibition.Controllers
             return Json(b);
         }
 
+        // 查詢熱門票券
         public IHttpActionResult GetHotTicketList()
         {
             string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
 
             string queryString =
-                "select top(5) count(A.TID) , B.name " +
+                "select top(5) count(A.TID) , B.EVID " +
                 "from Tickets as A inner join events as B on A.EVID = B.EVID " +
                 "group by B.EVID , B.name order by 1 desc";
 
+            // 先將 id 撈成 陣列後 用 entity framework 去找資料
+
             List<events> eventlist = new List<events>();
+            List<int> eventIdList = new List<int>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -58,11 +62,7 @@ namespace EXhibition.Controllers
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                        eventlist.Add(new Models.events()
-                        {
-
-                        });
-                        Console.WriteLine("\t{0}\t{1}\t{2}", reader[0], reader[1], reader[2]);
+                        eventIdList.Add((int)reader[1]);
                     }
                     reader.Close();
                 }
@@ -71,6 +71,8 @@ namespace EXhibition.Controllers
                     Console.WriteLine(ex.Message);
                 }
             }
+
+            eventlist = db.events.Where(item => eventIdList.Contains(item.EVID)).ToList();
 
             return Json(eventlist);
         }
