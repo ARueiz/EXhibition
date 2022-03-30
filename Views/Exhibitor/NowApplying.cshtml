@@ -11,10 +11,10 @@
     <div class=" mb-4 d-flex flex-wrap justify-content-between align-content-center">
         <h3 class="col-md-4 h-100 m-0">已申請列表</h3>
         <div class="col-md-8 d-flex align-content-center justify-content-end">
-            <button class="status-btn all" onclick="getSearchList('all')">全部</button>
-            <button class="status-btn fail" onclick="getSearchList('拒絕')">申請失敗</button>
-            <button class="status-btn success" onclick="getSearchList('允許')">申請成功</button>
-            <button class="status-btn checking" onclick="getSearchList('尚未審核')">正在審核</button>
+            <button class="status-btn all" :onclick="getSearchList('all')">全部</button>
+            <button class="status-btn fail" :onclick="getSearchList('拒絕')">申請失敗</button>
+            <button class="status-btn success" :onclick="getSearchList('允許')">申請成功</button>
+            <button class="status-btn checking" :onclick="getSearchList('尚未審核')">正在審核</button>
         </div>
     </div>
     <div>

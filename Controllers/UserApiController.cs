@@ -47,7 +47,7 @@ namespace EXhibition.Controllers
         public ActionResult ticketList(int? id)
         {
 
-            int id = (int)Session["userid"] == null ? 2 : (int)Session["userid"];
+            id = Session["userid"] == null ? 2 : (int)Session["userid"];
 
 
             var mes = new Models.ReturnData();

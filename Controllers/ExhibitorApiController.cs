@@ -71,8 +71,6 @@ namespace EXhibition.Controllers
 
         }
 
-
-<<<<<<< HEAD
         //廠商活動資訊修改
         public ActionResult edit__exhibition(Models.exhibitinfo exhibitor)
         {
@@ -142,8 +140,6 @@ namespace EXhibition.Controllers
         }
 
 
-=======
->>>>>>> Azraekclash
         //編輯修改廠商
         public ActionResult editexhibitor(Models.exhibitors exhibitor)
         {
@@ -194,7 +190,7 @@ namespace EXhibition.Controllers
             
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
-                        where exhibitinfo.EID == id && exhibitinfo.status == "尚未審核"
+                        where exhibitinfo.EID == id
                         select new ApplyList{ EVID =events.EVID, name = events.name, startdate = events.startdate.ToString(), enddate = events.enddate.ToString(), venue = events.venue, status =exhibitinfo.status, dateout = false }).ToList();
 
             foreach(var item in list)
