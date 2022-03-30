@@ -202,11 +202,14 @@ namespace EXhibition.Controllers
 
             Models.ReturnData rd = new Models.ReturnData();
 
+
             if (id == null)
             {
                 rd.message = "找不到資料 Id 為 null";
                 rd.status = "error";
-                return Json(rd, JsonRequestBehavior.AllowGet);
+                //return Json(rd, JsonRequestBehavior.AllowGet);
+                return new NewJsonResult() { Data = rd };
+
             }
 
             int index = (int)id;
@@ -218,10 +221,14 @@ namespace EXhibition.Controllers
                 rd.message = "找不到資料";
                 rd.status = "error";
                 rd.data = a;
-                return Json(rd, JsonRequestBehavior.AllowGet);
+                //return Json(rd, JsonRequestBehavior.AllowGet);
+                return new NewJsonResult() { Data = rd };
+
             }
 
-            return Json(a, JsonRequestBehavior.AllowGet);
+           
+            return new NewJsonResult() { Data = a };
+            //return Json(a, JsonRequestBehavior.AllowGet);
         }
 
 
