@@ -30,24 +30,24 @@
 
 
     <!--        border-top-left-radius: 5px;border-bottom-left-radius: 5px;-->
-    <div class="row mb-4 boxShadow myTicketBox" v-for="element in dataRow">
+    <div class="row mb-4 boxShadow myTicketBox" v-for="item in dataset">
         <!-- #ffcc00 -->
         <div class="col-sm-3 p-0 m-0">
-            <img :src="imgUrl" class="ticketImg" alt="">
+            <img :src="item.image" class="ticketImg" alt="">
         </div>
-        <div class="col-sm-9 pt-2 pb-2" style="padding-left: 15px">
-            <h3>從零開始異世界生活</h3>
+        <div class="col-sm-9 pt-2 pb-2" style="padding-left: 15px" >
+            <h3>{{item.name}}</h3>
             <hr>
             <div class="mb-3">
                 <small class="w3-text-gray">日期</small>
-                <p class="mb-1">2022/01/01 - 2022/04/30</p>
+                <p class="mb-1">{{item.startdate}} - {{item.enddate}}</p>
                 <p class="badgeDefault" v-bind:class="[ badgeBackground('presale') ]">
                     <span>&#8226;</span>
                     {{ CheckTicket('now') }}
                 </p>
             </div>
             <div class="col-sm-3 mt-auto">
-                <button onclick="location.href = '/user/myTicketDetail';" class="w-100" style="color: #069ff1;line-height: 25px;border-radius: 5px;
+                <button onclick="location.href ='/user/myTicketDetail';" class="w-100" style="color: #069ff1;line-height: 25px;border-radius: 5px;
                                     border: 1px solid  #069ff1;background-color: white">
                     查看票券
                 </button>
@@ -60,7 +60,7 @@
 @section scripts{
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
             crossorigin="anonymous"></script>
-    <script src="./js/jquery.qrcode.min.js"></script>
+    @*<script src="./js/jquery.qrcode.min.js"></script>*@
 
     <script>
         new Vue({
@@ -75,10 +75,11 @@
                     },
                     imgUrl: '/image/Test/reZero.png',
                     dataRow: [1, 2, 3, 4, 5],
+                    dataset:[]
                 }
             },
             created: function () {
-
+                this.connectAxios();
             },
             methods: {
                 CheckTicket(value) {
@@ -93,6 +94,11 @@
                 badgeBackground(data) {
                     const self = this;
                     return self.badgeBg[data];
+                },
+                connectAxios: function () {
+                    axios.get('/UserApi/ticketList').then(function (res) {
+                        dataset = res.data;
+                    })
                 }
             }
         })
