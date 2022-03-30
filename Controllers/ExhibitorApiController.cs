@@ -211,7 +211,7 @@ namespace EXhibition.Controllers
             
             var list = (from even in db.events
                         where even.startdate>applydate
-                        select new { even.EVID, even.name,even.startdate , even.enddate, even.venue }).ToString();
+                        select new { even.EVID, even.name,startdate = even.startdate.ToString() , enddate =even.enddate.ToString(), even.venue }).ToList();
             
             if (!list.Any())
             {

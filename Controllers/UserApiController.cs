@@ -46,7 +46,9 @@ namespace EXhibition.Controllers
         //票卷票表
         public ActionResult ticketList()
         {
+
             int id = (int)Session["userid"] == null ? 2 : (int)Session["userid"];
+
 
             var mes = new Models.ReturnData();
             if (id == -1)
@@ -74,6 +76,7 @@ namespace EXhibition.Controllers
             return Json(ticketlist, JsonRequestBehavior.AllowGet);
         }
 
+
         public ActionResult ticketdetail(int? eventID = 12)
         {
             //int userId = (int)Session["userid"];
@@ -98,6 +101,61 @@ namespace EXhibition.Controllers
 
             //return new NewJsonResult() { Data = data };
             return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetUserInfo(int? id)
+        {
+            Session["UID"] = 2;
+
+            int UID = Convert.ToInt32(Session["UID"]);
+
+            var list = (from user in db.users
+                        where user.UID == UID && user.verify == true
+                        select new
+                        {
+                            UID = user.UID,
+                            name = user.name,
+                            phone = user.phone,
+                            email = user.email,
+                        }).ToList();
+
+            return new NewJsonResult() { Data = list[0] };
+        }
+
+        public ActionResult DoUpdateUserInfo(users user)
+        {
+            users updateUser = db.users.FirstOrDefault(u => u.UID == user.UID);
+            ReturnData data = new ReturnData();
+
+            if (updateUser != null)
+            {
+                updateUser.name = user.name;
+                updateUser.phone = user.phone;
+                updateUser.email = user.email;
+
+                try
+                {
+                    db.SaveChanges();
+                    data.status = ReturnStatus.Success;
+                    data.message = "更新成功!";
+
+                    return Json(data, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    data.status = ReturnStatus.Error;
+                    data.message = "更新失敗!";
+
+                    return Json(data, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                data.status = ReturnStatus.Error;
+                data.message = "更新失敗!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+
         }
     }
 }

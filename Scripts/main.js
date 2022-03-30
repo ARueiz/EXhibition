@@ -1,0 +1,1 @@
+Vue.config.devtools = true;
