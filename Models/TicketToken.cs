@@ -10,5 +10,7 @@ namespace EXhibition.Models
     {
         public int TicketId { get; set; }
         public string TicketToken { get; set; }
+
+        public int TicketEventId { get; set; }  
     }
 }

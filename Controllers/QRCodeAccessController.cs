@@ -1,6 +1,8 @@
 ﻿using EXhibition.Models;
+using System;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace EXhibition.Controllers
 {
@@ -51,7 +53,7 @@ namespace EXhibition.Controllers
             {
                 status = ReturnStatus.Success,
                 message = "成功登入",
-                data = new { url = "/user" , info = info }  // 給予對應的後台畫面
+                data = new { url = "/user", info = info }  // 給予對應的後台畫面
             };
 
             return Ok(returnData);
@@ -95,14 +97,29 @@ namespace EXhibition.Controllers
             return Ok(new ReturnData() { status = ReturnStatus.Success, message = "成功" });
         }
 
-        public IHttpActionResult PostCheckTicket(Models.CheckTicket ticket)
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult PostCheckTicket(Models.CheckTicket getTicketData)
         {
-            
-            if (ticket == null) return Ok(new ReturnData() { status = ReturnStatus.Error });
+
+            if (getTicketData == null) return Ok(new ReturnData() { status = ReturnStatus.Error, message = "錯誤" });
+
+            var t = db.Tickets.Find(getTicketData.TicketId);
+
+            if (t == null) // 找不到票券
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "找不到票券" });
+
+            else if (t.EVID != getTicketData.TicketEventId) // 票券 id 與 該場次 id 不符
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "QR code 錯誤" });
+
+            else if (t.token.Equals(getTicketData.TicketToken) == false) // token 不相符
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "QR code 錯誤" });
+
+            else if (t.createAt < DateTime.Now)
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "QR code 逾時" });
 
 
-
-            return Ok("1234");
+            return Ok(new { ticket = getTicketData, status = "success", message = "成功" });
         }
 
     }

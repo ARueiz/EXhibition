@@ -157,7 +157,7 @@ namespace EXhibition.Controllers
             list = (List<CartItem>)HttpContext.Current.Session[cartItem];
 
             if (list == null) list = new List<CartItem>();
-            
+
             return Ok(list);
         }
 
@@ -165,13 +165,13 @@ namespace EXhibition.Controllers
         public IHttpActionResult PostCreateOrder()
         {
             List<events> eventList = (List<events>)HttpContext.Current.Session[GlobalVariables.CartItems];
-            if (eventList == null || eventList.Count <= 0 )
-            {
+            if (eventList == null || eventList.Count <= 0)
                 return Ok(new ReturnData() { status = ReturnStatus.Error, message = "購物車為空" });
-            }
+
             List<int> eventIdList = new List<int>();
             foreach (var item in eventList) { eventIdList.Add(item.EVID); };
             orders order = new CheckOut().CreateOrder(eventIdList, 2);
+
             return Ok(new { status = "成功", order = order });
         }
 
