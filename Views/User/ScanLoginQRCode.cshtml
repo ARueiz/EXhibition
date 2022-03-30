@@ -10,14 +10,6 @@
     </div>
     <button class="btn btn-primary" id="start-button">開始掃描</button>
     <button class="btn btn-primary" id="stop-button">停止掃描</button>
-
-    <div class="d-none">
-        <h5>Detected QR code: </h5>
-        <span id="cam-qr-result">None</span>
-        <br>
-        <h5>Last detected at: </h5>
-        <span id="cam-qr-result-timestamp"></span>
-    </div>
 </div>
 
 @section scripts{
@@ -29,17 +21,17 @@
 
         const video = document.getElementById('qr-video');
         //const videoContainer = document.getElementById('video-container');
-        const camList = document.getElementById('cam-list');
-        const camHasFlash = document.getElementById('cam-has-flash');
-        const camQrResult = document.getElementById('cam-qr-result');
-        const camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp');
+        //const camList = document.getElementById('cam-list');
+        // const camHasFlash = document.getElementById('cam-has-flash');
+        //const camQrResult = document.getElementById('cam-qr-result');
+        //const camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp');
         let token = '';
 
         function setResult(label, result) {
             console.log(result.data);
             label.textContent = result.data;
             token = result.data;
-            camQrResultTimestamp.textContent = new Date().toString();
+            //camQrResultTimestamp.textContent = new Date().toString();
             label.style.color = 'teal';
             clearTimeout(label.highlightTimeout);
             label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
@@ -74,8 +66,8 @@
 
         const scanner = new QrScanner(video, result => setResult(camQrResult, result), {
             onDecodeError: error => {
-                camQrResult.textContent = error;
-                camQrResult.style.color = 'inherit';
+                //camQrResult.textContent = error;
+                //camQrResult.style.color = 'inherit';
             },
             highlightScanRegion: true,
             highlightCodeOutline: true,
@@ -84,7 +76,7 @@
 
         const updateFlashAvailability = () => {
             scanner.hasFlash().then(hasFlash => {
-                camHasFlash.textContent = hasFlash;
+                //camHasFlash.textContent = hasFlash;
                 //flashToggle.style.display = hasFlash ? 'inline-block' : 'none';
             });
         };
@@ -99,7 +91,7 @@
                 const option = document.createElement('option');
                 option.value = camera.id;
                 option.text = camera.label;
-                camList.add(option);
+                //camList.add(option);
             }));
         });
 
