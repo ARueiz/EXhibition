@@ -263,6 +263,24 @@
     <Content Include="Image\Dev\Register-exhibitor.png" />
     <Content Include="Image\Dev\login-bro-host.png" />
     <Content Include="Image\Dev\login-bro-user.png" />
+    <Content Include="Image\Host\EditHost.png" />
+    <Content Include="Image\Host\EV_UID2_220326_220327.png" />
+    <Content Include="Image\Host\EV_UID2_220329_220331.png" />
+    <Content Include="Image\Host\EV_UID2_220330_220331.png" />
+    <Content Include="Image\Host\EV_UID2_220330_220406.png" />
+    <Content Include="Image\Host\EV_UID2_220331_220408.png" />
+    <Content Include="Image\Host\EV_UID2_220401_220405.png" />
+    <Content Include="Image\Host\EV_UID2_220402_220405.png" />
+    <Content Include="Image\Host\EV_UID2_220422_220531.png" />
+    <Content Include="Image\Host\FP_UID2_220326_220327.png" />
+    <Content Include="Image\Host\FP_UID2_220329_220331.png" />
+    <Content Include="Image\Host\FP_UID2_220330_220331.png" />
+    <Content Include="Image\Host\FP_UID2_220330_220406.png" />
+    <Content Include="Image\Host\FP_UID2_220331_220408.png" />
+    <Content Include="Image\Host\FP_UID2_220401_220405.png" />
+    <Content Include="Image\Host\FP_UID2_220402_220405.png" />
+    <Content Include="Image\Host\FP_UID2_220422_220531.png" />
+    <Content Include="Image\Host\Host_img_HID2.png" />
     <Content Include="Image\Host\pexels-photo-10147530.jpeg" />
     <Content Include="Image\Test\eighty-six.png" />
     <Content Include="Image\Test\fruit01.png" />
@@ -391,6 +409,8 @@
     <Content Include="Views\PartView\_Footer.cshtml" />
     <Content Include="Views\Exhibitor\showHostList.cshtml" />
     <Content Include="Views\Exhibitor\eventDetail.cshtml" />
+    <Content Include="Views\Host\EditHost.cshtml" />
+    <Content Include="Views\User\EditUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

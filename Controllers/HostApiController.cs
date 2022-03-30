@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using EXhibition.Models;
 
 namespace EXhibition.Controllers
 {
@@ -150,13 +149,21 @@ namespace EXhibition.Controllers
 
         public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events){
 
-            //儲存 封面圖 to Image/Host
-            string strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.image;
-            image.SaveAs(strPath);
+            string strPath = "";
 
-            //儲存 平面圖 to Image/Host
-            strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.floorplanimg;
-            floorplanimg.SaveAs(strPath);
+            if (image != null)
+            {
+                //儲存 封面圖 to Image/Host
+                strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.image;
+                image.SaveAs(strPath);
+            }
+
+            if(floorplanimg != null)
+            {
+                //儲存 平面圖 to Image/Host
+                strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.floorplanimg;
+                floorplanimg.SaveAs(strPath);
+            }
 
             var userInputTags = new List<Models.TagsName>();
             userInputTags.Add(new TagsName() { id = 1, tagName = "美食" });
@@ -175,29 +182,27 @@ namespace EXhibition.Controllers
                 }
 
                 //db.eventTags.
-            }
-
-
-            
+            }            
 
 
             //儲存資料到DB
             events.HID = (int)Session["HID"];
             db.events.Add(events);
             int result = db.SaveChanges();
-            
-            if(result > 0)
+            try
             {
+                db.SaveChanges();
                 ReturnData data = new ReturnData();
-                data.status = "success";
+                data.status = ReturnStatus.Success;
                 data.message = "新增成功!";
 
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
-            else
+            catch (Exception)
             {
+
                 ReturnData data = new ReturnData();
-                data.status = "failed";
+                data.status = ReturnStatus.Error;
                 data.message = "新增失敗!";
 
                 return Json(data, JsonRequestBehavior.AllowGet);
@@ -258,7 +263,10 @@ namespace EXhibition.Controllers
 
             if (id == null) { id = 0; }
             int num = (int)id;
-            var list = (from eve in db.events where eve.HID == HID orderby eve.startdate descending select eve).Skip(num).Take(12).ToList();
+            var list = (from eve in db.events
+                        where eve.HID == HID 
+                        orderby eve.startdate descending select eve)
+                        .Skip(num).Take(12).ToList();
 
             for (int i = 0; i < list.Count; i++)
             {
@@ -268,5 +276,74 @@ namespace EXhibition.Controllers
 
             return new NewJsonResult() { Data = list};
         }
+
+        public ActionResult GetHostInfo(int? id)
+        {
+            Session["HID"] = 2;
+
+            int HID = Convert.ToInt32(Session["HID"]);
+
+            var list = (from host in db.hosts where host.HID == HID && host.verify == true
+                        select new {
+                            HID = host.HID,
+                            name = host.name,
+                            phone = host.phone,
+                            email = host.email,
+                            link = host.link,
+                            image = host.image,
+                            verify = host.verify
+                        }).ToList();
+
+            return new NewJsonResult() { Data = list[0] };
+        }
+
+        public ActionResult DoUpdateHostInfo(HttpPostedFileBase imagefile, hosts host)
+        {
+            string strPath = "";
+
+            hosts updateHost = db.hosts.FirstOrDefault(h => h.HID == host.HID);
+            ReturnData data = new ReturnData();
+
+            if (updateHost != null)
+            {
+                if (imagefile != null)
+                {
+                    //儲存 封面圖 to Image/Host
+                    strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + host.image;
+                    updateHost.image = host.image;
+                    imagefile.SaveAs(strPath);
+                }
+
+                updateHost.name = host.name;
+                updateHost.phone = host.phone;
+                updateHost.email = host.email;
+                updateHost.link = host.link;
+
+                try
+                {
+                    db.SaveChanges();
+                    data.status = ReturnStatus.Success;
+                    data.message = "更新成功!";
+
+                    return Json(data, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    data.status = ReturnStatus.Error;
+                    data.message = "更新失敗!";
+
+                    return Json(data, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                data.status = ReturnStatus.Error;
+                data.message = "更新失敗!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
     }
 }
