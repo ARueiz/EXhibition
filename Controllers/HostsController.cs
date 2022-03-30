@@ -59,7 +59,7 @@ namespace EXhibition.Controllers
             var rd = new ReturnData();
 
 
-            var allow = db.exhibitors.Where(i => i.verify == false);
+            var allow = db.exhibitors.Where(i => i.verify == false).ToList() ;
 
             if (allow == null)
             {
