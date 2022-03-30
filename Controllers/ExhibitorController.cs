@@ -38,5 +38,12 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        //廠商 編輯個人資料
+        public ActionResult EditExhibitor()
+        {
+
+            return View();
+        }
+
     }
 }

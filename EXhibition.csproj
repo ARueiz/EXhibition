@@ -414,6 +414,7 @@
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\Host\EditHostInfo.cshtml" />
     <Content Include="Views\Host\ShowHostEvent.cshtml" />
+    <Content Include="Views\Exhibitor\EditExhibitor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

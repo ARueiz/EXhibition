@@ -48,6 +48,7 @@ namespace EXhibition.Controllers
         //票卷票表
         public ActionResult ticketList()
         {
+            
             int id = (int)Session["userid"];
 
             var mes = new Models.ReturnData();
