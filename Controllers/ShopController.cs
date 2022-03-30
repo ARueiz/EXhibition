@@ -25,5 +25,10 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult CheckoutSuccess()
+        {
+            return View();
+        }
+
     }
 }

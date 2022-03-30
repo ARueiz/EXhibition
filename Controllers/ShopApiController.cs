@@ -1,4 +1,5 @@
 ﻿using EXhibition.Models;
+using EXhibition.Repo;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -146,6 +147,32 @@ namespace EXhibition.Controllers
             }
 
             return Ok(list);
+        }
+
+        public IHttpActionResult GetCartList()
+        {
+            // 區域變數
+            string cartItem = GlobalVariables.CartItems;
+            List<CartItem> list = new List<CartItem>();
+            list = (List<CartItem>)HttpContext.Current.Session[cartItem];
+
+            if (list == null) list = new List<CartItem>();
+            
+            return Ok(list);
+        }
+
+        // 建立訂單
+        public IHttpActionResult PostCreateOrder()
+        {
+            List<events> eventList = (List<events>)HttpContext.Current.Session[GlobalVariables.CartItems];
+            if (eventList == null || eventList.Count <= 0 )
+            {
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "購物車為空" });
+            }
+            List<int> eventIdList = new List<int>();
+            foreach (var item in eventList) { eventIdList.Add(item.EVID); };
+            orders order = new CheckOut().CreateOrder(eventIdList, 2);
+            return Ok(new { status = "成功", order = order });
         }
 
     }
