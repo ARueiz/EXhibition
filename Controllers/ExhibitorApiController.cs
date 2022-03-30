@@ -1,4 +1,5 @@
 ﻿using EXhibition.Models;
+
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -56,7 +57,8 @@ namespace EXhibition.Controllers
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
                         where exhibitinfo.EID == id
-                        select new { events.EVID, events.name, events.startdate, events.enddate, events.venue }).ToList();
+                        orderby events.startdate,events.enddate
+                        select new { events.EVID, events.name, startdate =events.startdate.ToString(), enddate =events.enddate.ToString(), events.venue }).ToList();
 
             if (!list.Any())
             {
@@ -69,6 +71,79 @@ namespace EXhibition.Controllers
 
         }
 
+
+<<<<<<< HEAD
+        //廠商活動資訊修改
+        public ActionResult edit__exhibition(Models.exhibitinfo exhibitor)
+        {
+
+            var rd = new ReturnData();
+
+
+            if (exhibitor.EID == 0)
+            {
+                rd.message = "no data";
+                rd.status = "error";
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                int i = (int)exhibitor.EID;
+                var data = db.exhibitinfo.Find(i);
+
+
+                data.link = exhibitor.link;
+                change_image_link(data.image, exhibitor.image);
+                data.boothnumber = exhibitor.boothnumber;
+                data.productinfo = exhibitor.productinfo;
+
+                rd.message = "modified success";
+                rd.status = "success";
+
+
+                db.SaveChanges();
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                rd.message = "no data";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        //改變圖片
+        public ActionResult change_image_link(string link, string newlink)
+        {
+            if (System.IO.File.Exists(link))
+            {
+                // Use a try block to catch IOExceptions, to
+                // handle the case of the file already being
+                // opened by another process.
+                try
+                {
+
+                    System.IO.File.Delete(link);
+                    link = newlink;
+                }
+                catch (System.IO.IOException e)
+                {
+                    ReturnData rd = new ReturnData();
+                    rd.message = "no data";
+                    rd.status = "error";
+                    return Json(rd, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
+
+=======
+>>>>>>> Azraekclash
         //編輯修改廠商
         public ActionResult editexhibitor(Models.exhibitors exhibitor)
         {
@@ -105,7 +180,7 @@ namespace EXhibition.Controllers
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
-        //廠商審核中申請
+        //廠商正在審核中的申請
         public ActionResult NowApplying(int? id)
         {
             ReturnData rd = new ReturnData();
@@ -116,11 +191,31 @@ namespace EXhibition.Controllers
                 rd.status = "error";
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
+            
+            var list = (from exhibitinfo in db.exhibitinfo
+                        join events in db.events on exhibitinfo.EVID equals events.EVID
+                        where exhibitinfo.EID == id && exhibitinfo.status == "尚未審核"
+                        select new ApplyList{ EVID =events.EVID, name = events.name, startdate = events.startdate.ToString(), enddate = events.enddate.ToString(), venue = events.venue, status =exhibitinfo.status, dateout = false }).ToList();
 
-            var list = (from info in db.exhibitinfo
-                        join even in db.events on info.EVID equals even.EVID
-                        where info.EID == id && info.status == "尚未審核"
-                        select new { even.EVID, even.name, even.startdate, even.enddate, even.venue, info.status }).ToList();
+            foreach(var item in list)
+            {
+                if(item.status == "尚未審核")
+                {
+                    item.status = "checking";
+                }
+                else if (item.status == "允許")
+                {
+                    item.status = "success";
+                }
+                else if (item.status == "拒絕")
+                {
+                    item.status = "fail";
+                }
+                else
+                {
+                    item.status = "";
+                }
+            }
 
             if (!list.Any())
             {
@@ -128,7 +223,52 @@ namespace EXhibition.Controllers
                 rd.status = "error";
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
 
+        //廠商正在審核中的申請--點下tag
+        public ActionResult NowApplyingTag(string tag)
+        {
+            ReturnData rd = new ReturnData();
+
+            if (tag == null)
+            {
+                rd.message = "找不到資料 Id 為 null";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            var list = (from exhibitinfo in db.exhibitinfo
+                        join events in db.events on exhibitinfo.EVID equals events.EVID
+                        where exhibitinfo.status == tag
+                        select new ApplyList { EVID = events.EVID, name = events.name, startdate = events.startdate.ToString(), enddate = events.enddate.ToString(), venue = events.venue, status = exhibitinfo.status, dateout = false }).ToList();
+
+            foreach (var item in list)
+            {
+                if (item.status == "尚未審核")
+                {
+                    item.status = "checking";
+                }
+                else if (item.status == "允許")
+                {
+                    item.status = "success";
+                }
+                else if (item.status == "拒絕")
+                {
+                    item.status = "fail";
+                }
+                else
+                {
+                    item.status = "";
+                }
+            }
+
+            if (!list.Any())
+            {
+                rd.message = "找不到資料";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 

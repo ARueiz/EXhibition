@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "NowApplying";
+}
+
+@section styles{
+    <link href="~/Content/NowApplying.css" rel="stylesheet" />
+}
+
+<div class="col-md-10 mt-3 p-5" id="contain">
+    <div class=" mb-4 d-flex flex-wrap justify-content-between align-content-center">
+        <h3 class="col-md-4 h-100 m-0">已申請列表</h3>
+        <div class="col-md-8 d-flex align-content-center justify-content-end">
+            <button class="status-btn all" onclick="getSearchList('all')">全部</button>
+            <button class="status-btn fail" onclick="getSearchList('拒絕')">申請失敗</button>
+            <button class="status-btn success" onclick="getSearchList('允許')">申請成功</button>
+            <button class="status-btn checking" onclick="getSearchList('尚未審核')">正在審核</button>
+        </div>
+    </div>
+    <div>
+        <table class="table event-table">
+            <thead>
+                <tr>
+                    <th scope="col" style="width: 10%">編號#</th>
+                    <th scope="col" style="width: 28%">展覽名稱</th>
+                    <th scope="col" style="width: 17%" class="text-center">申請日期</th>
+                    <th scope="col" style="width: 10%" class="text-center">狀態</th>
+                    <th scope="col" style="width: 25%" class="text-center">原因</th>
+                    <th scope="col" style="width: 10%" class="text-center">選項</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(element,index) in eventList">
+                    <td class="align-middle" scope="row">{{ index + 1 }}</td>
+                    <td class="align-middle"><a href="#">{{ element.name }}</a></td>
+                    <td class="align-middle text-center">{{ element.createAt }}</td>
+                    <td class="align-middle text-center">
+                        <span class="status-badge d-inline-block"
+                              v-bind:class="[ badgeBackground(element.status) ]">{{ toChinese(element.status) }}</span>
+                    </td>
+                    <td class="align-middle text-center">{{ element.reason }}</td>
+                    <td class="align-middle text-center">
+                        <button class="edit-btn"
+                                v-if="element.status === 'fail' && checkDate(element.startTime)"
+                                onclick="edit(element.EVID)">
+                            編輯
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-end">
+            <a style="margin: 5px" href="#">上一頁</a>
+            <a style="margin: 5px" href="#">下一頁</a>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+        crossorigin="anonymous"></script>
+<script src="./js/jquery.qrcode.min.js"></script>
+
+<script>
+    new Vue({
+        el: '#contain',
+        data() {
+            return {
+                badgeBg: {
+                    success: 'badgeSuccess',
+                    fail: 'badgeFail',
+                    checking: 'badgeChecking',
+                },
+                eventList: [                   
+                ],
+                taglist: [
+                ],
+                pageNum: 1,
+                searchStatus: 'all'
+            }
+        },
+        created() {
+
+        },
+        mounted: function(){
+            const self = this
+            axios.get('/ExhibitorApi/NowApplying/10')
+                .then(function (response) {
+                    self.eventList = response.data
+                    console.log(response)
+                })
+        },
+        methods: {
+            toChinese(data) {
+                if (data === 'fail') {
+                    return '申請失敗'
+                } else if (data === 'success') {
+                    return '申請成功'
+                } else if (data === 'checking') {
+                    return '正在審核'
+                }
+            },
+            badgeBackground(data) {
+                const self = this;
+                return self.badgeBg[data];
+            },
+            edit(data) {
+                window.location.href = '前往編輯連結' + data
+            },
+            checkDate(data) {
+
+            },
+            getSearchList(data) {
+                // 按鈕會會傳狀態，根據狀態進行判斷目前要撈哪種資料           
+                const self = this
+                axios.get('/ExhibitorApi/NowApplyingTag/?tag='+data)
+                    .then(function (response) {
+                        self.eventList = response.data;
+                        console.log(response)
+                    })
+            }
+        },
+    })
+
+
+</script>
+
+
+
+

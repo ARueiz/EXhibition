@@ -20,6 +20,7 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        //票卷細節
         public ActionResult MyTicketDetail()
         {
             return View();
@@ -34,6 +35,8 @@ namespace EXhibition.Controllers
         {
             return View();
         }
+
+       
 
     }
 }
