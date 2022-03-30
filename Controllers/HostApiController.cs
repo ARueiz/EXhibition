@@ -194,6 +194,8 @@ namespace EXhibition.Controllers
                         ticketPrice = eventsTable.ticketprice,
                     };
 
+            
+
             return Json( b, JsonRequestBehavior.AllowGet);
         }
        
