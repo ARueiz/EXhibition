@@ -69,6 +69,76 @@ namespace EXhibition.Controllers
 
         }
 
+
+        //廠商活動資訊修改
+        public ActionResult edit__exhibition(Models.exhibitinfo exhibitor)
+        {
+
+            var rd = new ReturnData();
+
+
+            if (exhibitor.EID == 0)
+            {
+                rd.message = "no data";
+                rd.status = "error";
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            try
+            {
+                int i = (int)exhibitor.EID;
+                var data = db.exhibitinfo.Find(i);
+
+
+                data.link = exhibitor.link;
+                change_image_link(data.image, exhibitor.image);
+                data.boothnumber = exhibitor.boothnumber;
+                data.productinfo = exhibitor.productinfo;
+
+                rd.message = "modified success";
+                rd.status = "success";
+
+
+                db.SaveChanges();
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                rd.message = "no data";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+        //改變圖片
+        public ActionResult change_image_link(string link, string newlink)
+        {
+            if (System.IO.File.Exists(link))
+            {
+                // Use a try block to catch IOExceptions, to
+                // handle the case of the file already being
+                // opened by another process.
+                try
+                {
+
+                    System.IO.File.Delete(link);
+                    link = newlink;
+                }
+                catch (System.IO.IOException e)
+                {
+                    ReturnData rd = new ReturnData();
+                    rd.message = "no data";
+                    rd.status = "error";
+                    return Json(rd, JsonRequestBehavior.AllowGet);
+                }
+            }
+
+            return Json(null, JsonRequestBehavior.AllowGet);
+        }
+
+
         //編輯修改廠商
         public ActionResult editexhibitor(Models.exhibitors exhibitor)
         {

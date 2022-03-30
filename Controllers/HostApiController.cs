@@ -145,7 +145,79 @@ namespace EXhibition.Controllers
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
-       
+        //顯示verefied 是 false 的參展商
+        public ActionResult show_verified_false_exhibitor()
+        {
+            var data = db.exhibitors.Where(a => a.verify == false);
+
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        //顯示所有廠商活動
+        public ActionResult exhibitInfo_AllowOrRefuse()
+        {
+            var rd = new ReturnData();
+            var alldata = db.exhibitinfo.ToList();
+
+            if (alldata == null)
+            {
+                rd.message = "no data";
+                rd.status = "error";
+            }
+
+            return Json(alldata, JsonRequestBehavior.AllowGet);
+        }
+
+        //允許或拒絕廠商
+        public ActionResult AllowOrRefuse(int? index)
+        {
+            var rd = new ReturnData();
+            if (index == null)
+            {
+                rd.message = "no data";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+            int x = (int)index;
+            var allow = db.exhibitors.Find(x);
+
+            if (allow.verify == false)
+            {
+                allow.verify = true;
+
+                rd.message = "modified";
+                rd.status = "success";
+                db.SaveChanges();
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            rd.message = "no data";
+            rd.status = "error";
+            return Json(rd, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //tag顯示器只顯示前十筆
+        public ActionResult tagselector()
+        {
+            var data = ( 
+                from p in db.eventTags
+                        join q in db.TagsName
+                        on p.tagID equals q.id
+                        
+                        orderby p.tagID
+                        
+                        select new {
+                            name = q.tagName,
+                            id = p.tagID
+                        }).Take(5).Count();
+                       
+
+            return Json(data,JsonRequestBehavior.AllowGet);
+        }
+
+
 
 
 

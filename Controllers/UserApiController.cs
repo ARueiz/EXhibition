@@ -1,8 +1,6 @@
 ﻿using EXhibition.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 namespace EXhibition.Controllers
 {
@@ -48,10 +46,10 @@ namespace EXhibition.Controllers
         //票卷票表
         public ActionResult ticketList()
         {
-            // int id = (int)Session["userid"];
+            int id = (int)Session["userid"] == null ? 2 : (int)Session["userid"];
 
-            var mes = new  Models.ReturnData ();
-            if(id == -1)
+            var mes = new Models.ReturnData();
+            if (id == -1)
             {
                 mes.status = ReturnStatus.Error;
                 mes.message = "404";
@@ -59,19 +57,47 @@ namespace EXhibition.Controllers
                 return Json(mes, JsonRequestBehavior.AllowGet);
             }
 
-            var ticketlist = (from p in db.Tickets 
-                              join  q in db.events on p.EVID equals q.EVID 
+            var ticketlist = (from p in db.Tickets
+                              join q in db.events on p.EVID equals q.EVID
                               join k in db.users on p.UID equals k.UID
-                              where k.UID == id select new {
-                name = q.name,
-                startdate = q.startdate,
-                enddate = q.enddate ,
-                image = q.image ,
+                              where k.UID == id
+                              select new
+                              {
+                                  name = q.name,
+                                  startdate = q.startdate,
+                                  enddate = q.enddate,
+                                  image = q.image,
 
 
-            }).ToList();
+                              }).ToList();
 
             return Json(ticketlist, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ticketdetail(int? eventID = 12)
+        {
+            //int userId = (int)Session["userid"];
+            int userId = 14;
+            var data = (from p in db.Tickets
+                        join q in db.users on p.UID equals q.UID
+                        join k in db.events on p.EVID equals k.EVID
+                        where k.EVID == eventID
+                        where q.UID == userId
+                        select new
+                        {
+                            name = k.name,
+                            start = k.startdate,
+                            end = k.enddate,
+                            image = k.image,
+                            info = k.exhibitinfo,
+                            token = p.token
+
+                        }).ToList();
+
+
+
+            //return new NewJsonResult() { Data = data };
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
     }
 }

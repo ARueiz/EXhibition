@@ -2,6 +2,105 @@
 @{
     ViewBag.Title = "MyTicketDetail";
 }
+<div class="row main-content" style="min-height: 100vh">
 
-<h2>MyTicketDetail</h2>
+
+
+    <div class="col-md-10 rwd-mt p-5 content " id="contain">
+        <div class="row mb-3">
+            <div class="d-inline-block p-3">
+                <div class="row mb-3">
+                    <div class="col-md-4 mb-1" v-for="i in dataset">
+                        <p class="mb-2" style="color:gray;"> 展覽名稱 </p>
+                        <h4 class="mb-4" style="color: #199aff"> {{ i.name }}</h4>
+                        <p class="mb-2" style="color:gray;"> 展覽期間 </p>
+                        <h4 class="mb-4">
+                            {{ i.start }} - {{ i.end }}
+                        </h4>
+                    </div>
+                    <div class="col-md-8">
+                        <p style="color: gray">QR code</p>
+                        <div id="qrcodeBox" class="d-flex justify-content-center"></div>
+                    </div>
+
+                    <div>{{i.info}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+@*<script src="./js/jquery.qrcode.min.js"></script>*@
+
+<script>
+        new Vue({
+            el: '#contain',
+            data() {
+                return {
+                    ticketStatus: 'over',
+                    title: '進級的巨人',
+                    exhibitionStart: '2022/01/01',
+                    exhibitionEnd: '2022/06/30',
+                    imgUrl: './images/myTicketTitan.png',
+                    content: '當你搞懂後就會明白了。金斯萊曾講過，天賦每個人都有，誰發揮自己的天賦，誰做事就得心應手。' +
+                        '希望大家能從這段話中有所收穫。伏契克講過一段耐人尋思的話，忠實於理想——這是崇高而又有力的一種感情，' +
+                        '這種感情和最殘酷的壓迫相對抗，這種感情甚至在危急萬分的時刻也仍存於人的心中。但願各位能從這段話中獲得' +
+                        '心靈上的滋長。我們需要淘汰舊有的觀念，了解清楚唬爛到底是一種怎麼樣的存在，是解決一切問題的關鍵。',
+                    QRCodeContent: 'hello world',
+
+                    dataset: [],
+                }
+            },
+            created() {
+                this.connectAxios();
+               
+
+            },
+            mounted() {
+                // 放在 mounted 是因為 created 的 dom 還沒建立完畢
+               
+              
+            },
+            methods: {
+                CheckTicket(data) {
+                    if (this.ticketStatus.toUpperCase() === 'over'.toUpperCase()) {
+                        return '逾期票券';
+                    } else if (this.ticketStatus.toUpperCase() === 'now'.toUpperCase()) {
+                        return '當期票券';
+                    } else if (this.ticketStatus.toUpperCase() === 'presale'.toUpperCase()) {
+                        return '預售票券';
+                    }
+                },
+                badgeBackground() {
+                    const self = this;
+                    return self.badgeBg[self.ticketStatus];
+                },
+                createQRCode(data) {
+                    document.getElementById('qrcodeBox').innerHTML = "";
+                    $('#qrcodeBox').qrcode(data);
+                },
+
+                connectAxios: function () {
+                    var self = this;
+                    axios.get('/UserApi/ticketdetail').then(function (res) {
+                        for (var i in self.dataset) {
+                            var json = JSON.stringify(i.start);
+                            json = JSON.stringify(i.end);
+                        }
+                        self.dataset = res.data;
+                        this.createQRCode(self.dataset.token);
+                    })
+                },
+               
+            }
+        })
+
+
+</script>
+
+
 

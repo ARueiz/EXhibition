@@ -50,46 +50,9 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        public ActionResult exhibirtor_AllowOrRefuse()
-        {
-            var rd = new ReturnData();
-            var alldata = db.exhibitinfo.ToList();
+     
 
-            if (alldata == null)
-            {
-                rd.message = "no data";
-                rd.status = "error";
-            }
-
-            return Json(alldata, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult AllowOrRefuse(int? index)
-        {
-            var rd = new ReturnData();
-            if (index == null)
-            {
-                rd.message = "no data";
-                rd.status = "error";
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
-            int x = (int)index;
-            var allow = db.exhibitors.Find(x);
-
-            if (allow.verify == false)
-            {
-                allow.verify = true;
-
-                rd.message = "modified";
-                rd.status = "success";
-                db.SaveChanges();
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
-
-            rd.message = "no data";
-            rd.status = "error";
-            return Json(rd, JsonRequestBehavior.AllowGet);
-        }
+       
 
         public ActionResult allow_all()
         {
@@ -119,80 +82,10 @@ namespace EXhibition.Controllers
 
         }
 
-        public ActionResult edit__exhibition(Models.exhibitinfo exhibitor)
-        {
+       
 
-            var rd = new ReturnData();
+     
 
-
-            if (exhibitor.EID == 0)
-            {
-                rd.message = "no data";
-                rd.status = "error";
-
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
-
-            try
-            {
-                int i = (int)exhibitor.EID;
-                var data = db.exhibitinfo.Find(i);
-
-
-                data.link = exhibitor.link;
-                change_image_link(data.image, exhibitor.image);
-                data.boothnumber = exhibitor.boothnumber;
-                data.productinfo = exhibitor.productinfo;
-
-                rd.message = "modified success";
-                rd.status = "success";
-
-
-                db.SaveChanges();
-
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
-            catch(Exception e)
-            {
-                rd.message = "no data";
-                rd.status = "error";
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
-
-        }
-
-        public ActionResult change_image_link(string link, string newlink)
-        {
-            if (System.IO.File.Exists(link))
-            {
-                // Use a try block to catch IOExceptions, to
-                // handle the case of the file already being
-                // opened by another process.
-                try
-                {
-
-                    System.IO.File.Delete(link);
-                    link = newlink;
-                }
-                catch (System.IO.IOException e)
-                {
-                    ReturnData rd = new ReturnData();
-                    rd.message = "no data";
-                    rd.status = "error";
-                    return Json(rd, JsonRequestBehavior.AllowGet);
-                }
-            }
-
-            return Json(null, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult show_verified_false_exhibitor()
-        {
-            var data = db.exhibitors.Where(a => a.verify == false);
-
-
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
 
 
 
