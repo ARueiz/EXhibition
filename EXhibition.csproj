@@ -423,7 +423,7 @@
     <Content Include="Views\Host\ShowHostEvent.cshtml" />
     <Content Include="Views\Host\EditHost.cshtml" />
     <Content Include="Views\Exhibitor\showHostList.cshtml" />
-    <Content Include="Views\Exhibitor\eventDetail.cshtml" />
+    <!-- <Content Include="Views\Exhibitor\eventDetail.cshtml" /> -->
     <Content Include="Views\Shop\CheckoutSuccess.cshtml" />
     <Content Include="Views\Shop\Product.cshtml" />
     <Content Include="Views\Host\CheckTicket.cshtml" />
