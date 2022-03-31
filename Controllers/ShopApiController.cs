@@ -43,9 +43,7 @@ namespace EXhibition.Controllers
             string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
 
             string queryString =
-                "select top(5) count(A.TID) , B.EVID " +
-                "from Tickets as A inner join events as B on A.EVID = B.EVID " +
-                "group by B.EVID , B.name order by 1 desc";
+                "select top(5) count(A.TID) , B.EVID from Tickets as A inner join events as B on A.EVID = B.EVID where B.startdate > GETDATE() group by B.EVID , B.name order by 1 desc";
 
             // 先將 id 撈成 陣列後 用 entity framework 去找資料
 
