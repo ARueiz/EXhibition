@@ -420,7 +420,7 @@
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\Host\EditHostInfo.cshtml" />
     <Content Include="Views\Host\ShowHostEvent.cshtml" />
-    <Content Include="Views\Host\EditHost.cshtml" />
+    <!-- <Content Include="Views\Host\EditHost.cshtml" /> -->
     <Content Include="Views\Exhibitor\showHostList.cshtml" />
     <!-- <Content Include="Views\Exhibitor\eventDetail.cshtml" /> -->
     <Content Include="Views\Shop\CheckoutSuccess.cshtml" />
