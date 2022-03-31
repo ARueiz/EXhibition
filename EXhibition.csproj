@@ -147,6 +147,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ExhibitorApiController.cs" />
     <Compile Include="Controllers\ExhibitorController.cs" />
+    <Compile Include="Controllers\HomeApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HostApiController.cs" />
     <Compile Include="Controllers\HostController.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="Controllers\ShopController.cs" />
     <Compile Include="Controllers\UserApiController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Filters\AuthorizeFilter .cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,6 +215,7 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReturnData.cs" />
+    <Compile Include="Models\SHA_256.cs" />
     <Compile Include="Models\TagsName.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -389,7 +392,7 @@
     <Content Include="Views\PartView\_SideBarUserBtn.cshtml" />
     <Content Include="Views\PartView\_SideBarHostBtn.cshtml" />
     <Content Include="Views\PartView\_SideBarExhibitorBtn.cshtml" />
-    <Content Include="Views\Home\ExhibitiorLogin.cshtml" />
+    <Content Include="Views\Home\ExhibitorLogin.cshtml" />
     <Content Include="Views\Shared\_DashboardLayout.cshtml" />
     <Content Include="Views\PartView\_NavbarHost.cshtml" />
     <!--<Content Include="Views\hosts\展覽列表.cshtml" />-->
@@ -425,11 +428,14 @@
     <Content Include="Views\Shop\Product.cshtml" />
     <Content Include="Views\Host\CheckTicket.cshtml" />
     <Content Include="Views\Exhibitor\NowApplying.cshtml" />
+    <Content Include="Views\Exhibitor\EditExhibitor.cshtml" />
+    <Content Include="Views\Home\DenyAuthorize.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
     <Folder Include="Views\ExhibitorApi\" />
+    <Folder Include="Views\HomeApi\" />
     <Folder Include="Views\Shopping\" />
     <Folder Include="Views\UserApi\" />
     <Folder Include="Views\UsersApi\" />
