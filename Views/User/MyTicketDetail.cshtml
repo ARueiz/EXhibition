@@ -86,15 +86,18 @@
             connectAxios: function () {
                 var self = this;
                 axios.get('/UserApi/ticketdetail').then(function (res) {
+                    return res.data
+                }).then(function (res) {
+                    console.log(res)
                     self.content = res.content
                     self.title = res.name
                     self.exhibitionStart = res.start
                     self.exhibitionEnd = res.end
                     self.token = res.token
-                    self.ticketId = res.ticketId                   
+                    self.ticketId = res.ticketId
                     let qrContent = {
                         TicketId: self.ticketId,
-                        TicketToken: self.token 
+                        TicketToken: self.token
                     }
                     self.QRCodeContent = qrContent
                     self.createQRCode(JSON.stringify(qrContent));
