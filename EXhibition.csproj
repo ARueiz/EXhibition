@@ -167,6 +167,7 @@
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CROS.cs" />
     <Compile Include="Models\DBConnector.cs" />
+    <Compile Include="Models\EventDetail.cs" />
     <Compile Include="Models\events.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>

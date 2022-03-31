@@ -173,5 +173,40 @@ namespace EXhibition.Controllers
             return Ok(new { status = "成功", order = order });
         }
 
+        // 展覽資訊
+        public IHttpActionResult GetEventDetail(int? id = 1)
+        {
+            var mEventDetail = (from e in db.events
+                                join h in db.hosts on e.HID equals h.HID
+                                where e.EVID == id
+                                select new Models.EventDetail
+                                {
+                                    EVID = e.EVID,
+                                    organizer = e.name,
+                                    hostName = h.name,
+                                    start = e.startdate.ToString(),
+                                    end = e.enddate.ToString(),
+                                    location = e.venue,
+                                    image = "/image/host/" + e.image,
+                                    price = e.ticketprice.ToString(),
+                                    eventinfo = e.eventinfo
+                                }).FirstOrDefault();
+
+            if (mEventDetail == null) return Ok(new Models.ReturnData() { status = ReturnStatus.Error, message = "查無資料" });
+
+            var idList = db.exhibitinfo.Where(e => e.EVID == id).Where(e => e.verify == true).Select(e => e.EID).ToList();
+
+
+            mEventDetail.exhibitorList = (from eInfo in db.exhibitinfo
+             join eData in db.exhibitors on eInfo.EID equals eData.EID
+             where eInfo.EVID == id
+             select new Models.ExhibitorsInfo
+             {
+                 EID = eInfo.EID,name= eData.name , image = eInfo.image
+             }).ToList();
+
+            return Ok(mEventDetail);
+        }
+
     }
 }
