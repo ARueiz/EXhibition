@@ -3,43 +3,15 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Runtime;
+using EXhibition.Filters;
+
 namespace EXhibition.Controllers
 {
+    [AuthorizeFilter(UserRole.Exhibitor)]
     public class ExhibitorApiController : Controller
     {
 
         Models.DBConnector db = new Models.DBConnector();
-
-        [HttpPost]
-        public ActionResult Register(Models.exhibitors exhibitor)
-        {
-            Models.ReturnData r = new Models.ReturnData();
-            try
-            {
-                exhibitor.EID = 0;
-                var e = db.exhibitors.Add(exhibitor);
-                db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                r.status = Models.ReturnStatus.Error;
-                r.message = "註冊失敗";
-                return Json(r, JsonRequestBehavior.AllowGet);
-            }
-            r.status = Models.ReturnStatus.Success;
-            r.message = "註冊成功";
-            r.data = new { url = "/Home/ExhibitiorLogin" };
-            return Json(r, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult Login(Models.Login login)
-        {
-            Models.ReturnData returnData = new Models.ReturnData();
-            Session["auth"] = 2;
-            returnData.status = "success";
-            returnData.data = new { url = "/Exhibitor" };
-            return Json(returnData, JsonRequestBehavior.AllowGet);
-        }
 
         //廠商參展的歷史紀錄
         public ActionResult EventHistory(int? id) 
@@ -155,9 +127,7 @@ namespace EXhibition.Controllers
 
         public ActionResult GetExhibitorInfo(int? id)
         {
-            Session["EID"] = 2;
-
-            int EID = Convert.ToInt32(Session["EID"]);
+            int EID = Convert.ToInt32(Session["AccountID"]);
 
             var list = (from exhibitor in db.exhibitors
                         where exhibitor.EID == EID && exhibitor.verify == true

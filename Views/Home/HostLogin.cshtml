@@ -34,7 +34,7 @@
                                 <div class="form-group flex-wrap d-flex align-items-center w-100 ">
                                     <label for="your_name" class="col-1"><i class="fa-solid fa-user"></i></label>
                                     <input type="text" v-model="account" class="col-10" name="your_name" id="your_name"
-                                           placeholder="帳號" required />
+                                           placeholder="帳號(Email)" required />
                                 </div>
                                 <div class="form-group flex-wrap d-flex align-items-center w-100">
                                     <label for="your_pass" class="col-1"><i class="fa-solid fa-lock"></i></label>
@@ -76,7 +76,53 @@
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">請稍後</h5>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- 成功的 Modal -->
+    <div class="modal fade" id="SuccessModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">登入成功</h5>
+                </div>
+                <div class="modal-body">
+                    <p>已成功登入，前往會員畫面</p>
+                </div>
+                <div class="modal-footer">
+                    @Html.ActionLink("前往首頁", "Index", "Host", new { }, new { @class = "btn btn-info", @role = "button" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 失敗的 Modal -->
+    <div class="modal fade" id="failedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">登入失敗</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="failedModalBody">
+                    請檢查是否有空欄位或是欄位格式錯誤!!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="CloseAllModal()">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -102,13 +148,17 @@
         },
         methods: {
             login() {
+                let loadModal = $('#loadingModal')
+                loadModal.modal('show')
+                let failModal = $('#failedModal');
+                let failModalbody = document.getElementById('failedModalBody');
 
                 let json = {
                     account: this.account,
                     password: this.password
                 }
 
-                fetch('/HostApi/Login', {
+                fetch('/HomeApi/HostLogin', {
                     body: JSON.stringify(json), // must match 'Content-Type' header
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                     credentials: 'same-origin', // include, same-origin, *omit
@@ -124,13 +174,19 @@
                     if (res.status === "success") {
                         this.account = ''
                         this.password = ''
-                        window.location.href = res.data.url
+                        let loadModal = $('#SuccessModal');
+                        loadModal.modal('show');
                     } else {
-                        alert(res.message)
+                        failModalbody.innerHTML = res.message;
+                        failModal.modal('show');
                     }
                 })
 
             },
+            CloseAllModal: function () {
+                $('.modal').modal('hide');
+            }
+            ,
             setCookie(cname, cvalue, exdays) {
                 const d = new Date();
                 d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));

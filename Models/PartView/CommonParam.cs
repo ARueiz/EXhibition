@@ -10,7 +10,7 @@
 
         static public string UserLoginLink = "/home/UserLogin";
 
-        static public string ExhibitorLoginLink = "/home/ExhibitiorLogin";
+        static public string ExhibitorLoginLink = "/home/ExhibitorLogin";
 
     }
 }
