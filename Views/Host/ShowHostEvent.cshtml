@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "ShowHostEvent";
+}
+
+<div class="container h-100 mt-3" id="VuePage">
+    <div class="row justify-content-sm-center h-100">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>phone</th>
+                    <th>exhibitionname</th>
+                    <th>startdate</th>
+                    <th>enddate </th>
+                    <th>---------------------- </th>
+                </tr>
+            </thead>
+            <tr v-for="item in res">
+                <td v-show="false" id="evid">{{item.evid}}</td>
+                <td>{{item.name }}</td>
+                <td>{{item.phone }}</td>
+                <td>{{item.exhibitionname}}</td>
+                <td>{{item.startdate }}</td>
+                <td>{{item.enddate }}</td>
+                <td>
+                    <input type="submit" value="審核" />
+
+                    <input type="submit" value="編輯" />
+
+                    <input type="submit" value="明細" v-on:click="Details(item.evid)" />
+                </td>
+
+            </tr>
+        </table>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+
+        var VuePage = new Vue({
+            el: '#VuePage',
+            data: {
+                res: [],
+
+            },
+
+            mounted() {
+                axios
+                    .get('/HostApi/List')
+                    .then(function (response) {
+                        VuePage.res = response.data
+
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    });
+            },
+            methods: {
+                Details: function (va) {
+
+                    axios.post('/HostApi/PostList', "/" + va)
+                        .then(function (response) {
+                            window.location.href = "/" + "host" + "/" + "DetailsHost" + "/" + va
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        });
+                }
+
+
+            }
+        });
+    </script>
+}

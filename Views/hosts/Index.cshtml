@@ -7,3 +7,47 @@
 <h2>Index</h2>
 <i class="alert"></i>
 
+
+<div>
+    <table>
+        <tr>
+            <td>element.name</td>
+            <td>
+                <button v-on:click="gotocheck(element.廠商ID,True,)">接受</button>
+                <button v-on:click="gotocheck(element.廠商ID,false)">拒絕</button>
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    </table>
+</div>
+
+<button onclick="previousPage">上衣葉</button>
+<button onclick="nextPage">下一頁</button>
+
+<script>
+    new Vue({
+        data() {
+            return {
+                pageId: 1,
+                data : []
+            }
+        },
+        methods:{
+            previousPage() {
+                let url = '/{}/{}/' + (pageId - 1 )
+                fetch(  ).then(res => this.data = res)
+            },
+            previousPage() {
+                let url = '/{}/{}/' + (pageId +  1)
+                fetch().then(res => this.data = res)
+            },
+            gotocheck(dsfasdfasdfasfd) {
+                console.log(dsfasdfasdfasfd)
+                window.location.href = '/{}/{}/' + dsfasdfasdfasfd.toString()
+            }
+    }
+    })
+</script>
+

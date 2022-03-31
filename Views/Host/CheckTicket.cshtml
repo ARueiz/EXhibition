@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewBag.Title = "CheckTicket";
+}
+
+<div class="container" id="container">
+    <div id="video-container">
+        <video id="qr-video" style="width: 100% !important; height: auto !important;"></video>
+    </div>
+    <button class="btn btn-primary" id="start-button">開始驗票</button>
+    <button class="btn btn-primary" id="stop-button">停止驗票</button>
+    <h5 class="d-none">Detected QR code: </h5>
+    <span class="d-none" id="cam-qr-result">None</span>
+    <br>
+    <h5 class="d-none">Last detected at: </h5>
+    <span class="d-none" id="cam-qr-result-timestamp"></span>
+    <br>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel"></h5>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="confirm-btn">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+<script type="module">
+    import QrScanner from "https://dv6230.github.io/QRCode_Test/qr-scanner.min.js";
+
+    const video = document.getElementById('qr-video');
+    //const videoContainer = document.getElementById('video-container');
+    const camList = document.getElementById('cam-list');
+    const camHasFlash = document.getElementById('cam-has-flash');
+    const camQrResult = document.getElementById('cam-qr-result');
+    const camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp');
+
+    let qrcodeJson = {}
+    let isChecking = false;
+
+    function setResult(label, result) {
+
+        // console.log(result.data);
+
+        //label.textContent = result.data;
+        //camQrResultTimestamp.textContent = new Date().toString();
+        //label.style.color = 'teal';
+
+        //clearTimeout(label.highlightTimeout);
+        //label.highlightTimeout = setTimeout(() => label.style.color = 'inherit', 100);
+
+        // scanner.stop();
+        if (result.data.length > 0) {
+            qrcodeJson = JSON.parse(result.data);
+            scanner.stop();
+            sendRequest();
+        }
+
+    }
+
+    const scanner = new QrScanner(video, result => setResult(camQrResult, result), {
+        onDecodeError: error => {
+            camQrResult.textContent = error;
+            camQrResult.style.color = 'inherit';
+        },
+        highlightScanRegion: true,
+        highlightCodeOutline: true,
+        maxScansPerSecond: 10,
+    });
+
+    const updateFlashAvailability = () => {
+        scanner.hasFlash().then(hasFlash => {
+            // camHasFlash.textContent = hasFlash;
+            //flashToggle.style.display = hasFlash ? 'inline-block' : 'none';
+        });
+    };
+
+    scanner.start().then(() => {
+        updateFlashAvailability();
+        // List cameras after the scanner started to avoid listCamera's stream and the scanner's stream being requested
+        // at the same time which can result in listCamera's unconstrained stream also being offered to the scanner.
+        // Note that we can also start the scanner after listCameras, we just have it this way around in the demo to
+        // start the scanner earlier.
+        QrScanner.listCameras(true).then(cameras => cameras.forEach(camera => {
+            const option = document.createElement('option');
+            option.value = camera.id;
+            option.text = camera.label;
+            //camList.add(option);
+        }));
+    });
+
+    // QrScanner.hasCamera().then(hasCamera => camHasCamera.textContent = hasCamera);
+
+    // for debugging
+    window.scanner = scanner;
+
+    document.getElementById('start-button').addEventListener('click', () => {
+        scanner.start();
+    });
+
+    document.getElementById('stop-button').addEventListener('click', () => {
+        scanner.stop();
+    });
+
+    document.getElementById('confirm-btn').addEventListener('click', () => {
+        let loadModal = $('#loadingModal')
+        $('#staticBackdropLabel').removeClass('text-success')
+        $('#staticBackdropLabel').removeClass('text-danger')
+        loadModal.modal('hide')
+        scanner.start();
+    });
+
+    function sendRequest() {
+
+        let loadModal = $('#loadingModal')
+        loadModal.modal('show')
+        $('#staticBackdropLabel').text("請稍後");
+
+        let headers = {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        }
+
+        let body = {
+            TicketId: 9501,
+            TicketToken: '3541-1354-6458-3101-3184',
+            TicketEventId: 10
+        }
+
+        fetch('/api/QRCodeAccess/PostCheckTicket', {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(body)
+        })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+                $('#staticBackdropLabel').text(json.message);
+                if (json.status === 'success') {
+                    $('#staticBackdropLabel').addClass('text-success')
+                } else {
+                    $('#staticBackdropLabel').addClass('text-danger')
+                }
+                // scanner.start();
+            }
+            ).catch(error => {
+
+                alert('伺服器錯誤')
+                loadModal.modal('hide')
+            });
+    }
+
+
+</script>

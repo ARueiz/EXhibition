@@ -92,6 +92,7 @@
 
 
 <div class="contain-box" id="contain">
+    <h2>{{name}}</h2>
     <p class="h2">
         <b>展覽資訊</b>
     </p>
@@ -223,12 +224,17 @@
 </div>
 
 
+
+
 <script>
 
     new Vue({
         el: '#contain',
         data() {
             return {
+
+                name: "@ViewBag.name",
+
                 rejectModel: false,
                 reason: '',
                 start: '2022/01/02',

@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "DetailsHost";
+}
+
+<div class="container h-100 mt-3" id="VuePage">
+    <div class="row justify-content-sm-center h-100">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>phone</th>
+                    <th>exhibitionname</th>
+                    <th>startdate</th>
+                    <th>enddate </th>
+                    <th>---------------------- </th>
+                </tr>
+            </thead>
+            <tr >
+                <td v-show="false" id="evid">{{res.EVID}}</td>
+                <td>{{ res.name }}</td>
+                <td>{{ res.venue }}</td>
+                <td>{{ res.eventinfo }}</td>
+                <td>{{ res.ticketprice }}</td>
+                <td>{{ res.verify }}</td>
+
+            </tr>
+        </table>
+        
+    </div>
+</div>
+
+@section scripts {
+
+
+    <script>
+
+        var VuePage = new Vue({
+            el: '#VuePage',
+            data: {
+                res: [
+                   
+
+                ],
+                id: '@ViewBag.id'
+                     
+
+            },
+
+            mounted() {
+                console.log('run')
+                axios.post('/HostApi/PostList/' + this.id)
+                    .then(function (response) {
+                       // let list = []
+                        // list.push(response.data)
+                        VuePage.res = response.data               
+                        console.log(response)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    });
+            },
+            methods: {
+                
+            }
+        });
+
+
+
+
+    </script>
+}

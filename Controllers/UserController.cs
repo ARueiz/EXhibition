@@ -14,12 +14,19 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        //票卷列表
         public ActionResult MyTicketList()
         {
             return View();
         }
 
+        //票卷細節
         public ActionResult MyTicketDetail()
+        {
+            return View();
+        }
+
+        public ActionResult EditUser()
         {
             return View();
         }
@@ -28,6 +35,8 @@ namespace EXhibition.Controllers
         {
             return View();
         }
+
+       
 
     }
 }

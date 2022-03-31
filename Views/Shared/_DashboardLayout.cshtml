@@ -44,7 +44,7 @@
         }
     </div>
 
-    <div style="z-index: 201;position: relative;" >
+    <div style="z-index: 201;position: relative;">
         @{
             Html.RenderAction("SideBarBtn", "PartView");
 
@@ -63,6 +63,9 @@
     </div>
 
     @RenderSection("scripts", required: false)
+    <script>
+        Vue.config.devtools = true;
+    </script>
 </body>
 </html>
 

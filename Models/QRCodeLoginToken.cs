@@ -19,11 +19,5 @@ namespace EXhibition.Models
         public Nullable<System.DateTime> createAt { get; set; }
         public string accountType { get; set; }
         public Nullable<int> accountId { get; set; }
-
-        public QRCodeLoginToken()
-        {
-            createAt = DateTime.Now;
-        }
-
     }
 }

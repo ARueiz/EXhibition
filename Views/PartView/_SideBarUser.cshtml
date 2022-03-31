@@ -3,6 +3,7 @@
     ViewBag.Title = "_SideBarUser";
     string MyTicketList = UserPartViewParam.MyTicketList;
     string QRCodeLogin = UserPartViewParam.ScanLoginQRCode;
+    string EditUser = UserPartViewParam.EditUser;
 }
 
 <div class="sideBar col-md-2 d-flex flex-column flex-shrink-0 p-3 col-md-2 	d-none d-md-block"
@@ -22,7 +23,7 @@
             <a href="#" class="nav-link side-item">活動專區</a>
         </li>
         <li>
-            <a href="#" class="nav-link side-item">個人資料</a>
+            <a href="@EditUser" class="nav-link side-item">個人資料</a>
         </li>
         <li>
             <a href="@QRCodeLogin" class="nav-link side-item">QRCode 登入</a>
