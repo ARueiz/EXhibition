@@ -43,5 +43,6 @@ namespace EXhibition.Controllers
             ViewBag.id = id;
             return View();
         }
+        
     }
 }

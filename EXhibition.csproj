@@ -423,6 +423,7 @@
     <Content Include="Views\Shop\CheckoutSuccess.cshtml" />
     <Content Include="Views\Shop\Product.cshtml" />
     <Content Include="Views\Exhibitor\NowApplying.cshtml" />
+    <Content Include="Views\Exhibitor\EventHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
