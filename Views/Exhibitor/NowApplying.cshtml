@@ -31,8 +31,11 @@
             </thead>
             <tbody>
                 <tr v-for="(element,index) in eventList">
+                    <td class="d-none">{{ element.EVID }}</td>
                     <td class="align-middle" scope="row">{{ index + 1 }}</td>
-                    <td class="align-middle"><a href="#">{{ element.name }}</a></td>
+                    <td class="align-middle">
+                        <button v-on:click="goPage(element.EVID)" class="bg-light">{{ element.name }}</button>
+                    </td>
                     <td class="align-middle text-center">{{ element.createAt }}</td>
                     <td class="align-middle text-center">
                         <span class="status-badge d-inline-block"
@@ -62,7 +65,7 @@
 <script src="./js/jquery.qrcode.min.js"></script>
 
 <script>
-    var VuePage =new Vue({
+    new Vue({
         el: '#contain',
         data() {
             return {
@@ -87,7 +90,7 @@
             }
         },
         created() {
-            
+
         },
         mounted() {
             this.getall()
@@ -120,7 +123,11 @@
                     self.eventList = response.data
                     console.log(response)
                 })
-        },
+            },
+            goPage(data) {
+                window.location.href = '/Host/EventDetail/' + data
+            }
+
         },
     })
 
