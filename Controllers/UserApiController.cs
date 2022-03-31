@@ -11,10 +11,10 @@ namespace EXhibition.Controllers
         DBConnector db = new DBConnector();
 
         //票卷票表
-        public ActionResult ticketList(int? id)
+        public ActionResult ticketList()
         {
-            
-            int id = (int)Session["userid"];
+
+            int id = (int)(Session["userid"] == null ? 2 : Session["userid"]);
 
             var mes = new Models.ReturnData();
             if (id == -1)
