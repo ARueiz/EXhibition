@@ -1,6 +1,8 @@
 ﻿using EXhibition.Models;
+using System;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace EXhibition.Controllers
 {
@@ -51,7 +53,7 @@ namespace EXhibition.Controllers
             {
                 status = ReturnStatus.Success,
                 message = "成功登入",
-                data = new { url = "/user" , info = info }  // 給予對應的後台畫面
+                data = new { url = "/user", info = info }  // 給予對應的後台畫面
             };
 
             return Ok(returnData);
@@ -93,6 +95,31 @@ namespace EXhibition.Controllers
             db.SaveChanges();
 
             return Ok(new ReturnData() { status = ReturnStatus.Success, message = "成功" });
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult PostCheckTicket(Models.CheckTicket getTicketData)
+        {
+
+            if (getTicketData == null) return Ok(new ReturnData() { status = ReturnStatus.Error, message = "錯誤" });
+
+            var t = db.Tickets.Find(getTicketData.TicketId);
+
+            if (t == null) // 找不到票券
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券驗證失敗" });
+
+            else if (t.EVID != getTicketData.TicketEventId) // 票券 id 與 該場次 id 不符
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券驗證失敗" });
+
+            else if (t.token.Equals(getTicketData.TicketToken) == false) // token 不相符
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券驗證失敗" });
+
+            else if (t.createAt < DateTime.Now)
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券驗證失敗" });
+
+
+            return Ok(new { ticket = getTicketData, status = "success", message = "票券驗證成功" });
         }
 
     }

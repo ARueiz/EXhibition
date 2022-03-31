@@ -71,6 +71,7 @@ namespace EXhibition.Controllers
 
         }
 
+
         //廠商活動資訊修改
         public ActionResult edit__exhibition(Models.exhibitinfo exhibitor)
         {
@@ -138,6 +139,7 @@ namespace EXhibition.Controllers
 
             return Json(null, JsonRequestBehavior.AllowGet);
         }
+
 
 
         //編輯修改廠商

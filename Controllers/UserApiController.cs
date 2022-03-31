@@ -47,7 +47,7 @@ namespace EXhibition.Controllers
         public ActionResult ticketList(int? id)
         {
 
-            id = Session["userid"] == null ? 2 : (int)Session["userid"];
+            id = (int)Session["userid"] == null ? 2 : (int)Session["userid"];
 
 
             var mes = new Models.ReturnData();
@@ -77,30 +77,36 @@ namespace EXhibition.Controllers
         }
 
 
-        public ActionResult ticketdetail(int? eventID = 12)
+        public ActionResult ticketdetail(int? eventID = 12) // 改用 ticketId 
         {
             //int userId = (int)Session["userid"];
             int userId = 14;
-            var data = (from p in db.Tickets
-                        join q in db.users on p.UID equals q.UID
-                        join k in db.events on p.EVID equals k.EVID
-                        where k.EVID == eventID
-                        where q.UID == userId
+
+            // 更新 qr code 產生
+            var tk = db.Tickets.Where(e => e.UID == userId).Where(e => e.EVID == eventID).FirstOrDefault();
+            tk.token = Guid.NewGuid().ToString();
+            tk.tokenExistenceTime = DateTime.Now;
+            db.SaveChanges();
+
+            var data = (from t in db.Tickets
+                        join u in db.users on t.UID equals u.UID
+                        join e in db.events on t.EVID equals e.EVID
+                        where e.EVID == eventID
+                        where u.UID == userId
                         select new
                         {
-                            name = k.name,
-                            start = k.startdate,
-                            end = k.enddate,
-                            image = k.image,
-                            info = k.exhibitinfo,
-                            token = p.token
+                            name = e.name,
+                            start = e.startdate,
+                            end = e.enddate,
+                            image = e.image,
+                            info = e.exhibitinfo,
+                            token = t.token,
+                            TicketEventId = e.EVID,
+                            TicketId = t.TID
+                        }).FirstOrDefault();
 
-                        }).ToList();
 
-
-
-            //return new NewJsonResult() { Data = data };
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(tk, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetUserInfo(int? id)
         {
