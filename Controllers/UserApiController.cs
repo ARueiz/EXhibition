@@ -44,13 +44,10 @@ namespace EXhibition.Controllers
         }
 
         //票卷票表
-        public ActionResult ticketList(int? id)
+        public ActionResult ticketList()
         {
 
-
-            id = Session["userid"] == null ? 2 : (int)Session["userid"];
-
-
+            int id = Session["userid"] == null ? 2 : (int)Session["userid"];
 
             var mes = new Models.ReturnData();
             if (id == -1)
@@ -65,15 +62,30 @@ namespace EXhibition.Controllers
                               join q in db.events on p.EVID equals q.EVID
                               join k in db.users on p.UID equals k.UID
                               where k.UID == id
-                              select new
+                              select new TicketPreview()
                               {
+                                  ticketId = p.TID,
                                   name = q.name,
-                                  startdate = q.startdate,
-                                  enddate = q.enddate,
-                                  image = q.image,
-
-
+                                  startdate = q.startdate.ToString(),
+                                  enddate = q.enddate.ToString(),
+                                  image = "/image/host/" + q.image                                  
                               }).ToList();
+
+            foreach (var item in ticketlist)
+            {
+                if (DateTime.Now < DateTime.Parse(item.startdate)) // 未來
+                {
+                    item.status = "presale";
+                }
+                else if (DateTime.Now >= DateTime.Parse(item.startdate) || DateTime.Now <= DateTime.Parse(item.enddate)) // 現在
+                {
+                    item.status = "now";
+                }
+                else if (DateTime.Now > DateTime.Parse(item.enddate))  //過去
+                {
+                    item.status = "over";
+                }
+            }
 
             return Json(ticketlist, JsonRequestBehavior.AllowGet);
         }
@@ -97,20 +109,20 @@ namespace EXhibition.Controllers
                         where u.UID == userId
                         select new
                         {
-
+                            content = e.eventinfo,
                             name = e.name,
-                            start = e.startdate,
-                            end = e.enddate,
+                            start = e.startdate.ToString(),
+                            end = e.enddate.ToString(),
                             image = e.image,
                             info = e.exhibitinfo,
                             token = t.token,
-                            TicketEventId = e.EVID,
-                            TicketId = t.TID
+                            eventId = e.EVID,
+                            ticketId = t.TID
                         }).FirstOrDefault();
 
 
 
-            return Json(tk, JsonRequestBehavior.AllowGet);
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetUserInfo(int? id)
         {

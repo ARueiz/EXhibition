@@ -99,7 +99,7 @@ namespace EXhibition.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IHttpActionResult PostCheckTicket(Models.CheckTicket getTicketData)
+        public IHttpActionResult PostCheckTicket([FromBody] Models.CheckTicket getTicketData)
         {
 
             if (getTicketData == null) return Ok(new ReturnData() { status = ReturnStatus.Error, message = "錯誤" });
@@ -107,16 +107,16 @@ namespace EXhibition.Controllers
             var t = db.Tickets.Find(getTicketData.TicketId);
 
             if (t == null) // 找不到票券
-                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券驗證失敗" });
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "找不到票券" });
 
             else if (t.EVID != getTicketData.TicketEventId) // 票券 id 與 該場次 id 不符
-                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券驗證失敗" });
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券 id 與 該場次 id 不符" });
 
             else if (t.token.Equals(getTicketData.TicketToken) == false) // token 不相符
-                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券驗證失敗" });
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "驗證碼不符" });
 
-            else if (t.createAt < DateTime.Now)
-                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券驗證失敗" });
+            //else if (t.createAt < DateTime.Now)
+            //    return Ok(new ReturnData() { status = ReturnStatus.Error, message = "驗證逾期" });
 
 
             return Ok(new { ticket = getTicketData, status = "success", message = "票券驗證成功" });

@@ -41,9 +41,9 @@
             <div class="mb-3">
                 <small class="w3-text-gray">日期</small>
                 <p class="mb-1">{{item.startdate}} - {{item.enddate}}</p>
-                <p class="badgeDefault" v-bind:class="[ badgeBackground('presale') ]">
+                <p class="badgeDefault" v-bind:class="[ badgeBackground(item.status) ]">
                     <span>&#8226;</span>
-                    {{ CheckTicket('now') }}
+                    {{ CheckTicket(item.status) }}
                 </p>
             </div>
             <div class="col-sm-3 mt-auto">
@@ -96,8 +96,9 @@
                     return self.badgeBg[data];
                 },
                 connectAxios: function () {
+                    let self = this
                     axios.get('/UserApi/ticketList').then(function (res) {
-                        dataset = res.data;
+                        self.dataset = res.data;
                     })
                 }
             }
