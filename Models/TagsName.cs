@@ -12,12 +12,9 @@ namespace EXhibition.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class QRCodeLoginToken
+    public partial class TagsName
     {
         public int id { get; set; }
-        public string token { get; set; }
-        public Nullable<System.DateTime> createAt { get; set; }
-        public string accountType { get; set; }
-        public Nullable<int> accountId { get; set; }
+        public string tagName { get; set; }
     }
 }

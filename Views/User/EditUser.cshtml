@@ -1,0 +1,154 @@
+﻿@{
+    ViewBag.Title = "EditUser";
+}
+<!-- Form & image -->
+<div class="container mt-3" id="VuePage">
+    <div class="row d-flex justify-content-evenly">
+        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-9 col-sm-12 card shadow-sm">
+            <!-- Form -->
+            <div class="card-body m-3">
+                <form enctype="multipart/form-data" v-on:submit.prevent="DoUpdateHost()">
+                    <h2>修改用戶個人資料</h2>
+                    <div class="mb-3">
+                        <label class="form-label">姓名</label>
+                        <input type="text" class="form-control" v-model="personInfo.name" required="required">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">電話</label>
+                        <input type="text" class="form-control" v-model="personInfo.phone" required="required">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" v-model="personInfo.email" required="required">
+                    </div>
+                    <button type="submit" class="btn btn-primary">更新資料</button>
+                </form>
+            </div>
+        </div>
+        <!-- img -->
+        <div class="col-xxl-6 col-xl-5 col-lg-6 col-md-9 col-sm-12">
+            <div class="mb-2 mt-2 text-center">
+            </div>
+            <div class="mb-2">
+                <img src="../Image/Dev/edit-user.png" id="imgpreview" class="img-fluid rounded mx-auto d-block" alt="Responsive image">
+            </div>
+            <div class="mb-2 text-center">
+                <a href="https://storyset.com/people" class="link-primary" id="imgStoryset">People illustrations by Storyset</a>
+            </div>
+        </div>
+
+        <!-- Loading Modal -->
+        <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">請稍後</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 成功的 Modal -->
+        <div class="modal fade" id="SuccessModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">更新成功</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>已成功更新，前往會員頁面</p>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("前往首頁", "Index", new { }, new { @class = "btn btn-info", @role = "button" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 失敗的 Modal -->
+        <div class="modal fade" id="failedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">更新失敗</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="failedModalBody">
+                        請檢查是否有空欄位或是欄位格式錯誤!!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" v-on:click="CloseAllModal()">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+
+    var VuePage = new Vue({
+            el: '#VuePage',
+            data: {
+                    personInfo: {},
+                    FormData: new FormData(),
+            },
+            created: function () {
+                this.getPersonalInfo();
+            },
+            methods: {
+
+                //取得個人資料
+                getPersonalInfo: function () {
+                    const self = this;
+
+                    axios.post('/UserApi/GetUserInfo/')
+                        .then(function (response) {
+                            return response.data;
+                        }).then(function (response) {
+                            self.personInfo = response;
+                        })
+                },
+
+                //關閉所有Modal
+                CloseAllModal: function () {
+                    $('.modal').modal('hide');
+                }
+                ,
+
+                //更新資料
+                DoUpdateHost: function () {
+                    let self = this;
+
+                    //讀取modal
+                    let loadModal = $('#loadingModal');
+                    loadModal.modal('show');
+
+                    let failModal = $('#failedModal');
+                    let failModalbody = document.getElementById('failedModalBody');
+
+                    axios.post('@Url.Content("~/UserApi/DoUpdateUserInfo")', self.personInfo)
+                    .then(function (response) {
+                        console.log(response.data);
+                        if (response.data.status == "success") {
+                            let loadModal = $('#SuccessModal');
+                            loadModal.modal('show');
+                            return;
+                        } else {
+                            failModalbody.innerHTML = "更新失敗，請檢查欄位!";
+                            failModal.modal('show');
+                            return;
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            }
+        })
+    </script>
+}

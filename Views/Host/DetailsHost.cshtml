@@ -5,32 +5,28 @@
 
 <div class="container h-100 mt-3" id="VuePage">
     <div class="row justify-content-sm-center h-100">
-        <div>
-            <h1>主辦人明細</h1>
-            <hr />
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>name</th>
-                        <th>venue</th>
-                        <th>category</th>
-                        <th>ticketprice</th>
-                        <th>verify </th>
-                        <th>createAt</th>
-                    </tr>
-                </thead>
+        <table class="table">
+            <thead>
                 <tr>
-                    <td v-show="false" id="evid">{{res.EVID}}</td>
-                    <td>{{ res.name }}</td>
-                    <td>{{ res.venue }}</td>
-                    <td>{{ res.category }}</td>
-                    <td>{{ res.ticketprice }}</td>
-                    <td>{{ res.verify }}</td>
-                    <td>{{ res.createAt }}</td>
+                    <th>name</th>
+                    <th>phone</th>
+                    <th>exhibitionname</th>
+                    <th>startdate</th>
+                    <th>enddate </th>
+                    <th>---------------------- </th>
                 </tr>
-            </table>
-        </div>
+            </thead>
+            <tr >
+                <td v-show="false" id="evid">{{res.EVID}}</td>
+                <td>{{ res.name }}</td>
+                <td>{{ res.venue }}</td>
+                <td>{{ res.eventinfo }}</td>
+                <td>{{ res.ticketprice }}</td>
+                <td>{{ res.verify }}</td>
 
+            </tr>
+        </table>
+        
     </div>
 </div>
 
@@ -42,19 +38,22 @@
         var VuePage = new Vue({
             el: '#VuePage',
             data: {
-                res: [],
-                id: '@ViewBag.id'
+                res: [
+                   
 
+                ],
+                id: '@ViewBag.id'
+                     
 
             },
 
             mounted() {
                 console.log('run')
-                axios.post('@Url.Content("~/HostApi/PostList/")' + this.id)
+                axios.post('/HostApi/PostList/' + this.id)
                     .then(function (response) {
-                        let list = []
-                        list.push(response.data)
-                        VuePage.res = response.data
+                       // let list = []
+                        // list.push(response.data)
+                        VuePage.res = response.data               
                         console.log(response)
                     })
                     .catch((err) => {
@@ -62,13 +61,8 @@
                     });
             },
             methods: {
-
-            },
-            computed: {
-
-
-
-            },
+                
+            }
         });
 
 

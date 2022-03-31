@@ -23,5 +23,6 @@ namespace EXhibition.Models
         public Nullable<int> finalPrice { get; set; }
         public Nullable<bool> isPay { get; set; }
         public string paypal_Id { get; set; }
+
     }
 }

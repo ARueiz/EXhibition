@@ -161,10 +161,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\ApplyList.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CROS.cs" />
     <Compile Include="Models\DBConnector.cs" />
     <Compile Include="Models\events.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\eventTags.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\exhibitinfo.cs">
@@ -189,6 +193,7 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GlobalVariables.cs" />
+    <Compile Include="Models\HostEventData.cs" />
     <Compile Include="Models\hosts.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -209,6 +214,9 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReturnData.cs" />
+    <Compile Include="Models\TagsName.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -216,6 +224,7 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repo\CheckOut.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Bootstrap\bootstrap-grid.css" />
@@ -235,6 +244,7 @@
     <Content Include="Content\Bootstrap\bootstrap.rtl.css" />
     <Content Include="Content\Bootstrap\bootstrap.rtl.min.css" />
     <Content Include="Content\Bootstrap\bootstrap5.0.2.min.css" />
+    <Content Include="Content\eventDetail.css" />
     <Content Include="Content\footer.css" />
     <Content Include="Content\Index-part1.css" />
     <Content Include="Content\Index-part2.css" />
@@ -242,6 +252,7 @@
     <Content Include="Content\myTicketList.css" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\Login\userLogin.css" />
+    <Content Include="Content\NowApplying.css" />
     <Content Include="Content\ShoppingCart.css" />
     <Content Include="Content\showHostList.css" />
     <Content Include="Content\Template\dashboard-sidebar.css" />
@@ -256,6 +267,24 @@
     <Content Include="Image\Dev\Register-exhibitor.png" />
     <Content Include="Image\Dev\login-bro-host.png" />
     <Content Include="Image\Dev\login-bro-user.png" />
+    <Content Include="Image\Host\EditHost.png" />
+    <Content Include="Image\Host\EV_UID2_220326_220327.png" />
+    <Content Include="Image\Host\EV_UID2_220329_220331.png" />
+    <Content Include="Image\Host\EV_UID2_220330_220331.png" />
+    <Content Include="Image\Host\EV_UID2_220330_220406.png" />
+    <Content Include="Image\Host\EV_UID2_220331_220408.png" />
+    <Content Include="Image\Host\EV_UID2_220401_220405.png" />
+    <Content Include="Image\Host\EV_UID2_220402_220405.png" />
+    <Content Include="Image\Host\EV_UID2_220422_220531.png" />
+    <Content Include="Image\Host\FP_UID2_220326_220327.png" />
+    <Content Include="Image\Host\FP_UID2_220329_220331.png" />
+    <Content Include="Image\Host\FP_UID2_220330_220331.png" />
+    <Content Include="Image\Host\FP_UID2_220330_220406.png" />
+    <Content Include="Image\Host\FP_UID2_220331_220408.png" />
+    <Content Include="Image\Host\FP_UID2_220401_220405.png" />
+    <Content Include="Image\Host\FP_UID2_220402_220405.png" />
+    <Content Include="Image\Host\FP_UID2_220422_220531.png" />
+    <Content Include="Image\Host\Host_img_HID2.png" />
     <Content Include="Image\Host\pexels-photo-10147530.jpeg" />
     <Content Include="Image\Test\eighty-six.png" />
     <Content Include="Image\Test\fruit01.png" />
@@ -382,13 +411,19 @@
     <Content Include="Views\User\ScanLoginQRCode.cshtml" />
     <Content Include="Views\Shop\Index.cshtml" />
     <Content Include="Views\Shop\Shopcart.cshtml" />
-    <Content Include="Views\Host\EventList.cshtml" />
     <Content Include="Views\PartView\_Footer.cshtml" />
-
-    <Content Include="Views\Host\EditHost.cshtml" />
-
     <Content Include="Views\Exhibitor\showHostList.cshtml" />
-
+    <Content Include="Views\Exhibitor\eventDetail.cshtml" />
+    <Content Include="Views\Exhibitor\CanApplyList.cshtml" />
+    <Content Include="Views\User\EditUser.cshtml" />
+    <Content Include="Views\Host\EditHostInfo.cshtml" />
+    <Content Include="Views\Host\ShowHostEvent.cshtml" />
+    <Content Include="Views\Host\EditHost.cshtml" />
+    <Content Include="Views\Exhibitor\showHostList.cshtml" />
+    <Content Include="Views\Exhibitor\eventDetail.cshtml" />
+    <Content Include="Views\Shop\CheckoutSuccess.cshtml" />
+    <Content Include="Views\Shop\Product.cshtml" />
+    <Content Include="Views\Exhibitor\NowApplying.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

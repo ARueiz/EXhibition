@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "HistoryList";
+}
+
+<h2>EventHistory</h2>
+<div class="col-md-11 mx-auto" >
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">名稱</th>
+                <th scope="col">地址</th>
+                <th scope="col">開始時間</th>
+                <th scope="col">結束時間</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="data in DataList" id="VuePage">
+                <td class="d-none col">{{data.EVID}}</td>
+                <td class="col">{{data.name}}</td>
+                <td class="col">{{data.venue}}</td>
+                <td class="col">{{data.startdate}}</td>
+                <td class="col">{{data.enddate}}</td>
+                <td class="col"><button type="button" class="btn btn-outline-success mx-3">核准</button><button type="button" class="btn btn-outline-danger">拒絕</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    new Vue({
+        el: '#VuePage',
+        data: {
+            DataList: [],
+        },
+        mounted: function() {
+            const self = this
+            axios.post('/ExhibitorApi/CanApplyList')
+                .then(function (response) {
+                    self.DataList = response.data
+                })
+            this.呵呵()
+        },
+        methods: {
+            呵呵() {
+                alert('呵呵')
+            },
+        },
+    });
+</script>
+
+
+
+
+
