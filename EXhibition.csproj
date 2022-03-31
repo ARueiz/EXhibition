@@ -161,6 +161,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\ApplyList.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CROS.cs" />
     <Compile Include="Models\DBConnector.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TicketToken.cs" />
     <Compile Include="Models\users.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -250,6 +252,7 @@
     <Content Include="Content\myTicketList.css" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\Login\userLogin.css" />
+    <Content Include="Content\NowApplying.css" />
     <Content Include="Content\ShoppingCart.css" />
     <Content Include="Content\showHostList.css" />
     <Content Include="Content\Template\dashboard-sidebar.css" />
@@ -420,6 +423,8 @@
     <Content Include="Views\Exhibitor\eventDetail.cshtml" />
     <Content Include="Views\Shop\CheckoutSuccess.cshtml" />
     <Content Include="Views\Shop\Product.cshtml" />
+    <Content Include="Views\Host\CheckTicket.cshtml" />
+    <Content Include="Views\Exhibitor\NowApplying.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

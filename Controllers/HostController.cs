@@ -103,5 +103,10 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult CheckTicket()
+        {
+            return View();
+        }
+
     }
 }
