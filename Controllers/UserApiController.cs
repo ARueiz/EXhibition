@@ -1,56 +1,20 @@
-﻿using EXhibition.Models;
+﻿using EXhibition.Filters;
+using EXhibition.Models;
 using System;
 using System.Linq;
 using System.Web.Mvc;
 namespace EXhibition.Controllers
 {
+    [AuthorizeFilter(UserRole.User)]
     public class UserApiController : Controller
     {
-
         DBConnector db = new DBConnector();
-
-        [HttpPost]
-        public ActionResult Login(Models.Login login)
-        {
-            ReturnData r = new ReturnData();
-            r.message = "登入成功";
-            r.status = ReturnStatus.Success;
-            r.data = new { url = "/", mylogin = login };
-            Session["auth"] = 1;
-            return Json(r, JsonRequestBehavior.AllowGet);
-        }
-
-        [HttpPost]
-        public ActionResult Register(Models.users user)
-        {
-            user.UID = 0;
-            ReturnData r = new ReturnData();
-            users u = db.users.Add(user);
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                r.status = ReturnStatus.Error;
-                r.message = "註冊失敗";
-                r.data = u;
-                return Json(r, JsonRequestBehavior.AllowGet);
-            }
-            r.status = ReturnStatus.Success;
-            r.message = "註冊成功";
-            r.data = new { url = "/Home/UserLogin" };
-            return Json(r, JsonRequestBehavior.AllowGet);
-        }
 
         //票卷票表
         public ActionResult ticketList(int? id)
         {
-
-
-            id = Session["userid"] == null ? 2 : (int)Session["userid"];
-
-
+            
+            int id = (int)Session["userid"];
 
             var mes = new Models.ReturnData();
             if (id == -1)
@@ -114,9 +78,7 @@ namespace EXhibition.Controllers
         }
         public ActionResult GetUserInfo(int? id)
         {
-            Session["UID"] = 2;
-
-            int UID = Convert.ToInt32(Session["UID"]);
+            int UID = Convert.ToInt32(Session["AccountID"]);
 
             var list = (from user in db.users
                         where user.UID == UID && user.verify == true

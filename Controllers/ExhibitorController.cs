@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using EXhibition.Filters;
 using EXhibition.Models;
 
 namespace EXhibition.Controllers
 {
+    [AuthorizeFilter(UserRole.Exhibitor)]
     public class ExhibitorController : Controller
     {
         DBConnector db = new DBConnector();
@@ -43,5 +41,12 @@ namespace EXhibition.Controllers
             ViewBag.EID = id;
             return View();
         }
+        //廠商 編輯個人資料
+        public ActionResult EditExhibitor()
+        {
+
+            return View();
+        }
+
     }
 }

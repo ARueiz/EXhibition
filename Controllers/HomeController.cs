@@ -11,6 +11,10 @@ namespace EXhibition.Controllers
         private DBConnector db = new DBConnector();
         public ActionResult Index()
         {
+            if (Session["UserRole"] == null)
+            {
+                Session["UserRole"] = "Visitor";
+            }
             return View();
         }
 
@@ -33,7 +37,7 @@ namespace EXhibition.Controllers
         }
 
         // 廠商登入
-        public ActionResult ExhibitiorLogin()
+        public ActionResult ExhibitorLogin()
         {
             return View();
         }
@@ -71,7 +75,7 @@ namespace EXhibition.Controllers
         // 登出
         public ActionResult Logout()
         {
-            Session["auth"] = null;
+            Session["UserRole"] = null;
             return RedirectToAction("index");
         }
 
@@ -80,6 +84,13 @@ namespace EXhibition.Controllers
             var a = Environment.GetEnvironmentVariable("myValue");
             ViewBag.data = a;
             return View();
+        }
+
+        public ActionResult DenyAuthorize()
+        {
+            ViewBag.sessionUserRole = Session["UserRole"];
+
+            return PartialView();
         }
         public ActionResult dbTest()
         {

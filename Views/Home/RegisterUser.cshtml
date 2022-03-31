@@ -155,6 +155,42 @@
         </div>
     </div>
 
+    <!-- 成功的 Modal -->
+    <div class="modal fade" id="SuccessModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">註冊成功</h5>
+                </div>
+                <div class="modal-body">
+                    <p>已成功註冊，前往登入頁面</p>
+                </div>
+                <div class="modal-footer">
+                    @Html.ActionLink("前往登入", "UserLogin", new { }, new { @class = "btn btn-info", @role = "button" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 失敗的 Modal -->
+    <div class="modal fade" id="failedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">註冊失敗</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="failedModalBody">
+                    請檢查是否有空欄位或是欄位格式錯誤!!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="CloseAllModal()">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -171,14 +207,21 @@
             }
         },
         methods: {
+            CloseAllModal: function () {
+                $('.modal').modal('hide');
+            }
+            ,
             sendRegister() {
 
-                let loadModal = $('#loadingModal')
-                loadModal.modal('show')
+                let loadModal = $('#loadingModal');
+                loadModal.modal('show');
+
+                let failModal = $('#failedModal');
+                let failModalbody = document.getElementById('failedModalBody');
 
                 if (this.Password != this.Password2) {
-                    loadModal.modal('hide')
-                    alert('密碼驗證錯誤')
+                    failModalbody.innerHTML = "密碼驗證錯誤!";
+                    failModal.modal('show');
                     return
                 } else if (this.processing == true) {
                     loadModal.modal('hide')
@@ -201,7 +244,7 @@
                     "Accept": "application/json",
                 }
 
-                fetch('/UserApi/Register', {
+                fetch('/HomeApi/UserRegister', {
                     method: "POST",
                     headers: headers,
                     // https://ithelp.ithome.com.tw/articles/10252941
@@ -214,10 +257,12 @@
                         self.Name = ''
                         self.Phone = ''
                         self.Email = ''
-                        window.location.href = json.data.url
+                        let loadModal = $('#SuccessModal');
+                        loadModal.modal('show');
                     } else {
                         this.processing = false
-                        alert(json.message)
+                        failModalbody.innerHTML = "註冊失敗，請檢查欄位!";
+                        failModal.modal('show');
                     }
                 });
             }

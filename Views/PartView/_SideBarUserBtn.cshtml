@@ -1,9 +1,5 @@
-﻿@using EXhibition.Models.PartView
-@{
+﻿@{
     ViewBag.Title = "_SideBarUserBtn";
-    string MyTicketList = UserPartViewParam.MyTicketList;
-    string QRCodeLogin = UserPartViewParam.ScanLoginQRCode;
-    string EditUser = UserPartViewParam.EditUser;
 }
 
 <div class="d-block d-md-none">
@@ -24,7 +20,7 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li>
-                <a href="@MyTicketList" class="nav-link side-item" aria-current="page">我的票券</a>
+                <a href="/User/MyTicketList" class="nav-link side-item" aria-current="page">我的票券</a>
             </li>
             <li>
                 <a href="#" class="nav-link side-item">購買紀錄</a>
@@ -33,10 +29,10 @@
                 <a href="#" class="nav-link side-item">活動專區</a>
             </li>
             <li>
-                <a href="@EditUser" class="nav-link side-item">個人資料</a>
+                <a href="/User/EditUser" class="nav-link side-item">個人資料</a>
             </li>
             <li>
-                <a href="@QRCodeLogin" class="nav-link side-item">QRCode 登入</a>
+                <a href="/User/ScanLoginQRCode" class="nav-link side-item">QRCode 登入</a>
             </li>
         </ul>
     </div>
