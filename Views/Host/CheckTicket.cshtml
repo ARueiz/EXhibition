@@ -134,16 +134,11 @@
             "Accept": "application/json",
         }
 
-        let body = {
-            TicketId: 9501,
-            TicketToken: '3541-1354-6458-3101-3184',
-            TicketEventId: 10
-        }
 
         fetch('/api/QRCodeAccess/PostCheckTicket', {
             method: "POST",
             headers: headers,
-            body: JSON.stringify(body)
+            body: JSON.stringify(qrcodeJson)
         })
             .then(response => response.json())
             .then(json => {

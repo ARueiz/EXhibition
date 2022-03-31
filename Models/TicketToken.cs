@@ -8,8 +8,8 @@ namespace EXhibition.Models
 {
     public class CheckTicket
     {
-        public int TicketId { get; set; }
-        public string TicketToken { get; set; }
+        public int Id { get; set; }
+        public string Token { get; set; }
 
         public int TicketEventId { get; set; }  
     }

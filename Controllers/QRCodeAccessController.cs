@@ -104,15 +104,15 @@ namespace EXhibition.Controllers
 
             if (getTicketData == null) return Ok(new ReturnData() { status = ReturnStatus.Error, message = "錯誤" });
 
-            var t = db.Tickets.Find(getTicketData.TicketId);
+            var t = db.Tickets.Find(getTicketData.Id);
 
             if (t == null) // 找不到票券
                 return Ok(new ReturnData() { status = ReturnStatus.Error, message = "找不到票券" });
 
-            else if (t.EVID != getTicketData.TicketEventId) // 票券 id 與 該場次 id 不符
-                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券 id 與 該場次 id 不符" });
+            //else if (t.EVID != getTicketData.TicketEventId) // 票券 id 與 該場次 id 不符
+            //    return Ok(new ReturnData() { status = ReturnStatus.Error, message = "票券 id 與 該場次 id 不符" });
 
-            else if (t.token.Equals(getTicketData.TicketToken) == false) // token 不相符
+            else if (t.token.Equals(getTicketData.Token) == false) // token 不相符
                 return Ok(new ReturnData() { status = ReturnStatus.Error, message = "驗證碼不符" });
 
             //else if (t.createAt < DateTime.Now)

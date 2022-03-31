@@ -93,8 +93,8 @@
                     self.token = res.token
                     self.ticketId = res.ticketId
                     let qrContent = {
-                        TicketId: self.ticketId,
-                        TicketToken: self.token
+                        Id: self.ticketId,
+                        Token: self.token
                     }
                     self.QRCodeContent = qrContent
                     self.createQRCode(JSON.stringify(qrContent));
