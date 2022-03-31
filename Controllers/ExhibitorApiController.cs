@@ -223,7 +223,7 @@ namespace EXhibition.Controllers
         }
 
         //廠商正在審核中的申請--點下tag
-        public ActionResult NowApplyingTag(string tag)
+        public ActionResult NowApplyingTag(int? EID,string tag)
         {
             ReturnData rd = new ReturnData();
 
@@ -236,7 +236,7 @@ namespace EXhibition.Controllers
 
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
-                        where exhibitinfo.status == tag
+                        where exhibitinfo.status == tag && exhibitinfo.EID == EID
                         select new ApplyList { EVID = events.EVID, name = events.name, startdate = events.startdate.ToString(), enddate = events.enddate.ToString(), venue = events.venue, status = exhibitinfo.status, dateout = false }).ToList();
 
             foreach (var item in list)

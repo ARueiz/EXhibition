@@ -40,7 +40,7 @@ namespace EXhibition.Controllers
         //廠商 正進行審核的活動列表
         public ActionResult NowApplying(int? id=10)
         {
-            ViewBag.EID = id;
+            ViewBag.id = id;
             return View();
         }
     }

@@ -11,10 +11,10 @@
     <div class=" mb-4 d-flex flex-wrap justify-content-between align-content-center">
         <h3 class="col-md-4 h-100 m-0">已申請列表</h3>
         <div class="col-md-8 d-flex align-content-center justify-content-end">
-            <button class="status-btn all" :onclick="getSearchList('all')">全部</button>
-            <button class="status-btn fail" :onclick="getSearchList('拒絕')">申請失敗</button>
-            <button class="status-btn success" :onclick="getSearchList('允許')">申請成功</button>
-            <button class="status-btn checking" :onclick="getSearchList('尚未審核')">正在審核</button>
+            <button class="status-btn all" v-on:click="getall">全部</button>
+            <button class="status-btn fail" v-on:click="getSearchList('拒絕')">申請失敗</button>
+            <button class="status-btn success" v-on:click="getSearchList('允許')">申請成功</button>
+            <button class="status-btn checking" v-on:click="getSearchList('尚未審核')">正在審核</button>
         </div>
     </div>
     <div>
@@ -62,7 +62,7 @@
 <script src="./js/jquery.qrcode.min.js"></script>
 
 <script>
-    new Vue({
+    var VuePage =new Vue({
         el: '#contain',
         data() {
             return {
@@ -71,25 +71,28 @@
                     fail: 'badgeFail',
                     checking: 'badgeChecking',
                 },
-                eventList: [                   
-                ],
-                taglist: [
+                eventList: [
                 ],
                 pageNum: 1,
-                searchStatus: 'all'
+                searchStatus: 'all',
+                getSearchList: function(tag) {
+                    // 按鈕會會傳狀態，根據狀態進行判斷目前要撈哪種資料
+                    const self = this
+                    axios.get('/ExhibitorApi/NowApplyingTag/?EID='+'@ViewBag.id'+'&tag=' + tag)
+                        .then(function (response) {
+                            self.eventList = response.data;
+                            console.log(response)
+                        })
+                }
             }
         },
         created() {
-
+            
         },
-        mounted: function(){
-            const self = this
-            axios.get('/ExhibitorApi/NowApplying/10')
-                .then(function (response) {
-                    self.eventList = response.data
-                    console.log(response)
-                })
-        },
+        mounted() {
+            this.getall()
+        }
+        ,
         methods: {
             toChinese(data) {
                 if (data === 'fail') {
@@ -110,15 +113,14 @@
             checkDate(data) {
 
             },
-            getSearchList(data) {
-                // 按鈕會會傳狀態，根據狀態進行判斷目前要撈哪種資料           
-                const self = this
-                axios.get('/ExhibitorApi/NowApplyingTag/?tag='+data)
-                    .then(function (response) {
-                        self.eventList = response.data;
-                        console.log(response)
-                    })
-            }
+            getall() {
+            const self = this
+            axios.get('/ExhibitorApi/NowApplying/'+'@ViewBag.id')
+                .then(function (response) {
+                    self.eventList = response.data
+                    console.log(response)
+                })
+        },
         },
     })
 
