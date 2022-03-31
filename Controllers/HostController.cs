@@ -105,6 +105,7 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        // 驗票
         public ActionResult CheckTicket()
         {
             return View();

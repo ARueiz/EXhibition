@@ -44,7 +44,7 @@
           <Property Name="boothnumber" Type="nvarchar" MaxLength="50" />
           <Property Name="productinfo" Type="nvarchar" MaxLength="500" />
           <Property Name="status" Type="nvarchar" MaxLength="50" />
-          <Property Name="verify" Type="bit" Nullable="false" />
+          <Property Name="verify" Type="bit" />
           <Property Name="reviewDateTime" Type="datetime" />
           <Property Name="reason" Type="nvarchar" MaxLength="100" />
         </EntityType>
@@ -267,7 +267,7 @@
           <Property Name="boothnumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="productinfo" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="verify" Type="Boolean" Nullable="false" />
+          <Property Name="verify" Type="Boolean" />
           <NavigationProperty Name="events" Relationship="Self.FK__exhibitinf__EVID__31EC6D26" FromRole="exhibitinfo" ToRole="events" />
           <NavigationProperty Name="exhibitors" Relationship="Self.FK__exhibitinfo__EID__32E0915F" FromRole="exhibitinfo" ToRole="exhibitors" />
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />

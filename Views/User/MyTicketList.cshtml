@@ -41,13 +41,13 @@
             <div class="mb-3">
                 <small class="w3-text-gray">日期</small>
                 <p class="mb-1">{{item.startdate}} - {{item.enddate}}</p>
-                <p class="badgeDefault" v-bind:class="[ badgeBackground('presale') ]">
+                <p class="badgeDefault" v-bind:class="[ badgeBackground(item.status) ]">
                     <span>&#8226;</span>
-                    {{ CheckTicket('now') }}
+                    {{ CheckTicket(item.status) }}
                 </p>
             </div>
             <div class="col-sm-3 mt-auto">
-                <button onclick="location.href ='/user/myTicketDetail';" class="w-100" style="color: #069ff1;line-height: 25px;border-radius: 5px;
+                <button v-on:click="goPage(item.ticketId)" class="w-100" style="color: #069ff1;line-height: 25px;border-radius: 5px;
                                     border: 1px solid  #069ff1;background-color: white">
                     查看票券
                 </button>
@@ -96,9 +96,13 @@
                     return self.badgeBg[data];
                 },
                 connectAxios: function () {
+                    let self = this
                     axios.get('/UserApi/ticketList').then(function (res) {
-                        dataset = res.data;
+                        self.dataset = res.data;
                     })
+                },
+                goPage() {
+                    window.location.href = "/user/myTicketDetail" + 
                 }
             }
         })

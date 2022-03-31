@@ -219,6 +219,7 @@
     <Compile Include="Models\TagsName.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\TicketPreview.cs" />
     <Compile Include="Models\Tickets.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
