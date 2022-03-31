@@ -113,7 +113,7 @@ namespace EXhibition.Controllers
                 HttpContext.Current.Session[cartItem] = list;
             }
 
-            return Ok(list);
+            return Ok(new ReturnData() { message = "加入成功", status = ReturnStatus.Success });
         }
 
         // 移除 購物車內的產品 (此 id 為 session 陣列中排行的編號，請帶入 cartId)
@@ -162,7 +162,7 @@ namespace EXhibition.Controllers
         // 建立訂單
         public IHttpActionResult PostCreateOrder()
         {
-            List<events> eventList = (List<events>)HttpContext.Current.Session[GlobalVariables.CartItems];
+            List<CartItem> eventList = (List<CartItem>)HttpContext.Current.Session[GlobalVariables.CartItems];
             if (eventList == null || eventList.Count <= 0)
                 return Ok(new ReturnData() { status = ReturnStatus.Error, message = "購物車為空" });
 
@@ -170,7 +170,9 @@ namespace EXhibition.Controllers
             foreach (var item in eventList) { eventIdList.Add(item.EVID); };
             orders order = new CheckOut().CreateOrder(eventIdList, 2);
 
-            return Ok(new { status = "成功", order = order });
+            HttpContext.Current.Session[GlobalVariables.CartItems] = null; // 清空 session 購物清單
+
+            return Ok(new { status = ReturnStatus.Success, order = order, data = new { url = "/shop/CheckoutSuccess" } });
         }
 
         // 展覽資訊
@@ -198,12 +200,14 @@ namespace EXhibition.Controllers
 
 
             mEventDetail.exhibitorList = (from eInfo in db.exhibitinfo
-             join eData in db.exhibitors on eInfo.EID equals eData.EID
-             where eInfo.EVID == id
-             select new Models.ExhibitorsInfo
-             {
-                 EID = eInfo.EID,name= eData.name , image = eInfo.image
-             }).ToList();
+                                          join eData in db.exhibitors on eInfo.EID equals eData.EID
+                                          where eInfo.EVID == id
+                                          select new Models.ExhibitorsInfo
+                                          {
+                                              EID = eInfo.EID,
+                                              name = eData.name,
+                                              image = eInfo.image
+                                          }).ToList();
 
             return Ok(mEventDetail);
         }

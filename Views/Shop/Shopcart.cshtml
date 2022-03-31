@@ -7,19 +7,21 @@
     <link href="~/Content/ShoppingCart.css" rel="stylesheet" />
 }
 
-<div class="container panel d-flex flex-wrap " id="shoppingcart">
-    <div class="col-md-8">
-        <h3><b>購物車</b></h3>
+<div class="container panel row" id="shoppingcart">
+    <div class="col-md-8 bottom-line">
+        <h3>
+            <b>購物車</b>
+        </h3>
         <div class="item-cart d-flex flex-wrap mt-3" v-for="element in cart">
             <div class="item-first col-md-4 p-0" style="">
                 <div class="wrap-img">
-                    <img :src="element.img" alt="">
+                    <img :src="element.image" alt="">
                 </div>
             </div>
             <div class="item-second col-md-6 flex-column d-flex">
                 <div class="">
-                    <h4 class="item-text">商品名稱</h4>
-                    <p class="m-0 p-0">{{ element.name }}</p>
+                    <h4 class="item-text">{{ element.name }}</h4>
+                    <p class="m-0 p-0">{{ element.venue }}</p>
                     <p class="m-0 p-0 d-flex flex-wrap">
                         <div class="d-flex flex-wrap">
                             <div class="col-2 m-0 p-0 num">日期:</div>
@@ -28,7 +30,7 @@
                     </p>
                 </div>
                 <div class="mt-auto">
-                    <a href="javascript:void(0);" v-on:click="removeItem(element.EVID)" class="d-block remove-link">
+                    <a href="javascript:void(0);" v-on:click="removeItem(element.cartId)" class="d-block remove-link">
                         <i class="fa-solid fa-trash-can" style="padding-right: 8px"></i>移除
                     </a>
                 </div>
@@ -41,7 +43,9 @@
         </div>
     </div>
     <aside class="col-md-4">
-        <h3 class="mb-2"><b>摘要</b></h3>
+        <h3 class="mb-2">
+            <b>摘要</b>
+        </h3>
         <div class="price-panel d-flex justify-content-between mb-2  mt-5">
             <span>小記</span>
             <span class="price">{{ totalPrice }}</span>
@@ -53,7 +57,7 @@
         <div class="price-panel-line"></div>
         <div class="price-panel d-flex justify-content-between mt-3">
             <h5 class="m-0">總計</h5>
-            <span class="price">${{ total - discount }}</span>
+            <span class="price">${{ totalPrice - discount }}</span>
         </div>
         <div class="price-panel-line mt-3"></div>
         <br>
@@ -122,6 +126,7 @@
                     });
                 },
                 removeItem(id) {
+                    let self = this
                     fetch('/Api/ShopApi/PostRemoveCartItem/' + id, {
                         method: "POST",
                         headers: {
@@ -129,7 +134,7 @@
                             "Accept": "application/json",
                         }
                     }).then(response => response.json()).then(json => {
-                        this.cart = json;
+                        self.cart = json;
                     });
                 },
                 getCartList() {
@@ -139,19 +144,30 @@
                             return response.json();
                         }).then(function (data) {
                             self.cart = data
+                            for (var i = 0; i < self.cart.length; i++) {
+                                self.cart[i].startdate = self.cart[i].startdate.slice(0, 10)
+                                self.cart[i].enddate = self.cart[i].startdate.slice(0, 10)
+                            }
                         })
                 }
             },
             computed: {
-                total() {
-                    let a = 0
-                    const self = this
-                    self.cart.forEach(element => {
-                        a = a + element.price
-                    });
-                    return a
-                }
+
             },
+            watch: {
+                cart() {
+                    if (this.cart != null && this.cart.length > 0) {
+                        let total = 0
+                        const self = this
+                        self.cart.forEach(element => {
+                            total = total + parseInt(element.ticketprice)
+                        });
+                        this.totalPrice = total
+                    } else {
+                        this.totalPrice = 0
+                    }
+                }
+            }
         });
 
     </script>

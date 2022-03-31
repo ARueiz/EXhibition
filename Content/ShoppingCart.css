@@ -1,5 +1,4 @@
-﻿
-.panel {
+﻿.panel {
     padding-top: 40px;
     margin-bottom: 150px;
 }
@@ -75,4 +74,9 @@
 
 .paypal-btn:active {
     box-shadow: 0px 10px 13px -7px #000000;
+}
+
+.bottom-line {
+    border-bottom: 2px solid gray;
+    margin-bottom: 50px;
 }
