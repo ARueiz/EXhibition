@@ -168,7 +168,7 @@ namespace EXhibition.Controllers
 
             List<int> eventIdList = new List<int>();
             foreach (var item in eventList) { eventIdList.Add(item.EVID); };
-            orders order = new CheckOut().CreateOrder(eventIdList, 2);
+            orders order = new CheckOutRepo().CreateOrder(eventIdList, 2);
 
             HttpContext.Current.Session[GlobalVariables.CartItems] = null; // 清空 session 購物清單
 

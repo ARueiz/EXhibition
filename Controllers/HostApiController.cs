@@ -1,17 +1,14 @@
-﻿using EXhibition.Filters;
-using EXhibition.Models;
+﻿using EXhibition.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
-using System.Web.Http.Cors;
 using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
     //[AuthorizeFilter(UserRole.Host)]
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class HostApiController : Controller
     {
 
@@ -271,7 +268,7 @@ namespace EXhibition.Controllers
             return Json(eventIdList, JsonRequestBehavior.AllowGet);
         }
 
-       
+
         public ActionResult List()
         {
 
@@ -320,10 +317,7 @@ namespace EXhibition.Controllers
         }
 
 
-
-
-
-        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events)
+        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events, List<string> tagList)
         {
 
 
@@ -365,6 +359,11 @@ namespace EXhibition.Controllers
             events.HID = (int)Session["HID"];
             db.events.Add(events);
             int result = db.SaveChanges();
+
+            // 加入 tag
+            Repo.TagRepo insert = new Repo.TagRepo();
+            insert.TagsInsert(tagList,events.HID);
+
             try
             {
                 db.SaveChanges();
@@ -561,45 +560,6 @@ namespace EXhibition.Controllers
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
 
-        }
-
-
-        public ActionResult GetTagList()
-        {
-            string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
-
-            string queryString =
-                "select top(10) count(A.tagId) , A.TagId , B.tagName from eventTags as A inner join TagsName as B on A.tagID = B.id group by A.tagId ,B.tagName order by 1 desc";
-
-            // 先將 id 撈成 陣列後 用 entity framework 去找資料
-
-            List<TagsName> tagList = new List<TagsName>();
-            List<int> eventIdList = new List<int>();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                // Create the Command and Parameter objects.
-                SqlCommand command = new SqlCommand(queryString, connection);
-
-                try
-                {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        eventIdList.Add((int)reader[1]);
-                    }
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-
-            tagList = db.TagsName.Where(item => eventIdList.Contains(item.id)).ToList();
-
-            return Json(tagList, JsonRequestBehavior.AllowGet);
         }
 
     }

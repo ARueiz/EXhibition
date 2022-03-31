@@ -1,6 +1,11 @@
 ﻿@{
     ViewBag.Title = "CreateEvent";
 }
+
+@section styles{
+    <link href="~/Content/TagModal.css" rel="stylesheet" />
+}
+
 <!-- Form & image -->
 <div class="container h-100 mt-3" id="VuePage">
     <div class="row d-flex justify-content-evenly h-100">
@@ -43,7 +48,17 @@
                     <div class="row mb-2">
                         <div class="col-sm-6">
                             <label class="form-label">分類</label>
-                            <input type="text" class="form-control" v-model="category" required="required">
+                            <button data-bs-toggle="modal"
+                                    data-bs-target="#tagModal"
+                                    class="btn btn-primary"
+                                    type="button"
+                                    v-on:click.stop="">
+                                加入標籤
+                            </button>
+                            <div class="d-flex flex-wrap">
+                                <span v-for="element in selectedTag" class="m-1 badge badge-warning bg-warning text-dark">{{ element }}</span>
+                            </div>
+                            @*<input type="text" class="form-control" v-model="category" required="required">*@
                         </div>
                         <div class="col-sm-6">
                             <label class="form-label">票價</label>
@@ -81,13 +96,63 @@
                         展覽/活動 新增成功 點擊確認前往展覽頁面
                     </div>
                     <div class="modal-footer">
-                        @Html.ActionLink("確定", "Index", new { }, new { @class = "btn btn-info", @role = "button"})
+                        @Html.ActionLink("確定", "Index", new { }, new { @class = "btn btn-info", @role = "button" })
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+        <!-- Modal -->
+        <!-- tag Modal -->
+        <div class="modal fade" id="tagModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tag #</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal">
+                        <h3>熱門標籤</h3>
+                        <div class="selection-area d-flex flex-wrap" style="">
+                            <div v-for="(item,index) in tag" class="d-inline-block"
+                                 style="margin: 5px; border-radius: 70%;">
+                                <div class="m-0 d-inline-block"
+                                     style="background-color: rgb(220, 231, 231); padding: 0 3px; "
+                                     v-on:click="select(item,index)">
+                                    {{item}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>
+                            <input type="text" class="input-tag" v-model="newDATA">
+                            <button class="addNew input-btn" v-on:click="newTag()">增加</button>
+                        </p>
+                        <div class="chosen show-area  d-inline-block " v-for="(item,index) in selectedTag"
+                             v-on:click="de_select(item,index)"
+                             style="margin-top: 2px ;display: flex; flex-direction: row; margin-left: 3px ;  ">
+                            <div class="m-0 "
+                                 style="background-color: rgb(220, 231, 231); padding: 0 3px;">
+                                #{{item}}
+                            </div>
+                        </div>
+                        <div class="chosen show-area  d-inline-block " v-on:click="de_select(item,index)"
+                             style="margin-top: 2px ;display: flex; flex-direction: row; margin-left: 3px ;  ">
+                            <div class="m-0 " style="background-color: rgb(220, 231, 231); padding: 0 3px;">
+                                {{newDATA}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-primary">儲存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end tag Modal -->
     </div>
+
 </div>
+
 
 @section scripts {
     <script>
@@ -109,62 +174,114 @@
                     note: '',
                     ticketprice: '',
                     FormData: new FormData(),
+                    origian: [],
+                    tag: [],
+                    selectedTag: [],
+                    newDATA: '',
+            },
+            created: function () {
+                this.getTagList();
+                //this.copy();
             }
             , methods: {
-                    imageChange: function () {
-                        let theFile = document.querySelector('#image');
-                        this.$data.image = theFile.files[0].name;
-                        console.log(theFile.files[0]);
+                imageChange: function () {
+                    let theFile = document.querySelector('#image');
+                    this.$data.image = theFile.files[0].name;
+                    console.log(theFile.files[0]);
 
-                        this.$data.FormData.set("image", theFile.files[0]);
-                    },
-                    floorplanimgChange: function () {
-                        let theFile = document.querySelector('#floorplanimg');
-                        this.$data.floorplanimg = theFile.files[0].name;
-                        console.log(theFile.files[0]);
+                    this.$data.FormData.set("image", theFile.files[0]);
+                },
+                floorplanimgChange: function () {
+                    let theFile = document.querySelector('#floorplanimg');
+                    this.$data.floorplanimg = theFile.files[0].name;
+                    console.log(theFile.files[0]);
 
-                        this.$data.FormData.set("floorplanimg", theFile.files[0]);
-                    },
-                    DoCreateEvent: function () {
-                        event.preventDefault()
-                        var self = this;
+                    this.$data.FormData.set("floorplanimg", theFile.files[0]);
+                },
+                DoCreateEvent: function () {
+                    event.preventDefault()
+                    var self = this;
 
-                        //console.log(this.$data.FormData.get('image'));
-                        //console.log(this.$data.FormData.get('floorplanimg'));
+                    //console.log(this.$data.FormData.get('image'));
+                    //console.log(this.$data.FormData.get('floorplanimg'));
 
-                        //格式化圖片名稱
-                        let EVname = "EV_UID" + self.HID + "_";
-                        let FPname = "FP_UID" + self.HID + "_";
-                        let startFormat = self.startdate.replaceAll("-", "").substring(2);
-                        let endFormat = self.enddate.replaceAll("-", "").substring(2);
+                    //格式化圖片名稱
+                    let EVname = "EV_UID" + self.HID + "_";
+                    let FPname = "FP_UID" + self.HID + "_";
+                    let startFormat = self.startdate.replaceAll("-", "").substring(2);
+                    let endFormat = self.enddate.replaceAll("-", "").substring(2);
 
-                        self.image = EVname + startFormat + "_" + endFormat + ".png";
-                        self.floorplanimg = FPname + startFormat + "_" + endFormat + ".png";
+                    self.image = EVname + startFormat + "_" + endFormat + ".png";
+                    self.floorplanimg = FPname + startFormat + "_" + endFormat + ".png";
 
-                        this.$data.FormData.append("name", self.name);
-                        this.$data.FormData.append("startdate", self.startdate);
-                        this.$data.FormData.append("enddate", self.enddate);
-                        this.$data.FormData.append("venue", self.venue);
-                        this.$data.FormData.append("image", self.image);
-                        this.$data.FormData.append("floorplanimg", self.floorplanimg);
-                        this.$data.FormData.append("category", self.category);
-                        this.$data.FormData.append("eventinfo", self.eventinfo);
-                        this.$data.FormData.append("ticketprice", self.ticketprice);
+                    this.$data.FormData.append("name", self.name);
+                    this.$data.FormData.append("startdate", self.startdate);
+                    this.$data.FormData.append("enddate", self.enddate);
+                    this.$data.FormData.append("venue", self.venue);
+                    this.$data.FormData.append("image", self.image);
+                    this.$data.FormData.append("floorplanimg", self.floorplanimg);
+                    this.$data.FormData.append("category", self.category);
+                    this.$data.FormData.append("eventinfo", self.eventinfo);
+                    this.$data.FormData.append("ticketprice", self.ticketprice);
+                    //this.$data.FormData.append("tagList", self.selectedTag );
 
-
-                        axios.post('@Url.Content("~/HostApi/DoCreateEvent")', this.$data.FormData, { headers: { 'Content-Type': 'multipart/form-data' } })
-                        .then(function (response) {
-                            console.log(response.data);
-                            if (response.data.status == "success") {
-                                var myModal = new bootstrap.Modal(document.getElementById("ErrorAlert"), {});
-                                myModal.show();
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-
+                    for (var i = 0; i < self.selectedTag.length; i++) {
+                        this.$data.FormData.append("tagList[" + i + "]", self.selectedTag[i])
                     }
+
+                    axios.post('@Url.Content("~/HostApi/DoCreateEvent")', this.$data.FormData , { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then(function (response) {
+                        console.log(response.data);
+                        if (response.data.status == "success") {
+                            var myModal = new bootstrap.Modal(document.getElementById("ErrorAlert"), {});
+                            myModal.show();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+            },
+                async getTagList() {
+                    const self = this
+                    await fetch('/api/other/gettaglist')
+                        .then(res => res.json()).then(res => {
+                            self.origian = res
+                        })
+                    await this.copy();
+                },
+
+                select: function (data, index) {
+                    this.selectedTag.push(this.tag[index])
+                    this.tag.splice(index, 1)
+                },
+
+                de_select: function (data, index) {
+                    var self = this;
+                    console.log(self.origian.includes(data));
+                    if (!self.origian.includes(data)) {
+                        this.selectedTag.splice(index, 1)
+                        return
+                    }
+                    ;
+
+                    this.tag.push(this.selectedTag[index])
+                    this.selectedTag.splice(index, 1)
+
+                },
+
+                newTag() {
+                    if (this.newDATA == '') return;
+
+                    this.selectedTag.push(this.newDATA);
+                    this.newDATA = '';
+                },
+
+                copy: function () {
+                    this.tag = JSON.parse(JSON.stringify(this.origian));
+                    return this.tag;
+                }
+
             }
         })
     </script>

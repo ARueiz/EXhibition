@@ -152,6 +152,7 @@
     <Compile Include="Controllers\HostApiController.cs" />
     <Compile Include="Controllers\HostController.cs" />
     <Compile Include="Controllers\HostsController.cs" />
+    <Compile Include="Controllers\OtherController.cs" />
     <Compile Include="Controllers\PartViewController.cs" />
     <Compile Include="Controllers\QRCodeAccessController.cs" />
     <Compile Include="Controllers\ShopApiController.cs" />
@@ -229,7 +230,8 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repo\CheckOut.cs" />
+    <Compile Include="Repo\CheckOutRepo.cs" />
+    <Compile Include="Repo\TagsInsert.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Bootstrap\bootstrap-grid.css" />
@@ -260,6 +262,7 @@
     <Content Include="Content\NowApplying.css" />
     <Content Include="Content\ShoppingCart.css" />
     <Content Include="Content\showHostList.css" />
+    <Content Include="Content\TagModal.css" />
     <Content Include="Content\Template\dashboard-sidebar.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
