@@ -23,6 +23,7 @@ namespace EXhibition.Controllers
 
         public ActionResult SideBarBtn()
         {
+            
             int authId = Session["auth"] == null ? 0 : (int)Session["auth"];
             if (authId == 1)
             {

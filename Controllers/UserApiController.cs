@@ -47,7 +47,7 @@ namespace EXhibition.Controllers
         public ActionResult ticketList()
         {
 
-            int id = (int)Session["userid"] == null ? 2 : (int)Session["userid"];
+            int id = Session["userid"] == null ? 2 : (int)Session["userid"];
 
 
             var mes = new Models.ReturnData();
@@ -89,8 +89,8 @@ namespace EXhibition.Controllers
                         select new
                         {
                             name = k.name,
-                            start = k.startdate,
-                            end = k.enddate,
+                            start = k.startdate.ToString(),
+                            end = k.enddate.ToString(),
                             image = k.image,
                             info = k.exhibitinfo,
                             token = p.token
