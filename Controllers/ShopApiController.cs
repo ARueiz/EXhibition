@@ -1,9 +1,11 @@
 ﻿using EXhibition.Models;
 using EXhibition.Repo;
+using PayPalCheckoutSdk.Orders;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -160,7 +162,7 @@ namespace EXhibition.Controllers
         }
 
         // 建立訂單
-        public IHttpActionResult PostCreateOrder()
+        public IHttpActionResult PostCreateOrder2()
         {
             List<CartItem> eventList = (List<CartItem>)HttpContext.Current.Session[GlobalVariables.CartItems];
             if (eventList == null || eventList.Count <= 0)
@@ -168,12 +170,43 @@ namespace EXhibition.Controllers
 
             List<int> eventIdList = new List<int>();
             foreach (var item in eventList) { eventIdList.Add(item.EVID); };
-            orders order = new CheckOutRepo().CreateOrder(eventIdList, 2);
+            orders order = new CheckOutRepo(eventIdList, 2).getOrder();
 
             HttpContext.Current.Session[GlobalVariables.CartItems] = null; // 清空 session 購物清單
 
             return Ok(new { status = ReturnStatus.Success, order = order, data = new { url = "/shop/CheckoutSuccess" } });
         }
+
+        public async Task<IHttpActionResult> PostCreateOrder()
+        {
+
+            List<CartItem> cartList = (List<CartItem>)HttpContext.Current.Session[GlobalVariables.CartItems];
+            if (cartList == null || cartList.Count <= 0)
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "購物車為空" });
+
+            // 將購物車的展覽 id 轉成 id 陣列
+            List<int> eventIdList = new List<int>();            
+            foreach (var item in cartList) { eventIdList.Add(item.EVID); }; 
+
+            // 進入結帳資料庫
+            orders order = new CheckOutRepo(eventIdList, 2).getOrder();
+
+            HttpContext.Current.Session[GlobalVariables.CartItems] = null; // 清空 session 購物清單
+
+            // 將 event.EVID 陣列轉乘 event 陣列
+            List<events> ticketList = db.events.Where(i => eventIdList.Contains(i.EVID)).ToList();
+
+            PayPalHttp.HttpResponse s = await Repo.BuildPayPalOrder.CreateOrder(ticketList, order.totalPrice);
+            Order orderResult = s.Result<Order>();
+
+            order = db.orders.Find(order.id);
+            order.paypal_Id = orderResult.Id;
+
+            string url = orderResult.Links.Where(i => i.Rel == "approve").First().Href;
+
+            return Ok(new Models.ReturnData() { status=ReturnStatus.Success , message="成功" , data= new { url = url } });
+        }
+
 
         // 展覽資訊
         public IHttpActionResult GetEventDetail(int? id = 1)

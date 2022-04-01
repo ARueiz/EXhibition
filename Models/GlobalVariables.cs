@@ -15,5 +15,9 @@ namespace EXhibition.Models
         static public string Exhibitor = "Exhibitor";
         static public string CartItems = "CartItems";
         static public string HostImageUrl = @"/image/host/";
+        static readonly public string LocalPayPalUrl = "https://localhost:44378/";
+        static readonly public string OnlinePayPalUrl = "https://exhibition.azurewebsites.net/";
+        static public string PayPalCancelUrl = "";
+        static public string PayPalReturnUrl = "";
     }
 }

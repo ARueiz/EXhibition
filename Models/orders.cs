@@ -15,7 +15,6 @@ namespace EXhibition.Models
     public partial class orders
     {
         public int id { get; set; }
-        public string paypalId { get; set; }
         public Nullable<System.DateTime> createDateTime { get; set; }
         public int userId { get; set; }
         public int totalPrice { get; set; }

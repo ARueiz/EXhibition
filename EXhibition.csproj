@@ -236,8 +236,9 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repo\AuthorizeOrder.cs" />
     <Compile Include="Repo\CheckOutRepo.cs" />
-    <Compile Include="Repo\PayPalCheckOutRepo.cs" />
+    <Compile Include="Repo\BuildPayPalOrder.cs" />
     <Compile Include="Repo\PayPalClient.cs" />
     <Compile Include="Repo\TagsInsert.cs" />
   </ItemGroup>
