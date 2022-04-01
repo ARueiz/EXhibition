@@ -63,6 +63,12 @@ namespace EXhibition.Controllers
 
             return Json(tag,JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult allowOrRefuse(int? EVID)
+        {
+            ViewBag.EVID = EVID;
+            return View();
+        }
        
 
         //邱品叡

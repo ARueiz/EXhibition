@@ -47,6 +47,7 @@
           <Property Name="verify" Type="bit" />
           <Property Name="reviewDateTime" Type="datetime" />
           <Property Name="reason" Type="nvarchar" MaxLength="100" />
+          <Property Name="createAt" Type="datetime" />
         </EntityType>
         <EntityType Name="exhibitors">
           <Key>
@@ -273,6 +274,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="reviewDateTime" Type="DateTime" Precision="3" />
           <Property Name="reason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="createAt" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="exhibitors">
           <Key>
@@ -498,6 +500,7 @@
           <EntitySetMapping Name="exhibitinfo">
             <EntityTypeMapping TypeName="ExhibitionModel.exhibitinfo">
               <MappingFragment StoreEntitySet="exhibitinfo">
+                <ScalarProperty Name="createAt" ColumnName="createAt" />
                 <ScalarProperty Name="reason" ColumnName="reason" />
                 <ScalarProperty Name="reviewDateTime" ColumnName="reviewDateTime" />
                 <ScalarProperty Name="id" ColumnName="id" />

@@ -158,10 +158,30 @@ namespace EXhibition.Controllers
         }
 
         //顯示所有廠商活動
-        public ActionResult exhibitInfo_AllowOrRefuse()
+        public ActionResult exhibitInfo_AllowOrRefuse(int? EID)
         {
+
             var rd = new ReturnData();
-            var alldata = db.exhibitinfo.ToList();
+            DateTime today = DateTime.Now;
+            int eidd = (int)EID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today && q.verify == null && k.EVID == EID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
+
+                           }
+                           ).ToList();
+                        
+
+                         
 
             if (alldata == null)
             {
@@ -173,7 +193,7 @@ namespace EXhibition.Controllers
         }
 
         //允許或拒絕廠商
-        public ActionResult AllowOrRefuse(int? index)
+        public ActionResult AllowOrRefuse(int? index , bool verified , string reason)
         {
             var rd = new ReturnData();
             if (index == null)
@@ -183,21 +203,18 @@ namespace EXhibition.Controllers
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
             int x = (int)index;
-            var allow = db.exhibitors.Find(x);
+            var allow = db.exhibitinfo.Find(x);
 
-            if (allow.verify == false)
-            {
-                allow.verify = true;
-
-                rd.message = "modified";
-                rd.status = "success";
+           
+                allow.verify = verified;
+            allow.reason = reason;
                 db.SaveChanges();
+                rd.message = "no data";
+                rd.status = "error";
                 return Json(rd, JsonRequestBehavior.AllowGet);
-            }
+         
 
-            rd.message = "no data";
-            rd.status = "error";
-            return Json(rd, JsonRequestBehavior.AllowGet);
+           
         }
 
         //允許全部
@@ -227,6 +244,75 @@ namespace EXhibition.Controllers
 
             return Json(rd, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult selectorAll()
+        {
+            var data = from p in db.exhibitinfo
+                       join q in db.exhibitors
+                       on p.EID equals q.EID
+
+                       select new
+                       {
+                           id = p.id,
+                           name = q.name,
+                           phone = q.phone,
+                           email = q.email,
+                           link = q.link,
+                           image = p.image,
+                           info = p.productinfo,
+                           createAt = p.createAt,
+                           verify = p.verify
+
+                       };
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult selectorAllow(int? index)
+        {
+            var data = from p in db.exhibitinfo
+                       join q in db.exhibitors
+                       on p.EID equals q.EID
+                     
+                       where p.verify == true 
+                       select new
+                       {
+                           id = p.id,
+                           name = q.name,
+                           phone = q.phone,
+                           email = q.email,
+                           link = q.link,
+                           image = p.image,
+                           info = p.productinfo,
+                           createAt = p.createAt,
+                           verify = p.verify
+
+                       };
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult selectorReject(int? index)
+        {
+            var data = from p in db.exhibitinfo
+                       join q in db.exhibitors
+                       on p.EID equals q.EID
+                     
+                       where p.verify == false
+                       select new
+                       {
+                           id = p.id,
+                           name = q.name,
+                           phone = q.phone,
+                           email = q.email,
+                           link = q.link,
+                           image = p.image,
+                           info = p.productinfo,
+                           createAt = p.createAt,
+                           verify = p.verify
+
+                       };
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
 
