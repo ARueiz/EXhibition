@@ -4,50 +4,65 @@
 
 <div class="container h-100 mt-3" id="VuePage">
     <div class="row justify-content-sm-center h-100">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>name</th>
-                    <th>phone</th>
-                    <th>exhibitionname</th>
-                    <th>startdate</th>
-                    <th>enddate </th>
-                    <th>---------------------- </th>
+        <div>
+            <h1>主辦人資訊</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>name</th>
+                        <th>phone</th>
+                        <th>exhibitionname</th>
+                        <th>startdate</th>
+                        <th>enddate </th>
+                        <th>---------------------- </th>
+                    </tr>
+                </thead>
+                <tr v-for="(item, index) in res">
+                    <td v-show="false" id="evid">{{item.evid}}</td>
+                    <td>{{index + 1}}</td>
+                    <td>{{item.name }}</td>
+                    <td>{{item.phone }}</td>
+                    <td>{{item.exhibitionname}}</td>
+                    <td>{{item.startdate }}</td>
+                    <td>{{item.enddate }}</td>
+                    <td>
+                        <input type="submit" class="btn btn-secondary" value="審核" v-bind:disabled="item.isOver" />
+
+                        <input type="submit" class="btn btn-primary" value="編輯" v-bind:disabled="item.isOver" />
+
+                        <input type="submit" class="btn btn-dark" value="明細" v-on:click="Details(item.evid)" />
+
+                    </td>
+            <div class="d-flex justify-content-end">
+                <input type="button" class="btn btn-light" v-on:click="GetMaterial(-1)" value="上一頁" />
+                <input type="button" class="btn btn-light" v-on:click="GetMaterial(+1)" value="下一頁" />
+                @*<a style="margin: 5px" type="s" v-on:click="GetMaterial()">上一頁</a>*@
+                @*<a style="margin: 5px" href="#">下一頁</a>*@
+            </div>
+
                 </tr>
-            </thead>
-            <tr v-for="item in res">
-                <td v-show="false" id="evid">{{item.evid}}</td>
-                <td>{{item.name }}</td>
-                <td>{{item.phone }}</td>
-                <td>{{item.exhibitionname}}</td>
-                <td>{{item.startdate }}</td>
-                <td>{{item.enddate }}</td>
-                <td>
-                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-info" role="button">審核</a>
-                    <input type="submit" value="審核" />
+            </table>
+        </div>
 
-                    <input type="submit" value="編輯" />
-
-                    <input type="submit" value="明細" v-on:click="Details(item.evid)" />
-                </td>
-
-            </tr>
-        </table>
     </div>
 </div>
 
 @section scripts {
     <script>
 
+
         var VuePage = new Vue({
             el: '#VuePage',
             data: {
                 res: [],
+                pageNum : 1 ,
 
             },
 
             mounted() {
-                axios
+                this.GetMaterial(0)
+                @*axios
                     .get('/HostApi/List')
                     .then(function (response) {
                         VuePage.res = response.data
@@ -55,20 +70,41 @@
                     })
                     .catch((err) => {
                         console.log(err)
-                    });
+                    });*@
             },
             methods: {
                 Details: function (va) {
 
                     axios.post('/HostApi/PostList', "/" + va)
                         .then(function (response) {
-                            window.location.href = "/" + "host" + "/" + "DetailsHost" + "/" + va
+                            window.location.href = "/host/DetailsHost/" + va
                         })
                         .catch((err) => {
                             console.log(err)
                         });
-                }
+                },
 
+                GetMaterial: function (va) {
+
+                    if (this.pageNum + va > 0) {
+                        this.pageNum = this.pageNum + va
+                    }
+                    
+                    axios
+                        .get('/HostApi/List/' + this.pageNum )
+                        .then(function (response) {
+                            VuePage.res = response.data
+
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        });
+
+                },
+
+
+            },
+            computed: {
 
             }
         });

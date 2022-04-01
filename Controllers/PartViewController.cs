@@ -29,6 +29,11 @@ namespace EXhibition.Controllers
             //    Session["UserRole"] = "Host";
             //}
 
+            Session["UserRole"] = Session["UserRole"] != null ? Session["UserRole"] : "Visitor";
+
+
+
+
             if (Session["UserRole"].ToString() == "User")
             {
                 return PartialView("_SideBarUserBtn");
