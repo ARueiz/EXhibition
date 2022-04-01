@@ -58,5 +58,12 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        //廠商申請參展歷史紀錄
+        public ActionResult ApplyHistory(int? id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
+
     }
 }

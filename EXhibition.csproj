@@ -454,6 +454,7 @@
     <Content Include="Views\Host\allowOrRefuse.cshtml" />
     <Content Include="Views\Home\EventDetail.cshtml" />
     <Content Include="Views\Exhibitor\showEventDetail.cshtml" />
+    <Content Include="Views\Exhibitor\ApplyHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,7 +12,7 @@ namespace EXhibition.Controllers
     public class ExhibitorApiController : Controller
     {
 
-        Models.DBConnector db = new Models.DBConnector();
+        DBConnector db = new DBConnector();
 
         //廠商參展的歷史紀錄
         public ActionResult EventHistory(int? id) 
