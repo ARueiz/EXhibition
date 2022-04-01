@@ -68,8 +68,20 @@
                      alt="Check out with PayPal" />
             </div>
         </div>
-
     </aside>
+
+    <!-- Modal -->
+    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">請稍後</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
@@ -107,6 +119,8 @@
             },
             methods: {
                 sendOrder() {
+                    let loadModal = $('#loadingModal');
+                    loadModal.modal('show');
                     let body = this.cart
                     fetch('/Api/ShopApi/PostCreateOrder', {
                         method: "POST",

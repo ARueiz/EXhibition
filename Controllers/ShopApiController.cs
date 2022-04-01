@@ -1,9 +1,11 @@
 ﻿using EXhibition.Models;
 using EXhibition.Repo;
+using PayPalCheckoutSdk.Orders;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -160,7 +162,7 @@ namespace EXhibition.Controllers
         }
 
         // 建立訂單
-        public IHttpActionResult PostCreateOrder()
+        public IHttpActionResult PostCreateOrder2()
         {
             List<CartItem> eventList = (List<CartItem>)HttpContext.Current.Session[GlobalVariables.CartItems];
             if (eventList == null || eventList.Count <= 0)
@@ -174,6 +176,15 @@ namespace EXhibition.Controllers
 
             return Ok(new { status = ReturnStatus.Success, order = order, data = new { url = "/shop/CheckoutSuccess" } });
         }
+
+        public async Task<IHttpActionResult> PostCreateOrder()
+        {
+            PayPalHttp.HttpResponse s = await Repo.BuildPayPalOrder.CreateOrderWithMinimumFieldsAsync();
+            Order createOrderResult = s.Result<Order>();
+            string url = createOrderResult.Links.Where(i => i.Rel == "approve").First().Href;
+            return Ok(new Models.ReturnData() { status=ReturnStatus.Success , message="成功" , data= new { url = url } });
+        }
+
 
         // 展覽資訊
         public IHttpActionResult GetEventDetail(int? id = 1)

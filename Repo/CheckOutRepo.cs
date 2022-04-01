@@ -13,7 +13,6 @@ namespace EXhibition.Repo
 
         public CheckOutRepo() { }
 
-
         // 建立訂單
         public orders CreateOrder(List<int> eventIdList, int userId)
         {
