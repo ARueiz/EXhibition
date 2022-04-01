@@ -1,9 +1,0 @@
-diff a/EXhibition.csproj b/EXhibition.csproj	(rejected hunks)
-@@ -389,6 +389,7 @@
-      <Content Include="Views\Shop\Index.cshtml" />
-      <Content Include="Views\Shop\Shopcart.cshtml" />
-      <Content Include="Views\Host\EventList.cshtml" />
-++<<<<<<< Updated upstream
- +    <Content Include="Views\PartView\_Footer.cshtml" />
- +    <Content Include="Views\Exhibitor\showHostList.cshtml" />
- +    <Content Include="Views\Exhibitor\eventDetail.cshtml" />

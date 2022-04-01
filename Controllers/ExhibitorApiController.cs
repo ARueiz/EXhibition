@@ -12,7 +12,7 @@ namespace EXhibition.Controllers
     public class ExhibitorApiController : Controller
     {
 
-        Models.DBConnector db = new Models.DBConnector();
+        DBConnector db = new DBConnector();
 
         //廠商參展的歷史紀錄
         public ActionResult EventHistory(int? id) 
@@ -256,11 +256,15 @@ namespace EXhibition.Controllers
             if (!list.Any())
             {
                 rd.message = "近期無可申請之展覽";
-                rd.status = "no list";
+                rd.status = ReturnStatus.Error;
+
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(list, JsonRequestBehavior.AllowGet);
+            rd.message = "查詢展覽列表成功";
+            rd.status = ReturnStatus.Success;
+            rd.data = list;
+            return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetExhibitorInfo(int? id)
@@ -316,6 +320,50 @@ namespace EXhibition.Controllers
 
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
+        }
+
+        public ActionResult getEventInfo(int? EVID)
+        {
+            ReturnData rd = new ReturnData();
+
+            if(EVID == null)
+            {
+                rd.message = "查無此展覽";
+                rd.status = ReturnStatus.Error;
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            var list = (from ev in db.events
+                        join host in db.hosts on ev.HID equals host.HID
+                        where ev.EVID == EVID
+                        select new
+                        {
+                            EVID = ev.EVID,
+                            hostname = host.name,
+                            eventname = ev.name,
+                            startdate = ev.startdate.ToString(),
+                            enddate = ev.enddate.ToString(),
+                            eventinfo = ev.eventinfo,
+                            image = ev.image,
+                            floorplanimg = ev.floorplanimg,
+                            venue = ev.venue,
+
+                        }).ToList();
+
+            if (!list.Any())
+            {
+                rd.message = "查無此展覽";
+                rd.status = ReturnStatus.Error;
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            rd.message = "查詢此展覽成功";
+            rd.status = ReturnStatus.Success;
+            rd.data = list[0];
+
+            return Json(rd, JsonRequestBehavior.AllowGet);
         }
     }
 }

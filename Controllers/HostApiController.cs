@@ -8,8 +8,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-   // [AuthorizeFilter(UserRole.Host)]
-
+    [AuthorizeFilter(UserRole.Host)]
     public class HostApiController : Controller
     {
 
@@ -435,10 +434,9 @@ namespace EXhibition.Controllers
             return Json(a, JsonRequestBehavior.AllowGet);
         }
 
-
+        //新增展覽
         public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events, List<string> tagList)
         {
-
 
             string strPath = "";
 
@@ -475,7 +473,7 @@ namespace EXhibition.Controllers
 
 
             //儲存資料到DB
-            events.HID = (int)Session["HID"];
+            events.HID = (int)Session["AccountID"];
             events.createAt = DateTime.Now;
             db.events.Add(events);
             int result = db.SaveChanges();
