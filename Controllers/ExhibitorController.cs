@@ -4,7 +4,7 @@ using EXhibition.Models;
 
 namespace EXhibition.Controllers
 {
-    [AuthorizeFilter(UserRole.Exhibitor)]
+    //[AuthorizeFilter(UserRole.Exhibitor)]
     public class ExhibitorController : Controller
     {
         DBConnector db = new DBConnector();

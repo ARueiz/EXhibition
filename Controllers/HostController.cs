@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    [AuthorizeFilter(UserRole.Host)]
+    //[AuthorizeFilter(UserRole.Host)]
     public class HostController : Controller
     {
         private DBConnector db = new DBConnector();

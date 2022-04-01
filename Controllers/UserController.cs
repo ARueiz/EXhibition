@@ -38,7 +38,12 @@ namespace EXhibition.Controllers
             return View();
         }
 
-       
+        //展覽詳細內容
+        public ActionResult EventDetail(int? id=16)
+        {
+            ViewBag.id = id;
+            return View();
+        }
 
     }
 }

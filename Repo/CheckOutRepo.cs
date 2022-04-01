@@ -6,12 +6,12 @@ using System.Web;
 
 namespace EXhibition.Repo
 {
-    public class CheckOut
+    public class CheckOutRepo
     {
 
         DBConnector db = new DBConnector();
 
-        public CheckOut() { }
+        public CheckOutRepo() { }
 
 
         // 建立訂單
