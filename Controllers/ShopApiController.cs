@@ -23,7 +23,7 @@ namespace EXhibition.Controllers
         {
             if (id == null) { id = 0; }
             int num = (int)id;
-            var list = (from eve in db.events orderby eve.startdate descending select eve).Skip(num).Take(12).ToList();
+            var list = (from eve in db.events orderby eve.createAt descending select eve).Skip(num).Take(12).ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 list[i].image = "/image/Host/" + list[i].image;
@@ -33,7 +33,7 @@ namespace EXhibition.Controllers
 
         public IHttpActionResult GetNewTicketList()
         {
-            var b = (from eve in db.events orderby eve.startdate descending select eve).Take(4).ToList();
+            var b = (from eve in db.events orderby eve.createAt descending select eve).Take(4).ToList();
             return Json(b);
         }
 
