@@ -48,7 +48,7 @@ namespace EXhibition.Controllers
         {
 
 
-            int id = Session["userid"] == null ? 2 : (int)Session["userid"];
+           id = Session["userid"] == null ? 2 : (int)Session["userid"];
 
 
 

@@ -1,0 +1,298 @@
+﻿
+@{
+    ViewBag.Title = "allowOrRefuse";
+}
+
+
+
+
+
+
+
+
+<div class="row main-content" style="min-height: 100vh;" id="content">
+
+
+
+    <div class="w3-main w3-col m10 col-md-10 mx-auto">
+
+        <nav aria-label="breadcrumb" class="m-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">首頁</a></li>
+                <li class="breadcrumb-item active" aria-current="page">審核列表</li>
+            </ol>
+        </nav>
+
+        <!-- 列表 -->
+
+        <div class="d-flex mb-3 justify-content-around">
+            <div class="d-inline-block col-6">
+                <h3 class="mx-2">審核列表</h3>
+            </div>
+            <div class="d-inline-block col-5 d-flex justify-content-end m-0 p-0">
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        條件選擇
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><button class="dropdown-item all" v-on:click="selectAll">全部</button></li>
+                        <li><button class="dropdown-item useable" @@click="selectAllow()">已核准</button></li>
+                        <li><button class="dropdown-item outdate" @@click="selectReject()">已拒絕</button></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 分隔線 -->
+        <hr style=" border-top-left-radius: 5px;border-bottom-left-radius: 5px;">
+
+        <!-- 列表 -->
+        <div class="col-md-11 mx-auto">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">名稱</th>
+                        <th scope="col">申請時間</th>
+                        <th scope="col">核准</th>
+                        <th scope="col">拒絕</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(value,index) in dataset">
+                        <th scope="row">{{index+1}}</th>
+                        <td>{{value.name}}</td>
+                        <td>{{value.createAt}}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" v-on:click="whereiclick(value.id)" v-if="value.verify == true" style="background-color:orangered" disabled>
+                                核准
+                            </button>
+
+                            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" v-on:click="whereiclick(value.id)" v-else-if="value.verify == null">
+                                核准
+                            </button>
+
+
+                            <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" v-on:click="whereiclick(value.id)" v-else  disabled>
+                                核准
+                            </button>
+                        </td>
+                       
+                        <td>
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#reject" v-on:click="whereiclick(value.id)" v-if="value.verify == false" style="background-color:orangered" disabled>
+                                拒絕
+                            </button>
+
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#reject" v-on:click="whereiclick(value.id)" v-else-if="value.verify == null">
+                                拒絕
+                            </button>
+
+                            <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                                    data-bs-target="#reject" v-on:click="whereiclick(value.id)" v-else  disabled>
+                                拒絕
+                            </button>
+                        </td>
+
+                       
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <!-- Modal accep -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">核准</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    確定要允許加入展覽嗎？
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" v-on:click="decide(1)">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal reject -->
+    <div class="modal fade" id="reject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">拒絕</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" placeholder="輸入不核准理由" id="reason5">
+                    <div style="display: flex; flex-direction: row; margin: 10px;">
+                        <input type="radio" name="reason1" value="展覽別不同" onclick="clicked()">展覽別不同
+
+                        <input type="radio" name="reason2" value="圖片不符" onclick="clicked()">圖片不符
+
+                        <input type="radio" name="reason3" value="名稱不適當" onclick="clicked()">名稱不適當
+
+                        <input type="radio" name="reason4" value="未輸入詳細資訊" onclick="clicked()">未輸入詳細資訊
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" v-on:click="decide(2)">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    var content = new Vue({
+        el: '#content',
+        data() {
+            return {
+                dataset: [
+                ],
+                clickdata: '',
+                reasonStr: '',
+
+
+            }
+        },
+        created: function () {
+            this.all();
+        },
+        methods: {
+            whereiclick(id) {
+                this.clickdata = id;
+            },
+
+            selectAll() {
+
+                console.log("pokemon a");
+                var self = this;
+                axios.get('/HostApi/selectorAll').then(function (res) {
+                    self.dataset = res.data;
+
+                })
+
+            },
+
+
+            all() {
+                console.log("pokemon f");
+                var self = this;
+
+                axios.get('/HostApi/exhibitInfo_AllowOrRefuse/' +@ViewBag.EVID).then(function (res) {
+                    self.dataset = res.data;
+                })
+            },
+
+
+            selectAllow() {
+                console.log("pokemon f");
+                var self = this;
+                axios.get('/HostApi/selectorAllow').then(function (res) {
+                    self.dataset = res.data;
+                })
+            },
+
+
+            selectReject() {
+                console.log("pokemon g");
+                var self = this;
+                axios.get('/HostApi/selectorReject').then(function (res) {
+                    self.dataset = res.data;
+                })
+            },
+
+            decide: function (index) {
+                let self = this;
+                if (index == 1) {
+                    console.log("allow");
+                    axios.post('/HostApi/AllowOrRefuse', {
+                        index: self.clickdata,
+                        verified: true,
+
+                    })
+                        .then((response) => console.log(response))
+                        .catch((error) => console.log(error))
+
+                    console.log('test')
+                    let loadModal = $('#exampleModal');
+                    let loadModal2 = $('#reject');
+                    loadModal.modal('hide');
+                    loadModal2.modal('hide');
+
+                } else {
+                    console.log("reject");
+                    this.whyRejected();
+                    axios.post('/HostApi/AllowOrRefuse', {
+                        index: self.clickdata,
+                        verified: false,
+                        reason: self.reasonStr,
+                    })
+                        .then((response) => console.log(response))
+                        .catch((error) => console.log(error))
+
+                    console.log('test')
+                    let loadModal = $('#exampleModal');
+                    let loadModal2 = $('#reject');
+                    loadModal.modal('hide');
+                    loadModal2.modal('hide');
+                }
+            },
+            whyRejected() {
+
+                var rea1 = document.getElementsByName("reason1");
+                var rea2 = document.getElementsByName("reason2");
+                var rea3 = document.getElementsByName("reason3");
+                var rea4 = document.getElementsByName("reason4");
+                var rea5 = document.getElementById("reason5").value;
+
+                var a = "";
+
+
+                if (rea1[0].checked) a += rea1[0].value + " ";
+                if (rea2[0].checked) a += rea2[0].value + " ";
+                if (rea3[0].checked) a += rea3[0].value + " ";
+                if (rea4[0].checked) a += rea4[0].value + " ";
+                a += rea5 + " ";
+
+                this.reasonStr = a;
+
+
+                console.log(a);
+            }
+
+
+
+
+        }
+    })
+
+
+    function clicked() {
+        console.log(event.target.value);
+    }
+
+
+
+    Vue.config.devtools = true;
+
+
+</script>
