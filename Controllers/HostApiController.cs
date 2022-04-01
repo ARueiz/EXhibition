@@ -1,4 +1,4 @@
-﻿0using EXhibition.Models;
+﻿using EXhibition.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -158,17 +158,17 @@ namespace EXhibition.Controllers
         }
 
         //顯示所有廠商活動
-        public ActionResult exhibitInfo_AllowOrRefuse(int? EID)
+        public ActionResult exhibitInfo_AllowOrRefuse(int? EVID)
         {
             var rd = new ReturnData();
             DateTime today = DateTime.Now;
-            int eidd = (int)EID;
+            int eidd = (int)EVID;
             var alldata = (from q in db.exhibitinfo
                            join p in db.exhibitors
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate < today && q.verify == null && k.EVID == EID
+                           where k.startdate < today && q.verify == null && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -213,17 +213,17 @@ namespace EXhibition.Controllers
         }
 
         //允許全部
-        public ActionResult allow_all(int? EID)
+        public ActionResult allow_all(int? EVID)
         {
             var rd = new ReturnData();
             DateTime today = DateTime.Now;
-            int eidd = (int)EID;
+            int eidd = (int)EVID;
             var alldata = (from q in db.exhibitinfo
                            join p in db.exhibitors
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate < today && q.verify == true && k.EVID == EID
+                           where k.startdate < today && q.verify == false && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -243,17 +243,17 @@ namespace EXhibition.Controllers
 
         }
 
-        public ActionResult selectorAllStatusList(int? EID)
+        public ActionResult selectorAllStatusList(int? EVID)
         {
             var rd = new ReturnData();
             DateTime today = DateTime.Now;
-            int eidd = (int)EID;
+            int eidd = (int)EVID;
             var alldata = (from q in db.exhibitinfo
                            join p in db.exhibitors
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate < today  && k.EVID == EID
+                           where k.startdate < today  && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -275,17 +275,22 @@ namespace EXhibition.Controllers
 
 
 
-        public ActionResult selectorAllow(int? EID)
+        public ActionResult selectorAllow(int? EVID)
         {
             var rd = new ReturnData();
             DateTime today = DateTime.Now;
-            int eidd = (int)EID;
+            if(EVID == null)
+            {
+
+            }
+
+            int eidd = (int)EVID;
             var alldata = (from q in db.exhibitinfo
                            join p in db.exhibitors
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate < today && q.verify == true && k.EVID == EID
+                           where k.startdate < today && q.verify == true && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -304,17 +309,17 @@ namespace EXhibition.Controllers
             return Json(alldata, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult selectorReject(int? EID)
+        public ActionResult selectorReject(int? EVID)
         {
             var rd = new ReturnData();
             DateTime today = DateTime.Now;
-            int eidd = (int)EID;
+            int eidd = (int)EVID;
             var alldata = (from q in db.exhibitinfo
                            join p in db.exhibitors
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate < today && q.verify == false && k.EVID == EID
+                           where k.startdate < today && q.verify == false && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -329,6 +334,8 @@ namespace EXhibition.Controllers
                 rd.message = "no data";
                 rd.status = "error";
             }
+
+            //var c = db.exhibitinfo.Where(i=>i.EVID == evid).Where(i => i.verify == null).Count();
 
             return Json(alldata, JsonRequestBehavior.AllowGet);
         }
@@ -373,6 +380,12 @@ namespace EXhibition.Controllers
             return Json(eventIdList, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult howManyLeft()
+        {
+            var amount = db.exhibitinfo.Where(i => i.verify == null);
+            return Json(amount, JsonRequestBehavior.AllowGet);
+        }
+
 
         public ActionResult List()
         {
@@ -389,6 +402,7 @@ namespace EXhibition.Controllers
                         exhibitionname = eventsTable.name,
                         evid = eventsTable.EVID,
                         ticketPrice = eventsTable.ticketprice,
+                        
                     };
 
             return Json(b, JsonRequestBehavior.AllowGet);

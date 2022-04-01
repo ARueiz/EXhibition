@@ -29,6 +29,7 @@
                     <input type="submit" value="編輯" />
 
                     <input type="submit" value="明細" v-on:click="Details(item.evid)" />
+
                 </td>
 
             </tr>
@@ -43,6 +44,7 @@
             el: '#VuePage',
             data: {
                 res: [],
+            
 
             },
 
@@ -56,6 +58,8 @@
                     .catch((err) => {
                         console.log(err)
                     });
+
+                
             },
             methods: {
                 Details: function (va) {
@@ -67,7 +71,11 @@
                         .catch((err) => {
                             console.log(err)
                         });
-                }
+                },
+              
+                
+
+
 
 
             }

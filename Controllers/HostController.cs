@@ -66,6 +66,10 @@ namespace EXhibition.Controllers
 
         public ActionResult allowOrRefuse(int? EVID)
         {
+            if (EVID == null)
+            {
+                return Redirect("index");
+            }
             ViewBag.EVID = EVID;
             return View();
         }
