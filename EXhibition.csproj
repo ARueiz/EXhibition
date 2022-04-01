@@ -260,6 +260,7 @@
     <Content Include="Content\ShoppingCart.css" />
     <Content Include="Content\showHostList.css" />
     <Content Include="Content\Template\dashboard-sidebar.css" />
+    <Content Include="Content\UserEventDetail.css" />
     <Content Include="Content\w3.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -431,6 +432,7 @@
     <Content Include="Views\Exhibitor\EditExhibitor.cshtml" />
     <Content Include="Views\Home\DenyAuthorize.cshtml" />
     <Content Include="Views\Host\allowOrRefuse.cshtml" />
+    <Content Include="Views\Home\EventDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
