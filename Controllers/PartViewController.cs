@@ -23,10 +23,9 @@ namespace EXhibition.Controllers
 
         public ActionResult SideBarBtn()
         {
-
-            if (HttpContext.IsDebuggingEnabled)
+            if (Session["UserRole"] == null)
             {
-                Session["UserRole"] = "Host";
+                Session["UserRole"] = "Visitor";
             }
 
             if (Session["UserRole"].ToString() == "User")

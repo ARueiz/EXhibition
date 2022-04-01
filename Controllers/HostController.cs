@@ -74,9 +74,7 @@ namespace EXhibition.Controllers
         //邱品叡
         public ActionResult CreateEvent()
         {
-            Session["HID"] = 2;
-
-            int HID = (int)Session["HID"];
+            int HID = (int)Session["AccountID"];
 
             var info = db.hosts.Where(h => h.HID == HID).Select(h => new
             {
@@ -84,7 +82,7 @@ namespace EXhibition.Controllers
             }).ToList();
 
             ViewBag.hostname = info[0].name;
-            ViewBag.sessionHID = Session["HID"];
+            ViewBag.sessionHID = Session["AccountID"];
 
             return View();
         }
