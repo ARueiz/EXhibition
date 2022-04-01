@@ -443,6 +443,7 @@ namespace EXhibition.Controllers
 
             //儲存資料到DB
             events.HID = (int)Session["HID"];
+            events.createAt = DateTime.Now;
             db.events.Add(events);
             int result = db.SaveChanges();
 
