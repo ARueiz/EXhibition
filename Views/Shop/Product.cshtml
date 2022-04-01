@@ -139,7 +139,7 @@
         },
         created: function () {
             const self = this;
-            fetch('https://localhost:44378/api/ShopApi/GetEventDetail/' + self.evid)
+            fetch('/api/ShopApi/GetEventDetail/' + self.evid)
                 .then(res => res.json())
                 .then(res => {
                     self.start = res.start;
@@ -155,7 +155,7 @@
         methods: {
             purchase() {
                 let self = this
-                fetch('https://localhost:44378/api/ShopApi/PostAddCartItem/' + self.evid, {
+                fetch('/api/ShopApi/PostAddCartItem/' + self.evid, {
                     method: "POST",
                 })
                     .then(response => response.json())
