@@ -184,7 +184,7 @@ namespace EXhibition.Controllers
             return new NewJsonResult() { Data = list};
         }
 
-        public string Convert(DateTime nTime)
+        public string ConvertTime(DateTime nTime)
         {
             DateTime time = (DateTime)(nTime == null ? DateTime.Parse("2000-01-01") : nTime);
             return time.ToString("yyyy-MM-dd");
