@@ -17,10 +17,10 @@ namespace EXhibition.Repo
             string currency = PayPalClient.Currency;
 
             foreach (var item in ticketList)
-            {
+            {                
                 var i = new Item();
                 i.Name = item.name;
-                i.UnitAmount = new Money { CurrencyCode = currency, Value = item.ticketprice.ToString() };
+                i.UnitAmount = new Money { CurrencyCode = currency, Value = Decimal.ToInt32(item.ticketprice).ToString()};
                 i.Quantity = "1";
                 itemList.Add(i);
             }
@@ -53,7 +53,6 @@ namespace EXhibition.Repo
                     }
                 }
             };
-
             return orderRequest;
         }
 
@@ -64,7 +63,6 @@ namespace EXhibition.Repo
             request.Prefer("return=representation");
             request.RequestBody(BuildRequestBody(ticketList, totalPrice));
             var response = await PayPalClient.client().Execute(request);
-            Models.DBConnector db = new Models.DBConnector();
             return response;
         }
 

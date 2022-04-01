@@ -5,6 +5,14 @@
 
 @section styles{
     <link href="~/Content/ShoppingCart.css" rel="stylesheet" />
+    <style>
+        .fade {
+            opacity: 0;
+            -webkit-transition: none;
+            -o-transition: none;
+            transition: none;
+        }
+    </style>
 }
 
 <div class="container panel row" id="shoppingcart">
@@ -71,7 +79,7 @@
     </aside>
 
     <!-- Modal -->
-    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -132,6 +140,7 @@
                         // 別忘了把主體参數轉成字串，否則資料會變成[object Object]，它無法被成功儲存在後台
                         body: JSON.stringify(body)
                     }).then(response => response.json()).then(json => {
+                        $('#loadingModal').modal('hide');
                         if (json.status == 'success') {
                             window.location.href = json.data.url
                         } else {

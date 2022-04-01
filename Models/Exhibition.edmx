@@ -378,10 +378,10 @@
             <End Role="Tickets" EntitySet="Tickets" />
           </AssociationSet>
           <EntitySet Name="orderDetail" EntityType="ExhibitionModel.orderDetail" />
-          <EntitySet Name="orders" EntityType="ExhibitionModel.orders" />
           <EntitySet Name="QRCodeLoginToken" EntityType="ExhibitionModel.QRCodeLoginToken" />
           <EntitySet Name="eventTags" EntityType="ExhibitionModel.eventTags" />
           <EntitySet Name="TagsName" EntityType="ExhibitionModel.TagsName" />
+          <EntitySet Name="orders" EntityType="ExhibitionModel.orders" />
           </EntityContainer>
         <EntityType Name="Tickets">
           <Key>
@@ -431,20 +431,6 @@
           <Property Name="price" Type="Int32" />
           <Property Name="ticketId" Type="Int32" />
         </EntityType>
-        <EntityType Name="orders">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="paypalId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="createDateTime" Type="DateTime" Precision="3" />
-          <Property Name="userId" Type="Int32" Nullable="false" />
-          <Property Name="totalPrice" Type="Int32" Nullable="false" />
-          <Property Name="discount" Type="Int32" />
-          <Property Name="finalPrice" Type="Int32" />
-          <Property Name="isPay" Type="Boolean" />
-          <Property Name="paypal_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="QRCodeLoginToken">
           <Key>
             <PropertyRef Name="id" />
@@ -469,6 +455,19 @@
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="tagName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="orders">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="createDateTime" Type="DateTime" Precision="3" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="totalPrice" Type="Int32" Nullable="false" />
+          <Property Name="discount" Type="Int32" />
+          <Property Name="finalPrice" Type="Int32" />
+          <Property Name="isPay" Type="Boolean" />
+          <Property Name="paypal_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -577,20 +576,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="orders">
-            <EntityTypeMapping TypeName="ExhibitionModel.orders">
-              <MappingFragment StoreEntitySet="orders">
-                <ScalarProperty Name="paypal_Id" ColumnName="paypal_Id" />
-                <ScalarProperty Name="isPay" ColumnName="isPay" />
-                <ScalarProperty Name="finalPrice" ColumnName="finalPrice" />
-                <ScalarProperty Name="discount" ColumnName="discount" />
-                <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
-                <ScalarProperty Name="userId" ColumnName="userId" />
-                <ScalarProperty Name="createDateTime" ColumnName="createDateTime" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="QRCodeLoginToken">
             <EntityTypeMapping TypeName="ExhibitionModel.QRCodeLoginToken">
               <MappingFragment StoreEntitySet="QRCodeLoginToken">
@@ -615,6 +600,20 @@
             <EntityTypeMapping TypeName="ExhibitionModel.TagsName">
               <MappingFragment StoreEntitySet="TagsName">
                 <ScalarProperty Name="tagName" ColumnName="tagName" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="ExhibitionModel.orders">
+              <MappingFragment StoreEntitySet="orders">
+                <ScalarProperty Name="paypal_Id" ColumnName="paypal_Id" />
+                <ScalarProperty Name="isPay" ColumnName="isPay" />
+                <ScalarProperty Name="finalPrice" ColumnName="finalPrice" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+                <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="createDateTime" ColumnName="createDateTime" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

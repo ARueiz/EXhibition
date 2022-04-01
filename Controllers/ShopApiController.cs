@@ -203,6 +203,7 @@ namespace EXhibition.Controllers
             order.paypal_Id = orderResult.Id;
 
             string url = orderResult.Links.Where(i => i.Rel == "approve").First().Href;
+
             return Ok(new Models.ReturnData() { status=ReturnStatus.Success , message="成功" , data= new { url = url } });
         }
 
