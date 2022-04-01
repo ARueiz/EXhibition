@@ -16,6 +16,10 @@ namespace EXhibition.Controllers
 
             int id = (int)(Session["AccountID"] == null ? 2 : Session["AccountID"]);
 
+           id = Session["userid"] == null ? 2 : (int)Session["userid"];
+
+
+
             var mes = new Models.ReturnData();
             if (id == -1)
             {

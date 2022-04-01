@@ -23,6 +23,7 @@
                 <td>{{item.startdate }}</td>
                 <td>{{item.enddate }}</td>
                 <td>
+                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-info" role="button">審核</a>
                     <input type="submit" value="審核" />
 
                     <input type="submit" value="編輯" />

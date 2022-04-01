@@ -434,6 +434,7 @@
     <Content Include="Views\Exhibitor\NowApplying.cshtml" />
     <Content Include="Views\Exhibitor\EditExhibitor.cshtml" />
     <Content Include="Views\Home\DenyAuthorize.cshtml" />
+    <Content Include="Views\Host\allowOrRefuse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

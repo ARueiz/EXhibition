@@ -25,6 +25,7 @@ namespace EXhibition.Models
         public int id { get; set; }
         public Nullable<System.DateTime> reviewDateTime { get; set; }
         public string reason { get; set; }
+        public Nullable<System.DateTime> createAt { get; set; }
     
         public virtual events events { get; set; }
         public virtual exhibitors exhibitors { get; set; }
