@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "HostLogin";
+    ViewBag.Title = "ExhibitiorLogin";
 }
 
 
@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-md-6 d-flex justify-content-center">
                 <div class="wrap-img d-inline-block">
-                    <img src="~/Image/Dev/login-bro-host.png" alt="">
+                    <img src="~/Image/Dev/login-bro-exhibitor.png" alt="">
                     <small>
                         <a style="margin-top:0px;display: block;margin-bottom: 10px"
                            href="https://storyset.com/business">Business illustrations by Storyset</a>
@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="col-md-6 p-4">
-                <h2 class="form-title rwd-form">主辦單位登入</h2>
+                <h2 class="form-title rwd-form">廠商登入</h2>
                 <div class="form-login">
                     <div v-if="showQRPage === false">
                         <div class="d-flex justify-content-center">
@@ -62,7 +62,7 @@
                             登入
                         </button>
                         <div class="d-inline-block">
-                            <a href="/Home/RegisterHost" class="p-0 d-inline-block" style="margin-right: 25px">註冊</a>
+                            <a href="/Home/RegisterExhibitor" class="p-0 d-inline-block" style="margin-right: 25px">註冊</a>
                             <a href="#" class="p-0 d-inline-block">忘記密碼</a>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                     <p>已成功登入，前往會員畫面</p>
                 </div>
                 <div class="modal-footer">
-                    @Html.ActionLink("前往首頁", "Index", "Host", new { }, new { @class = "btn btn-info", @role = "button" })
+                    @Html.ActionLink("前往首頁", "Index", "Exhibitor" ,new { }, new { @class = "btn btn-info", @role = "button" })
                 </div>
             </div>
         </div>
@@ -158,7 +158,7 @@
                     password: this.password
                 }
 
-                fetch('/HomeApi/HostLogin', {
+                fetch('/HomeApi/ExhibitorLogin', {
                     body: JSON.stringify(json), // must match 'Content-Type' header
                     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
                     credentials: 'same-origin', // include, same-origin, *omit
@@ -239,4 +239,6 @@
         }
     })
 </script>
+
+
 

@@ -1,4 +1,5 @@
-﻿using EXhibition.Models;
+﻿using EXhibition.Filters;
+using EXhibition.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
+    [AuthorizeFilter(UserRole.Host)]
     public class HostApiController : Controller
     {
 
@@ -297,10 +299,6 @@ namespace EXhibition.Controllers
                 }
 
             }
-
-            
-
-
             return Json(b, JsonRequestBehavior.AllowGet);
         }
 
@@ -328,7 +326,7 @@ namespace EXhibition.Controllers
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(a, JsonRequestBehavior.AllowGet);
+            return new NewJsonResult() { Data = a };
         }
 
 
@@ -399,17 +397,62 @@ namespace EXhibition.Controllers
 
         public ActionResult Login(Models.Login login)
         {
-            Models.ReturnData returnData = new Models.ReturnData();
-            Session["auth"] = 3;
-            returnData.status = "success";
-            returnData.data = new { url = "/Host" };
-            return Json(returnData, JsonRequestBehavior.AllowGet);
+
+            ReturnData r = new ReturnData();
+
+            if (string.IsNullOrEmpty(login.account) || string.IsNullOrEmpty(login.password))
+            {
+                r.message = "登入失敗";
+                r.status = ReturnStatus.Error;
+                return Json(r, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                try
+                {
+                    string hashPwd = SHA_256.ComputeSha256Hash(login.password);
+
+                    var loginData = (from host in db.hosts
+                                     where host.email == login.account && host.password == hashPwd && host.verify == true
+                                     select new
+                                     {
+                                         HID = host.HID,
+                                     }).ToList();
+                    if (loginData.Any())
+                    {
+                        r.message = "登入成功";
+                        r.status = ReturnStatus.Success;
+                        Session["UserRole"] = "Host";
+                        Session["AccountID"] = loginData[0].HID;
+                        return Json(r, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        r.message = "帳號或密碼錯誤，查無此人";
+                        r.status = ReturnStatus.Error;
+                        return Json(r, JsonRequestBehavior.AllowGet);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    r.message = "帳號或密碼錯誤";
+                    r.status = ReturnStatus.Error;
+                    return Json(r, JsonRequestBehavior.AllowGet);
+                }
+            }
+
         }
 
         [HttpPost]
         public ActionResult Register(Models.hosts host)
         {
             Models.ReturnData r = new ReturnData();
+
+            host.password = SHA_256.ComputeSha256Hash(host.password);
+            host.image = "EditHost.png";
+            host.verify = true;
+
             db.hosts.Add(host);
             try
             {
@@ -445,9 +488,7 @@ namespace EXhibition.Controllers
 
         public ActionResult GetEventList(int? id)
         {
-            Session["HID"] = 2;
-
-            int HID = Convert.ToInt32(Session["HID"]);
+            int HID = Convert.ToInt32(Session["AccountID"]);
 
             if (id == null) { id = 0; }
             int num = (int)id;
@@ -466,11 +507,10 @@ namespace EXhibition.Controllers
             return new NewJsonResult() { Data = list };
         }
 
-        public ActionResult GetHostInfo(int? id)
+        public ActionResult GetHostInfo()
         {
-            Session["HID"] = 2;
 
-            int HID = Convert.ToInt32(Session["HID"]);
+            int HID = Convert.ToInt32(Session["AccountID"]);
 
             var list = (from host in db.hosts
                         where host.HID == HID && host.verify == true

@@ -1,4 +1,5 @@
-﻿using EXhibition.Models;
+﻿using EXhibition.Filters;
+using EXhibition.Models;
 using System;
 using System.Linq;
 using System.Web.Mvc;
@@ -6,6 +7,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
+    [AuthorizeFilter(UserRole.Host)]
     public class HostsController : Controller
     {
         private DBConnector db = new DBConnector();

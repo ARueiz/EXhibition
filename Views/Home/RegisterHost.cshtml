@@ -89,49 +89,50 @@
         <div class="row">
             <div class="col-md-6 p-4">
                 <h2 class="form-title rwd-form">主辦單位註冊</h2>
-                    <form class="form-login" v-on:submit.prevent="sendRegister()">
-                        <div class="form-group">
-                            <label for="inputUsername">名稱</label>
-                            <input type="text" class="form-control" id="inputUsername" aria-describedby="emailHelp"
-                                   placeholder="請輸入姓名" required="required" v-model="Name" autocomplete="off">
-                        </div>
+                <form class="form-login" v-on:submit.prevent="sendRegister()">
+                    <div class="form-group">
+                        <label for="inputUsername">名稱</label>
+                        <input type="text" class="form-control" id="inputUsername" aria-describedby="emailHelp"
+                               placeholder="請輸入姓名" required="required" v-model="Name" autocomplete="off">
+                    </div>
 
-                        <div class="form-group">
-                            <label for="inputUserPhone">電話</label>
-                            <input type="text" class="form-control" id="inputUserPhone" aria-describedby="emailHelp"
-                                   placeholder="請輸入電話" required="required" v-model="Phone" autocomplete="off">
-                        </div>
+                    <div class="form-group">
+                        <label for="inputUserPhone">電話</label>
+                        <input type="text" class="form-control" id="inputUserPhone" aria-describedby="emailHelp"
+                               placeholder="請輸入電話" required="required" v-model="Phone" autocomplete="off">
+                    </div>
 
-                        <div class="form-group">
-                            <label for="inputUserEmail">Email</label>
-                            <input type="email" class="form-control" id="inputUserEmail" aria-describedby="emailHelp"
-                                   placeholder="請輸入 email" required="required" v-model="Email" autocomplete="off">
-                        </div>
+                    <div class="form-group">
+                        <label for="inputUserEmail">Email</label>
+                        <input type="email" class="form-control" id="inputUserEmail" aria-describedby="emailHelp"
+                               placeholder="請輸入 email" required="required" v-model="Email" autocomplete="off">
+                    </div>
 
-                        <div class="form-group">
-                            <label for="inputUserEmail">官方網站連結</label>
-                            <input type="text" class="form-control" id="inputUserEmail" aria-describedby="emailHelp"
-                                   placeholder="請輸入連結" required="required" v-model="link" autocomplete="off">
-                        </div>
+                    <div class="form-group">
+                        <label for="inputUserEmail">官方網站連結</label>
+                        <input type="text" class="form-control" id="inputUserEmail" aria-describedby="emailHelp"
+                               placeholder="請輸入連結" required="required" v-model="link" autocomplete="off">
+                    </div>
 
-                        <div class="form-group">
-                            <label for="password1">密碼</label>
-                            <input type="password" minlength="8" class="form-control" id="password1" aria-describedby="emailHelp"
-                                   placeholder="請輸入密碼" required="required" v-model="Password" autocomplete="off">
-                        </div>
+                    <div class="form-group">
+                        <label for="password1">密碼</label>
+                        <input type="password" minlength="8" class="form-control" id="password1" aria-describedby="emailHelp"
+                               placeholder="請輸入密碼" required="required" v-model="Password" autocomplete="off">
+                    </div>
 
-                        <div class="form-group">
-                            <label for="password2">再次驗證</label>
-                            <input type="password" class="form-control" id="password2" aria-describedby="emailHelp"
-                                   placeholder="請輸入密碼" required="required" v-model="Password2" autocomplete="off">
-                        </div>
-                        <div class="d-flex justify-content-center">
-                            <button type="submit" class="w-50 signup">
-                                <span v-show="processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                送出
-                            </button>
-                        </div>
-                    </form>
+                    <div class="form-group">
+                        <label for="password2">再次驗證</label>
+                        <input type="password" class="form-control" id="password2" aria-describedby="emailHelp"
+                               placeholder="請輸入密碼" required="required" v-model="Password2" autocomplete="off">
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="w-50 signup">
+                            <span v-show="processing" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            送出
+                        </button>
+                    </div>
+                </form>
+
             </div>
             <div class="col-md-6 d-flex justify-content-center">
                 <div class="d-flex align-content-end h-100">
@@ -159,6 +160,42 @@
         </div>
     </div>
 
+    <!-- 成功的 Modal -->
+    <div class="modal fade" id="SuccessModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">註冊成功</h5>
+                </div>
+                <div class="modal-body">
+                    <p>已成功註冊，前往登入頁面</p>
+                </div>
+                <div class="modal-footer">
+                    @Html.ActionLink("前往登入", "HostLogin", new { }, new { @class = "btn btn-info", @role = "button" })
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 失敗的 Modal -->
+    <div class="modal fade" id="failedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">註冊失敗</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="failedModalBody">
+                    請檢查是否有空欄位或是欄位格式錯誤!!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" v-on:click="CloseAllModal()">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script>
@@ -176,14 +213,18 @@
             }
         },
         methods: {
+            CloseAllModal: function () {
+                $('.modal').modal('hide');
+            }
+            ,
             sendRegister() {
 
                 let loadModal = $('#loadingModal')
                 loadModal.modal('show')
 
                 if (this.Password != this.Password2) {
-                    loadModal.modal('hide')
-                    alert('密碼驗證錯誤')
+                    failModalbody.innerHTML = "密碼驗證錯誤!";
+                    failModal.modal('show');
                     return
                 } else if (this.processing == true) {
                     loadModal.modal('hide')
@@ -206,7 +247,8 @@
                     "Content-Type": "application/json",
                     "Accept": "application/json",
                 }
-                fetch('/HostApi/Register', {
+
+                fetch('/HomeApi/HostRegister', {
                     method: "POST",
                     headers: headers,
                     // https://ithelp.ithome.com.tw/articles/10252941
@@ -220,11 +262,12 @@
                         self.Phone = ''
                         self.Email = ''
                         self.link = ''
-
-                        window.location.href = json.data.url
+                        let loadModal = $('#SuccessModal');
+                        loadModal.modal('show');
                     } else {
                         this.processing = false
-                        alert(json.message)
+                        failModalbody.innerHTML = "註冊失敗，請檢查欄位!";
+                        failModal.modal('show');
                     }
                 });
             }
