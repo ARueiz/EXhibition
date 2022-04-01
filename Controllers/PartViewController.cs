@@ -28,6 +28,11 @@ namespace EXhibition.Controllers
             //{
             //    Session["UserRole"] = "Host";
             //}
+            if (Session["UserRole"] == null)
+            {
+                Session["UserRole"] = "Visitor";
+            }
+
 
             if (Session["UserRole"].ToString() == "User")
             {

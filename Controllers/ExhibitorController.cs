@@ -27,6 +27,16 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        // showHostList -> 綠色(展覽細節)按鈕
+        public ActionResult showEventDetail(int? EVID)
+        {
+            ViewBag.EVID = EVID;
+
+            
+            return View();
+        }
+
+
         //廠商 可申請展覽
         public ActionResult CanApplyList(int? id=10)
         {
