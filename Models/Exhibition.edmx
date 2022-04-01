@@ -88,7 +88,6 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="paypalId" Type="nvarchar" MaxLength="50" />
           <Property Name="createDateTime" Type="datetime" />
           <Property Name="userId" Type="int" Nullable="false" />
           <Property Name="totalPrice" Type="int" Nullable="false" />
@@ -588,7 +587,6 @@
                 <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
                 <ScalarProperty Name="userId" ColumnName="userId" />
                 <ScalarProperty Name="createDateTime" ColumnName="createDateTime" />
-                <ScalarProperty Name="paypalId" ColumnName="paypalId" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

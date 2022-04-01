@@ -9,27 +9,47 @@ namespace EXhibition.Repo
     public class BuildPayPalOrder
     {
 
-
-
-        //Below function can be used to build the create order request body with minimum payload.
-        private static OrderRequest BuildRequestBodyWithMinimumFields(int totalPirce = 200)
+        //Below function can be used to build the create order request body with complete payload.
+        private static OrderRequest BuildRequestBody(List<Models.events> ticketList, int totalPrice)
         {
+
+            var itemList = new List<Item>();
+            string currency = PayPalClient.Currency;
+
+            foreach (var item in ticketList)
+            {
+                var i = new Item();
+                i.Name = item.name;
+                i.UnitAmount = new Money { CurrencyCode = currency, Value = item.ticketprice.ToString() };
+                i.Quantity = "1";
+                itemList.Add(i);
+            }
+
             OrderRequest orderRequest = new OrderRequest()
             {
                 CheckoutPaymentIntent = "AUTHORIZE",
-                ApplicationContext = new ApplicationContext
-                {
-                    CancelUrl = "https://www.example.com",
-                    ReturnUrl = "https://localhost:44378/User"
-                },
+                ApplicationContext = PayPalClient.appContext,
                 PurchaseUnits = new List<PurchaseUnitRequest>
                 {
                     new PurchaseUnitRequest{
+                        ReferenceId =  "PUHF",
+                        Description = "購買票券",
+                        //CustomId = "1000",
+                        SoftDescriptor = "HighFashions",
                         AmountWithBreakdown = new AmountWithBreakdown
                         {
-                            CurrencyCode = "TWD",
-                            Value = totalPirce.ToString()
-                        }
+                            CurrencyCode = PayPalClient.Currency,
+                            Value = totalPrice.ToString(),
+                            AmountBreakdown = new AmountBreakdown
+                            {
+                                ItemTotal = new Money
+                                {
+                                    CurrencyCode = currency,
+                                    Value = totalPrice.ToString(),
+                                }
+                            }
+                        },
+                        Items = itemList
                     }
                 }
             };
@@ -37,21 +57,16 @@ namespace EXhibition.Repo
             return orderRequest;
         }
 
-        //Below function can be used to create an order with minimum payload.
-        public static async Task<HttpResponse> CreateOrderWithMinimumFieldsAsync(int totalPirce = 200)
+        //Below function can be used to create an order with complete payload.
+        public async static Task<HttpResponse> CreateOrder(List<Models.events> ticketList, int totalPrice)
         {
-            // Console.WriteLine("Create Order with minimum payload..");
             var request = new OrdersCreateRequest();
-            request.Headers.Add("prefer", "return=representation");
-            request.RequestBody(BuildRequestBodyWithMinimumFields());
+            request.Prefer("return=representation");
+            request.RequestBody(BuildRequestBody(ticketList, totalPrice));
             var response = await PayPalClient.client().Execute(request);
-            Order order = response.Result<Order>();
-            var db = new Models.DBConnector();
-            db.orders.Add(new Models.orders() { createDateTime = DateTime.Now, paypalId = order.Id, totalPrice = totalPirce, finalPrice = totalPirce });
-            db.SaveChanges();
+            Models.DBConnector db = new Models.DBConnector();
             return response;
         }
-
 
     }
 }

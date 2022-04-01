@@ -170,7 +170,7 @@ namespace EXhibition.Controllers
 
             List<int> eventIdList = new List<int>();
             foreach (var item in eventList) { eventIdList.Add(item.EVID); };
-            orders order = new CheckOutRepo().CreateOrder(eventIdList, 2);
+            orders order = new CheckOutRepo(eventIdList, 2).getOrder();
 
             HttpContext.Current.Session[GlobalVariables.CartItems] = null; // 清空 session 購物清單
 
@@ -179,9 +179,30 @@ namespace EXhibition.Controllers
 
         public async Task<IHttpActionResult> PostCreateOrder()
         {
-            PayPalHttp.HttpResponse s = await Repo.BuildPayPalOrder.CreateOrderWithMinimumFieldsAsync();
-            Order createOrderResult = s.Result<Order>();
-            string url = createOrderResult.Links.Where(i => i.Rel == "approve").First().Href;
+
+            List<CartItem> cartList = (List<CartItem>)HttpContext.Current.Session[GlobalVariables.CartItems];
+            if (cartList == null || cartList.Count <= 0)
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "購物車為空" });
+
+            // 將購物車的展覽 id 轉成 id 陣列
+            List<int> eventIdList = new List<int>();            
+            foreach (var item in cartList) { eventIdList.Add(item.EVID); }; 
+
+            // 進入結帳資料庫
+            orders order = new CheckOutRepo(eventIdList, 2).getOrder();
+
+            HttpContext.Current.Session[GlobalVariables.CartItems] = null; // 清空 session 購物清單
+
+            // 將 event.EVID 陣列轉乘 event 陣列
+            List<events> ticketList = db.events.Where(i => eventIdList.Contains(i.EVID)).ToList();
+
+            PayPalHttp.HttpResponse s = await Repo.BuildPayPalOrder.CreateOrder(ticketList, order.totalPrice);
+            Order orderResult = s.Result<Order>();
+
+            order = db.orders.Find(order.id);
+            order.paypal_Id = orderResult.Id;
+
+            string url = orderResult.Links.Where(i => i.Rel == "approve").First().Href;
             return Ok(new Models.ReturnData() { status=ReturnStatus.Success , message="成功" , data= new { url = url } });
         }
 

@@ -5,7 +5,7 @@ using PayPalHttp;
 using System.IO;
 using System.Text;
 using System.Runtime.Serialization.Json;
-
+using PayPalCheckoutSdk.Orders;
 
 namespace EXhibition.Repo
 {
@@ -14,23 +14,24 @@ namespace EXhibition.Repo
 
         static public string Currency = "TWD";
 
-
-        //public static PayPalEnvironment environment()
-        //{
-        //    return new SandboxEnvironment(
-        //         System.Environment.GetEnvironmentVariable("PAYPAL_CLIENT_ID"),
-        //         System.Environment.GetEnvironmentVariable("PAYPAL_CLIENT_SECRET")
-        //    );
-        //}
+        static public ApplicationContext appContext = new ApplicationContext
+        {
+            BrandName = "展覽館-Exhibition Inc.",
+            LandingPage = "BILLING",
+            CancelUrl = "https://localhost:44378/",
+            ReturnUrl = "https://localhost:44378/User",
+            UserAction = "CONTINUE",
+            ShippingPreference = "NO_SHIPPING"
+        };
 
         public static PayPalEnvironment environment()
         {
             return new SandboxEnvironment(
-                 System.Environment.GetEnvironmentVariable("PAYPAL_CLIENT_ID") != null ?
-                 System.Environment.GetEnvironmentVariable("PAYPAL_CLIENT_ID") : "AR0o52R3Xd6eSerXouyA-EeTqVkMH43fmU-nrxRZw-a_25YWVIVVBivwTzabDLzbuaOe01JF7KMgaCHR",
-                 System.Environment.GetEnvironmentVariable("PAYPAL_CLIENT_SECRET") != null ?
-                 System.Environment.GetEnvironmentVariable("PAYPAL_CLIENT_SECRET") : "EOoy_vAyvhDa_lt5leDCxrSWGB95E_SW4mYpaK0AarglWdjkHHTgOGxxH00zDFd-JYdYh3t5LGYYapgv");
+                 System.Environment.GetEnvironmentVariable("PAYPAL_CLIENT_ID"),
+                 System.Environment.GetEnvironmentVariable("PAYPAL_CLIENT_SECRET")
+            );
         }
+
 
         public static HttpClient client()
         {

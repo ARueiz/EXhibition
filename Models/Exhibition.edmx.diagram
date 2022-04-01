@@ -17,10 +17,10 @@
         <AssociationConnector Association="ExhibitionModel.FK__Tickets__EVID__70DDC3D8" />
         <AssociationConnector Association="ExhibitionModel.FK__Tickets__UID__71D1E811" />
         <EntityTypeShape EntityType="ExhibitionModel.orderDetail" Width="1.5" PointX="5.375" PointY="5.75" />
-        <EntityTypeShape EntityType="ExhibitionModel.orders" Width="1.5" PointX="7.375" PointY="5.75" />
         <EntityTypeShape EntityType="ExhibitionModel.QRCodeLoginToken" Width="1.5" PointX="9.375" PointY="5.75" />
         <EntityTypeShape EntityType="ExhibitionModel.eventTags" Width="1.5" PointX="0.75" PointY="8.75" />
         <EntityTypeShape EntityType="ExhibitionModel.TagsName" Width="1.5" PointX="3.375" PointY="8.75" />
+        <EntityTypeShape EntityType="ExhibitionModel.orders" Width="1.5" PointX="5.375" PointY="8.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
