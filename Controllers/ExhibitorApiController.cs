@@ -256,11 +256,114 @@ namespace EXhibition.Controllers
             if (!list.Any())
             {
                 rd.message = "近期無可申請之展覽";
-                rd.status = "no list";
+                rd.status = ReturnStatus.Error;
+
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(list, JsonRequestBehavior.AllowGet);
+            rd.message = "查詢展覽列表成功";
+            rd.status = ReturnStatus.Success;
+            rd.data = list;
+            return Json(rd, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetExhibitorInfo(int? id)
+        {
+            int EID = Convert.ToInt32(Session["AccountID"]);
+
+            var list = (from exhibitor in db.exhibitors
+                        where exhibitor.EID == EID && exhibitor.verify == true
+                        select new
+                        {
+                            EID = exhibitor.EID,
+                            name = exhibitor.name,
+                            phone = exhibitor.phone,
+                            email = exhibitor.email,
+                            link = exhibitor.link,
+                        }).ToList();
+
+            return new NewJsonResult() { Data = list[0] };
+        }
+
+        public ActionResult DoUpdateExhibitorInfo(exhibitors exhibitor)
+        {
+            exhibitors updateExhibitor = db.exhibitors.FirstOrDefault(e => e.EID == exhibitor.EID);
+            ReturnData data = new ReturnData();
+
+            if (updateExhibitor != null)
+            {
+                updateExhibitor.name = exhibitor.name;
+                updateExhibitor.phone = exhibitor.phone;
+                updateExhibitor.email = exhibitor.email;
+                updateExhibitor.link = exhibitor.link;
+
+                try
+                {
+                    db.SaveChanges();
+                    data.status = ReturnStatus.Success;
+                    data.message = "更新成功!";
+
+                    return Json(data, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    data.status = ReturnStatus.Error;
+                    data.message = "更新失敗!";
+
+                    return Json(data, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                data.status = ReturnStatus.Error;
+                data.message = "更新失敗!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult getEventInfo(int? EVID)
+        {
+            ReturnData rd = new ReturnData();
+
+            if(EVID == null)
+            {
+                rd.message = "查無此展覽";
+                rd.status = ReturnStatus.Error;
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            var list = (from ev in db.events
+                        join host in db.hosts on ev.HID equals host.HID
+                        where ev.EVID == EVID
+                        select new
+                        {
+                            EVID = ev.EVID,
+                            hostname = host.name,
+                            eventname = ev.name,
+                            startdate = ev.startdate.ToString(),
+                            enddate = ev.enddate.ToString(),
+                            eventinfo = ev.eventinfo,
+                            image = ev.image,
+                            floorplanimg = ev.floorplanimg,
+                            venue = ev.venue,
+
+                        }).ToList();
+
+            if (!list.Any())
+            {
+                rd.message = "查無此展覽";
+                rd.status = ReturnStatus.Error;
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            rd.message = "查詢此展覽成功";
+            rd.status = ReturnStatus.Success;
+            rd.data = list[0];
+
+            return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetExhibitorInfo(int? id)

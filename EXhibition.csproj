@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -294,6 +294,13 @@
     <Content Include="Image\Host\EV_UID2_220401_220405.png" />
     <Content Include="Image\Host\EV_UID2_220402_220405.png" />
     <Content Include="Image\Host\EV_UID2_220422_220531.png" />
+    <Content Include="Image\Host\EV_UID2_220401_220402.png" />
+    <Content Include="Image\Host\EV_UID2_220401_220403.png" />
+    <Content Include="Image\Host\EV_UID2_220401_220405.png" />
+    <Content Include="Image\Host\EV_UID2_220401_220421.png" />
+    <Content Include="Image\Host\EV_UID2_220402_220405.png" />
+    <Content Include="Image\Host\EV_UID2_220422_220531.png" />
+    <Content Include="Image\Host\EV_UID32_220409_220413.png" />
     <Content Include="Image\Host\FP_UID2_220326_220327.png" />
     <Content Include="Image\Host\FP_UID2_220329_220331.png" />
     <Content Include="Image\Host\FP_UID2_220330_220331.png" />
@@ -302,6 +309,13 @@
     <Content Include="Image\Host\FP_UID2_220401_220405.png" />
     <Content Include="Image\Host\FP_UID2_220402_220405.png" />
     <Content Include="Image\Host\FP_UID2_220422_220531.png" />
+    <Content Include="Image\Host\FP_UID2_220401_220402.png" />
+    <Content Include="Image\Host\FP_UID2_220401_220403.png" />
+    <Content Include="Image\Host\FP_UID2_220401_220405.png" />
+    <Content Include="Image\Host\FP_UID2_220401_220421.png" />
+    <Content Include="Image\Host\FP_UID2_220402_220405.png" />
+    <Content Include="Image\Host\FP_UID2_220422_220531.png" />
+    <Content Include="Image\Host\FP_UID32_220409_220413.png" />
     <Content Include="Image\Host\Host_img_HID2.png" />
     <Content Include="Image\Host\pexels-photo-10147530.jpeg" />
     <Content Include="Image\Test\eighty-six.png" />
@@ -446,6 +460,8 @@
     <Content Include="Views\Home\DenyAuthorize.cshtml" />
     <Content Include="Views\Host\allowOrRefuse.cshtml" />
     <Content Include="Views\Home\EventDetail.cshtml" />
+    <Content Include="Views\Exhibitor\showEventDetail.cshtml" />
+    <Content Include="Views\Exhibitor\ApplyHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

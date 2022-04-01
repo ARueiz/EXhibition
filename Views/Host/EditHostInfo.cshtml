@@ -116,7 +116,8 @@
                             return response.data;
                         }).then(function (response) {
                             self.personInfo = response;
-                            self.personInfo.imglink = "../Image/Host/" + self.personInfo.image;
+                            self.personInfo.imglink = "/Image/Host/" + self.personInfo.image;
+
                         })
                 },
 

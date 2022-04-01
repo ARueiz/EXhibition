@@ -1,11 +1,16 @@
 ﻿using EXhibition.Filters;
 using EXhibition.Models;
 using System;
+using System.Data.SqlClient;
+
 using System.Linq;
 using System.Web.Mvc;
 namespace EXhibition.Controllers
 {
     [AuthorizeFilter(UserRole.User)]
+
+    //   [AuthorizeFilter(UserRole.User)]
+
     public class UserApiController : Controller
     {
         DBConnector db = new DBConnector();
@@ -16,7 +21,8 @@ namespace EXhibition.Controllers
 
             int id = (int)(Session["AccountID"] == null ? 2 : Session["AccountID"]);
 
-           id = Session["userid"] == null ? 2 : (int)Session["userid"];
+            id = Session["userid"] == null ? 2 : (int)Session["userid"];
+
 
 
 
@@ -40,6 +46,7 @@ namespace EXhibition.Controllers
                                   startdate = q.startdate.ToString(),
                                   enddate = q.enddate.ToString(),
                                   image = "/image/host/" + q.image                                  
+
                               }).ToList();
 
             foreach (var item in ticketlist)
@@ -147,6 +154,45 @@ namespace EXhibition.Controllers
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
 
+<<<<<<< HEAD
+=======
+        }
+
+        public ActionResult Gettop5Tag()
+        {
+            //var data = from p in db.TagsName
+            //           join q in db.eventTags
+            //           on p.id equals q.tagID
+            //           orderby q.tagID.
+
+            string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
+
+            string queryString =
+                "select TOP(5) count(q.tagName) ,q.tagName from eventTags as p join TagsName as q on p.tagID = q.id group by q.tagName";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Create the Command and Parameter objects.
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        var A = (int)reader[1];
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return Json(null, JsonRequestBehavior.AllowGet);
+>>>>>>> develop
         }
     }
 }

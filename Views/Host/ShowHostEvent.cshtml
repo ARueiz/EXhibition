@@ -44,14 +44,11 @@
                 </tr>
             </table>
         </div>
-
     </div>
 </div>
 
 @section scripts {
     <script>
-
-
         var VuePage = new Vue({
             el: '#VuePage',
             data: {
@@ -61,23 +58,15 @@
             },
 
             mounted() {
-                this.GetMaterial(0)
-                @*axios
-                    .get('/HostApi/List')
-                    .then(function (response) {
-                        VuePage.res = response.data
 
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    });*@
+                this.GetMaterial(0)
+            
             },
             methods: {
                 Details: function (va) {
-
-                    axios.post('/HostApi/PostList', "/" + va)
+                    axios.get('/HostApi/PostList/', + va)
                         .then(function (response) {
-                            window.location.href = "/host/DetailsHost/" + va
+                            window.location.href = "/" + "host" + "/" + "DetailsHost" + "/" + va
                         })
                         .catch((err) => {
                             console.log(err)

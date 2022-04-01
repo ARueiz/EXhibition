@@ -27,6 +27,15 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        // showHostList -> 綠色(展覽細節)按鈕
+        public ActionResult showEventDetail(int? EVID)
+        {
+            ViewBag.EVID = EVID;
+
+            
+            return View();
+        }
+
         //廠商 可申請展覽
         public ActionResult CanApplyList(int? id=10)
         {
@@ -47,6 +56,14 @@ namespace EXhibition.Controllers
 
             return View();
         }
+
+        //廠商申請參展歷史紀錄
+        public ActionResult ApplyHistory(int? id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
+
 
     }
 }

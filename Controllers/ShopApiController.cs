@@ -10,7 +10,7 @@ using System.Web.Http.Cors;
 
 namespace EXhibition.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ShopApiController : ApiController
     {
 
@@ -211,6 +211,85 @@ namespace EXhibition.Controllers
 
             return Ok(mEventDetail);
         }
+
+        public IHttpActionResult Get()
+        {
+            return Ok("hello");
+        }
+
+        public class tName
+        {
+            public string tagName { get; set; }
+        }
+
+        //tag選擇後跳出所有活動詳細資料
+        public IHttpActionResult PostTest([FromBody] tName tg)
+        {
+            string tagName = tg.tagName;
+            var tag = (from q in db.eventTags
+                       join p in db.TagsName
+                       on q.tagID equals p.id
+                       join k in db.events
+                       on q.EVID equals k.EVID
+                       where p.tagName == tagName
+                       select new
+                       {
+                           EVID = k.EVID,
+                           name = k.name,
+                           startdate = k.startdate,
+                           enddate = k.enddate,
+                           eventinfo = k.eventinfo,
+                           image = k.image
+
+                       }).ToList();
+            
+            return Ok(tag);
+
+            //return Ok();
+        }
+
+        public IHttpActionResult Gettop5Tag()
+        {
+            //var data = from p in db.TagsName
+            //           join q in db.eventTags
+            //           on p.id equals q.tagID
+            //           orderby q.tagID.
+
+            string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
+
+            string queryString =
+                "select TOP(5) count(q.tagName) ,q.tagName from eventTags as p join TagsName as q on p.tagID = q.id group by q.tagName";
+
+            
+            List<string> eList = new List<string>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Create the Command and Parameter objects.
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                       
+                        eList.Add((string)reader[1]);
+                       
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return Ok(eList);
+        }
+
+
 
     }
 }
