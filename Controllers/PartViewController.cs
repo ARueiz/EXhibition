@@ -23,7 +23,12 @@ namespace EXhibition.Controllers
 
         public ActionResult SideBarBtn()
         {
-            //int authId = Session["auth"] == null ? 0 : (int)Session["auth"];
+
+            //if (HttpContext.IsDebuggingEnabled)
+            //{
+            //    Session["UserRole"] = "Host";
+            //}
+
             if (Session["UserRole"].ToString() == "User")
             {
                 return PartialView("_SideBarUserBtn");

@@ -1,5 +1,4 @@
-﻿using EXhibition.Filters;
-using EXhibition.Models;
+﻿using EXhibition.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,7 +8,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    [AuthorizeFilter(UserRole.Host)]
+    //[AuthorizeFilter(UserRole.Host)]
     public class HostApiController : Controller
     {
 
@@ -404,10 +403,7 @@ namespace EXhibition.Controllers
         }
 
 
-
-
-
-        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events)
+        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events, List<string> tagList)
         {
 
 
@@ -447,8 +443,14 @@ namespace EXhibition.Controllers
 
             //儲存資料到DB
             events.HID = (int)Session["HID"];
+            events.createAt = DateTime.Now;
             db.events.Add(events);
             int result = db.SaveChanges();
+
+            // 加入 tag
+            Repo.TagRepo insert = new Repo.TagRepo();
+            insert.TagsInsert(tagList,events.HID);
+
             try
             {
                 db.SaveChanges();
