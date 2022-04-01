@@ -1,5 +1,4 @@
-﻿using EXhibition.Filters;
-using EXhibition.Models;
+﻿using EXhibition.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,7 +8,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    [AuthorizeFilter(UserRole.Host)]
+    //[AuthorizeFilter(UserRole.Host)]
     public class HostApiController : Controller
     {
 
@@ -158,10 +157,30 @@ namespace EXhibition.Controllers
         }
 
         //顯示所有廠商活動
-        public ActionResult exhibitInfo_AllowOrRefuse()
+        public ActionResult exhibitInfo_AllowOrRefuse(int? EID)
         {
+
             var rd = new ReturnData();
-            var alldata = db.exhibitinfo.ToList();
+            DateTime today = DateTime.Now;
+            int eidd = (int)EID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today && q.verify == null && k.EVID == EID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
+
+                           }
+                           ).ToList();
+                        
+
+                         
 
             if (alldata == null)
             {
@@ -173,7 +192,7 @@ namespace EXhibition.Controllers
         }
 
         //允許或拒絕廠商
-        public ActionResult AllowOrRefuse(int? index)
+        public ActionResult AllowOrRefuse(int? index , bool verified , string reason)
         {
             var rd = new ReturnData();
             if (index == null)
@@ -183,21 +202,18 @@ namespace EXhibition.Controllers
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
             int x = (int)index;
-            var allow = db.exhibitors.Find(x);
+            var allow = db.exhibitinfo.Find(x);
 
-            if (allow.verify == false)
-            {
-                allow.verify = true;
-
-                rd.message = "modified";
-                rd.status = "success";
+           
+                allow.verify = verified;
+            allow.reason = reason;
                 db.SaveChanges();
+                rd.message = "no data";
+                rd.status = "error";
                 return Json(rd, JsonRequestBehavior.AllowGet);
-            }
+         
 
-            rd.message = "no data";
-            rd.status = "error";
-            return Json(rd, JsonRequestBehavior.AllowGet);
+           
         }
 
         //允許全部
@@ -227,6 +243,75 @@ namespace EXhibition.Controllers
 
             return Json(rd, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult selectorAll()
+        {
+            var data = from p in db.exhibitinfo
+                       join q in db.exhibitors
+                       on p.EID equals q.EID
+
+                       select new
+                       {
+                           id = p.id,
+                           name = q.name,
+                           phone = q.phone,
+                           email = q.email,
+                           link = q.link,
+                           image = p.image,
+                           info = p.productinfo,
+                           createAt = p.createAt,
+                           verify = p.verify
+
+                       };
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult selectorAllow(int? index)
+        {
+            var data = from p in db.exhibitinfo
+                       join q in db.exhibitors
+                       on p.EID equals q.EID
+                     
+                       where p.verify == true 
+                       select new
+                       {
+                           id = p.id,
+                           name = q.name,
+                           phone = q.phone,
+                           email = q.email,
+                           link = q.link,
+                           image = p.image,
+                           info = p.productinfo,
+                           createAt = p.createAt,
+                           verify = p.verify
+
+                       };
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult selectorReject(int? index)
+        {
+            var data = from p in db.exhibitinfo
+                       join q in db.exhibitors
+                       on p.EID equals q.EID
+                     
+                       where p.verify == false
+                       select new
+                       {
+                           id = p.id,
+                           name = q.name,
+                           phone = q.phone,
+                           email = q.email,
+                           link = q.link,
+                           image = p.image,
+                           info = p.productinfo,
+                           createAt = p.createAt,
+                           verify = p.verify
+
+                       };
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -274,31 +359,19 @@ namespace EXhibition.Controllers
         {
 
 
-            var b = (from hostsTable in db.hosts
-                     join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
-                     select new HostEventData
-                     {
-                         name = hostsTable.name,
-                         phone = hostsTable.phone,
-                         startdate = eventsTable.startdate.ToString(),
-                         enddate = eventsTable.enddate.ToString(),
-                         exhibitionname = eventsTable.name,
-                         evid = eventsTable.EVID,
-                         ticketPrice = eventsTable.ticketprice.ToString(),
-                     }).Take(10).ToList();
+            var b = from hostsTable in db.hosts
+                    join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
+                    select new
+                    {
+                        name = hostsTable.name,
+                        phone = hostsTable.phone,
+                        startdate = eventsTable.startdate.ToString(),
+                        enddate = eventsTable.enddate.ToString(),
+                        exhibitionname = eventsTable.name,
+                        evid = eventsTable.EVID,
+                        ticketPrice = eventsTable.ticketprice,
+                    };
 
-            foreach (var item in b)
-            {
-                if (DateTime.Now >= DateTime.Parse(item.startdate))
-                {
-                    item.isOver = true;
-                }
-                else if (DateTime.Now < DateTime.Parse(item.startdate))
-                {
-                    item.isOver = false;
-                }
-
-            }
             return Json(b, JsonRequestBehavior.AllowGet);
         }
 
@@ -326,14 +399,11 @@ namespace EXhibition.Controllers
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
 
-            return new NewJsonResult() { Data = a };
+            return Json(a, JsonRequestBehavior.AllowGet);
         }
 
 
-
-
-
-        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events)
+        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events, List<string> tagList)
         {
 
 
@@ -373,8 +443,14 @@ namespace EXhibition.Controllers
 
             //儲存資料到DB
             events.HID = (int)Session["HID"];
+            events.createAt = DateTime.Now;
             db.events.Add(events);
             int result = db.SaveChanges();
+
+            // 加入 tag
+            Repo.TagRepo insert = new Repo.TagRepo();
+            insert.TagsInsert(tagList,events.EVID);
+
             try
             {
                 db.SaveChanges();
@@ -397,7 +473,6 @@ namespace EXhibition.Controllers
 
         public ActionResult Login(Models.Login login)
         {
-
             ReturnData r = new ReturnData();
 
             if (string.IsNullOrEmpty(login.account) || string.IsNullOrEmpty(login.password))
@@ -441,7 +516,6 @@ namespace EXhibition.Controllers
                     return Json(r, JsonRequestBehavior.AllowGet);
                 }
             }
-
         }
 
         [HttpPost]
@@ -507,9 +581,8 @@ namespace EXhibition.Controllers
             return new NewJsonResult() { Data = list };
         }
 
-        public ActionResult GetHostInfo()
+        public ActionResult GetHostInfo(int? id)
         {
-
             int HID = Convert.ToInt32(Session["AccountID"]);
 
             var list = (from host in db.hosts

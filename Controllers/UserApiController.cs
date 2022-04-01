@@ -16,6 +16,10 @@ namespace EXhibition.Controllers
 
             int id = (int)(Session["AccountID"] == null ? 2 : Session["AccountID"]);
 
+           id = Session["userid"] == null ? 2 : (int)Session["userid"];
+
+
+
             var mes = new Models.ReturnData();
             if (id == -1)
             {
@@ -143,39 +147,6 @@ namespace EXhibition.Controllers
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
 
-        }
-
-        //票卷票表
-        public ActionResult ticketList(int? id)
-        {
-
-            id = Session["userid"] == null ? 2 : (int)Session["userid"];
-
-
-            var mes = new Models.ReturnData();
-            if (id == -1)
-            {
-                mes.status = ReturnStatus.Error;
-                mes.message = "404";
-
-                return Json(mes, JsonRequestBehavior.AllowGet);
-            }
-
-            var ticketlist = (from p in db.Tickets
-                              join q in db.events on p.EVID equals q.EVID
-                              join k in db.users on p.UID equals k.UID
-                              where k.UID == id
-                              select new
-                              {
-                                  name = q.name,
-                                  startdate = q.startdate,
-                                  enddate = q.enddate,
-                                  image = q.image,
-
-
-                              }).ToList();
-
-            return Json(ticketlist, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -233,5 +233,44 @@ namespace EXhibition.Controllers
             r.data = new { url = "/Home/HostLogin" };
             return Json(r);
         }
+
+        //顯示展覽細節
+        public ActionResult EventDetail(int? id)
+        {
+            ReturnData rd = new ReturnData();
+
+            if (id == null)
+            {
+                rd.message = "找不到資料 Id 為 null";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            var list = (from host in db.hosts
+                        join events in db.events on host.HID equals events.HID
+                        where events.EVID == id
+                        select new
+                        {
+                            organizer = host.name,
+                            events.EVID,
+                            title = events.name,
+                            start = events.startdate.ToString(),
+                            end = events.enddate.ToString(),
+                            location = events.venue,
+                            price = events.ticketprice 
+                        }).ToList();
+        
+            if (!list.Any())
+            {
+                rd.message = "找不到資料";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            rd.message = "成功";
+            rd.status = ReturnStatus.Success;
+            rd.data = list;
+            return Json(rd, JsonRequestBehavior.AllowGet);
+        }
     }
 }

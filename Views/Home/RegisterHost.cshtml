@@ -132,7 +132,6 @@
                         </button>
                     </div>
                 </form>
-
             </div>
             <div class="col-md-6 d-flex justify-content-center">
                 <div class="d-flex align-content-end h-100">
@@ -247,7 +246,6 @@
                     "Content-Type": "application/json",
                     "Accept": "application/json",
                 }
-
                 fetch('/HomeApi/HostRegister', {
                     method: "POST",
                     headers: headers,
@@ -262,6 +260,7 @@
                         self.Phone = ''
                         self.Email = ''
                         self.link = ''
+
                         let loadModal = $('#SuccessModal');
                         loadModal.modal('show');
                     } else {

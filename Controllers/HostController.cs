@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    [AuthorizeFilter(UserRole.Host)]
+    //[AuthorizeFilter(UserRole.Host)]
     public class HostController : Controller
     {
         private DBConnector db = new DBConnector();
@@ -62,6 +62,12 @@ namespace EXhibition.Controllers
 
 
             return Json(tag,JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult allowOrRefuse(int? EVID)
+        {
+            ViewBag.EVID = EVID;
+            return View();
         }
        
 

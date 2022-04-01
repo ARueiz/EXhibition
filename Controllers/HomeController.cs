@@ -79,6 +79,12 @@ namespace EXhibition.Controllers
             return RedirectToAction("index");
         }
 
+        public ActionResult EventDetail(int? id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
+
         public ActionResult GetEnv()
         {
             var a = Environment.GetEnvironmentVariable("myValue");

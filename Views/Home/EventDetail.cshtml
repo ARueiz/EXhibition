@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "EventDetail";
+}
+@section styles{
+    <link href="~/Content/UserEventDetail.css" rel="stylesheet" />
+}
+<h1 class="w3-margin">{{ title }}</h1>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+
+
+        <div class="detail-panel">
+            <div class="detail-item">
+                <h4><b>展覽時間</b></h4>{{ start }} ~ {{ end }}
+            </div>
+            <div class="detail-item">
+                <h4><b>活動地點</b></h4>{{ location }}
+            </div>
+            <div class="detail-item">
+                <h4><b>主辦單位</b></h4>{{ organizer }}
+            </div>
+        </div>
+
+
+        <br>
+
+        <div class="ticketPurchase">
+            <h3>票券價格</h3>
+            <br>
+            <div class="d-flex justify-content-between">
+                <div class="h4 d-inline-block">NT$ {{ price }} 元</div>
+            </div>
+            <br>
+            <button class="w3-button w3-green d-inline-block">購票</button>
+        </div>
+
+    </div>
+    <div class="col-md-8">
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit. A culpa cupiditate delectus dignissimos excepturi
+        facilis inventore ipsa necessitatibus nostrum nulla officia officiis perferendis perspiciatis, quaerat
+        quidem reiciendis repellat ullam voluptatem!
+    </div>
+</div>
+
+<div class="divisionLine"></div>
+<h3 class="mt-3 mb-3">參展廠商</h3>
+
+<div class="w3-row-padding w3-stretch">
+    <div class="w3-col l3 m6 w3-margin-bottom" v-for="vendor in vendorList">
+        <div class="w3-display-container">
+            <div class="w3-display-topleft w3-black w3-padding">{{ vendor.title }}</div>
+            <img :src="vendor.image" alt="House" style="width:100%">
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
+<div class="w3-col m1"></div>
+
+<script>
+    new Vue({
+        el: '#contain',
+        data() {
+            return {
+                EVID: '@ViewBag.id',
+                location: asd,
+                organizer: asd,
+                website: 'https://secutech.tw.messefrankfurt.com/taipei/zh-tw.html',
+                imgUrl: 'https://media.cntraveler.com/photos/5eb18e42fc043ed5d9779733/16:9/w_2580,c_limit/BlackForest-Germany-GettyImages-147180370.jpg',
+                vendorList: [],
+            }
+        },
+        created: function () {
+            const self = this;
+            axios('/HomeApi/EventDetail/'+'@ViewBag.id')
+                .then(function (response) {
+                    if (response.status === 'success')
+                        this=reponse.data
+                })
+                .then(res => self.vendorList = res.vendorList)
+        },
+        methods: {
+
+        },
+    })
+</script>
+
