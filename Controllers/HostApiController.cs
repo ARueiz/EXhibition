@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace EXhibition.Controllers
@@ -131,7 +130,6 @@ namespace EXhibition.Controllers
 
 
         //顯示廠商詳細
-
         public ActionResult showexhibitor(int? index)
         {
             Models.ReturnData rd = new Models.ReturnData();
@@ -154,54 +152,36 @@ namespace EXhibition.Controllers
 
         {
             var data = db.exhibitors.Where(a => a.verify == false);
-
-
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+
 
         //顯示所有廠商活動
         public ActionResult exhibitInfo_AllowOrRefuse(int? EID)
         {
-            var data = db.exhibitors.Where(a => a.verify == false);
-
-
-
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
-
-        //顯示所有廠商活動
-        public ActionResult exhibitInfo_AllowOrRefuse(int? EID)
-        {
->>>>>>> develop
             var rd = new ReturnData();
             DateTime today = DateTime.Now;
             int eidd = (int)EID;
-            var alldata = (from q in db.exhibitinfo
-                           join p in db.exhibitors
-                           on q.EID equals p.EID
-                           join k in db.events
-                           on q.EVID equals k.EVID
-                           where k.startdate < today && q.verify == null && k.EVID == EID
-                           select new
-                           {
-                               name = p.name,
-                               id = q.id,
-                               createAt = q.createAt,
-                               verify = q.verify
+            var alldata = (
+                from q in db.exhibitinfo
+                join p in db.exhibitors
+                on q.EID equals p.EID
+                join k in db.events
+                on q.EVID equals k.EVID
+                where k.startdate < today && q.verify == null && k.EVID == EID
+                select new
+                {
+                    name = p.name,
+                    id = q.id,
+                    createAt = q.createAt,
+                    verify = q.verify
 
-                           }
-                           ).ToList();
-<<<<<<< HEAD
-
-
-
-
+                }).ToList();
             if (alldata == null)
             {
                 rd.message = "no data";
                 rd.status = "error";
             }
-
             return Json(alldata, JsonRequestBehavior.AllowGet);
         }
 
@@ -226,8 +206,6 @@ namespace EXhibition.Controllers
             rd.status = "error";
             return Json(rd, JsonRequestBehavior.AllowGet);
 
-
-
         }
 
         //允許全部
@@ -241,58 +219,28 @@ namespace EXhibition.Controllers
             if (allow == null)
             {
                 rd.message = "no data";
-=======
-            if (alldata == null)
-            {
-                rd.message = "no data";
->>>>>>> develop
-                rd.status = "error";
             }
 
-<<<<<<< HEAD
             foreach (var i in allow)
             {
                 i.verify = true;
-=======
-            return Json(alldata, JsonRequestBehavior.AllowGet);
-        }
-
-        //允許或拒絕廠商
-        public ActionResult AllowOrRefuse(int? index , bool verified , string reason)
-        {
-            var rd = new ReturnData();
-            if (index == null)
-            {
-                rd.message = "no data";
-                rd.status = "error";
-                return Json(rd, JsonRequestBehavior.AllowGet);
->>>>>>> develop
             }
-            int x = (int)index;
-            var allow = db.exhibitinfo.Find(x);
-
-<<<<<<< HEAD
-            rd.message = "modified success";
-            rd.status = "success";
             db.SaveChanges();
-
-            return Json(rd, JsonRequestBehavior.AllowGet);
-
+            return Json(allow, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult selectorAll()
-=======
+        //public ActionResult selectorAll()
            
-                allow.verify = verified;
-            allow.reason = reason;
-                db.SaveChanges();
-                rd.message = "no data";
-                rd.status = "error";
-                return Json(rd, JsonRequestBehavior.AllowGet);
+        //        allow.verify = verified;
+        //    allow.reason = reason;
+        //        db.SaveChanges();
+        //        rd.message = "no data";
+        //        rd.status = "error";
+        //        return Json(rd, JsonRequestBehavior.AllowGet);
          
 
            
-        }
+        //}
 
         //允許全部
         public ActionResult allow_all(int? EID)
@@ -353,9 +301,6 @@ namespace EXhibition.Controllers
 
             return Json(alldata, JsonRequestBehavior.AllowGet);
         }
-
-
-
 
         public ActionResult selectorAllow(int? EID)
         {
@@ -457,7 +402,6 @@ namespace EXhibition.Controllers
 
 
         public ActionResult List()
->>>>>>> develop
         {
             var data = from p in db.exhibitinfo
                        join q in db.exhibitors
@@ -474,99 +418,9 @@ namespace EXhibition.Controllers
                            info = p.productinfo,
                            createAt = p.createAt,
                            verify = p.verify
-
-<<<<<<< HEAD
                        };
             return Json(data, JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult selectorAllow(int? index)
-        {
-            var data = from p in db.exhibitinfo
-                       join q in db.exhibitors
-                       on p.EID equals q.EID
-
-                       where p.verify == true
-                       select new
-                       {
-                           id = p.id,
-                           name = q.name,
-                           phone = q.phone,
-                           email = q.email,
-                           link = q.link,
-                           image = p.image,
-                           info = p.productinfo,
-                           createAt = p.createAt,
-                           verify = p.verify
-
-                       };
-
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult selectorReject(int? index)
-        {
-            var data = from p in db.exhibitinfo
-                       join q in db.exhibitors
-                       on p.EID equals q.EID
-
-                       where p.verify == false
-                       select new
-                       {
-                           id = p.id,
-                           name = q.name,
-                           phone = q.phone,
-                           email = q.email,
-                           link = q.link,
-                           image = p.image,
-                           info = p.productinfo,
-                           createAt = p.createAt,
-                           verify = p.verify
-
-                       };
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
-
-
-        //tag顯示器只顯示前十筆
-        public ActionResult tagselector()
-        {
-            string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
-
-            string queryString =
-                "select top(10) count(A.tagId) , A.TagId , B.tagName from eventTags as A inner join TagsName as B on A.tagID = B.id group by A.tagId ,B.tagName order by 1 desc";
-
-            // 先將 id 撈成 陣列後 用 entity framework 去找資料
-
-            List<TagsName> eventlist = new List<TagsName>();
-            List<int> eventIdList = new List<int>();
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                // Create the Command and Parameter objects.
-                SqlCommand command = new SqlCommand(queryString, connection);
-
-                try
-                {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        eventIdList.Add((int)reader[1]);
-                    }
-                    reader.Close();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
-
-            eventlist = db.TagsName.Where(item => eventIdList.Contains(item.id)).ToList();
-
-            return Json(eventIdList, JsonRequestBehavior.AllowGet);
-        }
-
 
         public ActionResult List(int? id)
         {
@@ -617,24 +471,6 @@ namespace EXhibition.Controllers
 
         }
 
-=======
-            var b = from hostsTable in db.hosts
-                    join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
-                    select new
-                    {
-                        name = hostsTable.name,
-                        phone = hostsTable.phone,
-                        startdate = eventsTable.startdate.ToString(),
-                        enddate = eventsTable.enddate.ToString(),
-                        exhibitionname = eventsTable.name,
-                        evid = eventsTable.EVID,
-                        ticketPrice = eventsTable.ticketprice,
-                    };
-
-            return Json(b, JsonRequestBehavior.AllowGet);
-        }
-
->>>>>>> develop
         public ActionResult PostList(int? id)
         {
 
@@ -662,49 +498,7 @@ namespace EXhibition.Controllers
             return Json(a, JsonRequestBehavior.AllowGet);
         }
 
-<<<<<<< HEAD
 
-        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events, List<string> tagList)
-        {
-
-
-            string strPath = "";
-
-            if (image != null)
-            {
-                //儲存 封面圖 to Image/Host
-                strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.image;
-                image.SaveAs(strPath);
-            }
-
-            if (floorplanimg != null)
-            {
-                //儲存 平面圖 to Image/Host
-                strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.floorplanimg;
-                floorplanimg.SaveAs(strPath);
-            }
-
-            var userInputTags = new List<Models.TagsName>();
-            userInputTags.Add(new TagsName() { id = 1, tagName = "美食" });
-            userInputTags.Add(new TagsName() { id = 2, tagName = "美九" });
-            userInputTags.Add(new TagsName() { id = 3, tagName = "美立" });
-
-            foreach (var item in userInputTags)
-            {
-                var a = db.TagsName.Where(e => e.tagName == item.tagName).FirstOrDefault();
-                if (a == null)
-                {
-                    db.TagsName.Add(new TagsName() { tagName = item.tagName });
-                    db.SaveChanges();
-                }
-
-                //db.eventTags.
-            }
-
-
-            //儲存資料到DB
-            events.HID = (int)Session["HID"];
-=======
         //新增展覽
         public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events, List<string> tagList)
         {
@@ -745,18 +539,14 @@ namespace EXhibition.Controllers
 
             //儲存資料到DB
             events.HID = (int)Session["AccountID"];
->>>>>>> develop
             events.createAt = DateTime.Now;
             db.events.Add(events);
             int result = db.SaveChanges();
 
             // 加入 tag
             Repo.TagRepo insert = new Repo.TagRepo();
-<<<<<<< HEAD
             insert.TagsInsert(tagList, events.EVID);
-=======
-            insert.TagsInsert(tagList,events.EVID);
->>>>>>> develop
+
 
             try
             {
@@ -955,8 +745,7 @@ namespace EXhibition.Controllers
             }
 
         }
-<<<<<<< HEAD
-=======
+
         public ActionResult test(string name)
         {
             var x = "pokemon";
@@ -979,7 +768,6 @@ namespace EXhibition.Controllers
 
             //return Ok();
         }
->>>>>>> develop
 
     }
 }

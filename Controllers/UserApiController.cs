@@ -154,8 +154,6 @@ namespace EXhibition.Controllers
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
 
-<<<<<<< HEAD
-=======
         }
 
         public ActionResult Gettop5Tag()
@@ -192,7 +190,7 @@ namespace EXhibition.Controllers
             }
 
             return Json(null, JsonRequestBehavior.AllowGet);
->>>>>>> develop
+
         }
     }
 }
