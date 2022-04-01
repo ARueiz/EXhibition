@@ -10,6 +10,24 @@
             text-align: left;
             color: white;
         }
+
+        .tags {
+            display: inline-block;
+            margin: 3px;
+            background-color: transparent;
+            color: gray;
+            border: none
+        }
+
+        .tags:focus {
+            color:blue !important;
+
+        }
+
+
+        
+
+
     </style>
 }
 
@@ -18,7 +36,7 @@
 
     <nav aria-label="breadcrumb" class="m-4">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">首頁</a></li>
+            <li class="breadcrumb-item"><a href="/home">首頁</a></li>
             <li class="breadcrumb-item active" aria-current="page">展覽列表</li>
         </ol>
     </nav>
@@ -51,6 +69,9 @@
             <div class="row" style="padding: 0px 30px">
                 <div class="d-inline-block" style="width: 90%;box-sizing: border-box">
                     <input type="text" class="w-100">
+                    <div  style="display:flex" >
+                        <button class="tags" v-for="i in tags" v-on:click="clickShowEvent(i)">#{{i}}</button>
+                    </div>
                 </div>
                 <button class="d-inline-block btn btn-outline-info d-flex align-items-center justify-content-center" style="width: 10%;box-sizing: border-box;height: 28px">
                     <i style="height: 100%" class="fa-solid fa-magnifying-glass"></i>
@@ -76,7 +97,7 @@
                         <p style="height: 30px;text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
                             {{ element.eventinfo }}
                         </p>
-                        <a href="exhibitionDetail1.html" class="w3-button w3-black">更多資訊 or 購票</a>
+                        <a :href="'/shop/product/'+element.EVID" class="w3-button w3-black">更多資訊 or 購票</a>
                     </div>
                 </div>
                 <!-- exhibition list end -->
@@ -95,11 +116,14 @@
                 exhibitionList: [],
                 exhibitionType: ["科技", "金融", "其他"],
                 selectType: [],
-                pageNum: 0
+                pageNum: 0,
+                tags: [],
+               
             }
         },
         created: function () {
             this.getTicket();
+            this.hotTagTicket()
         },
         methods: {
             getTicket() {
@@ -112,14 +136,33 @@
                         self.arrayFilter()
                     })
             },
+            hotTagTicket() {
+                const self = this;
+                axios.get('/api/ShopApi/Gettop5Tag/')
+                    .then(function (response) {
+                        self.tags = response.data
+                    
+                    })
+            },
             arrayFilter() {
                 for (var i = 0; i < this.exhibitionList.length; i++) {
                     let item = this.exhibitionList[i]
                     item.startdate = item.startdate.slice(0, 10);
                     item.enddate = item.enddate.slice(0, 10);
                 }
+            },
+            clickShowEvent(da) {
+                var self = this; 
+                var data = {
+                    tagName : da 
+                }
+                axios.post('/api/ShopApi/PostTest/', data ).then(function (res) {
+                    self.exhibitionList = res.data;
+                    self.arrayFilter()
+                })
             }
         },
+        
 
         // .toISOString().split('T')[0]
     })

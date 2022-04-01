@@ -23,11 +23,13 @@
                 <td>{{item.startdate }}</td>
                 <td>{{item.enddate }}</td>
                 <td>
+                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-info" role="button">審核</a>
                     <input type="submit" value="審核" />
 
                     <input type="submit" value="編輯" />
 
                     <input type="submit" value="明細" v-on:click="Details(item.evid)" />
+
                 </td>
 
             </tr>
@@ -42,6 +44,7 @@
             el: '#VuePage',
             data: {
                 res: [],
+            
 
             },
 
@@ -55,18 +58,24 @@
                     .catch((err) => {
                         console.log(err)
                     });
+
+                
             },
             methods: {
                 Details: function (va) {
 
-                    axios.post('/HostApi/PostList', "/" + va)
+                    axios.get('/HostApi/PostList/', + va)
                         .then(function (response) {
                             window.location.href = "/" + "host" + "/" + "DetailsHost" + "/" + va
                         })
                         .catch((err) => {
                             console.log(err)
                         });
-                }
+                },
+              
+                
+
+
 
 
             }

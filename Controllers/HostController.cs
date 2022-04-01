@@ -1,4 +1,5 @@
-﻿using EXhibition.Models;
+﻿using EXhibition.Filters;
+using EXhibition.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
+    //[AuthorizeFilter(UserRole.Host)]
     public class HostController : Controller
     {
         private DBConnector db = new DBConnector();
@@ -61,14 +63,22 @@ namespace EXhibition.Controllers
 
             return Json(tag,JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult allowOrRefuse(int? EVID)
+        {
+            if (EVID == null)
+            {
+                return Redirect("index");
+            }
+            ViewBag.EVID = EVID;
+            return View();
+        }
        
 
         //邱品叡
         public ActionResult CreateEvent()
         {
-            Session["HID"] = 2;
-
-            int HID = (int)Session["HID"];
+            int HID = (int)Session["AccountID"];
 
             var info = db.hosts.Where(h => h.HID == HID).Select(h => new
             {
@@ -76,7 +86,7 @@ namespace EXhibition.Controllers
             }).ToList();
 
             ViewBag.hostname = info[0].name;
-            ViewBag.sessionHID = Session["HID"];
+            ViewBag.sessionHID = Session["AccountID"];
 
             return View();
         }
@@ -100,6 +110,12 @@ namespace EXhibition.Controllers
 
             ViewBag.name = info[0].name;
 
+            return View();
+        }
+
+        // 驗票
+        public ActionResult CheckTicket()
+        {
             return View();
         }
 

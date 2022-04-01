@@ -8,13 +8,13 @@ namespace EXhibition.Controllers
         public ActionResult Navbar()
         {
 
-            if (Session["auth"] == null)
+            if (Session["UserRole"] == null)
                 return PartialView("_NavbarVisitor");
-            else if ((int)Session["auth"] == 3)
+            else if (Session["UserRole"].ToString() == "Host")
                 return PartialView("_NavbarHost");
-            else if ((int)Session["auth"] == 2)
+            else if (Session["UserRole"].ToString() == "Exhibitor")
                 return PartialView("_NavbarExhibitor");
-            else if ((int)Session["auth"] == 1)
+            else if (Session["UserRole"].ToString() == "User")
                 return PartialView("_NavbarUser");
             else
                 return PartialView("_NavbarVisitor");
@@ -23,12 +23,16 @@ namespace EXhibition.Controllers
 
         public ActionResult SideBarBtn()
         {
-            int authId = Session["auth"] == null ? 0 : (int)Session["auth"];
-            if (authId == 1)
+            if (Session["UserRole"] == null)
+            {
+                Session["UserRole"] = "Visitor";
+            }
+
+            if (Session["UserRole"].ToString() == "User")
             {
                 return PartialView("_SideBarUserBtn");
             }
-            else if (authId == 2)
+            else if (Session["UserRole"].ToString() == "Exhibitor")
             {
                 return PartialView("_SideBarExhibitorBtn");
             }
@@ -41,11 +45,11 @@ namespace EXhibition.Controllers
         public ActionResult SideBar()
         {
             int authId = Session["auth"] == null ? 1 : (int)Session["auth"];
-            if (authId == 1)
+            if (Session["UserRole"].ToString() == "User")
             {
                 return PartialView("_SideBarUser");
             }
-            else if (authId == 2)
+            else if (Session["UserRole"].ToString() == "Exhibitor")
             {
                 return PartialView("_SideBarExhibitor");
             }

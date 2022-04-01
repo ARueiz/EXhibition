@@ -10,7 +10,7 @@ using System.Web.Http.Cors;
 
 namespace EXhibition.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ShopApiController : ApiController
     {
 
@@ -23,7 +23,7 @@ namespace EXhibition.Controllers
         {
             if (id == null) { id = 0; }
             int num = (int)id;
-            var list = (from eve in db.events orderby eve.startdate descending select eve).Skip(num).Take(12).ToList();
+            var list = (from eve in db.events orderby eve.createAt descending select eve).Skip(num).Take(12).ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 list[i].image = "/image/Host/" + list[i].image;
@@ -33,7 +33,7 @@ namespace EXhibition.Controllers
 
         public IHttpActionResult GetNewTicketList()
         {
-            var b = (from eve in db.events orderby eve.startdate descending select eve).Take(4).ToList();
+            var b = (from eve in db.events orderby eve.createAt descending select eve).Take(4).ToList();
             return Json(b);
         }
 
@@ -43,9 +43,7 @@ namespace EXhibition.Controllers
             string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
 
             string queryString =
-                "select top(5) count(A.TID) , B.EVID " +
-                "from Tickets as A inner join events as B on A.EVID = B.EVID " +
-                "group by B.EVID , B.name order by 1 desc";
+                "select top(5) count(A.TID) , B.EVID from Tickets as A inner join events as B on A.EVID = B.EVID where B.startdate > GETDATE() group by B.EVID , B.name order by 1 desc";
 
             // 先將 id 撈成 陣列後 用 entity framework 去找資料
 
@@ -115,7 +113,7 @@ namespace EXhibition.Controllers
                 HttpContext.Current.Session[cartItem] = list;
             }
 
-            return Ok(list);
+            return Ok(new ReturnData() { message = "加入成功", status = ReturnStatus.Success });
         }
 
         // 移除 購物車內的產品 (此 id 為 session 陣列中排行的編號，請帶入 cartId)
@@ -157,23 +155,141 @@ namespace EXhibition.Controllers
             list = (List<CartItem>)HttpContext.Current.Session[cartItem];
 
             if (list == null) list = new List<CartItem>();
-            
+
             return Ok(list);
         }
 
         // 建立訂單
         public IHttpActionResult PostCreateOrder()
         {
-            List<events> eventList = (List<events>)HttpContext.Current.Session[GlobalVariables.CartItems];
-            if (eventList == null || eventList.Count <= 0 )
-            {
+            List<CartItem> eventList = (List<CartItem>)HttpContext.Current.Session[GlobalVariables.CartItems];
+            if (eventList == null || eventList.Count <= 0)
                 return Ok(new ReturnData() { status = ReturnStatus.Error, message = "購物車為空" });
-            }
+
             List<int> eventIdList = new List<int>();
             foreach (var item in eventList) { eventIdList.Add(item.EVID); };
-            orders order = new CheckOut().CreateOrder(eventIdList, 2);
-            return Ok(new { status = "成功", order = order });
+            orders order = new CheckOutRepo().CreateOrder(eventIdList, 2);
+
+            HttpContext.Current.Session[GlobalVariables.CartItems] = null; // 清空 session 購物清單
+
+            return Ok(new { status = ReturnStatus.Success, order = order, data = new { url = "/shop/CheckoutSuccess" } });
         }
+
+        // 展覽資訊
+        public IHttpActionResult GetEventDetail(int? id = 1)
+        {
+            var mEventDetail = (from e in db.events
+                                join h in db.hosts on e.HID equals h.HID
+                                where e.EVID == id
+                                select new Models.EventDetail
+                                {
+                                    EVID = e.EVID,
+                                    organizer = e.name,
+                                    hostName = h.name,
+                                    start = e.startdate.ToString(),
+                                    end = e.enddate.ToString(),
+                                    location = e.venue,
+                                    image = "/image/host/" + e.image,
+                                    price = e.ticketprice.ToString(),
+                                    eventinfo = e.eventinfo
+                                }).FirstOrDefault();
+
+            if (mEventDetail == null) return Ok(new Models.ReturnData() { status = ReturnStatus.Error, message = "查無資料" });
+
+            var idList = db.exhibitinfo.Where(e => e.EVID == id).Where(e => e.verify == true).Select(e => e.EID).ToList();
+
+
+            mEventDetail.exhibitorList = (from eInfo in db.exhibitinfo
+                                          join eData in db.exhibitors on eInfo.EID equals eData.EID
+                                          where eInfo.EVID == id
+                                          select new Models.ExhibitorsInfo
+                                          {
+                                              EID = eInfo.EID,
+                                              name = eData.name,
+                                              image = eInfo.image
+                                          }).ToList();
+
+            return Ok(mEventDetail);
+        }
+
+        public IHttpActionResult Get()
+        {
+            return Ok("hello");
+        }
+
+        public class tName
+        {
+            public string tagName { get; set; }
+        }
+
+        //tag選擇後跳出所有活動詳細資料
+        public IHttpActionResult PostTest([FromBody] tName tg)
+        {
+            string tagName = tg.tagName;
+            var tag = (from q in db.eventTags
+                       join p in db.TagsName
+                       on q.tagID equals p.id
+                       join k in db.events
+                       on q.EVID equals k.EVID
+                       where p.tagName == tagName
+                       select new
+                       {
+                           EVID = k.EVID,
+                           name = k.name,
+                           startdate = k.startdate,
+                           enddate = k.enddate,
+                           eventinfo = k.eventinfo,
+                           image = k.image
+
+                       }).ToList();
+            
+            return Ok(tag);
+
+            //return Ok();
+        }
+
+        public IHttpActionResult Gettop5Tag()
+        {
+            //var data = from p in db.TagsName
+            //           join q in db.eventTags
+            //           on p.id equals q.tagID
+            //           orderby q.tagID.
+
+            string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
+
+            string queryString =
+                "select TOP(5) count(q.tagName) ,q.tagName from eventTags as p join TagsName as q on p.tagID = q.id group by q.tagName";
+
+            
+            List<string> eList = new List<string>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                // Create the Command and Parameter objects.
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                       
+                        eList.Add((string)reader[1]);
+                       
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+
+            return Ok(eList);
+        }
+
+
 
     }
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using EXhibition.Filters;
 using EXhibition.Models;
 
 namespace EXhibition.Controllers
 {
+    //[AuthorizeFilter(UserRole.Exhibitor)]
     public class ExhibitorController : Controller
     {
         DBConnector db = new DBConnector();
@@ -29,6 +27,16 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        // showHostList -> 綠色(展覽細節)按鈕
+        public ActionResult showEventDetail(int? EVID)
+        {
+            ViewBag.EVID = EVID;
+
+            
+            return View();
+        }
+
+
         //廠商 可申請展覽
         public ActionResult CanApplyList(int? id=10)
         {
@@ -43,6 +51,19 @@ namespace EXhibition.Controllers
             ViewBag.id = id;
             return View();
         }
-        
+        //廠商 編輯個人資料
+        public ActionResult EditExhibitor()
+        {
+
+            return View();
+        }
+
+        //廠商申請參展歷史紀錄
+        public ActionResult ApplyHistory(int? id)
+        {
+            ViewBag.id = id;
+            return View();
+        }
+
     }
 }

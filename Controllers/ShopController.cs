@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
@@ -19,10 +15,17 @@ namespace EXhibition.Controllers
             return View();
         }
 
-        public ActionResult Product(int id)
+        public ActionResult Product(int? id)
         {
             ViewBag.Id = id;
-            return View();
+            if (id == null)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult CheckoutSuccess()
@@ -30,5 +33,6 @@ namespace EXhibition.Controllers
             return View();
         }
 
+      
     }
 }

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
+    [AuthorizeFilter(UserRole.Host)]
     public class HostApiController : Controller
     {
 
@@ -156,11 +157,26 @@ namespace EXhibition.Controllers
         }
 
         //顯示所有廠商活動
-        public ActionResult exhibitInfo_AllowOrRefuse()
+        public ActionResult exhibitInfo_AllowOrRefuse(int? EVID)
         {
             var rd = new ReturnData();
-            var alldata = db.exhibitinfo.ToList();
+            DateTime today = DateTime.Now;
+            int eidd = (int)EVID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today && q.verify == null && k.EVID == EVID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
 
+                           }
+                           ).ToList();
             if (alldata == null)
             {
                 rd.message = "no data";
@@ -171,7 +187,7 @@ namespace EXhibition.Controllers
         }
 
         //允許或拒絕廠商
-        public ActionResult AllowOrRefuse(int? index)
+        public ActionResult AllowOrRefuse(int? index , bool verified , string reason)
         {
             var rd = new ReturnData();
             if (index == null)
@@ -181,50 +197,146 @@ namespace EXhibition.Controllers
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
             int x = (int)index;
-            var allow = db.exhibitors.Find(x);
+            var allow = db.exhibitinfo.Find(x);
 
-            if (allow.verify == false)
-            {
-                allow.verify = true;
-
-                rd.message = "modified";
-                rd.status = "success";
+           
+                allow.verify = verified;
+            allow.reason = reason;
                 db.SaveChanges();
+                rd.message = "no data";
+                rd.status = "error";
                 return Json(rd, JsonRequestBehavior.AllowGet);
-            }
+         
 
-            rd.message = "no data";
-            rd.status = "error";
-            return Json(rd, JsonRequestBehavior.AllowGet);
+           
         }
 
         //允許全部
-        public ActionResult allow_all()
+        public ActionResult allow_all(int? EVID)
         {
             var rd = new ReturnData();
+            DateTime today = DateTime.Now;
+            int eidd = (int)EVID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today && q.verify == false && k.EVID == EVID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
 
-
-            var allow = db.exhibitors.Where(i => i.verify == false).ToList();
-
-            if (allow == null)
+                           }
+                           ).ToList();
+            if (alldata == null)
             {
                 rd.message = "no data";
                 rd.status = "error";
-
-                return Json(rd, JsonRequestBehavior.AllowGet);
             }
 
-            foreach (var i in allow)
+            return Json(alldata, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult selectorAllStatusList(int? EVID)
+        {
+            var rd = new ReturnData();
+            DateTime today = DateTime.Now;
+            int eidd = (int)EVID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today  && k.EVID == EVID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
+
+                           }
+                           ).ToList();
+            if (alldata == null)
             {
-                i.verify = true;
+                rd.message = "no data";
+                rd.status = "error";
             }
 
-            rd.message = "modified success";
-            rd.status = "success";
-            db.SaveChanges();
+            return Json(alldata, JsonRequestBehavior.AllowGet);
+        }
 
-            return Json(rd, JsonRequestBehavior.AllowGet);
 
+
+
+        public ActionResult selectorAllow(int? EVID)
+        {
+            var rd = new ReturnData();
+            DateTime today = DateTime.Now;
+            if(EVID == null)
+            {
+
+            }
+
+            int eidd = (int)EVID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today && q.verify == true && k.EVID == EVID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
+
+                           }
+                           ).ToList();
+            if (alldata == null)
+            {
+                rd.message = "no data";
+                rd.status = "error";
+            }
+
+            return Json(alldata, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult selectorReject(int? EVID)
+        {
+            var rd = new ReturnData();
+            DateTime today = DateTime.Now;
+            int eidd = (int)EVID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today && q.verify == false && k.EVID == EVID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
+
+                           }
+                           ).ToList();
+            if (alldata == null)
+            {
+                rd.message = "no data";
+                rd.status = "error";
+            }
+
+            //var c = db.exhibitinfo.Where(i=>i.EVID == evid).Where(i => i.verify == null).Count();
+
+            return Json(alldata, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -267,10 +379,11 @@ namespace EXhibition.Controllers
             return Json(eventIdList, JsonRequestBehavior.AllowGet);
         }
 
-
-
-
-
+        public ActionResult howManyLeft()
+        {
+            var amount = db.exhibitinfo.Where(i => i.verify == null);
+            return Json(amount, JsonRequestBehavior.AllowGet);
+        }
 
 
         public ActionResult List()
@@ -288,6 +401,7 @@ namespace EXhibition.Controllers
                         exhibitionname = eventsTable.name,
                         evid = eventsTable.EVID,
                         ticketPrice = eventsTable.ticketprice,
+                        
                     };
 
             return Json(b, JsonRequestBehavior.AllowGet);
@@ -320,13 +434,9 @@ namespace EXhibition.Controllers
             return Json(a, JsonRequestBehavior.AllowGet);
         }
 
-
-
-
-
-        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events)
+        //新增展覽
+        public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events, List<string> tagList)
         {
-
 
             string strPath = "";
 
@@ -363,9 +473,15 @@ namespace EXhibition.Controllers
 
 
             //儲存資料到DB
-            events.HID = (int)Session["HID"];
+            events.HID = (int)Session["AccountID"];
+            events.createAt = DateTime.Now;
             db.events.Add(events);
             int result = db.SaveChanges();
+
+            // 加入 tag
+            Repo.TagRepo insert = new Repo.TagRepo();
+            insert.TagsInsert(tagList,events.EVID);
+
             try
             {
                 db.SaveChanges();
@@ -388,17 +504,60 @@ namespace EXhibition.Controllers
 
         public ActionResult Login(Models.Login login)
         {
-            Models.ReturnData returnData = new Models.ReturnData();
-            Session["auth"] = 3;
-            returnData.status = "success";
-            returnData.data = new { url = "/Host" };
-            return Json(returnData, JsonRequestBehavior.AllowGet);
+            ReturnData r = new ReturnData();
+
+            if (string.IsNullOrEmpty(login.account) || string.IsNullOrEmpty(login.password))
+            {
+                r.message = "登入失敗";
+                r.status = ReturnStatus.Error;
+                return Json(r, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                try
+                {
+                    string hashPwd = SHA_256.ComputeSha256Hash(login.password);
+
+                    var loginData = (from host in db.hosts
+                                     where host.email == login.account && host.password == hashPwd && host.verify == true
+                                     select new
+                                     {
+                                         HID = host.HID,
+                                     }).ToList();
+                    if (loginData.Any())
+                    {
+                        r.message = "登入成功";
+                        r.status = ReturnStatus.Success;
+                        Session["UserRole"] = "Host";
+                        Session["AccountID"] = loginData[0].HID;
+                        return Json(r, JsonRequestBehavior.AllowGet);
+                    }
+                    else
+                    {
+                        r.message = "帳號或密碼錯誤，查無此人";
+                        r.status = ReturnStatus.Error;
+                        return Json(r, JsonRequestBehavior.AllowGet);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    r.message = "帳號或密碼錯誤";
+                    r.status = ReturnStatus.Error;
+                    return Json(r, JsonRequestBehavior.AllowGet);
+                }
+            }
         }
 
         [HttpPost]
         public ActionResult Register(Models.hosts host)
         {
             Models.ReturnData r = new ReturnData();
+
+            host.password = SHA_256.ComputeSha256Hash(host.password);
+            host.image = "EditHost.png";
+            host.verify = true;
+
             db.hosts.Add(host);
             try
             {
@@ -434,9 +593,7 @@ namespace EXhibition.Controllers
 
         public ActionResult GetEventList(int? id)
         {
-            Session["HID"] = 2;
-
-            int HID = Convert.ToInt32(Session["HID"]);
+            int HID = Convert.ToInt32(Session["AccountID"]);
 
             if (id == null) { id = 0; }
             int num = (int)id;
@@ -457,9 +614,7 @@ namespace EXhibition.Controllers
 
         public ActionResult GetHostInfo(int? id)
         {
-            Session["HID"] = 2;
-
-            int HID = Convert.ToInt32(Session["HID"]);
+            int HID = Convert.ToInt32(Session["AccountID"]);
 
             var list = (from host in db.hosts
                         where host.HID == HID && host.verify == true
@@ -523,6 +678,28 @@ namespace EXhibition.Controllers
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
 
+        }
+        public ActionResult test(string name)
+        {
+            var x = "pokemon";
+            var tag = (from q in db.eventTags
+                       join p in db.TagsName
+                       on q.tagID equals p.id
+                       join k in db.events
+                       on q.EVID equals k.EVID
+                       where p.tagName == name
+                       select new
+                       {
+                           name = k.name,
+                           start = k.startdate,
+                           end = k.enddate,
+                           info = k.eventinfo,
+                           image = k.image
+
+                       }).ToList();
+            return Json(tag, JsonRequestBehavior.AllowGet);
+
+            //return Ok();
         }
 
     }

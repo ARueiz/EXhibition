@@ -6,12 +6,12 @@ using System.Web;
 
 namespace EXhibition.Repo
 {
-    public class CheckOut
+    public class CheckOutRepo
     {
 
         DBConnector db = new DBConnector();
 
-        public CheckOut() { }
+        public CheckOutRepo() { }
 
 
         // 建立訂單
@@ -30,10 +30,14 @@ namespace EXhibition.Repo
 
             foreach (var ticket in ticketList)
             {
+                // 建立票券
                 var t = db.Tickets.Add(new Tickets() { UID = userId, createAt = DateTime.Now, EVID = ticket.EVID });
                 db.SaveChanges();
+
+                // 建立訂單資料
                 db.orderDetail.Add(new orderDetail() { orderId = order.id, ticketId = t.TID, price = (int?)ticket.ticketprice });
                 db.SaveChanges();
+
                 totalPrice = (int)(totalPrice + ticket.ticketprice);
             }
 
