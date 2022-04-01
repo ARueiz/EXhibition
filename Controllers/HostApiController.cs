@@ -449,7 +449,7 @@ namespace EXhibition.Controllers
 
             // 加入 tag
             Repo.TagRepo insert = new Repo.TagRepo();
-            insert.TagsInsert(tagList,events.HID);
+            insert.TagsInsert(tagList,events.EVID);
 
             try
             {
