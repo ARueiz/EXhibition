@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    [AuthorizeFilter(UserRole.Host)]
+   // [AuthorizeFilter(UserRole.Host)]
     public class HostApiController : Controller
     {
 
@@ -160,7 +160,6 @@ namespace EXhibition.Controllers
         //顯示所有廠商活動
         public ActionResult exhibitInfo_AllowOrRefuse(int? EID)
         {
-
             var rd = new ReturnData();
             DateTime today = DateTime.Now;
             int eidd = (int)EID;
@@ -179,10 +178,6 @@ namespace EXhibition.Controllers
 
                            }
                            ).ToList();
-                        
-
-                         
-
             if (alldata == null)
             {
                 rd.message = "no data";
@@ -218,101 +213,124 @@ namespace EXhibition.Controllers
         }
 
         //允許全部
-        public ActionResult allow_all()
+        public ActionResult allow_all(int? EID)
         {
             var rd = new ReturnData();
+            DateTime today = DateTime.Now;
+            int eidd = (int)EID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today && q.verify == true && k.EVID == EID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
 
-
-            var allow = db.exhibitors.Where(i => i.verify == false).ToList();
-
-            if (allow == null)
+                           }
+                           ).ToList();
+            if (alldata == null)
             {
                 rd.message = "no data";
                 rd.status = "error";
-
-                return Json(rd, JsonRequestBehavior.AllowGet);
             }
 
-            foreach (var i in allow)
+            return Json(alldata, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult selectorAllStatusList(int? EID)
+        {
+            var rd = new ReturnData();
+            DateTime today = DateTime.Now;
+            int eidd = (int)EID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today  && k.EVID == EID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
+
+                           }
+                           ).ToList();
+            if (alldata == null)
             {
-                i.verify = true;
+                rd.message = "no data";
+                rd.status = "error";
             }
 
-            rd.message = "modified success";
-            rd.status = "success";
-            db.SaveChanges();
-
-            return Json(rd, JsonRequestBehavior.AllowGet);
-
+            return Json(alldata, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult selectorAll()
+
+
+
+        public ActionResult selectorAllow(int? EID)
         {
-            var data = from p in db.exhibitinfo
-                       join q in db.exhibitors
-                       on p.EID equals q.EID
+            var rd = new ReturnData();
+            DateTime today = DateTime.Now;
+            int eidd = (int)EID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today && q.verify == true && k.EVID == EID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
 
-                       select new
-                       {
-                           id = p.id,
-                           name = q.name,
-                           phone = q.phone,
-                           email = q.email,
-                           link = q.link,
-                           image = p.image,
-                           info = p.productinfo,
-                           createAt = p.createAt,
-                           verify = p.verify
+                           }
+                           ).ToList();
+            if (alldata == null)
+            {
+                rd.message = "no data";
+                rd.status = "error";
+            }
 
-                       };
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(alldata, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult selectorAllow(int? index)
+        public ActionResult selectorReject(int? EID)
         {
-            var data = from p in db.exhibitinfo
-                       join q in db.exhibitors
-                       on p.EID equals q.EID
-                     
-                       where p.verify == true 
-                       select new
-                       {
-                           id = p.id,
-                           name = q.name,
-                           phone = q.phone,
-                           email = q.email,
-                           link = q.link,
-                           image = p.image,
-                           info = p.productinfo,
-                           createAt = p.createAt,
-                           verify = p.verify
+            var rd = new ReturnData();
+            DateTime today = DateTime.Now;
+            int eidd = (int)EID;
+            var alldata = (from q in db.exhibitinfo
+                           join p in db.exhibitors
+                           on q.EID equals p.EID
+                           join k in db.events
+                           on q.EVID equals k.EVID
+                           where k.startdate < today && q.verify == false && k.EVID == EID
+                           select new
+                           {
+                               name = p.name,
+                               id = q.id,
+                               createAt = q.createAt,
+                               verify = q.verify
 
-                       };
+                           }
+                           ).ToList();
+            if (alldata == null)
+            {
+                rd.message = "no data";
+                rd.status = "error";
+            }
 
-            return Json(data, JsonRequestBehavior.AllowGet);
-        }
-
-        public ActionResult selectorReject(int? index)
-        {
-            var data = from p in db.exhibitinfo
-                       join q in db.exhibitors
-                       on p.EID equals q.EID
-                     
-                       where p.verify == false
-                       select new
-                       {
-                           id = p.id,
-                           name = q.name,
-                           phone = q.phone,
-                           email = q.email,
-                           link = q.link,
-                           image = p.image,
-                           info = p.productinfo,
-                           createAt = p.createAt,
-                           verify = p.verify
-
-                       };
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(alldata, JsonRequestBehavior.AllowGet);
         }
 
 
@@ -645,6 +663,28 @@ namespace EXhibition.Controllers
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
 
+        }
+        public ActionResult test(string name)
+        {
+            var x = "pokemon";
+            var tag = (from q in db.eventTags
+                       join p in db.TagsName
+                       on q.tagID equals p.id
+                       join k in db.events
+                       on q.EVID equals k.EVID
+                       where p.tagName == name
+                       select new
+                       {
+                           name = k.name,
+                           start = k.startdate,
+                           end = k.enddate,
+                           info = k.eventinfo,
+                           image = k.image
+
+                       }).ToList();
+            return Json(tag, JsonRequestBehavior.AllowGet);
+
+            //return Ok();
         }
 
     }

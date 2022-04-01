@@ -60,7 +60,7 @@
             methods: {
                 Details: function (va) {
 
-                    axios.post('/HostApi/PostList', "/" + va)
+                    axios.get('/HostApi/PostList/', + va)
                         .then(function (response) {
                             window.location.href = "/" + "host" + "/" + "DetailsHost" + "/" + va
                         })

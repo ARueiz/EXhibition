@@ -36,7 +36,8 @@
                         條件選擇
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><button class="dropdown-item all" v-on:click="selectAll">全部</button></li>
+                        <li><button class="dropdown-item all" v-on:click="selectAllStatusList">全部</button></li>
+                        <li><button class="dropdown-item all" v-on:click="all">未審核</button></li>
                         <li><button class="dropdown-item useable" @@click="selectAllow()">已核准</button></li>
                         <li><button class="dropdown-item outdate" @@click="selectReject()">已拒絕</button></li>
                     </ul>
@@ -77,11 +78,11 @@
 
 
                             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" v-on:click="whereiclick(value.id)" v-else  disabled>
+                                    data-bs-target="#exampleModal" v-on:click="whereiclick(value.id)" v-else disabled>
                                 核准
                             </button>
                         </td>
-                       
+
                         <td>
                             <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                                     data-bs-target="#reject" v-on:click="whereiclick(value.id)" v-if="value.verify == false" style="background-color:orangered" disabled>
@@ -94,12 +95,12 @@
                             </button>
 
                             <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                    data-bs-target="#reject" v-on:click="whereiclick(value.id)" v-else  disabled>
+                                    data-bs-target="#reject" v-on:click="whereiclick(value.id)" v-else disabled>
                                 拒絕
                             </button>
                         </td>
 
-                       
+
                     </tr>
 
                 </tbody>
@@ -181,18 +182,6 @@
                 this.clickdata = id;
             },
 
-            selectAll() {
-
-                console.log("pokemon a");
-                var self = this;
-                axios.get('/HostApi/selectorAll').then(function (res) {
-                    self.dataset = res.data;
-
-                })
-
-            },
-
-
             all() {
                 console.log("pokemon f");
                 var self = this;
@@ -202,11 +191,19 @@
                 })
             },
 
+              selectAllStatusList() {
+                console.log("pokemon f");
+                var self = this;
+                  axios.get('/HostApi/selectorAllStatusList/' + @ViewBag.EVID).then(function (res) {
+                    self.dataset = res.data;
+                })
+            },
+
 
             selectAllow() {
                 console.log("pokemon f");
                 var self = this;
-                axios.get('/HostApi/selectorAllow').then(function (res) {
+                axios.get('/HostApi/selectorAllow/' + @ViewBag.EVID).then(function (res) {
                     self.dataset = res.data;
                 })
             },
@@ -215,7 +212,7 @@
             selectReject() {
                 console.log("pokemon g");
                 var self = this;
-                axios.get('/HostApi/selectorReject').then(function (res) {
+                axios.get('/HostApi/selectorReject/'+@ViewBag.EVID).then(function (res) {
                     self.dataset = res.data;
                 })
             },
