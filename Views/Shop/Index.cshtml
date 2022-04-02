@@ -48,15 +48,16 @@
                 <div class="p-3">
                     <h4>類型選擇</h4>
                     <div v-for="element in exhibitionType">
-                        <input type="checkbox" v-model="selectType" :value="element" :id="element"><label :for="element">{{ element }}</label>
+                        <input class="form-check-input" type="checkbox" v-model="selectType" :value="element" :id="element">
+                        <label class="form-check-label" :for="element">{{ element }}</label>
                     </div>
                     <br>
                     <h4>日期選擇</h4>
                     <div class="d-block m-2">
-                        <label for="startDate">開始日期</label> <input id="startDate" type="date">
+                        <label for="startDate">開始日期</label> <input v-model="selectStartDate" id="startDate" type="date">
                     </div>
                     <div class="d-block m-2">
-                        <label for="endDate">結束日期</label> <input id="endDate" type="date">
+                        <label for="endDate">結束日期</label> <input v-model="selectEndDate" id="endDate" type="date">
                     </div>
                     <br>
                     <button class="btn btn-success">查詢</button>
@@ -118,12 +119,14 @@
                 selectType: [],
                 pageNum: 0,
                 tags: [],
-               
+                selectStartDate: '',
+                selectEndDate: '',
             }
         },
         created: function () {
+            this.getDefaultTagList();
             this.getTicket();
-            this.hotTagTicket()
+            this.hotTagTicket();
         },
         methods: {
             getTicket() {
@@ -134,6 +137,14 @@
                     }).then(function (response) {
                         self.exhibitionList = response
                         self.arrayFilter()
+                    })
+            },
+            getDefaultTagList() {
+                const self = this;
+                axios.get('/api/ShopApi/GetDefaultTag/')
+                    .then(function (response) {
+                        self.exhibitionType = response.data
+                    
                     })
             },
             hotTagTicket() {

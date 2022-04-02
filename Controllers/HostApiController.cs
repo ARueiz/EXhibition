@@ -9,7 +9,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    [AuthorizeFilter(UserRole.Host)]
+    //[AuthorizeFilter(UserRole.Host)]
     public class HostApiController : Controller
     {
 
@@ -375,9 +375,9 @@ namespace EXhibition.Controllers
                 }
             }
 
-            eventlist = db.TagsName.Where(item => eventIdList.Contains(item.id)).ToList();
+            var list = db.TagsName.Where(item => eventIdList.Contains(item.id)).Select(item=>item.tagName).ToList();
 
-            return Json(eventIdList, JsonRequestBehavior.AllowGet);
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult howManyLeft()
@@ -454,24 +454,6 @@ namespace EXhibition.Controllers
                 strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.floorplanimg;
                 floorplanimg.SaveAs(strPath);
             }
-
-            var userInputTags = new List<Models.TagsName>();
-            userInputTags.Add(new TagsName() { id = 1, tagName = "美食" });
-            userInputTags.Add(new TagsName() { id = 2, tagName = "美九" });
-            userInputTags.Add(new TagsName() { id = 3, tagName = "美立" });
-
-            foreach (var item in userInputTags)
-            {
-                var a = db.TagsName.Where(e => e.tagName == item.tagName).FirstOrDefault();
-                if (a == null)
-                {
-                    db.TagsName.Add(new TagsName() { tagName = item.tagName });
-                    db.SaveChanges();
-                }
-
-                //db.eventTags.
-            }
-
 
             //儲存資料到DB
             events.HID = (int)Session["AccountID"];

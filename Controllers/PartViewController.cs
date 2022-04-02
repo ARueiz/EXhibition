@@ -26,6 +26,7 @@ namespace EXhibition.Controllers
             if (Session["UserRole"] == null)
             {
                 Session["UserRole"] = "Visitor";
+                Session["AccountID"] = 2;
             }
 
             if (Session["UserRole"].ToString() == "User")

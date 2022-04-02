@@ -341,5 +341,12 @@ namespace EXhibition.Controllers
             }
             return Ok(list);
         }
+
+        public IHttpActionResult GetDefaultTag()
+        {
+            var tag = db.TagsName.OrderBy(fer => fer.id).Take(10).ToList();
+            return Ok(tag);
+        }
+
     }
 }
