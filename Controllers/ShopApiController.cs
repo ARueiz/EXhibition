@@ -23,8 +23,9 @@ namespace EXhibition.Controllers
         // 如果 沒有則需要加上 [FromBody] 去取得 帶進來的 json 檔案        
         public IHttpActionResult GetTicketList(int? id)
         {
-            if (id == null) { id = 0; }
+            if (id == null || id <= 1 ) { id = 1; }
             int num = (int)id;
+            num = (num - 1) * 12;
             var list = (from eve in db.events orderby eve.createAt descending select eve).Skip(num).Take(12).ToList();
             for (int i = 0; i < list.Count; i++)
             {
@@ -45,7 +46,7 @@ namespace EXhibition.Controllers
             string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
 
             string queryString =
-                "select top(5) count(A.TID) , B.EVID from Tickets as A inner join events as B on A.EVID = B.EVID where B.startdate > GETDATE() group by B.EVID , B.name order by 1 desc";
+                "select top(4) count(A.TID) , B.EVID from Tickets as A inner join events as B on A.EVID = B.EVID where B.startdate > GETDATE() group by B.EVID , B.name order by 1 desc";
 
             // 先將 id 撈成 陣列後 用 entity framework 去找資料
 
@@ -185,8 +186,8 @@ namespace EXhibition.Controllers
                 return Ok(new ReturnData() { status = ReturnStatus.Error, message = "購物車為空" });
 
             // 將購物車的展覽 id 轉成 id 陣列
-            List<int> eventIdList = new List<int>();            
-            foreach (var item in cartList) { eventIdList.Add(item.EVID); }; 
+            List<int> eventIdList = new List<int>();
+            foreach (var item in cartList) { eventIdList.Add(item.EVID); };
 
             // 進入結帳資料庫
             orders order = new CheckOutRepo(eventIdList, 2).getOrder();
@@ -204,7 +205,7 @@ namespace EXhibition.Controllers
 
             string url = orderResult.Links.Where(i => i.Rel == "approve").First().Href;
 
-            return Ok(new Models.ReturnData() { status=ReturnStatus.Success , message="成功" , data= new { url = url } });
+            return Ok(new Models.ReturnData() { status = ReturnStatus.Success, message = "成功", data = new { url = url } });
         }
 
 
@@ -245,5 +246,23 @@ namespace EXhibition.Controllers
             return Ok(mEventDetail);
         }
 
+
+
+
+
+        public IHttpActionResult GetSearchTicketList(string searchStr, int? page)
+        {
+            int num = 1;
+            if (page != null && page >= 1)
+            {
+                num = ((int)page - 1) * 12;
+            }
+            var list = (from evn in db.events where evn.name.Contains(searchStr) select evn).OrderBy(e=>e.createAt).Skip(num).Take(12);
+            foreach (var item in list)
+            {
+                item.image = "/image/host/" + item.image;
+            }
+            return Ok(list);
+        }
     }
 }
