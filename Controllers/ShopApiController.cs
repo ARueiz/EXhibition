@@ -348,5 +348,12 @@ namespace EXhibition.Controllers
             return Ok(tag);
         }
 
+        //Models.SearchSelect s = new Models.SearchSelect();
+
+        public IHttpActionResult GetSelectSearch([FromBody]Models.SearchSelect data)
+        {
+            return Ok(data);
+        }
+
     }
 }

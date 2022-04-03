@@ -60,7 +60,7 @@
                         <label for="endDate">結束日期</label> <input v-model="selectEndDate" id="endDate" type="date">
                     </div>
                     <br>
-                    <button class="btn btn-success">查詢</button>
+                    <button class="btn btn-success" v-on:click="selectSearch()">查詢</button>
                 </div>
             </div>
         </section>
@@ -168,6 +168,28 @@
                     tagName : da 
                 }
                 axios.post('/api/ShopApi/PostTest/', data ).then(function (res) {
+                    self.exhibitionList = res.data;
+                    self.arrayFilter()
+                })
+            },
+            selectSearch() {
+                let data = {
+                    CheckTag: this.selectType,
+                    StartDate: this.selectStartDate,
+                    EndDate: this.selectEndDate
+                }
+
+                const options = {
+                    method: 'get',
+                    baseURL: 'http://localhost:44378',
+                    url: '/api/shopapi/GetSelectSearch',
+                    'Content-Type': 'application/json',
+                    date: JSON.stringify(data)
+                }
+
+                console.log(options)
+
+                axios.get('/api/shopapi/GetSelectSearch', data).then(function (res) {
                     self.exhibitionList = res.data;
                     self.arrayFilter()
                 })

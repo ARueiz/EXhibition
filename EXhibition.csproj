@@ -223,6 +223,7 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReturnData.cs" />
+    <Compile Include="Models\SearchSelect.cs" />
     <Compile Include="Models\SHA_256.cs" />
     <Compile Include="Models\TagsName.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
