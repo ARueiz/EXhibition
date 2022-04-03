@@ -48,8 +48,8 @@
                 <div class="p-3">
                     <h4>類型選擇</h4>
                     <div v-for="element in exhibitionType">
-                        <input class="form-check-input" type="checkbox" v-model="selectType" :value="element" :id="element">
-                        <label class="form-check-label" :for="element">{{ element }}</label>
+                        <input class="form-check-input" type="checkbox" v-model="selectType" :value="element.tagName" :id="element.tagName">
+                        <label class="form-check-label" :for="element.tagName">{{ element.tagName }}</label>
                     </div>
                     <br>
                     <h4>日期選擇</h4>
@@ -115,7 +115,7 @@
         data() {
             return {
                 exhibitionList: [],
-                exhibitionType: ["科技", "金融", "其他"],
+                exhibitionType: [],
                 selectType: [],
                 pageNum: 0,
                 tags: [],
