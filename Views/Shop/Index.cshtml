@@ -41,7 +41,7 @@
         </ol>
     </nav>
 
-    <div class="row">
+    <div class="row mb-5">
         <section class="col-md-3">
             <h4 class="w3-margin">偏好搜尋</h4>
             <div class="border d-none d-md-block">
@@ -69,12 +69,12 @@
             <h3 class="w3-margin">展覽列表</h3>
             <div class="row" style="padding: 0px 30px">
                 <div class="d-inline-block" style="width: 90%;box-sizing: border-box">
-                    <input type="text" class="w-100">
-                    <div  style="display:flex" >
+                    <input v-model="keyword" type="text" class="w-100">
+                    <div style="display:flex">
                         <button class="tags" v-for="i in tags" v-on:click="clickShowEvent(i)">#{{i}}</button>
                     </div>
                 </div>
-                <button class="d-inline-block btn btn-outline-info d-flex align-items-center justify-content-center" style="width: 10%;box-sizing: border-box;height: 28px">
+                <button v-on:click="keyWordSearch()" class="d-inline-block btn btn-outline-info d-flex align-items-center justify-content-center" style="width: 10%;box-sizing: border-box;height: 28px">
                     <i style="height: 100%" class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
@@ -102,8 +102,12 @@
                     </div>
                 </div>
                 <!-- exhibition list end -->
-
             </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-dark">上一頁</button>
+                <button class="btn btn-outline-dark">下一頁</button>
+            </div>
+            
         </main>
     </div>
 </div>
@@ -117,10 +121,12 @@
                 exhibitionList: [],
                 exhibitionType: [],
                 selectType: [],
-                pageNum: 0,
+                pageNum: 1,
                 tags: [],
                 selectStartDate: '',
                 selectEndDate: '',
+                keyword: '',
+                searchState : ''
             }
         },
         created: function () {
@@ -173,6 +179,9 @@
                 })
             },
             selectSearch() {
+
+                let self = this
+
                 let data = {
                     CheckTag: this.selectType,
                     StartDate: this.selectStartDate,
@@ -190,6 +199,14 @@
                 console.log(options)
 
                 axios.get('/api/shopapi/GetSelectSearch', data).then(function (res) {
+                    self.exhibitionList = res.data;
+                    self.arrayFilter()
+                })
+            },
+            keyWordSearch() {
+                let self = this
+                const url = '/api/shopapi/GetSearchTicketList/?searchStr=' + self.keyword + '&page=' + self.pageNum
+                axios.get(url).then(function (res) {
                     self.exhibitionList = res.data;
                     self.arrayFilter()
                 })
