@@ -18,14 +18,14 @@
                  style="max-width: 800px;border-radius: 2%;">
                 <!-- #ffcc00 -->
                 <div class="col-8 col-sm-3 p-0 m-0 mt-3 mt-sm-0" style="height: 187px;" id="Eventimage">
-                    <img src="~/Image/Test/tea01.png" class="ticketImg w-100" style="border-radius: 4%;" alt="">
+                    <img :src="data.img" class="ticketImg w-100" style="border-radius: 4%;" alt="">
                 </div>
                 <div class="col-12 col-sm-9 py-0 mt-3 d-flex" style="padding-left: 15px">
                     <div class="mb-3 col-12 d-flex justify-content-center" style="flex-wrap: wrap;">
                         <h3 class="px-3 pb-3 mb-2 col-12 col-sm-11" style="border-bottom: 2px solid rgb(205, 185, 124);">
                             {{data.name2}}
                         </h3>
-                        <div class="d-none">{{data.EID}}</div>
+                        <div class="d-none">{{data.EVID}}</div>
                         <div class="col-12 col-sm-6 col-lg-6 px-4 mb-2 d-flex align-items-center" id="first">
                             <i class="bi bi-person-square"></i>
                             {{data.name}}
@@ -35,7 +35,7 @@
                             {{data.startdate}} ~ {{data.enddate}}
                         </div>
                         <div class="col-12 px-1s d-flex align-items-center justify-content-end" style="color:royalblue;">
-                            <a>查看更多<i class="bi bi-caret-right"></i></a>
+                            <a style="cursor: pointer;" v-on:click="gopage(data.EVID)"><div>查看更多<i class="bi bi-caret-right"></i></div></a>
                         </div>
                     </div>
                 </div>
@@ -91,6 +91,10 @@
                             console.log(response)
                         })
             },
+
+            gopage(data) {
+                window.location.href = "/exhibitor/showEventDetail/" + data
+            }
         }
     })
 </script>

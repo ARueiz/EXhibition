@@ -57,16 +57,23 @@
     margin-right: 15px;
 }
 
-a > .bi {
-    font-size: 20px;
+a > div > .bi {
+    font-size: 23px;
     vertical-align: middle;
     padding-left: -10px;
+    padding-right: -10px;
 }
 
 .mb-3.col-12.d-flex > div {
     font-size: 18px;
 }
 
+/*div > a :hover {
+    background-color:lightskyblue;
+    color: white;
+    transition:ease-out .15s;
+    
+}*/
 /* @media screen and (min-width: 576px){
             #first{
                 border-right: 2px solid rgb(195, 195, 195);

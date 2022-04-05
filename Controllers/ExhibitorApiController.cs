@@ -164,15 +164,16 @@ namespace EXhibition.Controllers
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
                         where exhibitinfo.EID == id
-                        select new { EVID = events.EVID,
+                        select new ApplyList{ EVID = events.EVID,
                                      name = events.name, 
                                      startdate = events.startdate.ToString(), 
                                      enddate = events.enddate.ToString(), 
                                      venue = events.venue, 
                                      verify = exhibitinfo.verify,
-                                     createAt = exhibitinfo.createAt,
+                                     createAt = exhibitinfo.createAt.ToString(),
                                      reason = exhibitinfo.reason,
-                                     dateout = false }).ToList();
+                                     dateout = false 
+                        }).ToList();
 
   
             if (!list.Any())
@@ -181,7 +182,19 @@ namespace EXhibition.Controllers
                 rd.status = "error";
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
-            return new NewJsonResult() { Data = list};
+
+            foreach (var item in list)
+            {
+                if (item.createAt.Length > 0)
+                {
+                    item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    item.createAt = "沒有資料";
+                }
+            }
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public string ConvertTime(DateTime nTime)
@@ -208,7 +221,7 @@ namespace EXhibition.Controllers
                             venue = events.venue,
                             verify = exhibitinfo.verify,
                             createAt = exhibitinfo.createAt.ToString(),
-                            reson = exhibitinfo.reason,
+                            reason = exhibitinfo.reason,
                             dateout = false
                         }).ToList();
 
@@ -374,7 +387,7 @@ namespace EXhibition.Controllers
                         join events in db.events on host.HID equals events.HID
                         join exhinfo in db.exhibitinfo on events.EVID equals exhinfo.EVID
                         where exhinfo.EID == (int)id
-                        select new //ApplyList
+                        select new ApplyList
                         {
                             EID = (int)id,
                             EVID = events.EVID,
@@ -384,6 +397,7 @@ namespace EXhibition.Controllers
                             enddate = events.enddate.ToString(),
                             DTstartdate = events.startdate,
                             DTenddate = events.enddate,
+                            img = "/Image/Host/"+events.image
                             //dateout = null
                         }).ToList();
 
@@ -394,19 +408,19 @@ namespace EXhibition.Controllers
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
 
-            //foreach (var item in list)
-            //{
-            //    if (item.DTstartdate > now)
-            //    {
-            //        item.startdate = item.DTstartdate.ToString("yyyy-mm-dd");
-            //        item.dateout = false;
-            //    }
-            //    else if (item.DTenddate < now)
-            //    {
-            //        item.enddate = item.DTenddate.ToString("yyyy-mm-dd");
-            //        item.dateout = true;
-            //    }
-            //}
+            foreach (var item in list)
+            {
+                if (item.DTstartdate > now)
+                {
+                    item.startdate = item.DTstartdate.ToString("yyyy-mm-dd");
+                    item.dateout = false;
+                }
+                else if (item.DTenddate < now)
+                {
+                    item.enddate = item.DTenddate.ToString("yyyy-mm-dd");
+                    item.dateout = true;
+                }
+            }
 
             rd.message = "搜尋到資料";
             rd.status = ReturnStatus.Success;
