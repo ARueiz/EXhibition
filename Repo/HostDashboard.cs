@@ -62,6 +62,8 @@ namespace EXhibition.Repo
                 Select(group => new { id = group.Key, Count = group.Count() }).
                 OrderByDescending(x => x.Count).FirstOrDefault();
 
+            if(findMaxPerson == null) return Task.FromResult("");
+
             var myEvent = db.events.Find(findMaxPerson.id);
 
             return Task.FromResult(myEvent.name);
