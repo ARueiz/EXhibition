@@ -84,5 +84,6 @@ namespace EXhibition.Controllers
             data["allHotTagList"] = await hostInfo.GetMyHotTagList(accountId);
             return Ok(data);
         }
+      
     }
 }

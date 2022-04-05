@@ -464,6 +464,10 @@
     <Content Include="Views\Host\EditEventInfo.cshtml" />
     <Content Include="Views\Exhibitor\createEventInfo.cshtml" />
     <Content Include="Views\User\ConsumingRecords.cshtml" />
+    <Content Include="Views\Home\HostForgetPassword.cshtml" />
+    <Content Include="Views\Home\SendEmail.cshtml" />
+    <Content Include="Views\Home\ExhibitorForgetPassword.cshtml" />
+    <Content Include="Views\Home\UserForgetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

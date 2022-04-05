@@ -98,6 +98,48 @@ namespace EXhibition.Controllers
 
             return PartialView();
         }
+
+        public ActionResult HostForgetPassword()
+        {
+            return View();
+        }
+
+        public ActionResult ExhibitorForgetPassword()
+        {
+            return View();
+        }
+
+        public ActionResult UserForgetPassword()
+        {
+            return View();
+        }
+
+        public ActionResult SendEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult HostForgetPassword(string email)
+        {
+
+            return RedirectToAction("SendEmail");
+        }
+
+        [HttpPost]
+        public ActionResult ExhibitorForgetPassword(string email)
+        {
+
+            return RedirectToAction("SendEmail");
+        }
+
+        [HttpPost]
+        public ActionResult UserForgetPassword(string email)
+        {
+
+            return RedirectToAction("SendEmail");
+        }
+
         public ActionResult dbTest()
         {
             var exists = db.users.Any(m => m.UID == 2);
@@ -249,7 +291,6 @@ namespace EXhibition.Controllers
             var a = db.events.Where(e => e.startdate < d).ToList();
             return Json(a,JsonRequestBehavior.AllowGet);
         }
-
 
     }
 }
