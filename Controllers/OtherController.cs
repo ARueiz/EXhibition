@@ -57,7 +57,7 @@ namespace EXhibition.Controllers
         {
             int accountId = (int)(HttpContext.Current.Session["AccountID"] == null ? 2 : HttpContext.Current.Session["AccountID"]);
             Dictionary<string, object> data = new Dictionary<string, object>();
-            data["monthRevenue"] = Repo.HostDashboard.GetMonthRevenue(accountId);
+            data["monthRevenue"] = Repo.HostDashboard.GetMonthlyRevenue(accountId);
             return Ok(data);
         }
     }
