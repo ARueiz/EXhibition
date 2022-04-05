@@ -13,6 +13,8 @@ namespace EXhibition.Models
         public string enddate { get; set; }
         public string image { get; set; }
         public string status { get; set; }
+        public string purchaseDateTime { get; set; } 
+        public int ticketPrice { get; set; }
 
     }
 }

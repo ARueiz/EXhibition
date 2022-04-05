@@ -397,14 +397,34 @@ namespace EXhibition.Controllers
             var data = (from tk in db.Tickets
                         join ex in db.events on tk.EVID equals ex.EVID
                         where tk.UID == userId
-                        select new
+                        select new TicketPreview
                         {
                             name = ex.name,
-                            startDate = ex.startdate,
-                            endDate = ex.enddate,
-                            purchaseDate = tk.createAt , 
-                            ticketStatus = ""
+                            startdate = ex.startdate.ToString(),
+                            enddate = ex.enddate.ToString(),
+                            purchaseDateTime = tk.createAt.ToString(),
+                            ticketPrice = (int)ex.ticketprice
                         }).ToList();
+
+            foreach (var item in data)
+            {
+                if (DateTime.Now < DateTime.Parse(item.startdate)) // 未來
+                {
+                    item.status = "籌備中";
+                }
+                else if (DateTime.Now >= DateTime.Parse(item.startdate) || DateTime.Now <= DateTime.Parse(item.enddate)) // 現在
+                {
+                    item.status = "舉辦中";
+                }
+                else if (DateTime.Now > DateTime.Parse(item.enddate))  //過去
+                {
+                    item.status = "已逾期";
+                }
+                item.purchaseDateTime = DateTime.Parse(item.purchaseDateTime).ToString();
+            }
+
+
+
             return Ok(data);
         }
 

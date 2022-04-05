@@ -29,16 +29,16 @@
         <tr class="customerTR">
             <th scope="col">名稱</th>
             <th scope="col">展覽日期</th>
-            @*<th scope="col">狀態</th>*@
+            <th scope="col">狀態</th>
             <th scope="col">價錢</th>
             <th scope="col">購買日期</th>
         </tr>
         <tr class="customerTR" v-for="element in ShopList">
             <td>{{ element.name }}</td>
-            <td>{{ element.startDate }} - {{ element.endDate }}</td>
-            @*<td>展覽中</td>*@
+            <td>{{ element.startdate }} - {{ element.enddate }}</td>
+            <td>{{ element.status }}</td>
             <td>{{ element.ticketPrice }}元</td>
-            <td>{{ element.purchaseDate }}</td>
+            <td>{{ element.purchaseDateTime }}</td>
         </tr>
     </table>
 
