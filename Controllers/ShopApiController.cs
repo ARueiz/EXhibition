@@ -371,11 +371,11 @@ namespace EXhibition.Controllers
 
             if (query == null) return Ok(new List<string>());
 
-            query = query.OrderByDescending(e => e.startdate);
+            //query = query.OrderByDescending(e => e.startdate);
 
             if (data.StartDate == null && data.EndDate == null)
             {
-                return Ok(query.Skip(page).Take(12).ToArray());
+                return Ok(query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToArray());
             }
 
             if (data.StartDate != null)
@@ -388,7 +388,7 @@ namespace EXhibition.Controllers
                 query = from q in query where q.enddate <= data.EndDate select q;
             }
 
-            return Ok(query.Skip(page).Take(12).ToArray());
+            return Ok(query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToArray());
         }
 
     }
