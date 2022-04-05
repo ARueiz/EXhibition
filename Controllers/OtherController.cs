@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using EXhibition.Models;
@@ -49,7 +47,21 @@ namespace EXhibition.Controllers
                 }
             }
 
-            List<string> tList = db.TagsName.Where(item => eventIdList.Contains(item.id)).Select(e=>e.tagName).ToList();
+            List<string> tList = db.TagsName.Where(item => eventIdList.Contains(item.id)).Select(e => e.tagName).ToList();
+
+            return Ok(tList);
+        }
+
+        //展覽已有的Tag
+        public IHttpActionResult GetEventTagsList(int? EVID)
+        {
+            int evid = (int)EVID;
+
+            var tList = (from evtag in db.eventTags
+                         join tagname in db.TagsName
+                         on evtag.tagID equals tagname.id
+                         where evtag.EVID == evid
+                         select tagname.tagName).ToList();
 
             return Ok(tList);
         }

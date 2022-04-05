@@ -1,0 +1,195 @@
+﻿
+@{
+    ViewBag.Title = "createEventInfo";
+}
+
+<!-- Form & image -->
+<div class="container h-100 mt-3" id="VuePage">
+    <div class="row d-flex justify-content-evenly h-100">
+        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-9 col-sm-12 card shadow-sm">
+            <!-- Form -->
+            <div class="card-body m-3">
+                <form enctype="multipart/form-data" v-on:submit.prevent="DoCreateEventInfo()">
+                    <h2>申請參展</h2>
+                    <div class="mb-3 mt-3">
+                        <h5>展覽名稱：{{eventname}}</h5>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <h5>廠商名稱：{{name}}</h5>
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <h5 class="form-label">廠商相關連結</h5>
+                        <input type="url" class="form-control" v-model="link" required="required">
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <h5 class="form-label">商標(封面)圖</h5>
+                        <input type="file" class="form-control" id="image" v-on:change="imageChange()" accept="image/jpeg,image/png" required="required">
+                    </div>
+                    <div class="mb-3 mt-3 ">
+                        <h5 class="form-label">參展商品資訊</h5>
+                        <textarea class="form-control col-sm-4" v-model="productinfo" style="height:200px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">申請參展</button>
+                </form>
+            </div>
+        </div>
+        <!-- img -->
+        <div class="col-xxl-6 col-xl-5 col-lg-6 col-md-9 col-sm-12">
+            <div class="mb-2">
+                <img src="~/Image/Exhibitor/Ecommerce-campaign-cuate.png" class="img-fluid" id="imgpreview" alt="Responsive image">
+            </div>
+            <div class="mb-2 text-center">
+                <a href="https://storyset.com/online" class="link-primary" id="storyset">Online illustrations by Storyset</a>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">請稍後</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 成功的 Modal -->
+        <div class="modal fade" id="SuccessModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">申請成功</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>申請參展成功，前往申請列表</p>
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("確認", "NowApplying", "Exhibitor", new { }, new { @class = "btn btn-info", @role = "button" })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 失敗的 Modal -->
+        <div class="modal fade" id="failedModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+             aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">申請失敗</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="failedModalBody">
+                        請檢查是否有空欄位或是欄位格式錯誤!!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" v-on:click="CloseAllModal()">關閉</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script>
+
+        var VuePage = new Vue({
+            el: '#VuePage',
+            data: {
+                EVID: "@ViewBag.EVID",
+                EID: "@ViewBag.EID",
+                eventname: "@ViewBag.eventname",
+                name: "@ViewBag.name",
+                link: "",
+                image: "",
+                productinfo: "",
+                FormData: new FormData(),
+            },
+            created: function () {
+
+            }
+            , methods: {
+                imageChange: function () {
+                    let theFile = document.querySelector('#image');
+                    this.$data.image = theFile.files[0].name;
+                    console.log(theFile.files[0]);
+
+                    this.$data.FormData.set("image", theFile.files[0]);
+                    this.openImgFile("image", "imgpreview");
+                },
+
+                //圖片預覽
+                openImgFile: function (imgfile, imgpre) {
+
+                    let fileUpload = document.getElementById(imgfile);
+                    let imgPreview = document.getElementById(imgpre);
+                    let storyset = document.getElementById("storyset");
+                    let img = fileUpload.files[0];
+
+                    if (fileUpload.files.length > 0) {
+
+                        let reader = new FileReader();
+                        reader.onload = function () {
+                            imgPreview.src = reader.result;
+                        }
+                        storyset.style.display = "none";
+                        reader.readAsDataURL(img);
+
+                    }
+                    else {
+                        imgPreview.src = "~/Image/Exhibitor/Ecommerce-campaign-cuate.png";
+                    }
+                },
+                //關閉所有Modal
+                CloseAllModal: function () {
+                    $('.modal').modal('hide');
+                }
+                ,
+                DoCreateEventInfo: function () {
+                    event.preventDefault()
+                    var self = this;
+
+                    //讀取modal
+                    let loadModal = $('#loadingModal');
+                    loadModal.modal('show');
+
+                    let failModal = $('#failedModal');
+                    let failModalbody = document.getElementById('failedModalBody');
+
+                    //格式化圖片名稱
+                    self.image = "EVinfo_EVID" + self.EVID + "_EID" + self.EID + "_.png";
+
+                    this.$data.FormData.append("EVID", self.EVID);
+                    this.$data.FormData.append("EID", self.EID);
+                    this.$data.FormData.append("link", self.link);
+                    this.$data.FormData.append("image", self.image);
+                    this.$data.FormData.append("productinfo", self.productinfo);
+
+
+                    axios.post('@Url.Content("~/ExhibitorApi/DoCreateEventInfo")', this.$data.FormData , { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then(function (response) {
+                        console.log(response.data);
+                        if (response.data.status == "success") {
+                            let loadModal = $('#SuccessModal');
+                            loadModal.modal('show');
+                            return;
+                        } else {
+                            failModalbody.innerHTML = "新增失敗，請檢查欄位!";
+                            failModal.modal('show');
+                            return;
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                },
+
+            }
+        })
+    </script>
+}

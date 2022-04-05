@@ -438,7 +438,6 @@ namespace EXhibition.Controllers
         //新增展覽
         public ActionResult DoCreateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events, List<string> tagList)
         {
-
             string strPath = "";
 
             if (image != null)
@@ -683,6 +682,73 @@ namespace EXhibition.Controllers
             return Json(tag, JsonRequestBehavior.AllowGet);
 
             //return Ok();
+        }
+
+
+        //更新展覽
+        public ActionResult DoUpdateEvent(HttpPostedFileBase image, HttpPostedFileBase floorplanimg, Models.events events, List<string> tagList)
+        {
+
+            string strPath = "";
+            events updateEvent = db.events.FirstOrDefault(e => e.EVID == events.EVID);
+            ReturnData data = new ReturnData();
+
+            if (updateEvent != null)
+            {
+                if (image != null)
+                {
+                    //儲存 封面圖 to Image/Host
+                    strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.image;
+                    updateEvent.image = events.image;
+                    image.SaveAs(strPath);
+                }
+
+                if (floorplanimg != null)
+                {
+                    //儲存 平面圖 to Image/Host
+                    strPath = Request.PhysicalApplicationPath + "Image\\Host\\" + events.floorplanimg;
+                    updateEvent.floorplanimg = events.floorplanimg;
+                    floorplanimg.SaveAs(strPath);
+                }
+
+                updateEvent.name = events.name;
+                updateEvent.startdate = events.startdate;
+                updateEvent.enddate = events.enddate;
+                updateEvent.venue = events.venue;
+                updateEvent.ticketprice = events.ticketprice;
+                updateEvent.eventinfo = HttpUtility.UrlDecode(events.eventinfo);
+
+                //刪除所有Tag
+                db.eventTags.RemoveRange(db.eventTags.Where(e => e.EVID == events.EVID));
+
+                // 加入 tag
+                Repo.TagRepo insert = new Repo.TagRepo();
+                insert.TagsInsert(tagList, events.EVID);
+
+                try
+                {
+                    db.SaveChanges();
+                    data.status = ReturnStatus.Success;
+                    data.message = "更新成功!";
+
+                    return Json(data, JsonRequestBehavior.AllowGet);
+                }
+                catch (Exception)
+                {
+                    data.status = ReturnStatus.Error;
+                    data.message = "更新失敗!";
+
+                    return Json(data, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                data.status = ReturnStatus.Error;
+                data.message = "更新失敗!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+
         }
 
     }
