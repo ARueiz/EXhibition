@@ -371,6 +371,8 @@ namespace EXhibition.Controllers
 
             if (query == null) return Ok(new List<string>());
 
+            query = query.OrderByDescending(e => e.startdate);
+
             if (data.StartDate == null && data.EndDate == null)
             {
                 return Ok(query.Skip(page).Take(12).ToArray());
