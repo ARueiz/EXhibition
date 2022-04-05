@@ -168,16 +168,21 @@ namespace EXhibition.Controllers
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate < today && q.verify == null && k.EVID == EVID
-                           select new
+                           where k.startdate > today && q.verify == null && k.EVID == eidd
+                           select new AuditExhibitorInfo
                            {
                                name = p.name,
                                id = q.id,
-                               createAt = q.createAt,
+                               createAt = q.createAt.ToString(),
                                verify = q.verify
-
                            }
                            ).ToList();
+
+            foreach (var item in alldata)
+            {
+                item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+
             if (alldata == null)
             {
                 rd.message = "no data";
@@ -186,6 +191,7 @@ namespace EXhibition.Controllers
 
             return Json(alldata, JsonRequestBehavior.AllowGet);
         }
+
 
         //允許或拒絕廠商
         public ActionResult AllowOrRefuse(int? index , bool verified , string reason)
@@ -432,7 +438,7 @@ namespace EXhibition.Controllers
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(a, JsonRequestBehavior.AllowGet);
+            return new Models.NewJsonResult() { Data = a };
         }
 
         //新增展覽

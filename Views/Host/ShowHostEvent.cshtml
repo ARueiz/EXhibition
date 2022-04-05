@@ -23,12 +23,12 @@
                 <td>{{item.startdate }}</td>
                 <td>{{item.enddate }}</td>
                 <td>
-                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-info" role="button">審核</a>
-                    <input type="submit" value="審核" />
-                    <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-info" role="button">編輯</a>
-                    <input type="submit" value="編輯" />
-
-                    <input type="submit" value="明細" v-on:click="Details(item.evid)" />
+                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-outline-success" role="button">審核</a>
+                    @*<input type="submit" value="審核" />*@
+                    <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-outline-primary" role="button">編輯</a>
+                    @*<input type="submit" value="編輯" />*@
+                    <a :href=`./DetailsHost/${item.evid}` class="btn btn-outline-info" role="button">查看</a>
+                    @*<input type="submit" value="明細" v-on:click="Details(item.evid)" />*@
 
                 </td>
 

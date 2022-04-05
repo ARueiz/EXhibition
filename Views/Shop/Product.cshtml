@@ -37,7 +37,7 @@
 
 <div id="contain">
     <img class="displayTitleImg p-0 m-0"
-         src="https://media.cntraveler.com/photos/5eb18e42fc043ed5d9779733/16:9/w_2580,c_limit/BlackForest-Germany-GettyImages-147180370.jpg"
+         :src="imgUrl"
          alt="">
 
     <div class="w3-col m1" style="height: 10px"></div>
@@ -133,7 +133,7 @@
                 website: '',
                 imgUrl: '',
                 exhibitorList: [],
-                evid: '12',
+                evid: '@ViewBag.Id',
                 content: ''
             }
         },
