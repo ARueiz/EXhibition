@@ -6,11 +6,9 @@ namespace EXhibition.Repo
     public class HostDashboard
     {
 
-
-
         public HostDashboard() { }
 
-        static public int GetMonthRevenue(int hostId)
+        static public int GetMonthlyRevenue(int hostId)
         {
             Models.DBConnector db = new Models.DBConnector();
             DateTime? time = DateTime.Now.AddMonths(-1);
@@ -28,6 +26,19 @@ namespace EXhibition.Repo
             });
 
             return totalPrice;
+        }
+
+        static public int GetMonthlyPerson(int hostId)
+        {
+            Models.DBConnector db = new Models.DBConnector();
+            var date = DateTime.Now.AddMonths(-1);
+            var a = from r in db.Tickets
+                    join ev in db.events on r.EVID equals ev.EVID
+                    where ev.HID == hostId
+                    where r.createAt > date
+                    select r;
+            var count = a.Count();
+            return count;
         }
 
     }
