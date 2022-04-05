@@ -2,6 +2,96 @@
 @{
     ViewBag.Title = "ApplyHistory";
 }
+@section styles{
+    <link href="~/Content/ApplyHistory.css" rel="stylesheet" />
+}
 
-<h2>ApplyHistory</h2>
+<div class="row main-content" style="min-height: 100vh;">
+    <div class=" col-md-12 mt-3 p-5" id="contain">
+        <div class="d-flex mb-5 border-bottom pb-4 justify-content-center text-center" style="border: #606266;">
+            <div class="d-inline-block w-50">
+                <h3 class="m-0">參與歷史紀錄</h3>
+            </div>
+        </div>
+        <div class="row justify-content-center w-100 px-0" id="vuedata">
+            <div class="row col-10 col-sm-10 px-0 py-0 mb-4 boxShadow myTicketBox justify-content-center" v-for="data in dataRow"
+                 style="max-width: 800px;border-radius: 2%;">
+                <!-- #ffcc00 -->
+                <div class="col-8 col-sm-3 p-0 m-0 mt-3 mt-sm-0" style="height: 187px;" id="Eventimage">
+                    <img src="~/Image/Test/tea01.png" class="ticketImg w-100" style="border-radius: 4%;" alt="">
+                </div>
+                <div class="col-12 col-sm-9 py-0 mt-3 d-flex" style="padding-left: 15px">
+                    <div class="mb-3 col-12 d-flex justify-content-center" style="flex-wrap: wrap;">
+                        <h3 class="px-3 pb-3 mb-2 col-12 col-sm-11" style="border-bottom: 2px solid rgb(205, 185, 124);">
+                            {{data.name2}}
+                        </h3>
+                        <div class="d-none">{{data.EID}}</div>
+                        <div class="col-12 col-sm-6 col-lg-6 px-4 mb-2 d-flex align-items-center" id="first">
+                            <i class="bi bi-person-square"></i>
+                            {{data.name}}
+                        </div>
+                        <div class="col-12 col-sm-6 col-lg-6 px-4 mb-2 d-flex align-items-center" style="font-size: 15px;">
+                            <i class="bi bi-calendar3"></i>
+                            {{data.startdate}} ~ {{data.enddate}}
+                        </div>
+                        <div class="col-12 px-1s d-flex align-items-center justify-content-end" style="color:royalblue;">
+                            <a>查看更多<i class="bi bi-caret-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
+<script>
+    var VuePage = new Vue({
+        el: '#vuedata',
+        data() {
+            return {
+                ticketStatus: 'over',
+                badgeBg: {
+                    over: 'badgeOver',
+                    now: 'badgeNow',
+                    presale: 'badgePresale',
+                },
+                dataRow: [],
+            }
+        },
+
+        mounted() {
+            this.ApplyHistory()
+        },
+        methods: {
+            CheckTicket(value) {
+                if (value.toUpperCase() === 'over'.toUpperCase()) {
+                    return '逾期票券';
+                } else if (value.toUpperCase() === 'now'.toUpperCase()) {
+                    return '當期票券';
+                } else if (value.toUpperCase() === 'presale'.toUpperCase()) {
+                    return '預售票券';
+                }
+            },
+            badgeBackground(data) {
+                const self = this;
+                return self.badgeBg[data];
+            },
+
+            ApplyHistory() {
+                const self = this;
+                axios.get('/ExhibitorApi/ApplyHistory/' + '@ViewBag.id')
+                        .then(function (response) {
+                            self.dataRow = response.data
+                            console.log(response)
+                        })
+            },
+        }
+    })
+</script>
 

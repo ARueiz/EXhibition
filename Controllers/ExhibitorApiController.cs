@@ -7,7 +7,7 @@ using EXhibition.Filters;
 
 namespace EXhibition.Controllers
 {
-    [AuthorizeFilter(UserRole.Exhibitor)]
+    //[AuthorizeFilter(UserRole.Exhibitor)]
     public class ExhibitorApiController : Controller
     {
 
@@ -356,5 +356,63 @@ namespace EXhibition.Controllers
 
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
+
+        //廠商參展歷史
+        public ActionResult ApplyHistory(int? id)
+        {
+            ReturnData rd = new ReturnData();
+            if (id == null)
+            {
+                rd.message = "查無資料";
+                rd.status = ReturnStatus.Error;
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+            
+            DateTime now = DateTime.Now;
+            var list = (from host in db.hosts
+                        join events in db.events on host.HID equals events.HID
+                        join exhinfo in db.exhibitinfo on events.EVID equals exhinfo.EVID
+                        where exhinfo.EID == (int)id
+                        select new //ApplyList
+                        {
+                            EID = (int)id,
+                            EVID = events.EVID,
+                            name = host.name,
+                            name2 = events.name,
+                            startdate = events.startdate.ToString(),
+                            enddate = events.enddate.ToString(),
+                            DTstartdate = events.startdate,
+                            DTenddate = events.enddate,
+                            //dateout = null
+                        }).ToList();
+
+            if (!list.Any())
+            {
+                rd.message = "找不到資料";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            //foreach (var item in list)
+            //{
+            //    if (item.DTstartdate > now)
+            //    {
+            //        item.startdate = item.DTstartdate.ToString("yyyy-mm-dd");
+            //        item.dateout = false;
+            //    }
+            //    else if (item.DTenddate < now)
+            //    {
+            //        item.enddate = item.DTenddate.ToString("yyyy-mm-dd");
+            //        item.dateout = true;
+            //    }
+            //}
+
+            rd.message = "搜尋到資料";
+            rd.status = ReturnStatus.Success;
+            rd.data = list;
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+            
     }
 }

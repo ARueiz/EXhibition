@@ -243,6 +243,7 @@
     <Compile Include="Repo\TagsInsert.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ApplyHistory.css" />
     <Content Include="Content\Bootstrap\bootstrap-grid.css" />
     <Content Include="Content\Bootstrap\bootstrap-grid.min.css" />
     <Content Include="Content\Bootstrap\bootstrap-grid.rtl.css" />
@@ -314,6 +315,7 @@
     <Content Include="Image\Host\pexels-photo-10147530.jpeg" />
     <Content Include="Image\Test\eighty-six.png" />
     <Content Include="Image\Test\fruit01.png" />
+    <Content Include="Image\Test\hakase.jpg" />
     <Content Include="Image\Test\reZero.png" />
     <Content Include="Image\Test\tea01.png" />
     <Content Include="Image\Test\world-Porsche.jpg" />
