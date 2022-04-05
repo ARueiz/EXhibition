@@ -19,5 +19,6 @@ namespace EXhibition.Models
         static readonly public string OnlinePayPalUrl = "https://exhibition.azurewebsites.net/";
         static public string PayPalCancelUrl = "";
         static public string PayPalReturnUrl = "";
+        static public string ServerHost = "https://localhost:44378/";
     }
 }
