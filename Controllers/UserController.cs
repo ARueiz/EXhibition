@@ -45,5 +45,10 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        public ActionResult ConsumingRecords()
+        {
+            return View();
+        }
+
     }
 }

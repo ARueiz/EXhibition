@@ -461,6 +461,7 @@
     <Content Include="Views\Exhibitor\ApplyHistory.cshtml" />
     <Content Include="Views\Host\EditEventInfo.cshtml" />
     <Content Include="Views\Exhibitor\createEventInfo.cshtml" />
+    <Content Include="Views\User\ConsumingRecords.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

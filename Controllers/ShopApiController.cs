@@ -347,35 +347,34 @@ namespace EXhibition.Controllers
             return Ok(tag);
         }
 
-        //Models.SearchSelect s = new Models.SearchSelect();
-
         public IHttpActionResult PostSelectSearch([FromBody] Models.SearchSelect data, int page = 1)
         {
-            List<events> eventList = new List<events>();
-            IQueryable<events> query = null;
 
-            if (page - 1 > 0)
+            if (data == null || (data.StartDate == null && data.EndDate == null && data.CheckTag == null))
+            {
+                return Ok(new List<string>());
+            }
+
+            IQueryable<events> query = (from eh in db.events select eh);
+
+            var eventList = (from tg in db.TagsName join eTag in db.eventTags on tg.id equals eTag.tagID select eTag.EVID).ToList().Distinct();
+
+            if (page - 1 >= 0)
             {
                 page = (page - 1) * 12;
             }
 
-
             if (data.CheckTag != null && data.CheckTag.Length > 0)
             {
-                query = (from tg in db.TagsName
-                         join eTag in db.eventTags on tg.id equals eTag.tagID
-                         join eh in db.events on eTag.EVID equals eh.EVID
-                         where data.CheckTag.Contains(tg.tagName)
+                query = (from eh in db.events
+                         where eventList.Contains(eh.EVID)
                          select eh);
             }
 
-            if (query == null) return Ok(new List<string>());
-
-            query = query.OrderByDescending(e => e.startdate);
-
             if (data.StartDate == null && data.EndDate == null)
             {
-                return Ok(query.Skip(page).Take(12).ToArray());
+                var searchDate = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList(); ;
+                return Ok(searchDate);
             }
 
             if (data.StartDate != null)
@@ -388,7 +387,45 @@ namespace EXhibition.Controllers
                 query = from q in query where q.enddate <= data.EndDate select q;
             }
 
-            return Ok(query.Skip(page).Take(12).ToArray());
+            var b = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList();
+            return Ok(b);
+        }
+
+        public IHttpActionResult GetConsumingRecord()
+        {
+            int userId = (int)(HttpContext.Current.Session[Models.GlobalVariables.AccountId] == null ? 2 : HttpContext.Current.Session[Models.GlobalVariables.AccountId]);
+            var data = (from tk in db.Tickets
+                        join ex in db.events on tk.EVID equals ex.EVID
+                        where tk.UID == userId
+                        select new TicketPreview
+                        {
+                            name = ex.name,
+                            startdate = ex.startdate.ToString(),
+                            enddate = ex.enddate.ToString(),
+                            purchaseDateTime = tk.createAt.ToString(),
+                            ticketPrice = (int)ex.ticketprice
+                        }).ToList();
+
+            foreach (var item in data)
+            {
+                if (DateTime.Now < DateTime.Parse(item.startdate)) // 未來
+                {
+                    item.status = "籌備中";
+                }
+                else if (DateTime.Now >= DateTime.Parse(item.startdate) || DateTime.Now <= DateTime.Parse(item.enddate)) // 現在
+                {
+                    item.status = "舉辦中";
+                }
+                else if (DateTime.Now > DateTime.Parse(item.enddate))  //過去
+                {
+                    item.status = "已逾期";
+                }
+                item.purchaseDateTime = DateTime.Parse(item.purchaseDateTime).ToString();
+            }
+
+
+
+            return Ok(data);
         }
 
     }
