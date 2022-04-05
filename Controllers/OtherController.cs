@@ -53,6 +53,20 @@ namespace EXhibition.Controllers
             return Ok(tList);
         }
 
+        //展覽已有的Tag
+        public IHttpActionResult GetEventTagsList(int? EVID)
+        {
+            int evid = (int)EVID;
+
+            var tList = (from evtag in db.eventTags
+                         join tagname in db.TagsName
+                         on evtag.tagID equals tagname.id
+                         where evtag.EVID == evid
+                         select tagname.tagName).ToList();
+
+            return Ok(tList);
+        }
+
         public IHttpActionResult GetHostDashBoard()
         {
             int accountId = (int)(HttpContext.Current.Session["AccountID"] == null ? 2 : HttpContext.Current.Session["AccountID"]);

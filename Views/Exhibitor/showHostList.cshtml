@@ -31,8 +31,8 @@
                     <td class="col">{{data.startdate}}</td>
                     <td class="col">{{data.enddate}}</td>
                     <td class="col">
-                        <a :href= "'/Exhibitor/showEventDetail/?EVID=' + data.EVID" role="button" class="btn btn-outline-success m-1">展覽細節</a>
-                        <a :href= "'./Exhibitor/EditExhibitinfo/?EVID' + data.EVID" role="button" class="btn btn-outline-danger m-1">申請參展</a>
+                        <a :href= "'./showEventDetail/?EVID=' + data.EVID" role="button" class="btn btn-outline-success m-1">展覽細節</a>
+                        <a :href= "'./createEventInfo/?EVID=' + data.EVID" role="button" class="btn btn-outline-danger m-1">申請參展</a>
                     </td>
                 </tr>
             </tbody>

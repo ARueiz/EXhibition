@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Runtime;
 using EXhibition.Filters;
+using System.Web;
 
 namespace EXhibition.Controllers
 {
@@ -356,5 +357,43 @@ namespace EXhibition.Controllers
 
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult DoCreateEventInfo(HttpPostedFileBase image, exhibitinfo exhibitinfo)
+        {
+            ReturnData rd = new ReturnData();
+            string strPath = "";
+
+            if (image != null)
+            {
+                //儲存 封面圖 to Image/Host
+                strPath = Request.PhysicalApplicationPath + "Image\\Exhibitor\\" + exhibitinfo.image;
+                image.SaveAs(strPath);
+            }
+
+            exhibitinfo.createAt = DateTime.Now;
+            exhibitinfo.status = "尚未審核";
+            exhibitinfo.verify = null;
+
+            db.exhibitinfo.Add(exhibitinfo);
+
+            try
+            {
+                db.SaveChanges();
+                ReturnData data = new ReturnData();
+                data.status = ReturnStatus.Success;
+                data.message = "申請成功!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                ReturnData data = new ReturnData();
+                data.status = ReturnStatus.Error;
+                data.message = "申請失敗!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+        }
+            
     }
 }
