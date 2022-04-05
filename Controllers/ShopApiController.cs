@@ -347,8 +347,6 @@ namespace EXhibition.Controllers
             return Ok(tag);
         }
 
-        //Models.SearchSelect s = new Models.SearchSelect();
-
         public IHttpActionResult PostSelectSearch([FromBody] Models.SearchSelect data, int page = 1)
         {
 
@@ -391,6 +389,23 @@ namespace EXhibition.Controllers
 
             var b = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList();
             return Ok(b);
+        }
+
+        public IHttpActionResult GetConsumingRecord()
+        {
+            int userId = (int)(HttpContext.Current.Session[Models.GlobalVariables.AccountId] == null ? 2 : HttpContext.Current.Session[Models.GlobalVariables.AccountId]);
+            var data = (from tk in db.Tickets
+                        join ex in db.events on tk.EVID equals ex.EVID
+                        where tk.UID == userId
+                        select new
+                        {
+                            name = ex.name,
+                            startDate = ex.startdate,
+                            endDate = ex.enddate,
+                            purchaseDate = tk.createAt , 
+                            ticketStatus = ""
+                        }).ToList();
+            return Ok(data);
         }
 
     }
