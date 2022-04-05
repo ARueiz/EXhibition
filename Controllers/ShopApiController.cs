@@ -357,8 +357,9 @@ namespace EXhibition.Controllers
                 return Ok(new List<string>());
             }
 
-            List<events> eventList = new List<events>();
-            IQueryable<events> query = null;
+            IQueryable<events> query = (from eh in db.events select eh);
+
+            var eventList = (from tg in db.TagsName join eTag in db.eventTags on tg.id equals eTag.tagID select eTag.EVID).ToList().Distinct();
 
             if (page - 1 >= 0)
             {
@@ -367,23 +368,14 @@ namespace EXhibition.Controllers
 
             if (data.CheckTag != null && data.CheckTag.Length > 0)
             {
-                query = (from tg in db.TagsName
-                         join eTag in db.eventTags on tg.id equals eTag.tagID
-                         join eh in db.events on eTag.EVID equals eh.EVID
-                         where data.CheckTag.Contains(tg.tagName)
-                         select eh);
-            }
-            else
-            {
-                query = (from tg in db.TagsName
-                         join eTag in db.eventTags on tg.id equals eTag.tagID
-                         join eh in db.events on eTag.EVID equals eh.EVID
+                query = (from eh in db.events
+                         where eventList.Contains(eh.EVID)
                          select eh);
             }
 
             if (data.StartDate == null && data.EndDate == null)
             {
-                var searchDate = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).GroupBy(e => e.EVID).ToList(); ;
+                var searchDate = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList(); ;
                 return Ok(searchDate);
             }
 
@@ -397,8 +389,7 @@ namespace EXhibition.Controllers
                 query = from q in query where q.enddate <= data.EndDate select q;
             }
 
-            var b = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).GroupBy(e=>e.EVID).ToList();
-
+            var b = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList();
             return Ok(b);
         }
 
