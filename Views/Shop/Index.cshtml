@@ -188,17 +188,7 @@
                     EndDate: this.selectEndDate
                 }
 
-                const options = {
-                    method: 'get',
-                    baseURL: 'http://localhost:44378',
-                    url: '/api/shopapi/GetSelectSearch',
-                    'Content-Type': 'application/json',
-                    date: JSON.stringify(data)
-                }
-
-                console.log(options)
-
-                axios.get('/api/shopapi/GetSelectSearch', data).then(function (res) {
+                axios.post('/api/shopapi/PostSelectSearch', data).then(function (res) {
                     self.exhibitionList = res.data;
                     self.arrayFilter()
                 })

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using EXhibition.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using EXhibition.Models;
 
 namespace EXhibition.Controllers
 {
@@ -49,9 +48,17 @@ namespace EXhibition.Controllers
                 }
             }
 
-            List<string> tList = db.TagsName.Where(item => eventIdList.Contains(item.id)).Select(e=>e.tagName).ToList();
+            List<string> tList = db.TagsName.Where(item => eventIdList.Contains(item.id)).Select(e => e.tagName).ToList();
 
             return Ok(tList);
+        }
+
+        public IHttpActionResult GetHostDashBoard()
+        {
+            int accountId = (int)(HttpContext.Current.Session["AccountID"] == null ? 2 : HttpContext.Current.Session["AccountID"]);
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            data["monthRevenue"] = Repo.HostDashboard.GetMonthRevenue(accountId);
+            return Ok(data);
         }
     }
 }

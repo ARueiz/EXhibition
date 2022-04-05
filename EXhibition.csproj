@@ -240,6 +240,7 @@
     <Compile Include="Repo\AuthorizeOrder.cs" />
     <Compile Include="Repo\CheckOutRepo.cs" />
     <Compile Include="Repo\BuildPayPalOrder.cs" />
+    <Compile Include="Repo\HostDashboard.cs" />
     <Compile Include="Repo\PayPalClient.cs" />
     <Compile Include="Repo\TagsInsert.cs" />
   </ItemGroup>

@@ -8,7 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace EXhibition.Controllers
 {
@@ -23,7 +22,7 @@ namespace EXhibition.Controllers
         // 如果 沒有則需要加上 [FromBody] 去取得 帶進來的 json 檔案        
         public IHttpActionResult GetTicketList(int? id)
         {
-            if (id == null || id <= 1 ) { id = 1; }
+            if (id == null || id <= 1) { id = 1; }
             int num = (int)id;
             num = (num - 1) * 12;
             var list = (from eve in db.events orderby eve.createAt descending select eve).Skip(num).Take(12).ToList();
@@ -277,7 +276,7 @@ namespace EXhibition.Controllers
                            image = k.image
 
                        }).ToList();
-            
+
             return Ok(tag);
 
             //return Ok();
@@ -295,7 +294,7 @@ namespace EXhibition.Controllers
             string queryString =
                 "select TOP(5) count(q.tagName) ,q.tagName from eventTags as p join TagsName as q on p.tagID = q.id group by q.tagName";
 
-            
+
             List<string> eList = new List<string>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -309,9 +308,9 @@ namespace EXhibition.Controllers
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                       
+
                         eList.Add((string)reader[1]);
-                       
+
                     }
                     reader.Close();
                 }
@@ -334,7 +333,7 @@ namespace EXhibition.Controllers
             {
                 num = ((int)page - 1) * 12;
             }
-            var list = (from evn in db.events where evn.name.Contains(searchStr) select evn).OrderBy(e=>e.createAt).Skip(num).Take(12);
+            var list = (from evn in db.events where evn.name.Contains(searchStr) select evn).OrderBy(e => e.createAt).Skip(num).Take(12);
             foreach (var item in list)
             {
                 item.image = "/image/host/" + item.image;
@@ -350,9 +349,44 @@ namespace EXhibition.Controllers
 
         //Models.SearchSelect s = new Models.SearchSelect();
 
-        public IHttpActionResult GetSelectSearch([FromBody]Models.SearchSelect data)
+        public IHttpActionResult PostSelectSearch([FromBody] Models.SearchSelect data, int page = 1)
         {
-            return Ok(data);
+            List<events> eventList = new List<events>();
+            IQueryable<events> query = null;
+
+            if (page - 1 > 0)
+            {
+                page = (page - 1) * 12;
+            }
+
+
+            if (data.CheckTag != null && data.CheckTag.Length > 0)
+            {
+                query = (from tg in db.TagsName
+                         join eTag in db.eventTags on tg.id equals eTag.tagID
+                         join eh in db.events on eTag.EVID equals eh.EVID
+                         where data.CheckTag.Contains(tg.tagName)
+                         select eh);
+            }
+
+            if (query == null) return Ok(new List<string>());
+
+            if (data.StartDate == null && data.EndDate == null)
+            {
+                return Ok(query.Skip(page).Take(12).ToArray());
+            }
+
+            if (data.StartDate != null)
+            {
+                query = from q in query where q.startdate >= data.StartDate select q;
+            }
+
+            if (data.EndDate != null)
+            {
+                query = from q in query where q.enddate <= data.EndDate select q;
+            }
+
+            return Ok(query.Skip(page).Take(12).ToArray());
         }
 
     }
