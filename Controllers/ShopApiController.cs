@@ -351,14 +351,19 @@ namespace EXhibition.Controllers
 
         public IHttpActionResult PostSelectSearch([FromBody] Models.SearchSelect data, int page = 1)
         {
+
+            if (data == null || (data.StartDate == null && data.EndDate == null && data.CheckTag == null))
+            {
+                return Ok(new List<string>());
+            }
+
             List<events> eventList = new List<events>();
             IQueryable<events> query = null;
 
-            if (page - 1 > 0)
+            if (page - 1 >= 0)
             {
                 page = (page - 1) * 12;
             }
-
 
             if (data.CheckTag != null && data.CheckTag.Length > 0)
             {
@@ -368,14 +373,18 @@ namespace EXhibition.Controllers
                          where data.CheckTag.Contains(tg.tagName)
                          select eh);
             }
-
-            if (query == null) return Ok(new List<string>());
-
-            //query = query.OrderByDescending(e => e.startdate);
+            else
+            {
+                query = (from tg in db.TagsName
+                         join eTag in db.eventTags on tg.id equals eTag.tagID
+                         join eh in db.events on eTag.EVID equals eh.EVID
+                         select eh);
+            }
 
             if (data.StartDate == null && data.EndDate == null)
             {
-                return Ok(query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToArray());
+                var searchDate = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).GroupBy(e => e.EVID).ToList(); ;
+                return Ok(searchDate);
             }
 
             if (data.StartDate != null)
@@ -388,7 +397,9 @@ namespace EXhibition.Controllers
                 query = from q in query where q.enddate <= data.EndDate select q;
             }
 
-            return Ok(query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToArray());
+            var b = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).GroupBy(e=>e.EVID).ToList();
+
+            return Ok(b);
         }
 
     }
