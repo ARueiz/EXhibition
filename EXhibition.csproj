@@ -287,6 +287,8 @@
     <Content Include="Image\Dev\Register-exhibitor.png" />
     <Content Include="Image\Dev\login-bro-host.png" />
     <Content Include="Image\Dev\login-bro-user.png" />
+    <Content Include="Image\Exhibitor\Ecommerce-campaign-cuate.png" />
+    <Content Include="Image\Exhibitor\EVinfo_EVID26_EID10_.png" />
     <Content Include="Image\Host\EditHost.png" />
     <Content Include="Image\Host\EV_UID2_220326_220327.png" />
     <Content Include="Image\Host\EV_UID2_220329_220331.png" />
