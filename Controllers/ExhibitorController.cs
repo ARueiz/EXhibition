@@ -77,9 +77,10 @@ namespace EXhibition.Controllers
         }
 
         //廠商申請參展歷史紀錄
-        public ActionResult ApplyHistory(int? id)
+        public ActionResult ApplyHistory()
         {
-            ViewBag.id = id;
+            int EID = (int)Session["AccountID"];
+            ViewBag.id = EID;
             return View();
         }
 
