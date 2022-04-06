@@ -18,8 +18,8 @@ namespace EXhibition.Repo
         {
             BrandName = "展覽館-Exhibition Inc.",
             LandingPage = "BILLING",
-            CancelUrl = "https://localhost:44378/",
-            ReturnUrl = "https://localhost:44378/User",
+            CancelUrl = Models.GlobalVariables.ServerHost,
+            ReturnUrl = Models.GlobalVariables.ServerHost + "/shop/CheckoutSuccess",
             UserAction = "CONTINUE",
             ShippingPreference = "NO_SHIPPING"
         };

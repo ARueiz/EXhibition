@@ -98,6 +98,115 @@ namespace EXhibition.Controllers
 
             return PartialView();
         }
+
+        public ActionResult HostForgetPassword()
+        {
+            return View();
+        }
+
+        public ActionResult ExhibitorForgetPassword()
+        {
+            return View();
+        }
+
+        public ActionResult UserForgetPassword()
+        {
+            return View();
+        }
+
+        public ActionResult SendEmail()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult HostForgetPassword(string email)
+        {
+            string uuid = Guid.NewGuid().ToString();
+            db.forgetPassword.Add(new forgetPassword() { email = email, uuid = uuid, userType = "Host" });
+            db.SaveChanges();
+
+            // 送信 
+            Repo.SendResetEmailRepo.SendResetEmail(email,uuid);
+
+            return RedirectToAction("SendEmail");
+        }
+
+        [HttpPost]
+        public ActionResult ExhibitorForgetPassword(string email)
+        {
+            string uuid = Guid.NewGuid().ToString();
+            db.forgetPassword.Add(new forgetPassword() { email = email, uuid = uuid, userType = "Exhibitor" });
+            db.SaveChanges();
+
+            // 送信 
+            Repo.SendResetEmailRepo.SendResetEmail(email, uuid);
+
+            return RedirectToAction("SendEmail");
+        }
+
+        [HttpPost]
+        public ActionResult UserForgetPassword(string email)
+        {
+            string uuid = Guid.NewGuid().ToString();
+            db.forgetPassword.Add(new forgetPassword() { email = email, uuid = uuid, userType = "User" });
+            db.SaveChanges();
+
+            // 送信 
+            Repo.SendResetEmailRepo.SendResetEmail(email, uuid);
+
+            return RedirectToAction("SendEmail");
+        }
+
+        public ActionResult ResetPassword(string uuid = "sv1b-f7sa-bb15-54dn")
+        {
+            ViewBag.uuid = uuid;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ResetPassword(string uuid, string password)
+        {
+            var a = db.forgetPassword.Where(e => e.uuid == uuid).FirstOrDefault();
+            if (a == null) return Redirect("/");
+            if (a.userType == "User")
+            {
+                var user = db.users.Where(u=>u.email == a.email ).FirstOrDefault();
+                if (user == null) { return Redirect("/"); }
+                user.password = Models.SHA_256.ComputeSha256Hash(password);
+                db.SaveChanges();
+                var b = db.forgetPassword.Where(e => e.uuid == uuid).FirstOrDefault();
+                db.forgetPassword.Remove(b);
+                db.SaveChanges();
+            }
+            else if (a.userType == "Host")
+            {
+                var host = db.hosts.Where(u => u.email == a.email).FirstOrDefault();
+                if (host == null) { return Redirect("/"); }
+                host.password = Models.SHA_256.ComputeSha256Hash(password);
+                db.SaveChanges();
+                var b = db.forgetPassword.Where(e => e.uuid == uuid).FirstOrDefault();
+                db.forgetPassword.Remove(b);
+                db.SaveChanges();
+            }
+            else if (a.userType == "Exhibitor")
+            {
+                var exhibitor = db.exhibitors.Where(u => u.email == a.email).FirstOrDefault();
+                if (exhibitor == null) { return Redirect("/"); }
+                exhibitor.password = Models.SHA_256.ComputeSha256Hash(password);
+                db.SaveChanges();
+                var b = db.forgetPassword.Where(e => e.uuid == uuid).FirstOrDefault();
+                db.forgetPassword.Remove(b);
+                db.SaveChanges();
+            }
+            return RedirectToAction("ResetPasswordSuccess");
+        }
+
+        public ActionResult ResetPasswordSuccess()
+        {
+            return View();
+        }
+
         public ActionResult dbTest()
         {
             var exists = db.users.Any(m => m.UID == 2);
@@ -116,7 +225,7 @@ namespace EXhibition.Controllers
             var b = from userTable in db.users
                     join ticketTable in db.Tickets on userTable.UID equals ticketTable.UID
                     select new
-                    {                        
+                    {
                         name = userTable.name,
                         phone = userTable.phone,
 
@@ -231,7 +340,7 @@ namespace EXhibition.Controllers
             {
                 ExhibitiorItem.status = "允許";
             }
-            else if(d.isVerified == false)
+            else if (d.isVerified == false)
             {
                 ExhibitiorItem.status = "拒絕";
             }
@@ -247,9 +356,8 @@ namespace EXhibition.Controllers
             var d = DateTime.Now;
             d = d.AddDays(-5);
             var a = db.events.Where(e => e.startdate < d).ToList();
-            return Json(a,JsonRequestBehavior.AllowGet);
+            return Json(a, JsonRequestBehavior.AllowGet);
         }
-
 
     }
 }
