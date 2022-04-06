@@ -32,27 +32,27 @@
                                 <img class="exhibitionImg" :src="element.image" alt="">
                             </div>
                             <div class="col-md-7 exhibitionContent">
-                                <h2>{{ element.title}}</h2>
+                                <h2>{{ element.name}}</h2>
                                 <div class="mt-2 row w3-text-gray">
                                     <div class="d-flex justify-content-between">
                                         <div class="col-md-9 d-inline-block">
                                             <i class="fa-solid fa-location-dot"></i>
-                                            {{ element.location }}
+                                            {{ element.venue }}
                                         </div>
                                         <div class="col-md-3 w3-text-green d-inline-block">
                                             <i class="fa-solid fa-dollar-sign"></i>
-                                            {{ element.price }}
+                                            {{ element.ticketprice }}
                                         </div>
                                     </div>
                                     <div class="d-inline-block">
                                         <i class="fa-solid fa-calendar-day"></i>
-                                        {{ element.start }} - {{ element.end }}
+                                        {{ element.startdate }} - {{ element.enddate }}
                                     </div>
                                 </div>
                                 <p class="mt-3 mb-2 exhibition-describe">
-                                    {{ element.content }}
+                                    {{ element.eventinfo }}
                                 </p>
-                                <a href="#" class="exhibition-btn">
+                                <a :href="'/shop/product/'+element.EVID" class="exhibition-btn">
                                     更多資訊
                                 </a>
                             </div>
@@ -72,15 +72,15 @@
                         <img :src="element.image" class="card-img-top" alt="...">
                     </div>
                     <div class="card-body">
-                        <h3 class="">{{ element.title }}</h3>
+                        <h3 class="">{{ element.name }}</h3>
                         <div class="d-flex flex-wrap">
                             <div class="d-inline-block" style="padding-right: 10px">
                                 <i class="fa-solid fa-calendar-minus"></i>
                             </div>
-                            <p class="d-inline-block m-0">{{ element.start }} - {{ element.end }}</p>
+                            <p class="d-inline-block m-0">{{ element.startdate }} - {{ element.enddate }}</p>
                         </div>
-                        <p class="p-0 new-exhibition-content" style="">{{element.content}}</p>
-                        <a href="#" class="btn btn-go-detail float-end">更多資訊</a>
+                        <p class="p-0 new-exhibition-content" style="">{{element.eventinfo}}</p>
+                        <a :href="'/shop/product/'+element.EVID" class="btn btn-go-detail float-end">更多資訊</a>
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -138,15 +138,13 @@
         },
         created() {
             const self = this;
-            fetch('/Scripts/home.json', {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'
-                }
-            })
+            fetch('/api/shopapi/GetNewTicketList')
+                .then(res => res.json()).then(res => {
+                    self.newExhibition = res;
+                })
+            fetch('/api/shopapi/GetHotTicketList')
                 .then(res => res.json()).then(res => {
                     self.hotExhibition = res;
-                    self.hotExhibition = res.slice(0, 4);
-                    self.newExhibition = res;
                 })
         },
         methods: {}
