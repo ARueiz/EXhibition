@@ -141,11 +141,23 @@
             fetch('/api/shopapi/GetNewTicketList')
                 .then(res => res.json()).then(res => {
                     self.newExhibition = res;
+                    for (var i = 0; i < self.newExhibition.length; i++) {
+                        self.newExhibition[i].startdate = self.newExhibition[i].startdate.slice(0, 10)
+                        self.newExhibition[i].enddate = self.newExhibition[i].startdate.slice(0, 10)
+                    }
                 })
             fetch('/api/shopapi/GetHotTicketList')
                 .then(res => res.json()).then(res => {
                     self.hotExhibition = res;
+
+                    for (var i = 0; i < self.hotExhibition.length; i++) {
+                        self.hotExhibition[i].startdate = self.hotExhibition[i].startdate.slice(0, 10)
+                        self.hotExhibition[i].enddate = self.hotExhibition[i].startdate.slice(0, 10)
+                    }
+
+
                 })
+            
         },
         methods: {}
     })
