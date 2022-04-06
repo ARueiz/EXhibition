@@ -202,6 +202,9 @@
     <Compile Include="Models\exhibitors.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\forgetPassword.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GlobalVariables.cs" />
     <Compile Include="Models\hosts.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
@@ -242,6 +245,7 @@
     <Compile Include="Repo\BuildPayPalOrder.cs" />
     <Compile Include="Repo\HostDashboard.cs" />
     <Compile Include="Repo\PayPalClient.cs" />
+    <Compile Include="Repo\SendResetEmailRepo.cs" />
     <Compile Include="Repo\TagsInsert.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -288,6 +292,8 @@
     <Content Include="Image\Dev\Register-exhibitor.png" />
     <Content Include="Image\Dev\login-bro-host.png" />
     <Content Include="Image\Dev\login-bro-user.png" />
+    <Content Include="Image\Exhibitor\Ecommerce-campaign-cuate.png" />
+    <Content Include="Image\Exhibitor\EVinfo_EVID26_EID10_.png" />
     <Content Include="Image\Host\EditHost.png" />
     <Content Include="Image\Host\EV_UID2_220326_220327.png" />
     <Content Include="Image\Host\EV_UID2_220329_220331.png" />
@@ -464,6 +470,12 @@
     <Content Include="Views\Host\EditEventInfo.cshtml" />
     <Content Include="Views\Exhibitor\createEventInfo.cshtml" />
     <Content Include="Views\User\ConsumingRecords.cshtml" />
+    <Content Include="Views\Home\HostForgetPassword.cshtml" />
+    <Content Include="Views\Home\SendEmail.cshtml" />
+    <Content Include="Views\Home\ExhibitorForgetPassword.cshtml" />
+    <Content Include="Views\Home\UserForgetPassword.cshtml" />
+    <Content Include="Views\Home\ResetPassword.cshtml" />
+    <Content Include="Views\Home\ResetPasswordSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

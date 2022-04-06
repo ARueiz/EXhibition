@@ -23,11 +23,6 @@
             color:blue !important;
 
         }
-
-
-        
-
-
     </style>
 }
 
@@ -97,8 +92,8 @@
                 <!-- exhibition list end -->
             </div>
             <div class="d-flex justify-content-end">
-                <button class="btn btn-outline-dark">上一頁</button>
-                <button class="btn btn-outline-dark">下一頁</button>
+                <button v-on:click="previousPage()" class="btn btn-outline-dark">上一頁</button>
+                <button v-on:click="nextPage()" class="btn btn-outline-dark">下一頁</button>
             </div>
             
         </main>
@@ -137,6 +132,8 @@
                         self.exhibitionList = response
                         self.arrayFilter()
                     })
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
             },
             getDefaultTagList() {
                 const self = this;
@@ -193,6 +190,16 @@
                     self.exhibitionList = res.data;
                     self.arrayFilter()
                 })
+            },
+            previousPage() {
+                if (this.pageNum - 1 > 0) {
+                    this.pageNum = this.pageNum - 1;
+                }
+                this.getTicket();
+            },
+            nextPage() {                
+                this.pageNum = this.pageNum + 1;
+                this.getTicket();
             }
         },
         
