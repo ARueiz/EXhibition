@@ -32,7 +32,7 @@
                                 <img class="exhibitionImg" :src="element.image" alt="">
                             </div>
                             <div class="col-md-7 exhibitionContent">
-                                <h2>{{ element.name}}</h2>
+                                <h2 class="text-truncate">{{element.name}}</h2>
                                 <div class="mt-2 row w3-text-gray">
                                     <div class="d-flex justify-content-between">
                                         <div class="col-md-9 d-inline-block">
@@ -72,7 +72,7 @@
                         <img :src="element.image" class="card-img-top" alt="...">
                     </div>
                     <div class="card-body">
-                        <h3 class="">{{ element.name }}</h3>
+                        <h3 class="text-truncate">{{ element.name }}</h3>
                         <div class="d-flex flex-wrap">
                             <div class="d-inline-block" style="padding-right: 10px">
                                 <i class="fa-solid fa-calendar-minus"></i>
