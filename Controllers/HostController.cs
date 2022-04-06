@@ -144,11 +144,11 @@ namespace EXhibition.Controllers
 
 
         // 洪奕生 主辦單位>展覽列表>查看資訊
-        public ActionResult EventDetail(int? HID)
+        public ActionResult EventDetail()
         {
-            //Session["HID"] = 2;
+            Session["HID"] = 2;
 
-            //int HID = (int)Session["HID"];
+            int HID = (int)Session["HID"];
 
             var info = db.hosts.Where(h => h.HID == HID).ToList();
 

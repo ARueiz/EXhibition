@@ -1,14 +1,13 @@
-﻿using EXhibition.Models;
+﻿using EXhibition.Filters;
+using EXhibition.Models;
 using System;
 using System.Linq;
-using System.Web.Mvc;
-using System.Runtime;
-using EXhibition.Filters;
 using System.Web;
+using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    [AuthorizeFilter(UserRole.Exhibitor)]
+    //[AuthorizeFilter(UserRole.Exhibitor)]
     public class ExhibitorApiController : Controller
     {
 
@@ -165,24 +164,41 @@ namespace EXhibition.Controllers
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
                         where exhibitinfo.EID == id
-                        select new { EVID = events.EVID,
-                                     name = events.name, 
-                                     startdate = events.startdate.ToString(), 
-                                     enddate = events.enddate.ToString(), 
-                                     venue = events.venue, 
-                                     verify = exhibitinfo.verify,
-                                     createAt = exhibitinfo.createAt,
-                                     reason = exhibitinfo.reason,
-                                     dateout = false }).ToList();
 
-  
+                        select new ApplyList
+                        {
+                            EVID = events.EVID,
+                            name = events.name,
+                            startdate = events.startdate.ToString(),
+                            enddate = events.enddate.ToString(),
+                            venue = events.venue,
+                            verify = exhibitinfo.verify,
+                            createAt = exhibitinfo.createAt.ToString(),
+                            reason = exhibitinfo.reason,
+                            dateout = false
+                        }).ToList();
+
+
             if (!list.Any())
             {
                 rd.message = "找不到資料";
                 rd.status = "error";
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
-            return new NewJsonResult() { Data = list};
+
+            foreach (var item in list)
+            {
+                if (item.createAt.Length > 0)
+                {
+                    item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    item.createAt = "沒有資料";
+                }
+            }
+            return Json(list, JsonRequestBehavior.AllowGet);
+
         }
 
         public string ConvertTime(DateTime nTime)
@@ -209,20 +225,21 @@ namespace EXhibition.Controllers
                             venue = events.venue,
                             verify = exhibitinfo.verify,
                             createAt = exhibitinfo.createAt.ToString(),
-                            reson = exhibitinfo.reason,
+                            reason = exhibitinfo.reason,
                             dateout = false
                         }).ToList();
 
             foreach (var item in list)
             {
-                if (item.createAt.Length > 0 )
+                if (item.createAt.Length > 0)
                 {
                     item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd");
-                } else
+                }
+                else
                 {
                     item.createAt = "沒有資料";
                 }
-                
+
             }
 
             if (!list.Any())
@@ -241,8 +258,13 @@ namespace EXhibition.Controllers
 
             DateTime applydate = DateTime.Now.AddDays(+5);
 
+            int exhibitorId = (int)(Session[Models.GlobalVariables.AccountId] == null ? 2 : Session[Models.GlobalVariables.AccountId]);
+
+            var joinList = (from exhib in db.exhibitinfo where exhib.EID == exhibitorId select exhib.EVID).ToList();
+
             var list = (from even in db.events
                         where even.startdate > applydate
+                        where !joinList.Contains(even.EVID)
                         select new { even.EVID, even.name, startdate = even.startdate.ToString(), enddate = even.enddate.ToString(), even.venue }).ToList();
 
             if (!list.Any())
@@ -318,7 +340,7 @@ namespace EXhibition.Controllers
         {
             ReturnData rd = new ReturnData();
 
-            if(EVID == null)
+            if (EVID == null)
             {
                 rd.message = "查無此展覽";
                 rd.status = ReturnStatus.Error;
@@ -358,6 +380,64 @@ namespace EXhibition.Controllers
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
+        //廠商參展歷史
+        public ActionResult ApplyHistory(int? id)
+        {
+            ReturnData rd = new ReturnData();
+            if (id == null)
+            {
+                rd.message = "查無資料";
+                rd.status = ReturnStatus.Error;
+
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            DateTime now = DateTime.Now;
+            var list = (from host in db.hosts
+                        join events in db.events on host.HID equals events.HID
+                        join exhinfo in db.exhibitinfo on events.EVID equals exhinfo.EVID
+                        where exhinfo.EID == (int)id
+                        select new ApplyList
+                        {
+                            EID = (int)id,
+                            EVID = events.EVID,
+                            name = host.name,
+                            name2 = events.name,
+                            startdate = events.startdate.ToString(),
+                            enddate = events.enddate.ToString(),
+                            DTstartdate = events.startdate,
+                            DTenddate = events.enddate,
+                            img = "/Image/Host/" + events.image
+                            //dateout = null
+                        }).ToList();
+
+            if (!list.Any())
+            {
+                rd.message = "找不到資料";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+            }
+
+            foreach (var item in list)
+            {
+                if (item.DTstartdate > now)
+                {
+                    item.startdate = item.DTstartdate.ToString("yyyy-mm-dd");
+                    item.dateout = false;
+                }
+                else if (item.DTenddate < now)
+                {
+                    item.enddate = item.DTenddate.ToString("yyyy-mm-dd");
+                    item.dateout = true;
+                }
+            }
+
+            rd.message = "搜尋到資料";
+            rd.status = ReturnStatus.Success;
+            rd.data = list;
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult DoCreateEventInfo(HttpPostedFileBase image, exhibitinfo exhibitinfo)
         {
             ReturnData rd = new ReturnData();
@@ -394,6 +474,6 @@ namespace EXhibition.Controllers
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
         }
-            
+
     }
 }

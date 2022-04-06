@@ -61,6 +61,15 @@
           <Property Name="password" Type="nchar" MaxLength="64" Nullable="false" />
           <Property Name="verify" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="forgetPassword">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="nvarchar" MaxLength="50" />
+          <Property Name="uuid" Type="nvarchar" MaxLength="50" />
+          <Property Name="userType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="hosts">
           <Key>
             <PropertyRef Name="HID" />
@@ -202,6 +211,7 @@
           <EntitySet Name="eventTags" EntityType="Self.eventTags" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="exhibitinfo" EntityType="Self.exhibitinfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="exhibitors" EntityType="Self.exhibitors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="forgetPassword" EntityType="Self.forgetPassword" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="hosts" EntityType="Self.hosts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="orderDetail" EntityType="Self.orderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
@@ -382,6 +392,7 @@
           <EntitySet Name="eventTags" EntityType="ExhibitionModel.eventTags" />
           <EntitySet Name="TagsName" EntityType="ExhibitionModel.TagsName" />
           <EntitySet Name="orders" EntityType="ExhibitionModel.orders" />
+          <EntitySet Name="forgetPassword" EntityType="ExhibitionModel.forgetPassword" />
           </EntityContainer>
         <EntityType Name="Tickets">
           <Key>
@@ -468,6 +479,15 @@
           <Property Name="finalPrice" Type="Int32" />
           <Property Name="isPay" Type="Boolean" />
           <Property Name="paypal_Id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="forgetPassword">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="uuid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="userType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -614,6 +634,16 @@
                 <ScalarProperty Name="totalPrice" ColumnName="totalPrice" />
                 <ScalarProperty Name="userId" ColumnName="userId" />
                 <ScalarProperty Name="createDateTime" ColumnName="createDateTime" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="forgetPassword">
+            <EntityTypeMapping TypeName="ExhibitionModel.forgetPassword">
+              <MappingFragment StoreEntitySet="forgetPassword">
+                <ScalarProperty Name="userType" ColumnName="userType" />
+                <ScalarProperty Name="uuid" ColumnName="uuid" />
+                <ScalarProperty Name="email" ColumnName="email" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
