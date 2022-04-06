@@ -182,14 +182,14 @@
                     EndDate: this.selectEndDate
                 }
 
-                axios.post('/api/shopapi/PostSelectSearch', data).then(function (res) {
+                axios.post('/api/ShopApi/PostSelectSearch', data).then(function (res) {
                     self.exhibitionList = res.data;
                     self.arrayFilter()
                 })
             },
             keyWordSearch() {
                 let self = this
-                const url = '/api/shopapi/GetSearchTicketList/?searchStr=' + self.keyword + '&page=' + self.pageNum
+                const url = '/api/ShopApi/GetSearchTicketList/?searchStr=' + self.keyword + '&page=' + self.pageNum
                 axios.get(url).then(function (res) {
                     self.exhibitionList = res.data;
                     self.arrayFilter()

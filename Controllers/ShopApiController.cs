@@ -370,7 +370,9 @@ namespace EXhibition.Controllers
 
             IQueryable<events> query = (from eh in db.events select eh);
 
-            var eventList = (from tg in db.TagsName join eTag in db.eventTags on tg.id equals eTag.tagID select eTag.EVID).ToList().Distinct();
+            var eventList = (from tg in db.TagsName 
+                             join eTag in db.eventTags on tg.id equals eTag.tagID 
+                             select eTag.EVID).ToList().Distinct();
 
             if (page - 1 >= 0)
             {
@@ -387,6 +389,10 @@ namespace EXhibition.Controllers
             if (data.StartDate == null && data.EndDate == null)
             {
                 var searchDate = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList(); ;
+                foreach(events item in searchDate)
+                {
+                    item.image = "/image/Host/" + item.image;
+                }
                 return Ok(searchDate);
             }
 
@@ -401,6 +407,10 @@ namespace EXhibition.Controllers
             }
 
             var b = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList();
+            foreach(events item in b)
+            {
+                item.image = "/image/Host/" + item.image;
+            }
             return Ok(b);
         }
 
