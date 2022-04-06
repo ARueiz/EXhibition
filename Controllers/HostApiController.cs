@@ -395,8 +395,15 @@ namespace EXhibition.Controllers
 
         public ActionResult List(int? id)
         {
+<<<<<<< HEAD
             int va;
 
+=======
+
+            int va;
+
+
+>>>>>>> 2b61f632acde4eafdf611fb7cf6c52df80c01ef1
             if (id == null || (int)id <= 0)
             {
                 va = 1;
@@ -413,9 +420,8 @@ namespace EXhibition.Controllers
             var data = (from hostsTable in db.hosts
                         join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
                         where eventsTable.HID == HID
-                        orderby eventsTable.EVID
-                        select new Models.HostEventInfo
-                        
+                        orderby eventsTable.EVID descending
+                        select new Models.HostEventInfo                        
                         {
                             name = hostsTable.name,
                             phone = hostsTable.phone,
@@ -432,6 +438,7 @@ namespace EXhibition.Controllers
                 var count = (db.exhibitinfo.Where(e => e.EVID == evid).Where(e => e.verify == null)).ToArray().Count();
                 data[i].waitingCount = count;
             }
+
 
 
             foreach (var item in data)

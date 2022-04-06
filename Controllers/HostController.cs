@@ -158,8 +158,9 @@ namespace EXhibition.Controllers
         }
 
         // 驗票
-        public ActionResult CheckTicket()
+        public ActionResult CheckTicket(int? EVID)
         {
+            ViewBag.EVID = EVID;
             return View();
         }
 
