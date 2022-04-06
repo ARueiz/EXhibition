@@ -56,13 +56,14 @@
             data: {
                 res: [],
                 pageNum: 1,
-
             },
 
             mounted() {
-
                 this.GetMaterial(0)
-
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    });
             },
             methods: {
                 Details: function (va) {
@@ -74,10 +75,6 @@
                             console.log(err)
                         });
                 },
-
-
-
-
                 GetMaterial: function (va) {
 
                     if (this.pageNum + va > 0) {

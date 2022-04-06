@@ -49,7 +49,7 @@
                     <a href="/">首頁</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <a href="/home">展覽列表</a>
+                    <a href="/shop">展覽列表</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">詳細資訊</li>
             </ol>
@@ -60,11 +60,14 @@
         <div class="row mt-5">
             <div class="col-md-8">
                 <div>
+                <div class="mb-5">
+                <div>
                     <img class="w-100 p-0 m-0"
                          :src="imgUrl"
                          alt="">
+                <div class="mb-1">
+                    {{ content }}
                 </div>
-                {{ content }}
             </div>
             <div class="col-md-4">
 
@@ -115,11 +118,7 @@
             </div>
         </div>
 
-
-
-
     </div>
-    <div class="w3-col m1"></div>
 </div>
 
 <script>

@@ -398,6 +398,7 @@ namespace EXhibition.Controllers
 
             int va;
 
+
             if (id == null || (int)id <= 0)
             {
                 va = 1;
@@ -435,6 +436,7 @@ namespace EXhibition.Controllers
             }
 
 
+
             foreach (var item in data)
             {
                 if (DateTime.Now >= DateTime.Parse(item.startdate))
@@ -447,6 +449,7 @@ namespace EXhibition.Controllers
                 }
 
             }
+
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
