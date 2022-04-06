@@ -168,7 +168,7 @@ namespace EXhibition.Controllers
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate > today && q.verify == null && k.EVID == eidd
+                           where k.startdate >= today && q.verify == null && k.EVID == eidd
                            select new AuditExhibitorInfo
                            {
                                name = p.name,
@@ -259,7 +259,7 @@ namespace EXhibition.Controllers
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate < today  && k.EVID == EVID
+                           where k.startdate >= today  && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -296,7 +296,7 @@ namespace EXhibition.Controllers
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate < today && q.verify == true && k.EVID == EVID
+                           where k.startdate >= today && q.verify == true && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -325,7 +325,7 @@ namespace EXhibition.Controllers
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate < today && q.verify == false && k.EVID == EVID
+                           where k.startdate >= today && q.verify == false && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -395,10 +395,11 @@ namespace EXhibition.Controllers
 
         public ActionResult List()
         {
-
+            int HID = (int)Session["AccountID"];
 
             var b = from hostsTable in db.hosts
                     join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
+                    where eventsTable.HID == HID
                     select new
                     {
                         name = hostsTable.name,
