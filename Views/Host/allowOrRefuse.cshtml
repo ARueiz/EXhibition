@@ -3,12 +3,24 @@
     ViewBag.Title = "allowOrRefuse";
 }
 
+@section    styles{
+    <style>
+        .fade {
+            opacity: 0;
+            -webkit-transition: none;
+            -o-transition: none;
+            transition: none;
+        }
+    </style>
+}
+<<<<<<< HEAD
+=======
 
 
 
 
 
-
+>>>>>>> aaabbb
 
 <div class="row main-content" style="min-height: 100vh;" id="content">
 
@@ -20,10 +32,10 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/Host">首頁</a></li>
                 <li class="breadcrumb-item" aria-current="page">
-                    <a href="/home/ShowHostEvent">審核列表</a>
+                    <a href="/host/ShowHostEvent">審核列表</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <a href="/home/ShowHostEvent">審核</a>
+                    <a href="#">審核</a>
                 </li>
             </ol>
         </nav>
@@ -115,7 +127,7 @@
 
     </div>
     <!-- Modal accep -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -126,15 +138,15 @@
                     確定要允許加入展覽嗎？
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" v-on:click="decide(1)">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" v-on:click="decide(1)">確定</button>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Modal reject -->
-    <div class="modal fade" id="reject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal" id="reject" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -142,26 +154,52 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" placeholder="輸入不核准理由" id="reason5">
-                    <div style="display: flex; flex-direction: row; margin: 10px;">
-                        <input type="radio" name="reason1" value="展覽別不同" onclick="clicked()">展覽別不同
+                    <input type="text" placeholder="輸入不核准理由" v-model="reasonStr" id="reason5">
+                    <div style="display: flex; flex-flow: wrap row; flex-direction: row; margin: 10px;">
 
-                        <input type="radio" name="reason2" value="圖片不符" onclick="clicked()">圖片不符
+                        <div class="form-check" style="margin-right: 25px">
+                            <input class="form-check-input" type="radio" v-model="reasonStr" id="reason1" name="reason1" value="展覽別不同">
+                            <label class="form-check-label" for="reason1">展覽別不同</label>
+                        </div>
 
-                        <input type="radio" name="reason3" value="名稱不適當" onclick="clicked()">名稱不適當
+                        <div class="form-check" style="margin-right: 25px">
+                            <input class="form-check-input" type="radio" v-model="reasonStr" id="reason2" name="reason2" value="圖片不符">
+                            <label class="form-check-label" for="reason2">圖片不符</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" v-model="reasonStr" id="reason3" name="reason3" value="名稱不適當">
+                            <label class="form-check-label" for="reason3">名稱不適當</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" v-model="reasonStr" id="reason4" name="reason4" value="未輸入詳細資訊">
+                            <label class="form-check-label" for="reason4">未輸入詳細資訊</label>
+                        </div>
 
-                        <input type="radio" name="reason4" value="未輸入詳細資訊" onclick="clicked()">未輸入詳細資訊
                     </div>
 
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" v-on:click="decide(2)">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" v-on:click="decide(2)">確定</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Modal loading -->
+    <div class="modal fade" v-if="isShow" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <button type="button" class="btn-close d-none" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">請稍後</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 </div>
 
@@ -175,12 +213,12 @@
                 ],
                 clickdata: '',
                 reasonStr: '',
-
+                isShow: false , 
                 evid: @ViewBag.EVID
             }
         },
         created: function () {
-            this.onlynull();
+            this.selectAllStatusList();
         },
         methods: {
             whereiclick(id) {
@@ -224,6 +262,9 @@
 
             decide: function (index) {
                 let self = this;
+                
+                self.isShow = true;                
+
                 if (index == 1) {
                     console.log("allow");
                     axios.post('/HostApi/AllowOrRefuse', {
@@ -231,7 +272,7 @@
                         verified: true,
 
                     })
-                        .then((response) => console.log(response))
+                        .then((response) => self.selectAllStatusList() )
                         .catch((error) => console.log(error))
 
                     console.log('test')
@@ -239,6 +280,7 @@
                     let loadModal2 = $('#reject');
                     loadModal.modal('hide');
                     loadModal2.modal('hide');
+                    self.isShow = false;
 
                 } else {
                     console.log("reject");
@@ -248,7 +290,7 @@
                         verified: false,
                         reason: self.reasonStr,
                     })
-                        .then((response) => console.log(response))
+                        .then((response) => self.selectAllStatusList() )
                         .catch((error) => console.log(error))
 
                     console.log('test')
@@ -256,6 +298,7 @@
                     let loadModal2 = $('#reject');
                     loadModal.modal('hide');
                     loadModal2.modal('hide');
+                    self.isShow = false;
                 }
             },
             whyRejected() {

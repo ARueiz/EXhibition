@@ -36,7 +36,11 @@ namespace EXhibition.Controllers
         public IHttpActionResult GetNewTicketList()
         {
             var b = (from eve in db.events orderby eve.createAt descending select eve).Take(4).ToList();
-            return Json(b);
+            foreach (var item in b)
+            {
+                item.image = "/image/host/" + item.image;
+            }
+            return Ok(b);
         }
 
         // 查詢熱門票券
@@ -74,6 +78,10 @@ namespace EXhibition.Controllers
             }
 
             eventlist = db.events.Where(item => eventIdList.Contains(item.EVID)).ToList();
+            foreach (var item in eventlist)
+            {
+                item.image = "/image/host/" + item.image;
+            }
 
             return Json(eventlist);
         }
@@ -241,6 +249,11 @@ namespace EXhibition.Controllers
                                               name = eData.name,
                                               image = eInfo.image
                                           }).ToList();
+
+            foreach (var item in mEventDetail.exhibitorList)
+            {
+                item.image = "/image/exhibitor/"+item.image;
+            }
 
             return Ok(mEventDetail);
         }
