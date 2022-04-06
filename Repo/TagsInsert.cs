@@ -5,7 +5,7 @@ namespace EXhibition.Repo
 {
     public class TagRepo
     {
-        public void TagsInsert(List<string> list,int eventId)
+        public void TagsInsert(List<string> list, int eventId)
         {
             Models.DBConnector db = new Models.DBConnector();
 
@@ -28,9 +28,8 @@ namespace EXhibition.Repo
                     db.eventTags.Add(new Models.eventTags() { EVID = eventId, tagID = tg.id });
                     db.SaveChanges();
                 }
-                
+
             });
         }
-
     }
 }

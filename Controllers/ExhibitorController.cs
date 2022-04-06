@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using EXhibition.Filters;
 using EXhibition.Models;
 
@@ -32,6 +33,23 @@ namespace EXhibition.Controllers
         {
             ViewBag.EVID = EVID;
 
+            
+            return View();
+        }
+
+        // showHostList -> 紅色(申請展覽)按鈕
+        public ActionResult createEventInfo(int? EVID)
+        {
+            int EID = (int)Session["AccountID"];
+            ViewBag.EVID = EVID;
+            ViewBag.EID = EID;
+
+            var events = db.events.Where(ev => ev.EVID == EVID).FirstOrDefault();
+
+            var exhibitor = db.exhibitors.Where(e => e.EID == EID).FirstOrDefault();
+
+            ViewBag.eventname = events.name;
+            ViewBag.name = exhibitor.name;
             
             return View();
         }

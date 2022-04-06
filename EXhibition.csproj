@@ -223,6 +223,7 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ReturnData.cs" />
+    <Compile Include="Models\SearchSelect.cs" />
     <Compile Include="Models\SHA_256.cs" />
     <Compile Include="Models\TagsName.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
@@ -239,6 +240,7 @@
     <Compile Include="Repo\AuthorizeOrder.cs" />
     <Compile Include="Repo\CheckOutRepo.cs" />
     <Compile Include="Repo\BuildPayPalOrder.cs" />
+    <Compile Include="Repo\HostDashboard.cs" />
     <Compile Include="Repo\PayPalClient.cs" />
     <Compile Include="Repo\TagsInsert.cs" />
   </ItemGroup>
@@ -459,6 +461,9 @@
     <Content Include="Views\Home\EventDetail.cshtml" />
     <Content Include="Views\Exhibitor\showEventDetail.cshtml" />
     <Content Include="Views\Exhibitor\ApplyHistory.cshtml" />
+    <Content Include="Views\Host\EditEventInfo.cshtml" />
+    <Content Include="Views\Exhibitor\createEventInfo.cshtml" />
+    <Content Include="Views\User\ConsumingRecords.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

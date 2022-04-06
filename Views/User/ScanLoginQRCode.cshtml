@@ -8,6 +8,14 @@
     <div id="video-container">
         <video id="qr-video" style="width: 100% !important; height: 100% !important;"></video>
     </div>
+    <div class="d-none">
+        <h5 class="d-none">Detected QR code: </h5>
+        <span class="d-none" id="cam-qr-result">None</span>
+        <br>
+        <h5 class="d-none">Last detected at: </h5>
+        <span class="d-none" id="cam-qr-result-timestamp"></span>
+        <br>
+    </div>
     <button class="btn btn-primary" id="start-button">開始掃描</button>
     <button class="btn btn-primary" id="stop-button">停止掃描</button>
 </div>
@@ -23,7 +31,7 @@
         //const videoContainer = document.getElementById('video-container');
         //const camList = document.getElementById('cam-list');
         // const camHasFlash = document.getElementById('cam-has-flash');
-        //const camQrResult = document.getElementById('cam-qr-result');
+        const camQrResult = document.getElementById('cam-qr-result');
         //const camQrResultTimestamp = document.getElementById('cam-qr-result-timestamp');
         let token = '';
 
@@ -66,8 +74,8 @@
 
         const scanner = new QrScanner(video, result => setResult(camQrResult, result), {
             onDecodeError: error => {
-                //camQrResult.textContent = error;
-                //camQrResult.style.color = 'inherit';
+                camQrResult.textContent = error;
+                camQrResult.style.color = 'inherit';
             },
             highlightScanRegion: true,
             highlightCodeOutline: true,

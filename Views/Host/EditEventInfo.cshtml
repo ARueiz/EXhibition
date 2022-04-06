@@ -1,0 +1,353 @@
+﻿@{
+    ViewBag.Title = "編輯展覽資訊";
+}
+
+@section styles{
+    <link href="~/Content/TagModal.css" rel="stylesheet" />
+}
+
+<!-- Form & image -->
+<div class="container h-100 mt-3" id="VuePage">
+    <div class="row d-flex justify-content-evenly h-100">
+        <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-9 col-sm-12 card shadow-sm">
+            <!-- Form -->
+            <div class="card-body m-3">
+                <form enctype="multipart/form-data" v-on:submit.prevent="DoUpdateEvent()">
+                    <h2>新增展覽/活動</h2>
+                    <div class="mb-3">
+                        <h5>主辦方：{{hostname}}</h5>
+                    </div>
+                    <div class="mb-3">
+                        <h5 class="form-label fw-bolder">展覽名稱</h5>
+                        <input type="text" class="form-control" v-model="name" required="required">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <h5 class="form-label fw-bolder">開始日期</h5>
+                            <input type="date" class="form-control" v-model="startdate" :min="today" required="required">
+                        </div>
+                        <div class="col-sm-6">
+                            <h5 class="form-label fw-bolder">結束日期</h5>
+                            <input type="date" class="form-control" v-model="enddate" :min="today" required="required">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <h5 class="form-label fw-bolder">展覽封面圖</h5>
+                            <input type="file" class="form-control" id="image" v-on:change="imageChange()" accept="image/jpeg,image/png">
+                        </div>
+                        <div class="col-sm-6">
+                            <h5 class="form-label fw-bolder">場地平面圖</h5>
+                            <input type="file" class="form-control" id="floorplanimg" v-on:change="floorplanimgChange()" accept="image/jpeg,image/png">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h5 class="form-label fw-bolder">場地地址</h5>
+                        <input type="text" class="form-control" v-model="venue" required="required">
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <h5 class="form-label fw-bolder">分類</h5>
+                            <button data-bs-toggle="modal"
+                                    data-bs-target="#tagModal"
+                                    class="btn btn-primary mb-2"
+                                    type="button"
+                                    v-on:click.stop="">
+                                加入標籤
+                            </button>
+                            <div class="d-flex flex-wrap">
+                                <span v-for="element in selectedTag" class="m-1 badge badge-warning bg-warning text-dark">{{ element }}</span>
+                            </div>
+                            @*<input type="text" class="form-control" v-model="category" required="required">*@
+                        </div>
+                        <div class="col-sm-6">
+                            <h5 class="form-label fw-bolder">票價</h5>
+                            <input type="text" class="form-control" v-model="ticketprice" required="required">
+                        </div>
+
+                    </div>
+                    <div class="mb-3 ">
+                        <h5 class="form-label fw-bolder">展覽資訊</h5>
+                        <textarea class="form-control col-sm-4" v-model="eventinfo" style="height: 200px"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">更新展覽資訊</button>
+                </form>
+            </div>
+        </div>
+        <!-- img -->
+        <div class="col-xxl-6 col-xl-5 col-lg-6 col-md-9 col-sm-12">
+            <div class="row d-flex justify-content-evenly">
+                <div class="mb-3 mt-2">
+                    <h4 class="form-label fw-bolder">展覽封面圖</h4>
+                    <img :src="image" id ="imagepreview" class="img-fluid" alt="Responsive image">
+                </div>
+                <div class="mb-3 mt-2">
+                    <h4 class="form-label fw-bolder">場地平面圖</h4>
+                    <img :src="floorplanimg" id ="floorplanimgpreview" class="img-fluid" alt="Responsive image">
+                </div>
+            </div>   
+        </div>
+
+        <!-- Modal -->
+        <div class="modal" id="ErrorAlert" tabindex="-1" data-bs-backdrop="static">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">更新成功</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="ErrorMsg">
+                        展覽/活動 更新成功 點擊確認前往展覽頁面
+                    </div>
+                    <div class="modal-footer">
+                        @Html.ActionLink("確定", "Index", new { }, new { @class = "btn btn-info", @role = "button" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- tag Modal -->
+        <div class="modal fade" id="tagModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tag #</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal">
+                        <h3>熱門標籤</h3>
+                        <div class="selection-area d-flex flex-wrap" style="">
+                            <div v-for="(item,index) in tag" class="d-inline-block"
+                                 style="margin: 5px; border-radius: 70%;">
+                                <div class="m-0 d-inline-block"
+                                     style="background-color: rgb(220, 231, 231); padding: 0 3px; "
+                                     v-on:click="select(item,index)">
+                                    {{item}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <p>
+                            <input type="text" class="input-tag" v-model="newDATA">
+                            <button class="addNew input-btn" v-on:click="newTag()">增加</button>
+                        </p>
+                        <div class="chosen show-area  d-inline-block " v-for="(item,index) in selectedTag"
+                             v-on:click="de_select(item,index)"
+                             style="margin-top: 2px ;display: flex; flex-direction: row; margin-left: 3px ;  ">
+                            <div class="m-0 "
+                                 style="background-color: rgb(220, 231, 231); padding: 0 3px;">
+                                #{{item}}
+                            </div>
+                        </div>
+                        <div class="chosen show-area  d-inline-block " v-on:click="de_select(item,index)"
+                             style="margin-top: 2px ;display: flex; flex-direction: row; margin-left: 3px ;  ">
+                            <div class="m-0 " style="background-color: rgb(220, 231, 231); padding: 0 3px;">
+                                {{newDATA}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-bs-dismiss="modal" class="btn btn-primary">儲存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end tag Modal -->
+    </div>
+
+</div>
+
+
+@section scripts {
+    <script>
+        Vue.config.devtools = true;
+
+        var VuePage = new Vue({
+            el: '#VuePage',
+            data: {
+                HID: "@ViewBag.sessionHID",
+                EVID: "@ViewBag.EVID",
+                today: new Date().toISOString().slice(0, 10),
+                hostname: "@ViewBag.hostname",
+                name: "@ViewBag.name",
+                startdate: "@ViewBag.startdate",
+                enddate: "@ViewBag.enddate",
+                venue: "@ViewBag.venue",
+                image: "@ViewBag.image",
+                floorplanimg: "@ViewBag.floorplanimg",
+                category: "",
+                eventinfo: `@ViewBag.eventinfo`,
+                ticketprice: "@ViewBag.ticketprice",
+                FormData: new FormData(),
+                origian: [],
+                tag: [],
+                oriselectedTag: [],
+                selectedTag: [],
+                newDATA: "",
+            },
+            created: function () {
+                this.getTagList();
+                this.getSelectedTagList();
+            }
+            , methods: {
+                imageChange: function () {
+                    const self = this;
+
+                    let theFile = document.querySelector('#image');
+                    this.$data.image = theFile.files[0].name;
+                    console.log(theFile.files[0]);
+
+                    this.$data.FormData.set("image", theFile.files[0]);
+                    self.openImgFile("image", "imagepreview");
+                },
+                floorplanimgChange: function () {
+                    const self = this;
+
+                    let theFile = document.querySelector('#floorplanimg');
+                    this.$data.floorplanimg = theFile.files[0].name;
+                    console.log(theFile.files[0]);
+
+                    this.$data.FormData.set("floorplanimg", theFile.files[0]);
+                    self.openImgFile("floorplanimg", "floorplanimgpreview");
+                },
+
+                //圖片預覽
+                openImgFile: function (imgfile, imgpre) {
+
+                    let fileUpload = document.getElementById(imgfile);
+                    let imgPreview = document.getElementById(imgpre);
+                    let img = fileUpload.files[0];
+
+                    if (fileUpload.files.length > 0) {
+
+                        let reader = new FileReader();
+                        reader.onload = function () {
+                            imgPreview.src = reader.result;
+                        }
+
+                        reader.readAsDataURL(img);
+                    }
+                    else {
+                        imgPreview.src = "~/Image/Host/EditHost.png";
+                    }
+                },
+
+                DoUpdateEvent: function () {
+                    event.preventDefault()
+                    var self = this;
+
+                    let imageUpload = document.getElementById("image");
+                    let floorplanUpload = document.getElementById("floorplanimg");
+
+                    //格式化圖片名稱
+                    let EVname = "EV_UID" + self.HID + "_";
+                    let FPname = "FP_UID" + self.HID + "_";
+                    let startFormat = self.startdate.replaceAll("-", "").substring(2);
+                    let endFormat = self.enddate.replaceAll("-", "").substring(2);
+
+                    if (imageUpload.files.length > 0) {
+                        self.image = EVname + startFormat + "_" + endFormat + ".png";
+                    }
+
+                    if (floorplanUpload.files.length > 0) {
+                        self.floorplanimg = FPname + startFormat + "_" + endFormat + ".png";
+                    }
+
+                    self.eventinfo = encodeURIComponent(self.eventinfo);
+
+                    this.$data.FormData.append("EVID", self.EVID);
+                    this.$data.FormData.append("name", self.name);
+                    this.$data.FormData.append("startdate", self.startdate);
+                    this.$data.FormData.append("enddate", self.enddate);
+                    this.$data.FormData.append("venue", self.venue);
+                    this.$data.FormData.append("image", self.image);
+                    this.$data.FormData.append("floorplanimg", self.floorplanimg);
+                    this.$data.FormData.append("eventinfo", self.eventinfo);
+                    this.$data.FormData.append("ticketprice", self.ticketprice);
+                    //this.$data.FormData.append("tagList", self.selectedTag );
+
+                    for (var i = 0; i < self.selectedTag.length; i++) {
+                        this.$data.FormData.append("tagList[" + i + "]", self.selectedTag[i])
+                    }
+
+                    axios.post('@Url.Content("~/HostApi/DoUpdateEvent")', this.$data.FormData , { headers: { 'Content-Type': 'multipart/form-data' } })
+                    .then(function (response) {
+                        console.log(response.data);
+                        if (response.data.status == "success") {
+                            var myModal = new bootstrap.Modal(document.getElementById("ErrorAlert"), {});
+                            myModal.show();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+                },
+
+                async tagselector() {
+                    const self = this
+                    await fetch('/hostapi/tagselector')
+                        .then(res => res.json()).then(res => {
+                            self.origian = res
+                        })
+                    await this.copy();
+                },
+
+                async getTagList() {
+                    const self = this
+                    await fetch('/api/other/gettaglist')
+                        .then(res => res.json()).then(res => {
+                            self.origian = res
+                        })
+                    await this.copy();
+                },
+
+                async getSelectedTagList() {
+                    const self = this
+                    await fetch(`/api/other/GetEventTagsList/?EVID=${self.EVID}`)
+                        .then(res => res.json()).then(res => {
+                            self.oriselectedTag = res;                            
+                        })
+                    await this.copyselect();
+                },
+
+                select: function (data, index) {
+                    this.selectedTag.push(this.tag[index])
+                    this.tag.splice(index, 1)
+                },
+
+                de_select: function (data, index) {
+                    var self = this;
+                    console.log(self.origian.includes(data));
+                    if (!self.origian.includes(data)) {
+                        this.selectedTag.splice(index, 1)
+                        return
+                    }
+                    ;
+
+                    this.tag.push(this.selectedTag[index])
+                    this.selectedTag.splice(index, 1)
+
+                },
+
+                newTag() {
+                    if (this.newDATA == '') return;
+
+                    this.selectedTag.push(this.newDATA);
+                    this.newDATA = '';
+                },
+
+                copy: function () {
+                    this.tag = JSON.parse(JSON.stringify(this.origian));
+                    return this.tag;
+                },
+
+                copyselect: function () {
+                    this.selectedTag = JSON.parse(JSON.stringify(this.oriselectedTag));
+                    return this.selectedTag;
+                }
+
+            }
+        })
+    </script>
+}
