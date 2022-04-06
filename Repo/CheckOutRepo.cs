@@ -27,7 +27,7 @@ namespace EXhibition.Repo
             foreach (var ticket in ticketList)
             {
                 // 建立票券
-                var t = db.Tickets.Add(new Tickets() { UID = userId, createAt = DateTime.Now, EVID = ticket.EVID });
+                var t = db.Tickets.Add(new Tickets() { UID = userId, createAt = DateTime.Now, EVID = ticket.EVID, paid = true});
                 db.SaveChanges();
 
                 // 建立訂單資料

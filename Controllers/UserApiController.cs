@@ -16,10 +16,6 @@ namespace EXhibition.Controllers
 
             int id = (int)(Session["AccountID"] == null ? 2 : Session["AccountID"]);
 
-            id = Session["userid"] == null ? 2 : (int)Session["userid"];
-
-
-
             var mes = new Models.ReturnData();
             if (id == -1)
             {
@@ -33,6 +29,7 @@ namespace EXhibition.Controllers
                               join q in db.events on p.EVID equals q.EVID
                               join k in db.users on p.UID equals k.UID
                               where k.UID == id
+                              orderby p.createAt descending
                               select new TicketPreview()
                               {
                                   ticketId = p.TID,
@@ -62,13 +59,12 @@ namespace EXhibition.Controllers
         }
 
 
-        public ActionResult ticketdetail(int? eventID = 12) // 改用 ticketId 
+        public ActionResult ticketdetail(int? ticketId) // 改用 ticketId 
         {
-            //int userId = (int)Session["userid"];
-            int userId = 14;
+            int userId = (int)(Session["AccountID"] == null ? 2 : Session["AccountID"]);
 
             // 更新 qr code 產生
-            var tk = db.Tickets.Where(e => e.UID == userId).Where(e => e.EVID == eventID).FirstOrDefault();
+            var tk = db.Tickets.Where(t => t.TID == ticketId).FirstOrDefault();
             tk.token = Guid.NewGuid().ToString();
             tk.tokenExistenceTime = DateTime.Now;
             db.SaveChanges();
@@ -76,8 +72,7 @@ namespace EXhibition.Controllers
             var data = (from t in db.Tickets
                         join u in db.users on t.UID equals u.UID
                         join e in db.events on t.EVID equals e.EVID
-                        where e.EVID == eventID
-                        where u.UID == userId
+                        where t.TID == ticketId
                         select new
                         {
                             content = e.eventinfo,

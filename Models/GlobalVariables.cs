@@ -9,6 +9,7 @@ namespace EXhibition.Models
     {
         static public string QRcodeToken = "QRcodeToken";
         static public string AccountId = "AccountId";
+        static public string AccountID = "AccountID";        
         static public string AccountType = "AccountType";
         static public string User = "User";
         static public string Host = "Host";

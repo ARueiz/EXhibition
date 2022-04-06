@@ -39,7 +39,7 @@
         el: '#contain',
         data() {
             return {
-                ticketId: 0,
+                ticketId: "@ViewBag.TID",
                 ticketStatus: 'over',
                 title: '',
                 exhibitionStart: '',
@@ -82,7 +82,7 @@
 
             connectAxios: function () {
                 var self = this;
-                axios.get('/UserApi/ticketdetail').then(function (res) {
+                axios.get(`/UserApi/ticketdetail/?ticketId=${self.ticketId}`).then(function (res) {
                     return res.data
                 }).then(function (res) {
                     console.log(res)

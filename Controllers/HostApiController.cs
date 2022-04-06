@@ -395,15 +395,9 @@ namespace EXhibition.Controllers
 
         public ActionResult List(int? id)
         {
-<<<<<<< HEAD
-            int va;
-
-=======
 
             int va;
 
-
->>>>>>> 2b61f632acde4eafdf611fb7cf6c52df80c01ef1
             if (id == null || (int)id <= 0)
             {
                 va = 1;
