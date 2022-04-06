@@ -413,7 +413,7 @@ namespace EXhibition.Controllers
             var data = (from hostsTable in db.hosts
                         join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
                         where eventsTable.HID == HID
-                        orderby eventsTable.EVID
+                        orderby eventsTable.EVID descending 
                         select new Models.HostEventInfo
                         
                         {
