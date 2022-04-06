@@ -23,13 +23,11 @@ namespace EXhibition.Controllers
 
         public ActionResult SideBarBtn()
         {
-
-            //if (HttpContext.IsDebuggingEnabled)
-            //{
-            //    Session["UserRole"] = "Host";
-            //}
-
-            Session["UserRole"] = Session["UserRole"] != null ? Session["UserRole"] : "Visitor";
+            if (Session["UserRole"] == null)
+            {
+                Session["UserRole"] = "Visitor";
+                Session["AccountID"] = 2;
+            }
 
             if (Session["UserRole"].ToString() == "User")
             {
@@ -47,9 +45,7 @@ namespace EXhibition.Controllers
 
         public ActionResult SideBar()
         {
-
             int authId = Session["auth"] == null ? 1 : (int)Session["auth"];
-
             if (Session["UserRole"].ToString() == "User")
             {
                 return PartialView("_SideBarUser");

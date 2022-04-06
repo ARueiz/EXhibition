@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "ConsumingRecords";
+}
+
+@section styles{
+    <style>
+
+        @@media screen and (max-width: 576px) {
+            #contain {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+        }
+
+        .customerTR td, .customerTR th {
+            padding: 15px 0px 15px 15px;
+        }
+    </style>
+}
+
+<div class="mt-3 p-3" id="contain">
+
+    <div class="d-inline-block w-50 mb-2">
+        <h3>購買列表</h3>
+    </div>
+
+    <table class="table">
+        <tr class="customerTR">
+            <th scope="col">名稱</th>
+            <th scope="col">展覽日期</th>
+            <th scope="col">狀態</th>
+            <th scope="col">價錢</th>
+            <th scope="col">購買日期</th>
+        </tr>
+        <tr class="customerTR" v-for="element in ShopList">
+            <td>{{ element.name }}</td>
+            <td>{{ element.startdate }} - {{ element.enddate }}</td>
+            <td>{{ element.status }}</td>
+            <td>{{ element.ticketPrice }}元</td>
+            <td>{{ element.purchaseDateTime }}</td>
+        </tr>
+    </table>
+
+</div>
+
+<script>
+    new Vue({
+        el: '#contain',
+        data() {
+            return {
+                ShopList: [],
+            }
+        },
+
+        //AXIOS
+        created: function () {
+            this.getData();
+
+        },
+        methods: {
+            getData() {
+                let self = this
+                fetch('/api/shopapi/GetConsumingRecord')
+                    .then(res => res.json())
+                    .then(res => {
+                        self.ShopList = res
+                    })
+            },
+        }
+    })
+</script>
+
+

@@ -11,10 +11,10 @@
     <div class=" mb-4 d-flex flex-wrap justify-content-between align-content-center">
         <h3 class="col-md-4 h-100 m-0">已申請列表</h3>
         <div class="col-md-8 d-flex align-content-center justify-content-end">
-            <button class="status-btn all" @@click="getSearchList('all')">全部</button>
-            <button class="status-btn fail" @@click="getSearchList('拒絕')">申請失敗</button>
-            <button class="status-btn success" @@click="getSearchList('允許')">申請成功</button>
-            <button class="status-btn checking" @@click="getSearchList('尚未審核')">正在審核</button>
+            <button class="status-btn all" v-on:click="getall">全部</button>
+            <button class="status-btn fail" v-on:click="getSearchList('False')">申請失敗</button>
+            <button class="status-btn success" v-on:click="getSearchList('True')">申請成功</button>
+            <button class="status-btn checking" v-on:click="getSearchList('NULL')">正在審核</button>
         </div>
     </div>
     <div>
@@ -31,17 +31,20 @@
             </thead>
             <tbody>
                 <tr v-for="(element,index) in eventList">
+                    <td class="d-none">{{ element.EVID }}</td>
                     <td class="align-middle" scope="row">{{ index + 1 }}</td>
-                    <td class="align-middle"><a href="#">{{ element.name }}</a></td>
+                    <td class="align-middle">
+                        <button v-on:click="goPage(element.EVID)" class="bg-light">{{ element.name }}</button>
+                    </td>
                     <td class="align-middle text-center">{{ element.createAt }}</td>
                     <td class="align-middle text-center">
                         <span class="status-badge d-inline-block"
-                              v-bind:class="[ badgeBackground(element.status) ]">{{ toChinese(element.status) }}</span>
+                              v-bind:class="[ badgeBackground(element.verify) ]">{{ toChinese(element.verify) }}</span>
                     </td>
                     <td class="align-middle text-center">{{ element.reason }}</td>
                     <td class="align-middle text-center">
                         <button class="edit-btn"
-                                v-if="element.status === 'fail' && checkDate(element.startTime)"
+                                v-if="element.verify === 'False' && checkDate(element.startTime)"
                                 onclick="edit(element.EVID)">
                             編輯
                         </button>
@@ -59,7 +62,6 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
         crossorigin="anonymous"></script>
-<script src="./js/jquery.qrcode.min.js"></script>
 
 <script>
     new Vue({
@@ -67,42 +69,44 @@
         data() {
             return {
                 badgeBg: {
-                    success: 'badgeSuccess',
-                    fail: 'badgeFail',
-                    checking: 'badgeChecking',
+                    Success: 'badgeSuccess',
+                    Fail: 'badgeFail',
+                    Checking: 'badgeChecking',
                 },
-                eventList: [                   
-                ],
-                taglist: [
+                eventList: [
                 ],
                 pageNum: 1,
-                searchStatus: 'all'
+                searchStatus: 'all',
             }
         },
         created() {
 
         },
-        mounted: function(){
-            const self = this
-            axios.get('/ExhibitorApi/NowApplying/10')
-                .then(function (response) {
-                    self.eventList = response.data
-                    console.log(response)
-                })
-        },
+        mounted() {
+            this.getall()
+        }
+        ,
         methods: {
             toChinese(data) {
-                if (data === 'fail') {
+                if (data === false) {
                     return '申請失敗'
-                } else if (data === 'success') {
+                } else if (data ===  true) {
                     return '申請成功'
-                } else if (data === 'checking') {
+                } else if (data === null) {
                     return '正在審核'
                 }
             },
             badgeBackground(data) {
                 const self = this;
-                return self.badgeBg[data];
+                if (data == true) {
+                    return self.badgeBg['Success']
+                }
+                if (data == false) {
+                    return self.badgeBg['Fail']
+                }
+                if (data == null) {
+                    return self.badgeBg['Checking']
+                }
             },
             edit(data) {
                 window.location.href = '前往編輯連結' + data
@@ -110,14 +114,28 @@
             checkDate(data) {
 
             },
-            getSearchList(data) {
-                // 按鈕會會傳狀態，根據狀態進行判斷目前要撈哪種資料           
-                const self = this
-                axios.get('/ExhibitorApi/NowApplyingTag/?tag='+data)
-                    .then(function (response) {
-                        self.eventList = response.data;
-                        console.log(response)
-                    })
+            getall() {
+            const self = this
+            axios.post('/ExhibitorApi/NowApplying/'+'@ViewBag.id')
+                .then(function (response) {
+                    self.eventList = response.data
+                    console.log(response)
+                })
+            },
+            goPage(data) {
+                window.location.href = '/Host/EventDetail/' + data
+            },
+            getSearchList(Tag) {
+                // 按鈕會會傳狀態，根據狀態進行判斷目前要撈哪種資料
+                    const self = this
+                        axios.post('/ExhibitorApi/NowApplyingTag/',{
+                        EID : @ViewBag.id ,
+                        tag : Tag,
+                        })
+                        .then(function (response) {
+                            self.eventList = response.data;
+                            console.log(response)
+                        })
             }
         },
     })

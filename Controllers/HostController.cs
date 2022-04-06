@@ -66,6 +66,10 @@ namespace EXhibition.Controllers
 
         public ActionResult allowOrRefuse(int? EVID)
         {
+            if (EVID == null)
+            {
+                return Redirect("index");
+            }
             ViewBag.EVID = EVID;
             return View();
         }
@@ -74,7 +78,7 @@ namespace EXhibition.Controllers
         //邱品叡
         public ActionResult CreateEvent()
         {
-            int HID = (int)Session["AccountID"];
+            int HID = Session["AccountID"] == null ? 2 : (int)Session["AccountID"];
 
             var info = db.hosts.Where(h => h.HID == HID).Select(h => new
             {
@@ -92,6 +96,50 @@ namespace EXhibition.Controllers
         {
 
             return View();
+        }
+
+        // 邱品叡 主辦單位>已建立展覽>編輯
+        public ActionResult EditEventInfo(int? EVID)
+        {
+            ViewBag.EVID = EVID;
+
+            if (EVID != null)
+            {
+                var list = (from events in db.events
+                            join host in db.hosts on events.HID equals host.HID
+                            where events.EVID == EVID
+                            select new
+                            {
+                                EVID = events.EVID,
+                                hostname = host.name,
+                                name = events.name,
+                                startdate = events.startdate.ToString(),
+                                enddate = events.enddate.ToString(),
+                                venue = events.venue,
+                                ticketprice = events.ticketprice,
+                                eventinfo = events.eventinfo,
+                                image = events.image,
+                                floorplanimg = events.floorplanimg,
+                            }).ToList();
+
+                ViewBag.EVID = list[0].EVID;
+                ViewBag.hostname = list[0].hostname;
+                ViewBag.name = list[0].name;
+                ViewBag.startdate = list[0].startdate;
+                ViewBag.enddate = list[0].enddate;
+                ViewBag.venue = list[0].venue;
+                ViewBag.ticketprice = list[0].ticketprice;
+                ViewBag.eventinfo = list[0].eventinfo;
+                ViewBag.image = "/Image/Host/" + list[0].image;
+                ViewBag.floorplanimg = "/Image/Host/" + list[0].floorplanimg;
+
+                return View();
+            }
+            else
+            {
+
+                return View();
+            }
         }
 
 

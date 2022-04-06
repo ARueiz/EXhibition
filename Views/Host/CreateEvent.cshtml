@@ -181,6 +181,7 @@
             },
             created: function () {
                 this.getTagList();
+                //this.tagselector();
                 //this.copy();
             }
             , methods: {
@@ -241,7 +242,17 @@
                         console.log(error);
                     });
 
-            },
+                },
+
+                async tagselector() {
+                    const self = this
+                    await fetch('/hostapi/tagselector')
+                        .then(res => res.json()).then(res => {
+                            self.origian = res
+                        })
+                    await this.copy();
+                },
+
                 async getTagList() {
                     const self = this
                     await fetch('/api/other/gettaglist')

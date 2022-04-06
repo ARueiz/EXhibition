@@ -1,12 +1,13 @@
 ﻿using EXhibition.Models;
 using EXhibition.Repo;
+using PayPalCheckoutSdk.Orders;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace EXhibition.Controllers
 {
@@ -21,8 +22,9 @@ namespace EXhibition.Controllers
         // 如果 沒有則需要加上 [FromBody] 去取得 帶進來的 json 檔案        
         public IHttpActionResult GetTicketList(int? id)
         {
-            if (id == null) { id = 0; }
+            if (id == null || id <= 1) { id = 1; }
             int num = (int)id;
+            num = (num - 1) * 12;
             var list = (from eve in db.events orderby eve.createAt descending select eve).Skip(num).Take(12).ToList();
             for (int i = 0; i < list.Count; i++)
             {
@@ -43,7 +45,7 @@ namespace EXhibition.Controllers
             string connectionString = Environment.GetEnvironmentVariable("SQL_CONNECTSTRING");
 
             string queryString =
-                "select top(5) count(A.TID) , B.EVID from Tickets as A inner join events as B on A.EVID = B.EVID where B.startdate > GETDATE() group by B.EVID , B.name order by 1 desc";
+                "select top(4) count(A.TID) , B.EVID from Tickets as A inner join events as B on A.EVID = B.EVID where B.startdate > GETDATE() group by B.EVID , B.name order by 1 desc";
 
             // 先將 id 撈成 陣列後 用 entity framework 去找資料
 
@@ -160,7 +162,7 @@ namespace EXhibition.Controllers
         }
 
         // 建立訂單
-        public IHttpActionResult PostCreateOrder()
+        public IHttpActionResult PostCreateOrder2()
         {
             List<CartItem> eventList = (List<CartItem>)HttpContext.Current.Session[GlobalVariables.CartItems];
             if (eventList == null || eventList.Count <= 0)
@@ -168,12 +170,43 @@ namespace EXhibition.Controllers
 
             List<int> eventIdList = new List<int>();
             foreach (var item in eventList) { eventIdList.Add(item.EVID); };
-            orders order = new CheckOutRepo().CreateOrder(eventIdList, 2);
+            orders order = new CheckOutRepo(eventIdList, 2).getOrder();
 
             HttpContext.Current.Session[GlobalVariables.CartItems] = null; // 清空 session 購物清單
 
             return Ok(new { status = ReturnStatus.Success, order = order, data = new { url = "/shop/CheckoutSuccess" } });
         }
+
+        public async Task<IHttpActionResult> PostCreateOrder()
+        {
+
+            List<CartItem> cartList = (List<CartItem>)HttpContext.Current.Session[GlobalVariables.CartItems];
+            if (cartList == null || cartList.Count <= 0)
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "購物車為空" });
+
+            // 將購物車的展覽 id 轉成 id 陣列
+            List<int> eventIdList = new List<int>();
+            foreach (var item in cartList) { eventIdList.Add(item.EVID); };
+
+            // 進入結帳資料庫
+            orders order = new CheckOutRepo(eventIdList, 2).getOrder();
+
+            HttpContext.Current.Session[GlobalVariables.CartItems] = null; // 清空 session 購物清單
+
+            // 將 event.EVID 陣列轉乘 event 陣列
+            List<events> ticketList = db.events.Where(i => eventIdList.Contains(i.EVID)).ToList();
+
+            PayPalHttp.HttpResponse s = await Repo.BuildPayPalOrder.CreateOrder(ticketList, order.totalPrice);
+            Order orderResult = s.Result<Order>();
+
+            order = db.orders.Find(order.id);
+            order.paypal_Id = orderResult.Id;
+
+            string url = orderResult.Links.Where(i => i.Rel == "approve").First().Href;
+
+            return Ok(new Models.ReturnData() { status = ReturnStatus.Success, message = "成功", data = new { url = url } });
+        }
+
 
         // 展覽資訊
         public IHttpActionResult GetEventDetail(int? id = 1)
@@ -212,6 +245,7 @@ namespace EXhibition.Controllers
             return Ok(mEventDetail);
         }
 
+
         public IHttpActionResult Get()
         {
             return Ok("hello");
@@ -242,7 +276,7 @@ namespace EXhibition.Controllers
                            image = k.image
 
                        }).ToList();
-            
+
             return Ok(tag);
 
             //return Ok();
@@ -260,7 +294,7 @@ namespace EXhibition.Controllers
             string queryString =
                 "select TOP(5) count(q.tagName) ,q.tagName from eventTags as p join TagsName as q on p.tagID = q.id group by q.tagName";
 
-            
+
             List<string> eList = new List<string>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -274,9 +308,9 @@ namespace EXhibition.Controllers
                     SqlDataReader reader = command.ExecuteReader();
                     while (reader.Read())
                     {
-                       
+
                         eList.Add((string)reader[1]);
-                       
+
                     }
                     reader.Close();
                 }
@@ -290,6 +324,109 @@ namespace EXhibition.Controllers
         }
 
 
+
+
+        public IHttpActionResult GetSearchTicketList(string searchStr, int? page)
+        {
+            int num = 1;
+            if (page != null && page >= 1)
+            {
+                num = ((int)page - 1) * 12;
+            }
+            var list = (from evn in db.events where evn.name.Contains(searchStr) select evn).OrderBy(e => e.createAt).Skip(num).Take(12);
+            foreach (var item in list)
+            {
+                item.image = "/image/host/" + item.image;
+            }
+            return Ok(list);
+        }
+
+        public IHttpActionResult GetDefaultTag()
+        {
+            var tag = db.TagsName.OrderBy(fer => fer.id).Take(10).ToList();
+            return Ok(tag);
+        }
+
+        public IHttpActionResult PostSelectSearch([FromBody] Models.SearchSelect data, int page = 1)
+        {
+
+            if (data == null || (data.StartDate == null && data.EndDate == null && data.CheckTag == null))
+            {
+                return Ok(new List<string>());
+            }
+
+            IQueryable<events> query = (from eh in db.events select eh);
+
+            var eventList = (from tg in db.TagsName join eTag in db.eventTags on tg.id equals eTag.tagID select eTag.EVID).ToList().Distinct();
+
+            if (page - 1 >= 0)
+            {
+                page = (page - 1) * 12;
+            }
+
+            if (data.CheckTag != null && data.CheckTag.Length > 0)
+            {
+                query = (from eh in db.events
+                         where eventList.Contains(eh.EVID)
+                         select eh);
+            }
+
+            if (data.StartDate == null && data.EndDate == null)
+            {
+                var searchDate = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList(); ;
+                return Ok(searchDate);
+            }
+
+            if (data.StartDate != null)
+            {
+                query = from q in query where q.startdate >= data.StartDate select q;
+            }
+
+            if (data.EndDate != null)
+            {
+                query = from q in query where q.enddate <= data.EndDate select q;
+            }
+
+            var b = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList();
+            return Ok(b);
+        }
+
+        public IHttpActionResult GetConsumingRecord()
+        {
+            int userId = (int)(HttpContext.Current.Session[Models.GlobalVariables.AccountId] == null ? 2 : HttpContext.Current.Session[Models.GlobalVariables.AccountId]);
+            var data = (from tk in db.Tickets
+                        join ex in db.events on tk.EVID equals ex.EVID
+                        where tk.UID == userId
+                        select new TicketPreview
+                        {
+                            name = ex.name,
+                            startdate = ex.startdate.ToString(),
+                            enddate = ex.enddate.ToString(),
+                            purchaseDateTime = tk.createAt.ToString(),
+                            ticketPrice = (int)ex.ticketprice
+                        }).ToList();
+
+            foreach (var item in data)
+            {
+                if (DateTime.Now < DateTime.Parse(item.startdate)) // 未來
+                {
+                    item.status = "籌備中";
+                }
+                else if (DateTime.Now >= DateTime.Parse(item.startdate) || DateTime.Now <= DateTime.Parse(item.enddate)) // 現在
+                {
+                    item.status = "舉辦中";
+                }
+                else if (DateTime.Now > DateTime.Parse(item.enddate))  //過去
+                {
+                    item.status = "已逾期";
+                }
+                item.purchaseDateTime = DateTime.Parse(item.purchaseDateTime).ToString();
+            }
+
+
+
+            return Ok(data);
+        }
 
     }
 }

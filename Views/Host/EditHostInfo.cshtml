@@ -41,9 +41,9 @@
             <div class="mb-2">
                 <img :src="personInfo.imglink" id="imgpreview" class="img-fluid rounded mx-auto d-block" alt="Responsive image">
             </div>
-            <div class="mb-2 text-center">
+            @*<div class="mb-2 text-center">
                 <a href="https://storyset.com/inspiration" class="link-primary" id="imgStoryset">Inspiration illustrations by Storyset</a>
-            </div>
+            </div>*@
         </div>
         <!-- Loading Modal -->
         <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -117,7 +117,6 @@
                         }).then(function (response) {
                             self.personInfo = response;
                             self.personInfo.imglink = "/Image/Host/" + self.personInfo.image;
-
                         })
                 },
 
@@ -175,11 +174,11 @@
 
                     let fileUpload = document.getElementById("imagefile");
 
-                    if (fileUpload.files.length <= 0) {
+                    @*if (fileUpload.files.length <= 0) {
                         failModalbody.innerHTML = "請上傳圖片!";
                         failModal.modal('show');
                         return;
-                    }
+                    }*@
 
                     //格式化圖片名稱
                     let hostImgName = "Host_img_HID" + self.personInfo.hid + ".png";

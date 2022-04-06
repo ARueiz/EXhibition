@@ -13,7 +13,9 @@ namespace EXhibition.Models
         public string startdate { get; set; }
         public string enddate { get; set; }
         public string venue { get; set; }
-        public string status { get; set; }
+        public bool? verify { get; set; }
         public bool dateout { get; set; }
+        public string reson { get; set; }
+        public string createAt { get; set; }
     }
 }

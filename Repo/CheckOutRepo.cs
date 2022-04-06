@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace EXhibition.Repo
 {
@@ -11,15 +10,12 @@ namespace EXhibition.Repo
 
         DBConnector db = new DBConnector();
 
-        public CheckOutRepo() { }
+        private Models.orders order = null;
 
-
-        // 建立訂單
-        public orders CreateOrder(List<int> eventIdList, int userId)
+        public CheckOutRepo(List<int> eventIdList, int userId)
         {
-
             // 先建立訂單，之後用迴圈計算價錢
-            var order = db.orders.Add(new orders() { createDateTime = DateTime.Now, userId = userId });
+            this.order = db.orders.Add(new orders() { createDateTime = DateTime.Now, userId = userId });
             db.SaveChanges();
 
             // 將 event.EVID 陣列轉乘 event 陣列
@@ -35,19 +31,24 @@ namespace EXhibition.Repo
                 db.SaveChanges();
 
                 // 建立訂單資料
-                db.orderDetail.Add(new orderDetail() { orderId = order.id, ticketId = t.TID, price = (int?)ticket.ticketprice });
+                db.orderDetail.Add(new orderDetail() { orderId = this.order.id, ticketId = t.TID, price = (int?)ticket.ticketprice });
                 db.SaveChanges();
 
                 totalPrice = (int)(totalPrice + ticket.ticketprice);
             }
 
             // 金額總結
-            order = db.orders.Find(order.id);
-            order.finalPrice = totalPrice;
-            order.totalPrice = totalPrice;            
+            this.order = db.orders.Find(this.order.id);
+            this.order.finalPrice = totalPrice;
+            this.order.totalPrice = totalPrice;
+            this.order.isPay = false;
             db.SaveChanges();
 
-            return order;
+        }
+
+        public orders getOrder()
+        {
+            return this.order;
         }
 
     }

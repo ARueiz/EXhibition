@@ -8,7 +8,7 @@ namespace EXhibition.Models
 
         static public LoginToken getToken()
         {
-            return new LoginToken() { token = Guid.NewGuid().ToString() };
+            return new LoginToken() { token = Guid.NewGuid().ToString().Substring(6) };
         }
     }
 }

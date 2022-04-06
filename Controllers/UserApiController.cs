@@ -1,16 +1,11 @@
-﻿using EXhibition.Filters;
-using EXhibition.Models;
+﻿using EXhibition.Models;
 using System;
 using System.Data.SqlClient;
-
 using System.Linq;
 using System.Web.Mvc;
 namespace EXhibition.Controllers
 {
-    [AuthorizeFilter(UserRole.User)]
-
     //   [AuthorizeFilter(UserRole.User)]
-
     public class UserApiController : Controller
     {
         DBConnector db = new DBConnector();
@@ -22,7 +17,6 @@ namespace EXhibition.Controllers
             int id = (int)(Session["AccountID"] == null ? 2 : Session["AccountID"]);
 
             id = Session["userid"] == null ? 2 : (int)Session["userid"];
-
 
 
 
@@ -45,8 +39,7 @@ namespace EXhibition.Controllers
                                   name = q.name,
                                   startdate = q.startdate.ToString(),
                                   enddate = q.enddate.ToString(),
-                                  image = "/image/host/" + q.image                                  
-
+                                  image = "/image/host/" + q.image
                               }).ToList();
 
             foreach (var item in ticketlist)
@@ -190,7 +183,6 @@ namespace EXhibition.Controllers
             }
 
             return Json(null, JsonRequestBehavior.AllowGet);
-
         }
     }
 }

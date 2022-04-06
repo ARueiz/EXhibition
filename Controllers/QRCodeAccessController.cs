@@ -1,6 +1,7 @@
 ﻿using EXhibition.Models;
 using System;
 using System.Linq;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -31,23 +32,8 @@ namespace EXhibition.Controllers
                 db.SaveChanges();
             }
 
-            //---- 去資料庫依照用戶 Type 去對應table尋找用戶 Id
-            //if (info.accountType.ToUpper().Equals(GlobalVariables.User.ToUpper()))
-            //{
-            //    var u = db.users.Where(e => e.UID == info.accountId).FirstOrDefault();
-            //    if (u == null) return Ok(new ReturnData() { status = ReturnStatus.Error, message = "錯誤找不到用戶" });
-            //}
-            //else if (info.accountType.ToUpper().Equals(GlobalVariables.Exhibitor.ToUpper()))
-            //{
-            //    var h = db.hosts.Where(e => e.HID == info.accountId).FirstOrDefault();
-            //    if (h == null) return Ok(new ReturnData() { status = ReturnStatus.Error, message = "錯誤找不到用戶" });
-            //}
-            //else if (info.accountType.ToUpper().Equals(GlobalVariables.Host.ToUpper()))
-            //{
-            //    var ex = db.exhibitors.Where(e => e.EID == info.accountId).FirstOrDefault();
-            //    if (ex == null) return Ok(new ReturnData() { status = ReturnStatus.Error, message = "錯誤找不到用戶" });
-            //}
-
+            HttpContext.Current.Session[Models.GlobalVariables.AccountId] = info.accountId;
+            HttpContext.Current.Session["UserRole"] = info.accountType.ToString();
 
             ReturnData returnData = new ReturnData()
             {
@@ -63,28 +49,20 @@ namespace EXhibition.Controllers
         public IHttpActionResult GetLoginToken()
         {
             LoginToken data = LoginToken.getToken();
-            //HttpContext.Current.Session[GlobalVariables.QRcodeToken] = data.token;
-            //data.token = data.token +""+s;
-            //db.QRCodeLoginToken.Add(new Models.QRCodeLoginToken() { token = data.token , createAt = DateTime.Now.AddHours(-1)});
-            //db.SaveChanges();
-            //Dictionary<string, object> dict = new Dictionary<string, object>();
-            //dict["token"] = data.token;
-            //dict["DateTimeNowHash"] = s ;
-            //dict["TokenLength"] = data.token.Length;
             return Ok(data);
         }
 
         // 以登入，用登入帳戶去資料庫儲存 token 和 使用者資訊
         public IHttpActionResult PostSaveToken([FromBody] LoginToken token)
         {
-            //if (HttpContext.Current.Session[GlobalVariables.AccountId] == null
-            //    || token == null || token.token == null )
-            //{
-            //    return Ok(new ReturnData() { status = RetrunStatus.Error,data= token, message = "沒有登入資訊、token 錯誤" });
-            //}
-            var account = new Account() { Id = 1, accountType = "user" };
-            //account.Id = (int)HttpContext.Current.Session[GlobalVariables.AccountId];
-            //account.accountType = (string)HttpContext.Current.Session[GlobalVariables.AccountType];
+            if (HttpContext.Current.Session[GlobalVariables.AccountId] == null
+                || token == null || token.token == null)
+            {
+                return Ok(new ReturnData() { status = ReturnStatus.Error, data = token, message = "沒有登入資訊、token 錯誤" });
+            }
+            var account = new Account();
+            account.Id = (int)HttpContext.Current.Session[GlobalVariables.AccountId];
+            account.accountType = (string)HttpContext.Current.Session["UserRole"];
 
             db.QRCodeLoginToken.Add(new QRCodeLoginToken()
             {

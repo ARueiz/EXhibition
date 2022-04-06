@@ -40,7 +40,7 @@ namespace EXhibition.Controllers
 
             if (id == null)
             {
-                id = 0;
+                 return Redirect("Index");
             }
             ViewBag.id = id;
             return View();

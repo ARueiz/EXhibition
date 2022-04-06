@@ -32,48 +32,42 @@
 }
 
 <!-- !PAGE CONTENT! -->
-<div class="container-fluid m8" id="contain">
+<div class="container-fluid m8  mt-4" id="contain">
 
-    <nav aria-label="breadcrumb" class="m-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/home">首頁</a></li>
-            <li class="breadcrumb-item active" aria-current="page">展覽列表</li>
-        </ol>
-    </nav>
-
-    <div class="row">
-        <section class="col-md-3">
+    <div class="row mb-5 justify-content-around">
+        <section class="col-md-2 mx-5">
             <h4 class="w3-margin">偏好搜尋</h4>
             <div class="border d-none d-md-block">
                 <div class="p-3">
                     <h4>類型選擇</h4>
                     <div v-for="element in exhibitionType">
-                        <input type="checkbox" v-model="selectType" :value="element" :id="element"><label :for="element">{{ element }}</label>
+                        <input class="form-check-input" type="checkbox" v-model="selectType" :value="element.tagName" :id="element.tagName">
+                        <label class="form-check-label" :for="element.tagName">{{ element.tagName }}</label>
                     </div>
                     <br>
                     <h4>日期選擇</h4>
                     <div class="d-block m-2">
-                        <label for="startDate">開始日期</label> <input id="startDate" type="date">
+                        <label for="startDate">開始日期</label> <input v-model="selectStartDate" id="startDate" type="date">
                     </div>
                     <div class="d-block m-2">
-                        <label for="endDate">結束日期</label> <input id="endDate" type="date">
+                        <label for="endDate">結束日期</label> <input v-model="selectEndDate" id="endDate" type="date">
                     </div>
                     <br>
-                    <button class="btn btn-success">查詢</button>
+                    <button class="btn btn-success" v-on:click="selectSearch()">查詢</button>
                 </div>
             </div>
         </section>
 
-        <main class="col-md-9">
+        <main class="col-md-8 mx-auto">
             <h3 class="w3-margin">展覽列表</h3>
             <div class="row" style="padding: 0px 30px">
                 <div class="d-inline-block" style="width: 90%;box-sizing: border-box">
-                    <input type="text" class="w-100">
-                    <div  style="display:flex" >
+                    <input v-model="keyword" type="text" class="w-100">
+                    <div style="display:flex">
                         <button class="tags" v-for="i in tags" v-on:click="clickShowEvent(i)">#{{i}}</button>
                     </div>
                 </div>
-                <button class="d-inline-block btn btn-outline-info d-flex align-items-center justify-content-center" style="width: 10%;box-sizing: border-box;height: 28px">
+                <button v-on:click="keyWordSearch()" class="d-inline-block btn btn-outline-info d-flex align-items-center justify-content-center" style="width: 10%;box-sizing: border-box;height: 28px">
                     <i style="height: 100%" class="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
@@ -101,8 +95,12 @@
                     </div>
                 </div>
                 <!-- exhibition list end -->
-
             </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-outline-dark">上一頁</button>
+                <button class="btn btn-outline-dark">下一頁</button>
+            </div>
+            
         </main>
     </div>
 </div>
@@ -114,16 +112,20 @@
         data() {
             return {
                 exhibitionList: [],
-                exhibitionType: ["科技", "金融", "其他"],
+                exhibitionType: [],
                 selectType: [],
-                pageNum: 0,
+                pageNum: 1,
                 tags: [],
-               
+                selectStartDate: '',
+                selectEndDate: '',
+                keyword: '',
+                searchState : ''
             }
         },
         created: function () {
+            this.getDefaultTagList();
             this.getTicket();
-            this.hotTagTicket()
+            this.hotTagTicket();
         },
         methods: {
             getTicket() {
@@ -134,6 +136,14 @@
                     }).then(function (response) {
                         self.exhibitionList = response
                         self.arrayFilter()
+                    })
+            },
+            getDefaultTagList() {
+                const self = this;
+                axios.get('/api/ShopApi/GetDefaultTag/')
+                    .then(function (response) {
+                        self.exhibitionType = response.data
+                    
                     })
             },
             hotTagTicket() {
@@ -157,6 +167,29 @@
                     tagName : da 
                 }
                 axios.post('/api/ShopApi/PostTest/', data ).then(function (res) {
+                    self.exhibitionList = res.data;
+                    self.arrayFilter()
+                })
+            },
+            selectSearch() {
+
+                let self = this
+
+                let data = {
+                    CheckTag: this.selectType,
+                    StartDate: this.selectStartDate,
+                    EndDate: this.selectEndDate
+                }
+
+                axios.post('/api/shopapi/PostSelectSearch', data).then(function (res) {
+                    self.exhibitionList = res.data;
+                    self.arrayFilter()
+                })
+            },
+            keyWordSearch() {
+                let self = this
+                const url = '/api/shopapi/GetSearchTicketList/?searchStr=' + self.keyword + '&page=' + self.pageNum
+                axios.get(url).then(function (res) {
                     self.exhibitionList = res.data;
                     self.arrayFilter()
                 })

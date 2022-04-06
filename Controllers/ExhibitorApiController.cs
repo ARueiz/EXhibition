@@ -1,10 +1,10 @@
 ﻿using EXhibition.Models;
-
 using System;
 using System.Linq;
 using System.Web.Mvc;
 using System.Runtime;
 using EXhibition.Filters;
+using System.Web;
 
 namespace EXhibition.Controllers
 {
@@ -12,10 +12,10 @@ namespace EXhibition.Controllers
     public class ExhibitorApiController : Controller
     {
 
-        Models.DBConnector db = new Models.DBConnector();
+        DBConnector db = new DBConnector();
 
         //廠商參展的歷史紀錄
-        public ActionResult EventHistory(int? id) 
+        public ActionResult EventHistory(int? id)
         {
             ReturnData rd = new ReturnData();
 
@@ -29,8 +29,8 @@ namespace EXhibition.Controllers
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
                         where exhibitinfo.EID == id
-                        orderby events.startdate,events.enddate
-                        select new { events.EVID, events.name, startdate =events.startdate.ToString(), enddate =events.enddate.ToString(), events.venue }).ToList();
+                        orderby events.startdate, events.enddate
+                        select new { events.EVID, events.name, startdate = events.startdate.ToString(), enddate = events.enddate.ToString(), events.venue }).ToList();
 
             if (!list.Any())
             {
@@ -161,76 +161,68 @@ namespace EXhibition.Controllers
                 rd.status = "error";
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
-            
+
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
                         where exhibitinfo.EID == id
-                        select new ApplyList{ EVID =events.EVID, name = events.name, startdate = events.startdate.ToString(), enddate = events.enddate.ToString(), venue = events.venue, status =exhibitinfo.status, dateout = false }).ToList();
+                        select new { EVID = events.EVID,
+                                     name = events.name, 
+                                     startdate = events.startdate.ToString(), 
+                                     enddate = events.enddate.ToString(), 
+                                     venue = events.venue, 
+                                     verify = exhibitinfo.verify,
+                                     createAt = exhibitinfo.createAt,
+                                     reason = exhibitinfo.reason,
+                                     dateout = false }).ToList();
 
-            foreach(var item in list)
-            {
-                if(item.status == "尚未審核")
-                {
-                    item.status = "checking";
-                }
-                else if (item.status == "允許")
-                {
-                    item.status = "success";
-                }
-                else if (item.status == "拒絕")
-                {
-                    item.status = "fail";
-                }
-                else
-                {
-                    item.status = "";
-                }
-            }
-
+  
             if (!list.Any())
             {
                 rd.message = "找不到資料";
                 rd.status = "error";
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
-            return Json(list, JsonRequestBehavior.AllowGet);
+            return new NewJsonResult() { Data = list};
+        }
+
+        public string ConvertTime(DateTime nTime)
+        {
+            DateTime time = (DateTime)(nTime == null ? DateTime.Parse("2000-01-01") : nTime);
+            return time.ToString("yyyy-MM-dd");
         }
 
         //廠商正在審核中的申請--點下tag
-        public ActionResult NowApplyingTag(string tag)
+        public ActionResult NowApplyingTag(int? EID, bool? tag)
         {
             ReturnData rd = new ReturnData();
 
-            if (tag == null)
-            {
-                rd.message = "找不到資料 Id 為 null";
-                rd.status = "error";
-                return Json(rd, JsonRequestBehavior.AllowGet);
-            }
 
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
-                        where exhibitinfo.status == tag
-                        select new ApplyList { EVID = events.EVID, name = events.name, startdate = events.startdate.ToString(), enddate = events.enddate.ToString(), venue = events.venue, status = exhibitinfo.status, dateout = false }).ToList();
+                        where exhibitinfo.verify == tag && exhibitinfo.EID == EID
+                        select new ApplyList
+                        {
+                            EVID = events.EVID,
+                            name = events.name,
+                            startdate = events.startdate.ToString(),
+                            enddate = events.enddate.ToString(),
+                            venue = events.venue,
+                            verify = exhibitinfo.verify,
+                            createAt = exhibitinfo.createAt.ToString(),
+                            reson = exhibitinfo.reason,
+                            dateout = false
+                        }).ToList();
 
             foreach (var item in list)
             {
-                if (item.status == "尚未審核")
+                if (item.createAt.Length > 0 )
                 {
-                    item.status = "checking";
-                }
-                else if (item.status == "允許")
+                    item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd");
+                } else
                 {
-                    item.status = "success";
+                    item.createAt = "沒有資料";
                 }
-                else if (item.status == "拒絕")
-                {
-                    item.status = "fail";
-                }
-                else
-                {
-                    item.status = "";
-                }
+                
             }
 
             if (!list.Any())
@@ -248,11 +240,11 @@ namespace EXhibition.Controllers
             ReturnData rd = new ReturnData();
 
             DateTime applydate = DateTime.Now.AddDays(+5);
-            
+
             var list = (from even in db.events
-                        where even.startdate>applydate
-                        select new { even.EVID, even.name,startdate = even.startdate.ToString() , enddate =even.enddate.ToString(), even.venue }).ToList();
-            
+                        where even.startdate > applydate
+                        select new { even.EVID, even.name, startdate = even.startdate.ToString(), enddate = even.enddate.ToString(), even.venue }).ToList();
+
             if (!list.Any())
             {
                 rd.message = "近期無可申請之展覽";
@@ -366,5 +358,42 @@ namespace EXhibition.Controllers
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult DoCreateEventInfo(HttpPostedFileBase image, exhibitinfo exhibitinfo)
+        {
+            ReturnData rd = new ReturnData();
+            string strPath = "";
+
+            if (image != null)
+            {
+                //儲存 封面圖 to Image/Host
+                strPath = Request.PhysicalApplicationPath + "Image\\Exhibitor\\" + exhibitinfo.image;
+                image.SaveAs(strPath);
+            }
+
+            exhibitinfo.createAt = DateTime.Now;
+            exhibitinfo.status = "尚未審核";
+            exhibitinfo.verify = null;
+
+            db.exhibitinfo.Add(exhibitinfo);
+
+            try
+            {
+                db.SaveChanges();
+                ReturnData data = new ReturnData();
+                data.status = ReturnStatus.Success;
+                data.message = "申請成功!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                ReturnData data = new ReturnData();
+                data.status = ReturnStatus.Error;
+                data.message = "申請失敗!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+        }
+            
     }
 }

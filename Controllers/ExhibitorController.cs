@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using EXhibition.Filters;
 using EXhibition.Models;
 
@@ -36,6 +37,24 @@ namespace EXhibition.Controllers
             return View();
         }
 
+        // showHostList -> 紅色(申請展覽)按鈕
+        public ActionResult createEventInfo(int? EVID)
+        {
+            int EID = (int)Session["AccountID"];
+            ViewBag.EVID = EVID;
+            ViewBag.EID = EID;
+
+            var events = db.events.Where(ev => ev.EVID == EVID).FirstOrDefault();
+
+            var exhibitor = db.exhibitors.Where(e => e.EID == EID).FirstOrDefault();
+
+            ViewBag.eventname = events.name;
+            ViewBag.name = exhibitor.name;
+            
+            return View();
+        }
+
+
         //廠商 可申請展覽
         public ActionResult CanApplyList(int? id=10)
         {
@@ -47,7 +66,7 @@ namespace EXhibition.Controllers
         //廠商 正進行審核的活動列表
         public ActionResult NowApplying(int? id=10)
         {
-            ViewBag.EID = id;
+            ViewBag.id = id;
             return View();
         }
         //廠商 編輯個人資料
@@ -63,7 +82,6 @@ namespace EXhibition.Controllers
             ViewBag.id = id;
             return View();
         }
-
 
     }
 }
