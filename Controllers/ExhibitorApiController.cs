@@ -371,7 +371,6 @@ namespace EXhibition.Controllers
             return Json(rd, JsonRequestBehavior.AllowGet);
         }
 
-<<<<<<< HEAD
         //廠商參展歷史
         public ActionResult ApplyHistory(int? id)
         {
@@ -383,7 +382,7 @@ namespace EXhibition.Controllers
 
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
-            
+
             DateTime now = DateTime.Now;
             var list = (from host in db.hosts
                         join events in db.events on host.HID equals events.HID
@@ -399,7 +398,7 @@ namespace EXhibition.Controllers
                             enddate = events.enddate.ToString(),
                             DTstartdate = events.startdate,
                             DTenddate = events.enddate,
-                            img = "/Image/Host/"+events.image
+                            img = "/Image/Host/" + events.image
                             //dateout = null
                         }).ToList();
 
@@ -428,7 +427,8 @@ namespace EXhibition.Controllers
             rd.status = ReturnStatus.Success;
             rd.data = list;
             return Json(list, JsonRequestBehavior.AllowGet);
-=======
+        }
+
         public ActionResult DoCreateEventInfo(HttpPostedFileBase image, exhibitinfo exhibitinfo)
         {
             ReturnData rd = new ReturnData();
@@ -464,7 +464,6 @@ namespace EXhibition.Controllers
 
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
->>>>>>> develop
         }
             
     }
