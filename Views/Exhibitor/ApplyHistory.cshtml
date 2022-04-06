@@ -13,9 +13,9 @@
                 <h3 class="m-0 text-start">參與歷史紀錄</h3>
             </div>
         </div>
-        <div class="row justify-content-center justify-content-sm-start w-100 px-0 mx-sm-3" id="vuedata">
+        <div class="row justify-content-center w-100 px-0 mx-sm-3" id="vuedata">
             <div class="row col-11 col-sm-11 px-0 py-0 mb-3 boxShadow myTicketBox justify-content-center" v-for="data in dataRow"
-                 style="max-width: 900px;border-radius: 2%;">
+                 style="border-radius: 2%;">
                 <!-- #ffcc00 -->
                 <div class="col-10 col-sm-3 p-0 m-0 mt-3 mt-sm-0" style="height: 150px;" id="Eventimage">
                     <img :src="data.img" class="ticketImg w-100" style="border-radius: 4%;" alt="">
@@ -30,9 +30,9 @@
                             <i class="bi bi-person-square"></i>
                             {{data.name}}
                         </div>
-                        <div class="col-12 col-sm-7 col-lg-7 px-4 mb-1 d-flex align-items-center" style="font-size: 15px;">
+                        <div class="col-12 col-sm-7 col-lg-7 px-4 mb-1 d-flex align-items-center flex-wrap" style="font-size: 15px;">
                             <i class="bi bi-calendar3"></i>
-                            {{data.startdate}} ~ {{data.enddate}}
+                            <div>{{data.startdate}} ~ </div><div>{{data.enddate}}</div>
                         </div>
                         <div class="col-12 px-1s d-flex align-items-center justify-content-end" style="color:royalblue;">
                             <a style="cursor: pointer;" v-on:click="gopage(data.EVID)"><div>查看更多<i class="bi bi-caret-right"></i></div></a>

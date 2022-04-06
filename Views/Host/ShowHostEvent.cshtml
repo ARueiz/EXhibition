@@ -25,15 +25,14 @@
                 <td>{{item.enddate }}</td>
                 <td>{{item.waitingCount }}</td>
                 <td>
-<<<<<<< HEAD
                     <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-outline-success" role="button">審核</a>
                     @*<input type="submit" value="審核" />*@
                     <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-outline-primary" role="button">編輯</a>
-=======
-                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-outline-success" role="button" v-if="item.isOver">審核</a>
+<!--=======
+                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-outline-success" role="button" v-if="item.isOver">審核</a>-->
                     @*<input type="submit" value="審核" />*@
-                    <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-outline-primary" role="button" v-if="item.isOver">編輯</a>
->>>>>>> aaabbb
+                    <!--<a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-outline-primary" role="button" v-if="item.isOver">編輯</a>
+>>>>>>> aaabbb-->
                     @*<input type="submit" value="編輯" />*@
                     <a :href=`./DetailsHost/${item.evid}` class="btn btn-outline-info" role="button">查看</a>
                     @*<input type="submit" value="明細" v-on:click="Details(item.evid)" />*@
@@ -61,27 +60,10 @@
             el: '#VuePage',
             data: {
                 res: [],
-<<<<<<< HEAD
-            
-=======
                 pageNum: 1,
->>>>>>> aaabbb
-
             },
-
             mounted() {
-
-<<<<<<< HEAD
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    });
-
-                
-=======
                 this.GetMaterial(0)
-
->>>>>>> aaabbb
             },
             methods: {
                 Details: function (va) {
@@ -91,19 +73,8 @@
                         })
                         .catch((err) => {
                             console.log(err)
-                        });
+                        })
                 },
-<<<<<<< HEAD
-              
-                
-
-
-=======
->>>>>>> aaabbb
-
-
-
-
                 GetMaterial: function (va) {
 
                     if (this.pageNum + va > 0) {
