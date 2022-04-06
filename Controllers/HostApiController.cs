@@ -415,6 +415,7 @@ namespace EXhibition.Controllers
                          exhibitionname = eventsTable.name,
                          evid = eventsTable.EVID,
                          ticketPrice = eventsTable.ticketprice,
+                         hid = hostsTable.HID,
 
                      }).Skip(va).Take(10).ToList();
 
@@ -450,9 +451,11 @@ namespace EXhibition.Controllers
 
             int index = (int)id;
 
-            var a = db.events.Find(index);
 
-            if (a == null || a.EVID == 0)
+            
+            var a = db.hosts.Find(index);
+
+            if (a == null || a.HID == 0)
             {
                 rd.message = "找不到資料";
                 rd.status = "error";

@@ -10,5 +10,6 @@
         public int evid { get; set; }
         public decimal ticketPrice { get; set; }
         public bool isOver { get; internal set; }
+        public int hid { get; internal set; }
     }
 }

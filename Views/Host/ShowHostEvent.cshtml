@@ -21,15 +21,19 @@
                 <td>{{item.phone }}</td>
                 <td>{{item.exhibitionname}}</td>
                 <td>{{item.startdate }}</td>
-                <td>{{item.enddate }}</td>
-                <td>
+                <td>{{item.enddate }} {{ item.isOver }}</td>
+                <td>                   
+
                     @*<input type="submit" value="審核" v-on:click="AllowOrRefuse(item.evid)" v-bind:disabled="item.isOver" class="btn btn-success" />
 
                     <input type="submit" value="編輯" v-on:click="EditEventInfo(item.evid)" v-bind:disabled="item.isOver" class="btn btn-primary" />*@
 
-                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-info" role="button" v-bind:disabled="item.isOver">審核</a>
-                    <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-info" role="button" v-bind:disabled="item.isOver">編輯</a>
-                    <input type="submit" value="明細" v-on:click="Details(item.evid)" class="btn btn-dark"  />
+                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-info" role="button" v-if="item.isOver" v-ind:disabled="item.isOver">審核</a>
+                    <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-info" role="button" v-show="item.isOver" v-bind:disabled="item.isOver">編輯</a>
+                    
+                    <button v-on:click="Details(item.hid)" class="btn btn-dark">明細</button>
+
+
                 </td>
 
             </tr>
@@ -62,10 +66,11 @@
 
             },
             methods: {
+                // localhost/controller/action/?evid=1200&name=hello
                 Details: function (va) {
-                    axios.get('/HostApi/PostList/', + va)
+                    axios.get('/HostApi/PostList/' + va )
                         .then(function (response) {
-                            window.location.href = "/" + "host" + "/" + "DetailsHost" + "/" + va
+                            window.location.href = "/" + "host" + "/" + "EventDetail" + "/" + va
                         })
                         .catch((err) => {
                             console.log(err)
