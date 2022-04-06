@@ -35,36 +35,36 @@
     </style>
 }
 
-<div id="contain">
+<div class="row main-content" style="min-height: 100vh;" id="contain">
     <!-- displayTitleImg -->
 
-    <div class="w3-col m1" style="height: 10px"></div>
-
     <!-- !PAGE CONTENT! -->
-    <div class="container">
+    <div class="w3-main w3-col m10 col-md-10 mx-auto">
        
-        @*<nav aria-label="breadcrumb" class="m-4">
+        <nav aria-label="breadcrumb" class="mt-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="/">首頁</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">
-                    <a href="/home">展覽列表</a>
+                    <a href="/shop">展覽列表</a>
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">詳細資訊</li>
             </ol>
-        </nav>*@
+        </nav>
 
         <h1 class="w3-margin">{{ title }}</h1>
 
         <div class="row mt-5">
             <div class="col-md-8">
-                <div>
+                <div class="mb-5">
                     <img class="w-100 p-0 m-0"
                          :src="imgUrl"
                          alt="">
                 </div>
-                {{ content }}
+                <div class="mb-1">
+                    {{ content }}
+                </div>
             </div>
             <div class="col-md-4">
 
@@ -115,11 +115,7 @@
             </div>
         </div>
 
-
-
-
     </div>
-    <div class="w3-col m1"></div>
 </div>
 
 <script>
