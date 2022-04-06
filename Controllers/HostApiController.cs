@@ -387,25 +387,53 @@ namespace EXhibition.Controllers
         }
 
 
-        public ActionResult List()
+        public ActionResult List(int? id)
         {
+            int va;
+
+            if (id == null || (int)id <= 0)
+            {
+                va = 1;
+            }
+            else
+            {
+                va = (int)id;
+            }
+
+            va = (int)(va - 1) * 10;
 
 
-            var b = from hostsTable in db.hosts
-                    join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
-                    select new
-                    {
-                        name = hostsTable.name,
-                        phone = hostsTable.phone,
-                        startdate = eventsTable.startdate.ToString(),
-                        enddate = eventsTable.enddate.ToString(),
-                        exhibitionname = eventsTable.name,
-                        evid = eventsTable.EVID,
-                        ticketPrice = eventsTable.ticketprice,
-                        
-                    };
+            var b = (from hostsTable in db.hosts
+                     join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
+                     orderby eventsTable.EVID
+                     select new HostEventData
+                     {
+                         name = hostsTable.name,
+                         phone = hostsTable.phone,
+                         startdate = eventsTable.startdate.ToString(),
+                         enddate = eventsTable.enddate.ToString(),
+                         exhibitionname = eventsTable.name,
+                         evid = eventsTable.EVID,
+                         ticketPrice = eventsTable.ticketprice,
+
+                     }).Skip(va).Take(10).ToList();
+
+
+            foreach (var item in b)
+            {
+                if (DateTime.Now >= DateTime.Parse(item.startdate))
+                {
+                    item.isOver = true;
+                }
+                else if (DateTime.Now < DateTime.Parse(item.startdate))
+                {
+                    item.isOver = false;
+                }
+
+            }
 
             return Json(b, JsonRequestBehavior.AllowGet);
+
         }
 
         public ActionResult PostList(int? id)

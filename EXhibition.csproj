@@ -157,6 +157,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HostApiController.cs" />
     <Compile Include="Controllers\HostController.cs" />
+    <Compile Include="Models\HostEventData.cs" />
     <Compile Include="Controllers\HostsController.cs" />
     <Compile Include="Controllers\OtherController.cs" />
     <Compile Include="Controllers\PartViewController.cs" />
