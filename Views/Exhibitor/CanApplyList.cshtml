@@ -38,16 +38,10 @@
             const self = this
             axios.post('/ExhibitorApi/CanApplyList')
                 .then(function (response) {
-
-
                     self.DataList = response.data
                 })
-            this.呵呵()
         },
         methods: {
-            呵呵() {
-                alert('呵呵')
-            },
         },
     });
 </script>

@@ -36,5 +36,6 @@ namespace EXhibition.Models
         public virtual DbSet<eventTags> eventTags { get; set; }
         public virtual DbSet<TagsName> TagsName { get; set; }
         public virtual DbSet<orders> orders { get; set; }
+        public virtual DbSet<forgetPassword> forgetPassword { get; set; }
     }
 }

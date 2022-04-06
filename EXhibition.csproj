@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\ApplyList.cs" />
+    <Compile Include="Models\AuditExhibitorInfo.cs" />
     <Compile Include="Models\CartItem.cs" />
     <Compile Include="Models\CROS.cs" />
     <Compile Include="Models\DBConnector.cs" />
@@ -202,7 +203,11 @@
     <Compile Include="Models\exhibitors.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\forgetPassword.cs">
+      <DependentUpon>Exhibition.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GlobalVariables.cs" />
+    <Compile Include="Models\HostEventInfo.cs" />
     <Compile Include="Models\hosts.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
@@ -242,9 +247,11 @@
     <Compile Include="Repo\BuildPayPalOrder.cs" />
     <Compile Include="Repo\HostDashboard.cs" />
     <Compile Include="Repo\PayPalClient.cs" />
+    <Compile Include="Repo\SendResetEmailRepo.cs" />
     <Compile Include="Repo\TagsInsert.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\ApplyHistory.css" />
     <Content Include="Content\Bootstrap\bootstrap-grid.css" />
     <Content Include="Content\Bootstrap\bootstrap-grid.min.css" />
     <Content Include="Content\Bootstrap\bootstrap-grid.rtl.css" />
@@ -287,6 +294,8 @@
     <Content Include="Image\Dev\Register-exhibitor.png" />
     <Content Include="Image\Dev\login-bro-host.png" />
     <Content Include="Image\Dev\login-bro-user.png" />
+    <Content Include="Image\Exhibitor\Ecommerce-campaign-cuate.png" />
+    <Content Include="Image\Exhibitor\EVinfo_EVID26_EID10_.png" />
     <Content Include="Image\Host\EditHost.png" />
     <Content Include="Image\Host\EV_UID2_220326_220327.png" />
     <Content Include="Image\Host\EV_UID2_220329_220331.png" />
@@ -316,6 +325,7 @@
     <Content Include="Image\Host\pexels-photo-10147530.jpeg" />
     <Content Include="Image\Test\eighty-six.png" />
     <Content Include="Image\Test\fruit01.png" />
+    <Content Include="Image\Test\hakase.jpg" />
     <Content Include="Image\Test\reZero.png" />
     <Content Include="Image\Test\tea01.png" />
     <Content Include="Image\Test\world-Porsche.jpg" />
@@ -459,6 +469,15 @@
     <Content Include="Views\Home\EventDetail.cshtml" />
     <Content Include="Views\Exhibitor\showEventDetail.cshtml" />
     <Content Include="Views\Exhibitor\ApplyHistory.cshtml" />
+    <Content Include="Views\Host\EditEventInfo.cshtml" />
+    <Content Include="Views\Exhibitor\createEventInfo.cshtml" />
+    <Content Include="Views\User\ConsumingRecords.cshtml" />
+    <Content Include="Views\Home\HostForgetPassword.cshtml" />
+    <Content Include="Views\Home\SendEmail.cshtml" />
+    <Content Include="Views\Home\ExhibitorForgetPassword.cshtml" />
+    <Content Include="Views\Home\UserForgetPassword.cshtml" />
+    <Content Include="Views\Home\ResetPassword.cshtml" />
+    <Content Include="Views\Home\ResetPasswordSuccess.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

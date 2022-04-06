@@ -110,7 +110,7 @@
                 <div class="detail-item">
                     <h5>主辦單位</h5>{{ eventData.hostname }}
                 </div>
-                <a :href="'./Exhibitor/EditExhibitinfo/?EVID=' + eventData.EVID" role="button" class="btn btn-lg btn-outline-danger m-1">申請參展</a>
+                <a :href="'/Exhibitor/createEventInfo/?EVID=' + eventData.EVID" role="button" class="btn btn-lg btn-outline-danger m-1">申請參展</a>
             </div>
         </div>
         <div>

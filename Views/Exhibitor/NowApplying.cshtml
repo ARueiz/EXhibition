@@ -31,10 +31,10 @@
             </thead>
             <tbody>
                 <tr v-for="(element,index) in eventList">
-                    <td class="d-none">{{ element.EVID }}</td>
+                    <td class="d-none">{{ element.evid }}</td>
                     <td class="align-middle" scope="row">{{ index + 1 }}</td>
                     <td class="align-middle">
-                        <button v-on:click="goPage(element.EVID)" class="bg-light">{{ element.name }}</button>
+                        <button v-on:click="goPage(element.evid)" class="bg-light">{{ element.name }}</button>
                     </td>
                     <td class="align-middle text-center">{{ element.createAt }}</td>
                     <td class="align-middle text-center">
@@ -123,13 +123,14 @@
                 })
             },
             goPage(data) {
-                window.location.href = '/Host/EventDetail/' + data
+                console.log(data)
+                window.location.href = '/Exhibitor/showEventDetail/?EVID=' + data
             },
             getSearchList(Tag) {
                 // 按鈕會會傳狀態，根據狀態進行判斷目前要撈哪種資料
                     const self = this
                         axios.post('/ExhibitorApi/NowApplyingTag/',{
-                        EID : @ViewBag.id ,
+                        EID : "@ViewBag.id" ,
                         tag : Tag,
                         })
                         .then(function (response) {

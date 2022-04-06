@@ -16,8 +16,6 @@ namespace EXhibition
 
             if (HttpContext.Current.IsDebuggingEnabled)
             {
-                Models.GlobalVariables.PayPalReturnUrl = Models.GlobalVariables.LocalPayPalUrl + "/user";
-                Models.GlobalVariables.PayPalCancelUrl = Models.GlobalVariables.LocalPayPalUrl ;
                 System.Diagnostics.Debug.WriteLine("debug mode");
             }
 
