@@ -393,7 +393,7 @@ namespace EXhibition.Controllers
         }
 
 
-        public ActionResult List()
+        public ActionResult List(int? id)
         {
             int HID = (int)Session["AccountID"];
 
@@ -418,7 +418,60 @@ namespace EXhibition.Controllers
                 data[i].waitingCount = count;
             }
 
+            int va;
 
+<<<<<<< HEAD
+=======
+            if (id == null || (int)id <= 0)
+            {
+                va = 1;
+            }
+            else
+            {
+                va = (int)id;
+            }
+
+            va = (int)(va - 1) * 10;
+
+            int HID = (int)Session["AccountID"];
+
+            var data = (from hostsTable in db.hosts
+                        join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
+                        where eventsTable.HID == HID
+                        orderby eventsTable.EVID
+                        select new Models.HostEventInfo
+                        
+                        {
+                            name = hostsTable.name,
+                            phone = hostsTable.phone,
+                            startdate = eventsTable.startdate.ToString(),
+                            enddate = eventsTable.enddate.ToString(),
+                            exhibitionname = eventsTable.name,
+                            evid = eventsTable.EVID,
+                            ticketPrice = eventsTable.ticketprice,
+                        }).Skip(va).Take(10).ToList();
+
+            for (int i = 0; i < data.Count(); i++)
+            {
+                int evid = data[i].evid;
+                var count = (db.exhibitinfo.Where(e => e.EVID == evid).Where(e => e.verify == null)).ToArray().Count();
+                data[i].waitingCount = count;
+            }
+
+
+            foreach (var item in data)
+            {
+                if (DateTime.Now >= DateTime.Parse(item.startdate))
+                {
+                    item.isOver = false;
+                }
+                else if (DateTime.Now < DateTime.Parse(item.startdate))
+                {
+                    item.isOver = true;
+                }
+
+            }
+>>>>>>> aaabbb
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
