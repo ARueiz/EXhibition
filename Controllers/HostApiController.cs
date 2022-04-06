@@ -424,6 +424,7 @@ namespace EXhibition.Controllers
                             exhibitionname = eventsTable.name,
                             evid = eventsTable.EVID,
                             ticketPrice = eventsTable.ticketprice,
+                            hid = hostsTable.HID
                         }).Skip(va).Take(10).ToList();
 
             for (int i = 0; i < data.Count(); i++)

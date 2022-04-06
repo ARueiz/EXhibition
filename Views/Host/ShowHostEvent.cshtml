@@ -25,13 +25,13 @@
                 <td>{{item.enddate }}</td>
                 <td>{{item.waitingCount }}</td>
                 <td>
-                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-success" role="button" v-if="item.isOver">審核</a>
+                    <a :href=`./allowOrRefuse/?EVID =${item.evid}` class="btn btn-success" role="button" v-if="item.isOver">審核</a>
                     @*<input type="submit" value="審核" />*@
-                    <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-primary" role="button" v-if="item.isOver">編輯</a>
+                    <a :href=`./EditEventInfo/?EVID =${item.evid}` class="btn btn-primary" role="button" v-if="item.isOver">編輯</a>
                     @*<input type="submit" value="編輯" />*@
+                    <a class="btn btn-warning" :href="'/host/CheckTicket/?EVID='+item.evid" v-if="item.isOver">驗票</a>
                     <a :href=`./DetailsHost/${item.evid}` class="btn btn-info" role="button">查看</a>
                     @*<input type="submit" value="明細" v-on:click="Details(item.evid)" />*@
-                    <a class="btn btn-warning" :href="'/host/CheckTicket/?EVID='+item.evid">驗票</a>
                 </td>
 
             </tr>
