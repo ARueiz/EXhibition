@@ -36,16 +36,14 @@
 }
 
 <div id="contain">
-    <img class="displayTitleImg p-0 m-0"
-         :src="imgUrl"
-         alt="">
+    <!-- displayTitleImg -->
 
     <div class="w3-col m1" style="height: 10px"></div>
 
     <!-- !PAGE CONTENT! -->
-    <div class="w3-main w3-col m10">
-
-        <nav aria-label="breadcrumb" class="m-4">
+    <div class="container">
+       
+        @*<nav aria-label="breadcrumb" class="m-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="/">首頁</a>
@@ -55,11 +53,19 @@
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">詳細資訊</li>
             </ol>
-        </nav>
+        </nav>*@
 
         <h1 class="w3-margin">{{ title }}</h1>
 
         <div class="row mt-5">
+            <div class="col-md-8">
+                <div>
+                    <img class="w-100 p-0 m-0"
+                         :src="imgUrl"
+                         alt="">
+                </div>
+                {{ content }}
+            </div>
             <div class="col-md-4">
 
 
@@ -95,9 +101,6 @@
                 </div>
 
             </div>
-            <div class="col-md-8">
-                {{ content }}
-            </div>
         </div>
 
         <div class="divisionLine"></div>
@@ -107,7 +110,7 @@
             <div class="w3-col l3 m6 w3-margin-bottom" v-for="vendor in exhibitorList">
                 <div class="w3-display-container">
                     <div class="w3-display-topleft w3-black w3-padding">{{ vendor.name }}</div>
-                    <img :src="vendor.image" alt="House" style="width:100%">
+                    <img :src="vendor.image" alt="House" style="width:100%; object-fit:cover ;height:300px">
                 </div>
             </div>
         </div>
@@ -150,6 +153,7 @@
                     self.location = res.location;
                     self.imgUrl = res.image;
                     self.content = res.eventinfo;
+                    self.exhibitorList = res.exhibitorList;
                 })
         },
         methods: {
