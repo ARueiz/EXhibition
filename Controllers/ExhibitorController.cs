@@ -56,17 +56,17 @@ namespace EXhibition.Controllers
 
 
         //廠商 可申請展覽
-        public ActionResult CanApplyList(int? id=10)
+        public ActionResult CanApplyList(int? id)
         {
             
-            ViewBag.EID = id;
+            ViewBag.EID = Session["AccountID"];
             return View();
         }
 
         //廠商 正進行審核的活動列表
-        public ActionResult NowApplying(int? id=10)
+        public ActionResult NowApplying(int? id)
         {
-            ViewBag.id = id;
+            ViewBag.id = Session["AccountID"];
             return View();
         }
         //廠商 編輯個人資料
@@ -77,9 +77,10 @@ namespace EXhibition.Controllers
         }
 
         //廠商申請參展歷史紀錄
-        public ActionResult ApplyHistory(int? id)
+        public ActionResult ApplyHistory()
         {
-            ViewBag.id = id;
+            int EID = (int)Session["AccountID"];
+            ViewBag.id = EID;
             return View();
         }
 
