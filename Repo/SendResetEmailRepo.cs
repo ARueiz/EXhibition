@@ -10,27 +10,6 @@ namespace EXhibition.Repo
     {
         static public void SendResetEmail(string email ,string uuid)
         {
-
-            string account = System.Environment.GetEnvironmentVariable("EMAIL_ACCOUNT");
-            string password = System.Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
-            if (account == null)
-            {
-                return; 
-            }
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(account, "展覽");
-            mail.To.Add("dveasia558@gmail.com");
-            mail.Priority = MailPriority.Normal;
-            mail.Subject = "密碼重設";
-            mail.Body = "<a href='https://localhost:44378/home/ResetPassword/?uuid=" + uuid + "'>重設</a>";
-            mail.IsBodyHtml = true;
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new System.Net.NetworkCredential(account, password);
-            smtp.EnableSsl = true;
-            smtp.Send(mail);
-            smtp = null;
-            mail.Dispose();
-
             //MailMessage mail = new MailMessage();
             //mail.From = new MailAddress("tt29334@gmail.com", "tt29334");
             //mail.To.Add("dveasia558@gmail.com");
@@ -44,7 +23,6 @@ namespace EXhibition.Repo
             //smtp.Send(mail);
             //smtp = null;
             //mail.Dispose();
-
         }
     }
 }

@@ -1,9 +1,10 @@
-﻿using EXhibition.Filters;
-using EXhibition.Models;
+﻿using EXhibition.Models;
 using System;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using System.Runtime;
+using EXhibition.Filters;
+using System.Web;
 
 namespace EXhibition.Controllers
 {
@@ -164,21 +165,18 @@ namespace EXhibition.Controllers
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
                         where exhibitinfo.EID == id
-
-                        select new ApplyList
-                        {
-                            EVID = events.EVID,
-                            name = events.name,
-                            startdate = events.startdate.ToString(),
-                            enddate = events.enddate.ToString(),
-                            venue = events.venue,
-                            verify = exhibitinfo.verify,
-                            createAt = exhibitinfo.createAt.ToString(),
-                            reason = exhibitinfo.reason,
-                            dateout = false
+                        select new ApplyList{ EVID = events.EVID,
+                                     name = events.name, 
+                                     startdate = events.startdate.ToString(), 
+                                     enddate = events.enddate.ToString(), 
+                                     venue = events.venue, 
+                                     verify = exhibitinfo.verify,
+                                     createAt = exhibitinfo.createAt.ToString(),
+                                     reason = exhibitinfo.reason,
+                                     dateout = false 
                         }).ToList();
 
-
+  
             if (!list.Any())
             {
                 rd.message = "找不到資料";
@@ -198,7 +196,6 @@ namespace EXhibition.Controllers
                 }
             }
             return Json(list, JsonRequestBehavior.AllowGet);
-
         }
 
         public string ConvertTime(DateTime nTime)
@@ -231,15 +228,14 @@ namespace EXhibition.Controllers
 
             foreach (var item in list)
             {
-                if (item.createAt.Length > 0)
+                if (item.createAt.Length > 0 )
                 {
                     item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd");
-                }
-                else
+                } else
                 {
                     item.createAt = "沒有資料";
                 }
-
+                
             }
 
             if (!list.Any())
@@ -258,13 +254,8 @@ namespace EXhibition.Controllers
 
             DateTime applydate = DateTime.Now.AddDays(+5);
 
-            int exhibitorId = (int)(Session[Models.GlobalVariables.AccountId] == null ? 2 : Session[Models.GlobalVariables.AccountId]);
-
-            var joinList = (from exhib in db.exhibitinfo where exhib.EID == exhibitorId select exhib.EVID).ToList();
-
             var list = (from even in db.events
                         where even.startdate > applydate
-                        where !joinList.Contains(even.EVID)
                         select new { even.EVID, even.name, startdate = even.startdate.ToString(), enddate = even.enddate.ToString(), even.venue }).ToList();
 
             if (!list.Any())
@@ -340,7 +331,7 @@ namespace EXhibition.Controllers
         {
             ReturnData rd = new ReturnData();
 
-            if (EVID == null)
+            if(EVID == null)
             {
                 rd.message = "查無此展覽";
                 rd.status = ReturnStatus.Error;
@@ -474,6 +465,6 @@ namespace EXhibition.Controllers
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
         }
-
+            
     }
 }

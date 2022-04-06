@@ -250,11 +250,6 @@ namespace EXhibition.Controllers
                                               image = eInfo.image
                                           }).ToList();
 
-            foreach (var item in mEventDetail.exhibitorList)
-            {
-                item.image = "/image/exhibitor/"+item.image;
-            }
-
             return Ok(mEventDetail);
         }
 

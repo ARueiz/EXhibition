@@ -168,21 +168,16 @@ namespace EXhibition.Controllers
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate >= today && q.verify == null && k.EVID == eidd
-                           select new AuditExhibitorInfo
+                           where k.startdate < today && q.verify == null && k.EVID == EVID
+                           select new
                            {
                                name = p.name,
                                id = q.id,
-                               createAt = q.createAt.ToString(),
+                               createAt = q.createAt,
                                verify = q.verify
+
                            }
                            ).ToList();
-
-            foreach (var item in alldata)
-            {
-                item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd HH:mm:ss");
-            }
-
             if (alldata == null)
             {
                 rd.message = "no data";
@@ -192,9 +187,8 @@ namespace EXhibition.Controllers
             return Json(alldata, JsonRequestBehavior.AllowGet);
         }
 
-
         //允許或拒絕廠商
-        public ActionResult AllowOrRefuse(int? index, bool verified, string reason)
+        public ActionResult AllowOrRefuse(int? index , bool verified , string reason)
         {
             var rd = new ReturnData();
             if (index == null)
@@ -206,16 +200,16 @@ namespace EXhibition.Controllers
             int x = (int)index;
             var allow = db.exhibitinfo.Find(x);
 
-
-            allow.verify = verified;
+           
+                allow.verify = verified;
             allow.reason = reason;
-            db.SaveChanges();
-            rd.message = "no data";
-            rd.status = "error";
-            return Json(rd, JsonRequestBehavior.AllowGet);
+                db.SaveChanges();
+                rd.message = "no data";
+                rd.status = "error";
+                return Json(rd, JsonRequestBehavior.AllowGet);
+         
 
-
-
+           
         }
 
         //允許全部
@@ -259,7 +253,7 @@ namespace EXhibition.Controllers
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate >= today && k.EVID == EVID
+                           where k.startdate < today  && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -285,7 +279,7 @@ namespace EXhibition.Controllers
         {
             var rd = new ReturnData();
             DateTime today = DateTime.Now;
-            if (EVID == null)
+            if(EVID == null)
             {
 
             }
@@ -296,7 +290,7 @@ namespace EXhibition.Controllers
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate >= today && q.verify == true && k.EVID == EVID
+                           where k.startdate < today && q.verify == true && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -325,7 +319,7 @@ namespace EXhibition.Controllers
                            on q.EID equals p.EID
                            join k in db.events
                            on q.EVID equals k.EVID
-                           where k.startdate >= today && q.verify == false && k.EVID == EVID
+                           where k.startdate < today && q.verify == false && k.EVID == EVID
                            select new
                            {
                                name = p.name,
@@ -381,7 +375,7 @@ namespace EXhibition.Controllers
                 }
             }
 
-            var list = db.TagsName.Where(item => eventIdList.Contains(item.id)).Select(item => item.tagName).ToList();
+            var list = db.TagsName.Where(item => eventIdList.Contains(item.id)).Select(item=>item.tagName).ToList();
 
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -393,63 +387,25 @@ namespace EXhibition.Controllers
         }
 
 
-        public ActionResult List(int? id)
+        public ActionResult List()
         {
 
-            int va;
 
+            var b = from hostsTable in db.hosts
+                    join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
+                    select new
+                    {
+                        name = hostsTable.name,
+                        phone = hostsTable.phone,
+                        startdate = eventsTable.startdate.ToString(),
+                        enddate = eventsTable.enddate.ToString(),
+                        exhibitionname = eventsTable.name,
+                        evid = eventsTable.EVID,
+                        ticketPrice = eventsTable.ticketprice,
+                        
+                    };
 
-            if (id == null || (int)id <= 0)
-            {
-                va = 1;
-            }
-            else
-            {
-                va = (int)id;
-            }
-
-            va = (int)(va - 1) * 10;
-
-            int HID = (int)Session["AccountID"];
-
-            var data = (from hostsTable in db.hosts
-                        join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
-                        where eventsTable.HID == HID
-                        orderby eventsTable.EVID descending
-                        select new Models.HostEventInfo                        
-                        {
-                            name = hostsTable.name,
-                            phone = hostsTable.phone,
-                            startdate = eventsTable.startdate.ToString(),
-                            enddate = eventsTable.enddate.ToString(),
-                            exhibitionname = eventsTable.name,
-                            evid = eventsTable.EVID,
-                            ticketPrice = eventsTable.ticketprice,
-                        }).Skip(va).Take(10).ToList();
-
-            for (int i = 0; i < data.Count(); i++)
-            {
-                int evid = data[i].evid;
-                var count = (db.exhibitinfo.Where(e => e.EVID == evid).Where(e => e.verify == null)).ToArray().Count();
-                data[i].waitingCount = count;
-            }
-
-
-
-            foreach (var item in data)
-            {
-                if (DateTime.Now >= DateTime.Parse(item.startdate))
-                {
-                    item.isOver = false;
-                }
-                else if (DateTime.Now < DateTime.Parse(item.startdate))
-                {
-                    item.isOver = true;
-                }
-
-            }
-
-            return Json(data, JsonRequestBehavior.AllowGet);
+            return Json(b, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult PostList(int? id)
@@ -476,7 +432,7 @@ namespace EXhibition.Controllers
                 return Json(rd, JsonRequestBehavior.AllowGet);
             }
 
-            return new Models.NewJsonResult() { Data = a };
+            return Json(a, JsonRequestBehavior.AllowGet);
         }
 
         //新增展覽
@@ -506,7 +462,7 @@ namespace EXhibition.Controllers
 
             // 加入 tag
             Repo.TagRepo insert = new Repo.TagRepo();
-            insert.TagsInsert(tagList, events.EVID);
+            insert.TagsInsert(tagList,events.EVID);
 
             try
             {

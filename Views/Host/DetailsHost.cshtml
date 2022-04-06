@@ -3,124 +3,31 @@
     ViewBag.Title = "DetailsHost";
 }
 
-@section styles{
-    <style>
+<div class="container h-100 mt-3" id="VuePage">
+    <div class="row justify-content-sm-center h-100">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>name</th>
+                    <th>phone</th>
+                    <th>exhibitionname</th>
+                    <th>startdate</th>
+                    <th>enddate </th>
+                    <th>---------------------- </th>
+                </tr>
+            </thead>
+            <tr >
+                <td v-show="false" id="evid">{{res.EVID}}</td>
+                <td>{{ res.name }}</td>
+                <td>{{ res.venue }}</td>
+                <td>{{ res.eventinfo }}</td>
+                <td>{{ res.ticketprice }}</td>
+                <td>{{ res.verify }}</td>
 
-        .img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: 10% 100%;
-        }
-
-        .detail-box {
-            padding: 25px;
-        }
-
-        .detail-item {
-            border-left: 2px solid #00bcd4;
-            padding-left: 20px;
-            margin-top: 25px;
-            margin-bottom: 25px;
-        }
-
-        .block-line {
-            height: 1px;
-            width: 100%;
-            background-color: lightslategray;
-            margin-top: 25px;
-            margin-bottom: 25px;
-        }
-
-        .reject-btn {
-            line-height: 24px;
-            border: 0 none;
-            border-radius: 5px;
-            background-color: #f1636f;
-            padding: 5px 15px;
-        }
-
-        .allow-btn {
-            line-height: 24px;
-            border: 0 none;
-            border-radius: 5px;
-            background-color: #a3e287;
-            padding: 5px 15px;
-        }
-
-        .table-row-center td {
-            vertical-align: middle;
-        }
-
-        .exhibitor-table {
-            margin-top: 20px;
-            max-height: 300px;
-            overflow: auto;
-        }
-
-        .box-item {
-            padding: 10px;
-        }
-
-        .edit-btn {
-            text-decoration: none;
-            line-height: 24px;
-            border: 0 none;
-            border-radius: 5px;
-            background-color: #61c1f1;
-            padding: 5px 15px;
-            color: black;
-        }
-
-        .text-reject {
-            color: #fc2c2c;
-        }
-
-        .text-allow {
-            color: #0bb60b;
-        }
-
-        .form-control:focus,
-        .form-control:active {
-            outline: none !important;
-            box-shadow: none !important
-        }
-
-        .input-reason:focus {
-            border: 1px solid #fc3660
-        }
-    </style>
-}
-
-<div class="col-md-10 rwd-mt p-5 content " id="contain">
-    <p class="h2"><b>展覽資訊</b></p>
-    <div class="d-block d-flex flex-wrap">
-        <div class="col-md-5 detail-box">
-            <div class="img-wrap">
-                <img :src="image" alt="">
-            </div>
-        </div>
-        <div class="col-md-7 detail-box">
-            <div class="">
-                <div class="detail-item">
-                    <h5>展覽時間</h5>{{ start }} ~ {{ end }}
-                </div>
-                <div class="detail-item">
-                    <h5>活動地點</h5>{{ location }}
-                </div>           
-                <a :href="'/Host/EditEventInfo/?EVID='+id" class="edit-btn">編輯展覽</a>
-            </div>
-        </div>
-        <div>
-            <h5>展覽描述</h5>
-            <div class="describe mt-4">
-                <p>
-                    {{ content }}
-                </p>
-            </div>
-        </div>
+            </tr>
+        </table>
+        
     </div>
-
 </div>
 
 @section scripts {
@@ -129,36 +36,32 @@
     <script>
 
         var VuePage = new Vue({
-            el: '#contain',
+            el: '#VuePage',
             data: {
-                reason: '',
-                start: '',
-                end: '',
-                location: '',
-                organizer: '',
-                content: '',
-                image:'',
+                res: [
+                   
+
+                ],
                 id: '@ViewBag.id'
+                     
+
             },
 
             mounted() {
                 console.log('run')
-                let self = this
                 axios.post('/HostApi/PostList/' + this.id)
                     .then(function (response) {
-                        self.name = response.data.name;
-                        self.start = response.data.startdate;
-                        self.end = response.data.enddate;
-                        self.location = response.data.venue;
-                        self.content = response.data.eventinfo;
-                        self.image = '/image/host/' + response.data.image;
+                       // let list = []
+                        // list.push(response.data)
+                        VuePage.res = response.data               
+                        console.log(response)
                     })
                     .catch((err) => {
                         console.log(err)
                     });
             },
             methods: {
-
+                
             }
         });
 
