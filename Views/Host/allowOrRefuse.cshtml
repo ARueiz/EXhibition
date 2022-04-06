@@ -185,8 +185,9 @@
     </div>
 
     <!-- Modal loading -->
-    <div class="modal fade" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" v-if="isShow" id="loadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
          aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <button type="button" class="btn-close d-none" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -209,7 +210,7 @@
                 ],
                 clickdata: '',
                 reasonStr: '',
-
+                isShow: false , 
                 evid: @ViewBag.EVID
             }
         },
@@ -258,8 +259,8 @@
 
             decide: function (index) {
                 let self = this;
-
-                $('#loadingModal').modal('show')
+                
+                self.isShow = true;                
 
                 if (index == 1) {
                     console.log("allow");
@@ -268,7 +269,7 @@
                         verified: true,
 
                     })
-                        .then((response) => console.log(response))
+                        .then((response) => self.selectAllStatusList() )
                         .catch((error) => console.log(error))
 
                     console.log('test')
@@ -276,7 +277,7 @@
                     let loadModal2 = $('#reject');
                     loadModal.modal('hide');
                     loadModal2.modal('hide');
-                    $('#loadingModal').modal('hide')
+                    self.isShow = false;
 
                 } else {
                     console.log("reject");
@@ -286,7 +287,7 @@
                         verified: false,
                         reason: self.reasonStr,
                     })
-                        .then((response) => console.log(response))
+                        .then((response) => self.selectAllStatusList() )
                         .catch((error) => console.log(error))
 
                     console.log('test')
@@ -294,7 +295,7 @@
                     let loadModal2 = $('#reject');
                     loadModal.modal('hide');
                     loadModal2.modal('hide');
-                    $('#loadingModal').modal('hide')
+                    self.isShow = false;
                 }
             },
             whyRejected() {

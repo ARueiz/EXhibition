@@ -207,6 +207,7 @@
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GlobalVariables.cs" />
+    <Compile Include="Models\HostEventInfo.cs" />
     <Compile Include="Models\hosts.cs">
       <DependentUpon>Exhibition.tt</DependentUpon>
     </Compile>
