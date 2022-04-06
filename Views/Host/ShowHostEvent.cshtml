@@ -13,7 +13,7 @@
                     <th>開始時間</th>
                     <th>結束時間</th>
                     <th>待審核數量</th>
-                    <th>---------------------- </th>
+                    <th>選項</th>
                 </tr>
             </thead>
             <tr v-for="(item,index) in res">
@@ -25,18 +25,13 @@
                 <td>{{item.enddate }}</td>
                 <td>{{item.waitingCount }}</td>
                 <td>
-                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-outline-success" role="button">審核</a>
+                    <a :href=`./allowOrRefuse/?EVID =${item.evid}` class="btn btn-success" role="button" v-if="item.isOver">審核</a>
                     @*<input type="submit" value="審核" />*@
-                    <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-outline-primary" role="button">編輯</a>
-<!--=======
-                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-outline-success" role="button" v-if="item.isOver">審核</a>-->
-                    @*<input type="submit" value="審核" />*@
-                    <!--<a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-outline-primary" role="button" v-if="item.isOver">編輯</a>
->>>>>>> aaabbb-->
+                    <a :href=`./EditEventInfo/?EVID =${item.evid}` class="btn btn-primary" role="button" v-if="item.isOver">編輯</a>
                     @*<input type="submit" value="編輯" />*@
-                    <a :href=`./DetailsHost/${item.evid}` class="btn btn-outline-info" role="button">查看</a>
+                    <a class="btn btn-warning" :href="'/host/CheckTicket/?EVID='+item.evid" v-if="item.isOver">驗票</a>
+                    <a :href=`./DetailsHost/${item.evid}` class="btn btn-info" role="button">查看</a>
                     @*<input type="submit" value="明細" v-on:click="Details(item.evid)" />*@
-
                 </td>
 
             </tr>
@@ -92,8 +87,6 @@
                         });
 
                 },
-
-
             },
             computed: {
 

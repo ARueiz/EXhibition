@@ -17,5 +17,6 @@ namespace EXhibition.Models
         public int evid { get; internal set; }
         public int waitingCount { get; set; }
         public bool isOver { get; set; }
+        public int hid { get; set; }
     }
 }
