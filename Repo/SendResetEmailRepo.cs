@@ -10,7 +10,7 @@ namespace EXhibition.Repo
     {
         static public void SendResetEmail(string email ,string uuid)
         {
-<<<<<<< HEAD
+
             string account = System.Environment.GetEnvironmentVariable("EMAIL_ACCOUNT");
             string password = System.Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
             if (account == null)
@@ -30,7 +30,7 @@ namespace EXhibition.Repo
             smtp.Send(mail);
             smtp = null;
             mail.Dispose();
-=======
+
             //MailMessage mail = new MailMessage();
             //mail.From = new MailAddress("tt29334@gmail.com", "tt29334");
             //mail.To.Add("dveasia558@gmail.com");
@@ -44,7 +44,7 @@ namespace EXhibition.Repo
             //smtp.Send(mail);
             //smtp = null;
             //mail.Dispose();
->>>>>>> aaabbb
+
         }
     }
 }
