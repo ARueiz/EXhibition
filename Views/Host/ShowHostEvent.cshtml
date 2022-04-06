@@ -23,12 +23,12 @@
                 <td>{{item.startdate }}</td>
                 <td>{{item.enddate }}</td>
                 <td>
-                    <input type="submit" value="審核" v-on:click="AllowOrRefuse(item.evid)" v-bind:disabled="item.isOver" class="btn btn-success" />
+                    @*<input type="submit" value="審核" v-on:click="AllowOrRefuse(item.evid)" v-bind:disabled="item.isOver" class="btn btn-success" />
 
-                    <input type="submit" value="編輯" v-on:click="EditEventInfo(item.evid)" v-bind:disabled="item.isOver" class="btn btn-primary" />
+                    <input type="submit" value="編輯" v-on:click="EditEventInfo(item.evid)" v-bind:disabled="item.isOver" class="btn btn-primary" />*@
 
-                    @*<a :href=`./allowOrRefuse/?EVID =${item.evid}` class="btn btn-info" role="button">審核</a>*@
-                    @*<a :href=`./EditEventInfo/?EVID =${item.evid}` class="btn btn-info" role="button">編輯</a>*@
+                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-info" role="button" v-bind:disabled="item.isOver">審核</a>
+                    <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-info" role="button" v-bind:disabled="item.isOver">編輯</a>
                     <input type="submit" value="明細" v-on:click="Details(item.evid)" class="btn btn-dark"  />
                 </td>
 
@@ -71,13 +71,13 @@
                             console.log(err)
                         });
                 },
-                AllowOrRefuse: function (va) {
+                @*AllowOrRefuse: function (va) {
                     window.location.href = "/" + "host" + "/" + "allowOrRefuse" + "/" + "?EVID=" + va
                 },
 
                 EditEventInfo: function (va) {
                     window.location.href = "/" + "host" + "/" + "EditEventInfo" + "/" + "?EVID=" + va
-                },
+                },*@
 
 
 
