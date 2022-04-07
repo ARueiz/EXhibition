@@ -51,7 +51,7 @@
     let qrcodeJson = {}
     let isChecking = false;
 
-    let EVID = '@ViewBag.EVID'
+    let EVID = '@ViewBag.EVID';
 
     function setResult(label, result) {
 
@@ -67,7 +67,8 @@
         // scanner.stop();
         if (result.data.length > 0) {
             qrcodeJson = JSON.parse(result.data);
-            qrcodeJson.EVID = parent(EVID)
+            qrcodeJson.EVID = parseInt(EVID)
+
             scanner.stop();
             sendRequest();
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using PayPalCheckoutSdk.Core;
 using PayPalHttp;
-
 using System.IO;
 using System.Text;
 using System.Runtime.Serialization.Json;
@@ -18,8 +17,8 @@ namespace EXhibition.Repo
         {
             BrandName = "展覽館-Exhibition Inc.",
             LandingPage = "BILLING",
-            CancelUrl = Models.GlobalVariables.ServerHost,
-            ReturnUrl = Models.GlobalVariables.ServerHost + "/shop/CheckoutSuccess",
+            CancelUrl = Models.GlobalVariables.OnlinePayPalUrl,
+            ReturnUrl = Models.GlobalVariables.OnlinePayPalUrl + "/shop/CheckoutSuccess",
             UserAction = "CONTINUE",
             ShippingPreference = "NO_SHIPPING"
         };

@@ -13,7 +13,8 @@ namespace EXhibition.Controllers
         // 廠商 首頁
         public ActionResult Index()
         {
-            return View();
+            //return View();
+            return RedirectToAction("showHostList", "Exhibitor", null);
         }
 
         // 廠商 參加展覽

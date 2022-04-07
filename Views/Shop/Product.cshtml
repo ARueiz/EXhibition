@@ -34,18 +34,12 @@
         }
     </style>
 }
-
-
-<div id="contain" style="min-height: 100vh;">
-    <!-- displayTitleImg -->
-
-    <div class="w3-col m1" style="height: 10px"></div>
+<div class="row main-content" style="min-height:100vh;" id="contain">
 
     <!-- !PAGE CONTENT! -->
-    <div class="container">
+    <div class="w3-main w3-col m10 col-md-10 mx-auto">
        
-        @*<nav aria-label="breadcrumb" class="m-4">
-
+        <nav aria-label="breadcrumb" class="m-4">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="/">首頁</a>
@@ -55,24 +49,22 @@
                 </li>
                 <li class="breadcrumb-item active" aria-current="page">詳細資訊</li>
             </ol>
-        </nav>*@
+        </nav>
 
         <h1 class="w3-margin">{{ title }}</h1>
 
         <div class="row mt-5">
             <div class="col-md-8">
                 <div class="mb-5">
-                    <img class="w-100 p-0 m-0"
-                         :src="imgUrl"
-                         alt="">
-                </div>
-                <div class="mb-1">
-                    {{ content }}
+                    <div style="">
+                        <img :src="imgUrl" alt="" style="width: 100%; max-height: 500px; object-fit:contain; ">
+                    </div>
+                    <div class="mb-1 mt-3">
+                        <p>{{ content }}</p>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
-
-
                 <div class="detail-panel">
                     <div class="detail-item">
                         <h4>
@@ -89,21 +81,17 @@
                             <b>主辦單位</b>
                         </h4>{{ organizer }}
                     </div>
-                </div>
-
-
-                <br>
-
-                <div class="ticketPurchase">
-                    <h3>票券價格</h3>
                     <br>
-                    <div class="d-flex justify-content-between">
-                        <div class="h4 d-inline-block">NT$ {{ price }} 元</div>
+                    <div class="ticketPurchase ">
+                        <h3>票券價格</h3>
+                        <br>
+                        <div class="d-flex justify-content-between">
+                            <div class="h4 d-inline-block">NT$ {{ price }} 元</div>
+                        </div>
+                        <br>
+                        <button v-on:click="purchase()" class="w3-button w3-green d-inline-block">購票</button>
                     </div>
-                    <br>
-                    <button v-on:click="purchase()" class="w3-button w3-green d-inline-block">購票</button>
-                </div>
-
+                </div>                
             </div>
         </div>
 
@@ -118,10 +106,8 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-
 <script>
     new Vue({
         el: '#contain',

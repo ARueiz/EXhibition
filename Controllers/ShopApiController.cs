@@ -187,6 +187,8 @@ namespace EXhibition.Controllers
 
         public async Task<IHttpActionResult> PostCreateOrder()
         {
+            int userid = (int)HttpContext.Current.Session[GlobalVariables.AccountID];
+
 
             List<CartItem> cartList = (List<CartItem>)HttpContext.Current.Session[GlobalVariables.CartItems];
             if (cartList == null || cartList.Count <= 0)
@@ -197,11 +199,11 @@ namespace EXhibition.Controllers
             foreach (var item in cartList) { eventIdList.Add(item.EVID); };
 
             // 進入結帳資料庫
-            orders order = new CheckOutRepo(eventIdList, 2).getOrder();
+            orders order = new CheckOutRepo(eventIdList, userid).getOrder();
 
             HttpContext.Current.Session[GlobalVariables.CartItems] = null; // 清空 session 購物清單
 
-            // 將 event.EVID 陣列轉乘 event 陣列
+            // 將 event.EVID 陣列轉成 event 陣列
             List<events> ticketList = db.events.Where(i => eventIdList.Contains(i.EVID)).ToList();
 
             PayPalHttp.HttpResponse s = await Repo.BuildPayPalOrder.CreateOrder(ticketList, order.totalPrice);
