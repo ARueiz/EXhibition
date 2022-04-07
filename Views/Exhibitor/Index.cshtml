@@ -3,5 +3,97 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+@section styles{
+    <style>
+        .box {
+            /*max-width: 100%;*/
+            width: 100%;
+            background-color: white;
+            height: 100%;
+            /*border: 1px solid #b1b1b1;*/
+            padding: 15px;
+            border-radius: 5px;
+            display: inline-block;
+            /*width: 100%;*/
+            /*box-shadow: 0 5px 5px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);*/
+        }
+
+        .text-font-1 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .text-font-2 {
+            font-size: 18px;
+        }
+    </style>
+}
+
+
+<div class="mt-3 p-2" id="contain">
+    <div class="row w-100">
+        <div class="col-md-3 p-2">
+            <div class="box d-flex flex-column">
+                <div class="text-font-1">用戶購票熱門標籤</div>
+                <div class="text-font-2">$ {{ hotUserTag }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 p-2">
+            <div class="box">
+                <div class="text-font-1">主辦單位熱門標籤</div>
+                <div class="text-font-2">{{ hotTag }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 p-2 ">
+            <div class="box">
+                <div class="text-font-1">熱門展覽</div>
+                <div class="text-font-2">{{ hotEvent }}</div>
+            </div>
+        </div>
+        <div class="col-md-3 p-2 ">
+            <div class="box">
+                <div class="text-font-1">加入數量</div>
+                <div class="text-font-2">{{ joinEventCount }}</div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+
+    new Vue({
+        el: '#contain',
+        data() {
+            return {
+                hotUserTag: 0,
+                hotTag: '測試展覽',
+                hotEvent: 0,
+                joinEventCount : '',
+            }
+        },
+        created() {
+            this.getData()
+        },
+        mounted() {
+
+        },
+        methods: {
+            getData() {
+                let self = this
+                fetch('/api/other/GetExhibitorDashBoard')
+                    .then(res => res.json())
+                    .then(res => {
+                        self.hotEvent = res.hotEvent;
+                        self.hotTag = res.hotTag;
+                        self.hotUserTag = res.hotUserTag;
+                        self.joinEventCount = res.joinEventCount;
+                    })
+            }
+        },
+    })
+
+
+</script>
+
 

@@ -62,7 +62,7 @@ namespace EXhibition.Repo
                 Select(group => new { id = group.Key, Count = group.Count() }).
                 OrderByDescending(x => x.Count).FirstOrDefault();
 
-            if(findMaxPerson == null) return Task.FromResult("");
+            if (findMaxPerson == null) return Task.FromResult("");
 
             var myEvent = db.events.Find(findMaxPerson.id);
 
@@ -131,6 +131,61 @@ namespace EXhibition.Repo
                         .OrderByDescending(e => e.number)
                         .ToList();
             return Task.FromResult(list);
+        }
+
+        public String GetHotEvent()
+        {
+
+            var now = DateTime.Now;
+
+            var query = (from tk in db.Tickets
+                         join evnt in db.events on tk.EVID equals evnt.EVID
+                         where evnt.enddate > now
+                         select evnt);
+
+            var eventId = query.GroupBy(e => e.EVID)
+                .Select(e => new { id = e.Key, count = e.Count() })
+                .OrderByDescending(e => e.count).Select(e => e.id).FirstOrDefault();
+
+            return db.events.Find(eventId).name;
+        }
+
+        public int GetJoinCount(int eid)
+        {
+            int count = db.exhibitinfo.Where(e => e.verify == true).Where(e => e.EID == eid).Count();
+            return count;
+        }
+
+        public string GetHotEventTag()
+        {
+            var tagId = (from evtg in db.eventTags
+                         group evtg by evtg.tagID into grp
+                         select new { id = grp.Key, count = grp.Count() })
+                       .OrderByDescending(e => e.count).FirstOrDefault();
+            string tagName = db.TagsName.Find(tagId.id).tagName;
+            return tagName;
+        }
+        public string GetHotUserTag(int accountId)
+        {
+
+            var now = DateTime.Now;
+
+            var query = (from tk in db.Tickets
+                         join evnt in db.events on tk.EVID equals evnt.EVID
+                         where evnt.enddate > now
+                         select evnt);
+
+            var eventIdArray = query.GroupBy(e => e.EVID)
+                .Select(e => new { id = e.Key, count = e.Count() })
+                .OrderByDescending(e => e.count).Select(e => e.id).Take(10).ToArray();
+
+            var tagId = db.eventTags.
+                Where(e => eventIdArray.Contains(e.EVID)).
+                GroupBy(e => e.tagID).
+                Select(e => new { id = e.Key, count = e.Count() }).
+                OrderByDescending(e => e.count).Select(e=>e.id).FirstOrDefault();
+
+            return db.TagsName.Find(tagId).tagName;
         }
 
     }
