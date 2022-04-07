@@ -241,16 +241,17 @@ namespace EXhibition.Controllers
 
             var idList = db.exhibitinfo.Where(e => e.EVID == id).Where(e => e.verify == true).Select(e => e.EID).ToList();
 
-
             mEventDetail.exhibitorList = (from eInfo in db.exhibitinfo
                                           join eData in db.exhibitors on eInfo.EID equals eData.EID
-                                          where eInfo.EVID == id
+                                          where eInfo.EVID == id where eInfo.verify == true
                                           select new Models.ExhibitorsInfo
                                           {
                                               EID = eInfo.EID,
                                               name = eData.name,
                                               image = eInfo.image
                                           }).ToList();
+
+            mEventDetail.tagList = (from tg in db.eventTags join tn in db.TagsName on tg.tagID equals tn.id where tg.EVID == id select tn.tagName ).ToList();
 
             foreach (var item in mEventDetail.exhibitorList)
             {

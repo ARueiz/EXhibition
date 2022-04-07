@@ -16,6 +16,8 @@ namespace EXhibition.Models
         public string eventinfo { get; set; }
 
         public List<ExhibitorsInfo> exhibitorList = new List<ExhibitorsInfo>();
+
+        public List<string> tagList = new List<string>();
     }
 
     public class ExhibitorsInfo
