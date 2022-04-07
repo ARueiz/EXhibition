@@ -13,16 +13,19 @@ namespace EXhibition.Repo
 
             string account = System.Environment.GetEnvironmentVariable("EMAIL_ACCOUNT");
             string password = System.Environment.GetEnvironmentVariable("EMAIL_PASSWORD");
+
             if (account == null)
             {
                 return; 
             }
             MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(account, "展覽");
-            mail.To.Add("dveasia558@gmail.com");
+            mail.From = new MailAddress(account, "E展鴻圖");
+            mail.To.Add(email);
             mail.Priority = MailPriority.Normal;
             mail.Subject = "密碼重設";
-            mail.Body = "<a href='https://localhost:44378/home/ResetPassword/?uuid=" + uuid + "'>重設</a>";
+            mail.Body = $"<h1>如要密碼重設!請點擊下列連結</h1>" +
+                        $"<a href='https://exhibition.azurewebsites.net/home/ResetPassword/?uuid={uuid}'>重設密碼</a>";
+
             mail.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
             smtp.Credentials = new System.Net.NetworkCredential(account, password);

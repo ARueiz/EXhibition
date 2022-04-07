@@ -28,10 +28,11 @@
                     <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-outline-success" role="button" v-if="item.isOver">審核</a>
                     @*<input type="submit" value="審核" />*@
                     <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-outline-primary" role="button" v-if="item.isOver">編輯</a>
+
                     @*<input type="submit" value="編輯" />*@
+                    <a class="btn btn-outline-warning" :href="'/host/CheckTicket/?EVID='+item.evid">驗票</a>
                     <a :href=`./DetailsHost/${item.evid}` class="btn btn-outline-info" role="button">查看</a>
                     @*<input type="submit" value="明細" v-on:click="Details(item.evid)" />*@
-                    <a class="btn btn-outline-warning" :href="'/host/CheckTicket/?EVID='+item.evid">驗票</a>
                 </td>
 
             </tr>
@@ -57,9 +58,8 @@
                 res: [],
                 pageNum: 1,
             },
-
             mounted() {
-                this.GetMaterial(0);
+                this.GetMaterial(0)
             },
             methods: {
                 Details: function (va) {
@@ -69,7 +69,7 @@
                         })
                         .catch((err) => {
                             console.log(err)
-                        });
+                        })
                 },
                 GetMaterial: function (va) {
 
@@ -88,8 +88,6 @@
                         });
 
                 },
-
-
             },
             computed: {
 

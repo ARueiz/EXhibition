@@ -68,6 +68,7 @@
         if (result.data.length > 0) {
             qrcodeJson = JSON.parse(result.data);
             qrcodeJson.EVID = parseInt(EVID)
+
             scanner.stop();
             sendRequest();
         }
