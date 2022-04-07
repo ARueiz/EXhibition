@@ -107,7 +107,7 @@ namespace EXhibition.Repo
             var a = (from t in db.Tickets
                      join ex in db.events on t.EVID equals ex.EVID
                      group ex by ex.EVID into grp
-                     select new { id = grp.Key, count = grp.Count() }).OrderBy(e => e.count).Take(3).ToList();
+                     select new { id = grp.Key, count = grp.Count() }).OrderByDescending(e => e.count).Take(3).ToList();
 
             List<ItemInfo> list = (
                 from p in a
