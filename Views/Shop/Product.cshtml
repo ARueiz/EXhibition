@@ -51,9 +51,10 @@
             </ol>
         </nav>
 
-        <h1 class="w3-margin">{{ title }}</h1>
+        
 
         <div class="row mt-5">
+            <h1 class="text-center mb-4">{{ title }}</h1>
             <div class="col-md-8">
                 <div class="mb-5">
                     <div style="">
@@ -91,7 +92,7 @@
                         <br>
                         <button v-on:click="purchase()" class="w3-button w3-green d-inline-block">購票</button>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
 
@@ -134,8 +135,8 @@
                     self.start = res.start;
                     self.price = res.price;
                     self.end = res.end;
-                    self.title = res.name;
-                    self.organizer = res.organizer;
+                    self.title = res.organizer;
+                    self.organizer = res.hostName;
                     self.location = res.location;
                     self.imgUrl = res.image;
                     self.content = res.eventinfo;

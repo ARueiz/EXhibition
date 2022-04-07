@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
-    //[AuthorizeFilter(UserRole.Exhibitor)]
+    [AuthorizeFilter(UserRole.Exhibitor)]
     public class ExhibitorApiController : Controller
     {
 

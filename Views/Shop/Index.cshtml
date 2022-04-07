@@ -75,7 +75,7 @@
                 <!-- exhibition list start -->
                 <div class="w3-third w3-container mb-5 " v-for="element in exhibitionList">
                     <div class="imgBox">
-                        <img :src="element.image" alt="Norway" style="width:100%;height: 200px " class="">
+                        <img :src="element.image" alt="Norway" style="width:100%;min-height: 200px;max-height:200px;" class="">
                     </div>
                     <div class="w3-container w3-white mt-3">
                         <h3 class="" style="text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">{{ element.name }}</h3>
