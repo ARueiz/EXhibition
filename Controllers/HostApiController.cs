@@ -180,7 +180,10 @@ namespace EXhibition.Controllers
 
             foreach (var item in alldata)
             {
-                item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd HH:mm:ss");
+                if(item.createAt != "")
+                {
+                    item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd HH:mm:ss");
+                }
             }
 
             if (alldata == null)
@@ -230,11 +233,11 @@ namespace EXhibition.Controllers
                            join k in db.events
                            on q.EVID equals k.EVID
                            where k.startdate < today && q.verify == false && k.EVID == EVID
-                           select new
+                           select new AuditExhibitorInfo
                            {
                                name = p.name,
                                id = q.id,
-                               createAt = q.createAt,
+                               createAt = q.createAt.ToString(),
                                verify = q.verify
 
                            }
@@ -260,15 +263,25 @@ namespace EXhibition.Controllers
                            join k in db.events
                            on q.EVID equals k.EVID
                            where k.startdate >= today && k.EVID == EVID
-                           select new
+                           select new AuditExhibitorInfo
                            {
                                name = p.name,
                                id = q.id,
-                               createAt = q.createAt,
+                               createAt = q.createAt.ToString(),
                                verify = q.verify
 
                            }
                            ).ToList();
+
+            foreach (var item in alldata)
+            {
+                if(item.createAt != "")
+                {
+                    item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd HH:mm:ss");
+                }
+                
+            }
+
             if (alldata == null)
             {
                 rd.message = "no data";
@@ -297,15 +310,24 @@ namespace EXhibition.Controllers
                            join k in db.events
                            on q.EVID equals k.EVID
                            where k.startdate >= today && q.verify == true && k.EVID == EVID
-                           select new
+                           select new AuditExhibitorInfo
                            {
                                name = p.name,
                                id = q.id,
-                               createAt = q.createAt,
+                               createAt = q.createAt.ToString(),
                                verify = q.verify
 
                            }
                            ).ToList();
+
+            foreach (var item in alldata)
+            {
+                if(item.createAt != "")
+                {
+                    item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd HH:mm:ss");
+                }
+            }
+
             if (alldata == null)
             {
                 rd.message = "no data";
@@ -326,15 +348,24 @@ namespace EXhibition.Controllers
                            join k in db.events
                            on q.EVID equals k.EVID
                            where k.startdate >= today && q.verify == false && k.EVID == EVID
-                           select new
+                           select new AuditExhibitorInfo
                            {
                                name = p.name,
                                id = q.id,
-                               createAt = q.createAt,
+                               createAt = q.createAt.ToString(),
                                verify = q.verify
 
                            }
                            ).ToList();
+
+            foreach (var item in alldata)
+            {
+                if(item.createAt != "")
+                {
+                    item.createAt = DateTime.Parse(item.createAt).ToString("yyyy-MM-dd HH:mm:ss");
+                }
+            }
+
             if (alldata == null)
             {
                 rd.message = "no data";
@@ -393,14 +424,30 @@ namespace EXhibition.Controllers
         }
 
 
-        public ActionResult List()
+        public ActionResult List(int? id)
         {
+
+            int va;
+
+            if (id == null || (int)id <= 0)
+            {
+                va = 1;
+            }
+            else
+            {
+                va = (int)id;
+            }
+
+            va = (int)(va - 1) * 10;
+
             int HID = (int)Session["AccountID"];
 
             var data = (from hostsTable in db.hosts
                         join eventsTable in db.events on hostsTable.HID equals eventsTable.HID
                         where eventsTable.HID == HID
+                        orderby eventsTable.startdate descending 
                         select new Models.HostEventInfo
+
                         {
                             name = hostsTable.name,
                             phone = hostsTable.phone,
@@ -409,7 +456,8 @@ namespace EXhibition.Controllers
                             exhibitionname = eventsTable.name,
                             evid = eventsTable.EVID,
                             ticketPrice = eventsTable.ticketprice,
-                        }).ToList();
+                            hid = hostsTable.HID
+                        }).Skip(va).Take(10).ToList();
 
             for (int i = 0; i < data.Count(); i++)
             {
@@ -418,6 +466,20 @@ namespace EXhibition.Controllers
                 data[i].waitingCount = count;
             }
 
+
+
+            foreach (var item in data)
+            {
+                if (DateTime.Now >= DateTime.Parse(item.startdate))
+                {
+                    item.isOver = false;
+                }
+                else if (DateTime.Now < DateTime.Parse(item.startdate))
+                {
+                    item.isOver = true;
+                }
+
+            }
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -765,5 +827,13 @@ namespace EXhibition.Controllers
 
         }
 
+        public ActionResult getExhibitInfo(int? id)
+        {
+            int evinfoid = (int)id;
+            
+            var evinfo = db.exhibitinfo.Where(e=>e.id == evinfoid).FirstOrDefault();
+
+            return new NewJsonResult(){ Data = evinfo};
+        }
     }
 }

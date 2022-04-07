@@ -13,7 +13,8 @@ namespace EXhibition.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View();
+            //return View();
+            return RedirectToAction("MyTicketList", "User", null);
         }
 
         //票卷列表
@@ -23,8 +24,10 @@ namespace EXhibition.Controllers
         }
 
         //票卷細節
-        public ActionResult MyTicketDetail()
+        public ActionResult MyTicketDetail(int? TID)
         {
+            ViewBag.TID = (int)TID;
+
             return View();
         }
 

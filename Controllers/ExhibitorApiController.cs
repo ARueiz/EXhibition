@@ -163,8 +163,8 @@ namespace EXhibition.Controllers
 
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
+                        orderby events.startdate
                         where exhibitinfo.EID == id
-
                         select new ApplyList
                         {
                             EVID = events.EVID,
@@ -216,6 +216,7 @@ namespace EXhibition.Controllers
             var list = (from exhibitinfo in db.exhibitinfo
                         join events in db.events on exhibitinfo.EVID equals events.EVID
                         where exhibitinfo.verify == tag && exhibitinfo.EID == EID
+                        orderby events.startdate
                         select new ApplyList
                         {
                             EVID = events.EVID,

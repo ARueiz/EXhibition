@@ -93,6 +93,9 @@ namespace EXhibition.Controllers
             else if (t.token.Equals(getTicketData.Token) == false) // token 不相符
                 return Ok(new ReturnData() { status = ReturnStatus.Error, message = "驗證碼不符" });
 
+            else if (t.EVID.Equals(getTicketData.EVID) == false) // token 不相符
+                return Ok(new ReturnData() { status = ReturnStatus.Error, message = "場次不符" });
+
             //else if (t.createAt < DateTime.Now)
             //    return Ok(new ReturnData() { status = ReturnStatus.Error, message = "驗證逾期" });
 

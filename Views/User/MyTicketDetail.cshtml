@@ -18,7 +18,7 @@
                             {{ exhibitionStart }} - {{ exhibitionEnd }}
                         </h4>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-8 mb-5">
                         <p style="color: gray">QR code</p>
                         <div id="qrcodeBox" class="d-flex justify-content-center"></div>
                     </div>
@@ -39,7 +39,7 @@
         el: '#contain',
         data() {
             return {
-                ticketId: 0,
+                ticketId: "@ViewBag.TID",
                 ticketStatus: 'over',
                 title: '',
                 exhibitionStart: '',
@@ -82,7 +82,7 @@
 
             connectAxios: function () {
                 var self = this;
-                axios.get('/UserApi/ticketdetail').then(function (res) {
+                axios.get(`/UserApi/ticketdetail/?ticketId=${self.ticketId}`).then(function (res) {
                     return res.data
                 }).then(function (res) {
                     console.log(res)

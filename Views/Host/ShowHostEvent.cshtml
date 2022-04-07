@@ -13,7 +13,7 @@
                     <th>開始時間</th>
                     <th>結束時間</th>
                     <th>待審核數量</th>
-                    <th>---------------------- </th>
+                    <th>選項</th>
                 </tr>
             </thead>
             <tr v-for="(item,index) in res">
@@ -25,19 +25,29 @@
                 <td>{{item.enddate }}</td>
                 <td>{{item.waitingCount }}</td>
                 <td>
-                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-outline-success" role="button">審核</a>
+                    <a :href=`./allowOrRefuse/?EVID=${item.evid}` class="btn btn-outline-success" role="button" v-if="item.isOver">審核</a>
                     @*<input type="submit" value="審核" />*@
-                    <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-outline-primary" role="button">編輯</a>
+                    <a :href=`./EditEventInfo/?EVID=${item.evid}` class="btn btn-outline-primary" role="button" v-if="item.isOver">編輯</a>
+
                     @*<input type="submit" value="編輯" />*@
+                    <a class="btn btn-outline-warning" :href="'/host/CheckTicket/?EVID='+item.evid">驗票</a>
                     <a :href=`./DetailsHost/${item.evid}` class="btn btn-outline-info" role="button">查看</a>
                     @*<input type="submit" value="明細" v-on:click="Details(item.evid)" />*@
-
                 </td>
 
             </tr>
         </table>
+        <div>
+            <div class="d-flex justify-content-end">
+                <input type="button" class="btn btn-light" v-on:click="GetMaterial(-1)" value="上一頁" />
+                <input type="button" class="btn btn-light" v-on:click="GetMaterial(+1)" value="下一頁" />
+                @*<a style="margin: 5px" type="s" v-on:click="GetMaterial()">上一頁</a>*@
+                @*<a style="margin: 5px" href="#">下一頁</a>*@
+            </div>
+        </div>
     </div>
 </div>
+
 
 @section scripts {
     <script>
@@ -46,39 +56,40 @@
             el: '#VuePage',
             data: {
                 res: [],
-            
-
+                pageNum: 1,
             },
-
             mounted() {
-                axios
-                    .get('/HostApi/List')
-                    .then(function (response) {
-                        VuePage.res = response.data
-
-                    })
-                    .catch((err) => {
-                        console.log(err)
-                    });
-
-                
+                this.GetMaterial(0)
             },
             methods: {
                 Details: function (va) {
-
                     axios.get('/HostApi/PostList/', + va)
                         .then(function (response) {
                             window.location.href = "/" + "host" + "/" + "DetailsHost" + "/" + va
                         })
                         .catch((err) => {
                             console.log(err)
-                        });
+                        })
                 },
-              
-                
+                GetMaterial: function (va) {
 
+                    if (this.pageNum + va > 0) {
+                        this.pageNum = this.pageNum + va
+                    }
 
+                    axios
+                        .get('/HostApi/List/' + this.pageNum)
+                        .then(function (response) {
+                            VuePage.res = response.data
 
+                        })
+                        .catch((err) => {
+                            console.log(err)
+                        });
+
+                },
+            },
+            computed: {
 
             }
         });
