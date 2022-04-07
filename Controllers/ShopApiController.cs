@@ -254,7 +254,7 @@ namespace EXhibition.Controllers
 
             foreach (var item in mEventDetail.exhibitorList)
             {
-                item.image = "/image/exhibitor/"+item.image;
+                item.image = "/image/exhibitor/" + item.image;
             }
 
             return Ok(mEventDetail);
@@ -446,7 +446,13 @@ namespace EXhibition.Controllers
                 {
                     item.status = "已逾期";
                 }
-                item.purchaseDateTime = DateTime.Parse(item.purchaseDateTime).ToString();
+
+                try
+                {
+                    item.purchaseDateTime = DateTime.Parse(item.purchaseDateTime).ToString();
+                }
+                catch (Exception) { item.purchaseDateTime = ""; }
+
             }
 
 
