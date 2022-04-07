@@ -84,6 +84,19 @@ namespace EXhibition.Controllers
             data["allHotTagList"] = await hostInfo.GetAllHotTagList(accountId);
             return Ok(data);
         }
-      
+
+        public async Task<IHttpActionResult> GetExhibitorDashBoard()
+        {
+            var hostInfo = new Repo.HostDashboard();
+            int accountId = (int)(HttpContext.Current.Session["AccountID"] == null ? 2 : HttpContext.Current.Session["AccountID"]);
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            data["hotUserTag"] = hostInfo.GetHotUserTag(accountId);
+            data["hotTag"] = hostInfo.GetHotEventTag();
+            data["hotEvent"] = hostInfo.GetHotEvent();
+            data["joinEventCount"] = hostInfo.GetJoinCount(accountId);           
+            return Ok(data);
+        }
+
+
     }
 }
