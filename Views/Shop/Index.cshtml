@@ -188,6 +188,12 @@
                 })
             },
             keyWordSearch() {
+
+                if (this.keyword == "") {
+                    this.getTicket();
+                    return;
+                }
+
                 let self = this
                 const url = '/api/ShopApi/GetSearchTicketList/?searchStr=' + self.keyword + '&page=' + self.pageNum
                 axios.get(url).then(function (res) {

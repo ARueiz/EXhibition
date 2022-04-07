@@ -5,7 +5,7 @@ using System.Web;
 
 namespace EXhibition.Models.PartView
 {
-    static public class ExhibitiorPartViewParam
+    static public class ExhibitorPartViewParam
     {
         static public string CenterLink = "/Exhibitor";
     }
