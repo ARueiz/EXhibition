@@ -81,7 +81,7 @@ namespace EXhibition.Repo
                      join ex in db.events on t.EVID equals ex.EVID
                      where ex.HID == hostId
                      group ex by ex.EVID into grp
-                     select new { id = grp.Key, count = grp.Count() }).OrderBy(e => e.id).Take(3).ToList();
+                     select new { id = grp.Key, count = grp.Count() }).OrderByDescending(e => e.count).Take(3).ToList();
 
             List<ItemInfo> list = (from p in a join ex in db.events on p.id equals ex.EVID select new ItemInfo { name = ex.name, number = p.count }).OrderByDescending(e => e.number).ToList();
 
@@ -95,7 +95,7 @@ namespace EXhibition.Repo
                                 join tg in db.eventTags on e.EVID equals tg.EVID
                                 where e.HID == hostId
                                 group tg by tg.tagID into grp
-                                select new { id = grp.Key, count = grp.Count() }).OrderByDescending(e => e.id).Take(3).ToList();
+                                select new { id = grp.Key, count = grp.Count() }).OrderByDescending(e => e.count).Take(3).ToList();
             var list = (from p in tagCountList
                         join tg in db.TagsName on p.id equals tg.id
                         select new ItemInfo { name = tg.tagName, number = p.count }).OrderByDescending(e => e.number).ToList();
@@ -107,7 +107,7 @@ namespace EXhibition.Repo
             var a = (from t in db.Tickets
                      join ex in db.events on t.EVID equals ex.EVID
                      group ex by ex.EVID into grp
-                     select new { id = grp.Key, count = grp.Count() }).OrderBy(e => e.id).Take(3).ToList();
+                     select new { id = grp.Key, count = grp.Count() }).OrderByDescending(e => e.count).Take(3).ToList();
 
             List<ItemInfo> list = (
                 from p in a

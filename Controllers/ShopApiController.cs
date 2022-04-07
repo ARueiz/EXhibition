@@ -254,7 +254,7 @@ namespace EXhibition.Controllers
 
             foreach (var item in mEventDetail.exhibitorList)
             {
-                item.image = "/image/exhibitor/"+item.image;
+                item.image = "/image/exhibitor/" + item.image;
             }
 
             return Ok(mEventDetail);
@@ -372,9 +372,7 @@ namespace EXhibition.Controllers
 
             IQueryable<events> query = (from eh in db.events select eh);
 
-            var eventList = (from tg in db.TagsName 
-                             join eTag in db.eventTags on tg.id equals eTag.tagID 
-                             select eTag.EVID).ToList().Distinct();
+            // var eventList = (from tg in db.TagsName join eTag in db.eventTags on tg.id equals eTag.tagID select eTag.EVID).ToList().Distinct();
 
             if (page - 1 >= 0)
             {
@@ -383,17 +381,19 @@ namespace EXhibition.Controllers
 
             if (data.CheckTag != null && data.CheckTag.Length > 0)
             {
-                query = (from eh in db.events
-                         where eventList.Contains(eh.EVID)
-                         select eh);
+                var tgList = (from tg in db.TagsName where data.CheckTag.Contains(tg.tagName) select tg.id).ToList().Distinct();
+                var eList2 = (from eventTg in db.eventTags where tgList.Contains(eventTg.tagID) select eventTg.EVID).ToList().Distinct();
+                query = (from oEvent in db.events
+                         where eList2.Contains(oEvent.EVID)
+                         select oEvent);
             }
 
             if (data.StartDate == null && data.EndDate == null)
             {
-                var searchDate = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList(); ;
-                foreach(events item in searchDate)
+                var searchDate = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList();
+                for (int i = 0; i < searchDate.Count; i++)
                 {
-                    item.image = "/image/Host/" + item.image;
+                    searchDate[i].image = "/image/Host/" + searchDate[i].image;
                 }
                 return Ok(searchDate);
             }
@@ -409,9 +409,10 @@ namespace EXhibition.Controllers
             }
 
             var b = query.OrderByDescending(e => e.startdate).Skip(page).Take(12).ToList();
-            foreach(events item in b)
+
+            for (int i = 0; i < b.Count; i++)
             {
-                item.image = "/image/Host/" + item.image;
+                b[i].image = "/image/Host/" + b[i].image;
             }
             return Ok(b);
         }
@@ -445,7 +446,13 @@ namespace EXhibition.Controllers
                 {
                     item.status = "已逾期";
                 }
-                item.purchaseDateTime = DateTime.Parse(item.purchaseDateTime).ToString();
+
+                try
+                {
+                    item.purchaseDateTime = DateTime.Parse(item.purchaseDateTime).ToString();
+                }
+                catch (Exception) { item.purchaseDateTime = ""; }
+
             }
 
 

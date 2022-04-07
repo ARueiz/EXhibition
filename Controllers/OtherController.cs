@@ -80,8 +80,8 @@ namespace EXhibition.Controllers
             data["holdCount"] = hostInfo.GetHoldCount(accountId);
             data["myHotEventList"] = await hostInfo.GetMyHotEventList(accountId);
             data["myHotTagList"] = await hostInfo.GetMyHotTagList(accountId);
-            data["allHotEventList"] = await hostInfo.GetMyHotEventList(accountId);
-            data["allHotTagList"] = await hostInfo.GetMyHotTagList(accountId);
+            data["allHotEventList"] = await hostInfo.GetAllHotEventList(accountId);
+            data["allHotTagList"] = await hostInfo.GetAllHotTagList(accountId);
             return Ok(data);
         }
       

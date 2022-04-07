@@ -1,11 +1,12 @@
-﻿using EXhibition.Models;
+﻿using EXhibition.Filters;
+using EXhibition.Models;
 using System;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web.Mvc;
 namespace EXhibition.Controllers
 {
-    //   [AuthorizeFilter(UserRole.User)]
+    [AuthorizeFilter(UserRole.User)]
     public class UserApiController : Controller
     {
         DBConnector db = new DBConnector();
