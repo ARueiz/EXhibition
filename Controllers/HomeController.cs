@@ -334,15 +334,15 @@ namespace EXhibition.Controllers
 
         public ActionResult test11(GetData d)
         {
-            var ExhibitiorItem = db.exhibitinfo.Where(t => t.EID == d.EID).Where(t => t.EVID == d.EVID).First();
+            var ExhibitorItem = db.exhibitinfo.Where(t => t.EID == d.EID).Where(t => t.EVID == d.EVID).First();
 
             if (d.isVerified == true)
             {
-                ExhibitiorItem.status = "允許";
+                ExhibitorItem.status = "允許";
             }
             else if (d.isVerified == false)
             {
-                ExhibitiorItem.status = "拒絕";
+                ExhibitorItem.status = "拒絕";
             }
 
             db.SaveChanges();

@@ -150,7 +150,7 @@ namespace EXhibition.Controllers
             }
             r.status = Models.ReturnStatus.Success;
             r.message = "註冊成功";
-            r.data = new { url = "/Home/ExhibitiorLogin" };
+            r.data = new { url = "/Home/ExhibitorLogin" };
             return Json(r, JsonRequestBehavior.AllowGet);
         }
 
