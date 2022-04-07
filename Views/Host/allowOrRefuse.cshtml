@@ -16,8 +16,6 @@
 
 <div class="row main-content" style="min-height: 100vh;" id="content">
 
-
-
     <div class="w3-main w3-col m10 col-md-10 mx-auto">
 
         <nav aria-label="breadcrumb" class="m-4">
@@ -83,18 +81,18 @@
                         <td>{{value.createAt}}</td>
                         <td>
                             <button type="button" class="btn btn-outline-success bg-success text-white" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" v-on:click="whereiclick(value.id)" v-if="value.verify == true" disabled>
+                                    data-bs-target="#accepModal" v-on:click="whereiclick(value.id)" v-if="value.verify == true" disabled>
                                 核准
                             </button>
 
                             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" v-on:click="whereiclick(value.id)" v-else-if="value.verify == null">
+                                    data-bs-target="#accepModal" v-on:click="whereiclick(value.id)" v-else-if="value.verify == null">
                                 核准
                             </button>
 
 
                             <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" v-on:click="whereiclick(value.id)" v-else disabled>
+                                    data-bs-target="#accepModal" v-on:click="whereiclick(value.id)" v-else disabled>
                                 核准
                             </button>
                         </td>
@@ -115,29 +113,27 @@
                                 拒絕
                             </button>
                         </td>
-
-
                     </tr>
-
                 </tbody>
             </table>
         </div>
     </div>
+
     <!-- Modal exhibitinfo -->
-    <div class="modal" id="evinfoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal" id="evinfoModal" tabindex="-1" aria-labelledby="evinfoModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">參展資訊</h5>
+                    <h5 class="modal-title" id="evinfoModalLabel">參展資訊</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <h2 class="text-center">廠商名稱：{{exhibitinfo.name}}</h2>
                     <div class="row mt-3">
                         <div class="col-md-6">
-                                <div style="">
-                                    <img :src=`/Image/Exhibitor/${exhibitinfo.image}` alt="" style="width: 100%; max-height: 250px; object-fit:contain; ">
-                                </div>
+                            <div style="">
+                                <img :src=`/Image/Exhibitor/${exhibitinfo.image}` alt="" style="width: 100%; max-height: 250px; object-fit:contain; ">
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
@@ -166,18 +162,15 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">確定</button>
                 </div>
             </div>>
-                
-            </div>
         </div>
     </div>
 
-
     <!-- Modal accep -->
-    <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal" id="accepModal" tabindex="-1" aria-labelledby="accepModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">核准</h5>
+                    <h5 class="modal-title" id="accepModalLabel">核准</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -220,9 +213,7 @@
                             <input class="form-check-input" type="radio" v-model="reasonStr" id="reason4" name="reason4" value="未輸入詳細資訊">
                             <label class="form-check-label" for="reason4">未輸入詳細資訊</label>
                         </div>
-
                     </div>
-
 
                 </div>
                 <div class="modal-footer">
@@ -245,8 +236,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
 <script>
@@ -324,6 +313,7 @@
                 let self = this;
 
                 self.isShow = true;
+                console.log(index);
 
                 if (index == 1) {
                     console.log("allow");
@@ -336,7 +326,7 @@
                         .catch((error) => console.log(error))
 
                     console.log('test')
-                    let loadModal = $('#exampleModal');
+                    let loadModal = $('#accepModal');
                     let loadModal2 = $('#reject');
                     loadModal.modal('hide');
                     loadModal2.modal('hide');
@@ -389,11 +379,6 @@
 
         }
     })
-
-
-    function clicked() {
-        console.log(event.target.value);
-    }
 
 
 
