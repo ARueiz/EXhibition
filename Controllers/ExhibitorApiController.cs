@@ -1,6 +1,7 @@
 ﻿using EXhibition.Filters;
 using EXhibition.Models;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -245,9 +246,7 @@ namespace EXhibition.Controllers
 
             if (!list.Any())
             {
-                rd.message = "找不到資料";
-                rd.status = "error";
-                return Json(rd, JsonRequestBehavior.AllowGet);
+                return Json(new List<string>(), JsonRequestBehavior.AllowGet);
             }
             return Json(list, JsonRequestBehavior.AllowGet);
         }
