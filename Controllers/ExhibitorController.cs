@@ -13,6 +13,8 @@ namespace EXhibition.Controllers
         // 廠商 首頁
         public ActionResult Index()
         {
+            var id = (int) Session[Models.GlobalVariables.AccountID];
+            ViewBag.AccountName = db.exhibitors.Find(id).name ;
             return View();
             //return RedirectToAction("showHostList", "Exhibitor", null);
         }
