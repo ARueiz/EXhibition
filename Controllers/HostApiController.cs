@@ -197,7 +197,7 @@ namespace EXhibition.Controllers
 
 
         //允許或拒絕廠商
-        public ActionResult AllowOrRefuse(int? index, bool verified, string reason)
+        public ActionResult AllowOrRefuse(int? index, bool verified, string reason, string status)
         {
             var rd = new ReturnData();
             if (index == null)
@@ -208,17 +208,28 @@ namespace EXhibition.Controllers
             }
             int x = (int)index;
             var allow = db.exhibitinfo.Find(x);
-
-
             allow.verify = verified;
             allow.reason = reason;
-            db.SaveChanges();
-            rd.message = "no data";
-            rd.status = "error";
-            return Json(rd, JsonRequestBehavior.AllowGet);
+            allow.status = status;
 
+            try
+            {
+                db.SaveChanges();
+                ReturnData data = new ReturnData();
+                data.status = ReturnStatus.Success;
+                data.message = "新增成功!";
 
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
 
+                ReturnData data = new ReturnData();
+                data.status = ReturnStatus.Error;
+                data.message = "新增失敗!";
+
+                return Json(data, JsonRequestBehavior.AllowGet);
+            }
         }
 
         //允許全部
