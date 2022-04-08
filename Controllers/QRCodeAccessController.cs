@@ -68,7 +68,8 @@ namespace EXhibition.Controllers
             {
                 token = token.token,
                 accountId = account.Id,
-                accountType = account.accountType
+                accountType = account.accountType,
+                createAt = DateTime.Now 
             });
             db.SaveChanges();
 
