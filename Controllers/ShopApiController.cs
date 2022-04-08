@@ -290,7 +290,7 @@ namespace EXhibition.Controllers
                            startdate = k.startdate,
                            enddate = k.enddate,
                            eventinfo = k.eventinfo,
-                           image = k.image
+                           image = "/image/host/" + k.image
 
                        }).ToList();
 
