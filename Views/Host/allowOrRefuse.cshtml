@@ -320,7 +320,7 @@
                     axios.post('/HostApi/AllowOrRefuse', {
                         index: self.clickdata,
                         verified: true,
-
+                        status: "允許",
                     })
                         .then((response) => self.selectAllStatusList() )
                         .catch((error) => console.log(error))
@@ -339,6 +339,7 @@
                         index: self.clickdata,
                         verified: false,
                         reason: self.reasonStr,
+                        status: "拒絕",
                     })
                         .then((response) => self.selectAllStatusList() )
                         .catch((error) => console.log(error))
@@ -362,11 +363,11 @@
                 var a = "";
 
 
-                if (rea1[0].checked) a += rea1[0].value + " ";
-                if (rea2[0].checked) a += rea2[0].value + " ";
-                if (rea3[0].checked) a += rea3[0].value + " ";
-                if (rea4[0].checked) a += rea4[0].value + " ";
-                a += rea5 + " ";
+                if (rea1[0].checked) a = rea1[0].value + " ";
+                if (rea2[0].checked) a = rea2[0].value + " ";
+                if (rea3[0].checked) a = rea3[0].value + " ";
+                if (rea4[0].checked) a = rea4[0].value + " ";
+                a = rea5 + " ";
 
                 this.reasonStr = a;
 
