@@ -46,7 +46,7 @@ namespace EXhibition.Controllers
                 {
                     item.status = "presale";
                 }
-                else if (DateTime.Now >= DateTime.Parse(item.startdate) || DateTime.Now <= DateTime.Parse(item.enddate)) // 現在
+                else if (DateTime.Now >= DateTime.Parse(item.startdate) && DateTime.Now <= DateTime.Parse(item.enddate)) // 現在
                 {
                     item.status = "now";
                 }
