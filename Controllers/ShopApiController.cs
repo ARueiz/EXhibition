@@ -25,7 +25,8 @@ namespace EXhibition.Controllers
             if (id == null || id <= 1) { id = 1; }
             int num = (int)id;
             num = (num - 1) * 12;
-            var list = (from eve in db.events orderby eve.createAt descending select eve).Skip(num).Take(12).ToList();
+            DateTime now = DateTime.Now;
+            var list = (from eve in db.events where eve.startdate > now orderby eve.startdate descending select eve).Skip(num).Take(12).ToList();
             for (int i = 0; i < list.Count; i++)
             {
                 list[i].image = "/image/Host/" + list[i].image;
@@ -289,7 +290,7 @@ namespace EXhibition.Controllers
                            startdate = k.startdate,
                            enddate = k.enddate,
                            eventinfo = k.eventinfo,
-                           image = k.image
+                           image = "/image/host/" + k.image
 
                        }).ToList();
 

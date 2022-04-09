@@ -396,7 +396,7 @@ namespace EXhibition.Controllers
             var list = (from host in db.hosts
                         join events in db.events on host.HID equals events.HID
                         join exhinfo in db.exhibitinfo on events.EVID equals exhinfo.EVID
-                        where exhinfo.EID == (int)id
+                        where exhinfo.EID == (int)id && exhinfo.verify == true
                         select new ApplyList
                         {
                             EID = (int)id,
@@ -422,12 +422,10 @@ namespace EXhibition.Controllers
             {
                 if (item.DTstartdate > now)
                 {
-                    item.startdate = item.DTstartdate.ToString("yyyy-mm-dd");
                     item.dateout = false;
                 }
                 else if (item.DTenddate < now)
                 {
-                    item.enddate = item.DTenddate.ToString("yyyy-mm-dd");
                     item.dateout = true;
                 }
             }

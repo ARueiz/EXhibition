@@ -1,4 +1,5 @@
 ﻿using EXhibition.Filters;
+using EXhibition.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,21 @@ namespace EXhibition.Controllers
     [AuthorizeFilter(UserRole.User)]
     public class UserController : Controller
     {
+        DBConnector db = new DBConnector();
+
         // GET: User
         public ActionResult Index()
         {
-            //return View();
-            return RedirectToAction("MyTicketList", "User", null);
+            int UID = (int)Session[GlobalVariables.AccountID];
+
+            var user = db.users.Find(UID);
+
+            ViewBag.username = user.name;
+            
+            return View();
+            
+            
+            //return RedirectToAction("MyTicketList", "User", null);
         }
 
         //票卷列表
