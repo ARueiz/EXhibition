@@ -149,6 +149,10 @@
                         }
                     }).then(response => response.json()).then(json => {
                         self.cart = json;
+                        for (var i = 0; i < self.cart.length; i++) {
+                            self.cart[i].startdate = self.cart[i].startdate.slice(0, 10)
+                            self.cart[i].enddate = self.cart[i].startdate.slice(0, 10)
+                        }
                     });
                 },
                 getCartList() {
