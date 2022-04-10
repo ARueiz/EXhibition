@@ -15,7 +15,7 @@ namespace EXhibition.Repo
 
         static public ApplicationContext appContext = new ApplicationContext
         {
-            BrandName = "展覽館-Exhibition Inc.",
+            BrandName = "展覽館-E展鴻圖- Exhibition Inc.",
             LandingPage = "BILLING",
             CancelUrl = Models.GlobalVariables.OnlinePayPalUrl,
             ReturnUrl = Models.GlobalVariables.OnlinePayPalUrl + "/shop/CheckoutSuccess",
