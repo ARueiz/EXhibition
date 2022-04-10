@@ -16,6 +16,8 @@ namespace EXhibition.Repo
             var itemList = new List<Item>();
             string currency = PayPalClient.Currency;
             int index = 1; 
+
+            // 製作購買列表
             foreach (var item in ticketList)
             {                
                 var i = new Item();
