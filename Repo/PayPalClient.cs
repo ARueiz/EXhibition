@@ -20,7 +20,7 @@ namespace EXhibition.Repo
             BrandName = "展覽館-E展鴻圖- Exhibition Inc.",
             LandingPage = "BILLING",
             CancelUrl = Models.GlobalVariables.OnlinePayPalUrl,
-            ReturnUrl = Models.GlobalVariables.LocalPayPalUrl + "shop/CheckoutSuccess/",
+            ReturnUrl = Models.GlobalVariables.OnlinePayPalUrl + "shop/CheckoutSuccess/",
             UserAction = "CONTINUE",
             ShippingPreference = "NO_SHIPPING"
         };
