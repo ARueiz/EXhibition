@@ -15,13 +15,14 @@ namespace EXhibition.Repo
 
             var itemList = new List<Item>();
             string currency = PayPalClient.Currency;
-
+            int index = 1; 
             foreach (var item in ticketList)
             {                
                 var i = new Item();
                 i.Name = item.name;
                 i.UnitAmount = new Money { CurrencyCode = currency, Value = Decimal.ToInt32(item.ticketprice).ToString()};
-                i.Quantity = "1";
+                i.Quantity = index.ToString();
+                index++;
                 itemList.Add(i);
             }
 
