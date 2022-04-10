@@ -39,7 +39,7 @@ namespace EXhibition.Controllers
             var authorizeOrderResponse = await Repo.PayPalClient.AuthorizeOrder(token);
             var authorizeOrderResult = authorizeOrderResponse.Result<PayPalCheckoutSdk.Orders.Order>();
             var authorizationId = authorizeOrderResult.PurchaseUnits[0].Payments.Authorizations[0].Id;
-            var captureOrderResponse = Repo.PayPalClient.CaptureOrder(authorizationId).Result;
+            var captureOrderResponse = await Repo.PayPalClient.CaptureOrder(authorizationId);
             var order = db.orders.Where(e=>e.paypal_Id == token).FirstOrDefault();
             if(order == null) return RedirectToAction("Index");
             order.isPay = true;
