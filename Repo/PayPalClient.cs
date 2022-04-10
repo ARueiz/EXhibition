@@ -6,6 +6,7 @@ using System.Text;
 using System.Runtime.Serialization.Json;
 using PayPalCheckoutSdk.Orders;
 using System.Threading.Tasks;
+using PayPalCheckoutSdk.Payments;
 
 namespace EXhibition.Repo
 {
@@ -62,25 +63,15 @@ namespace EXhibition.Repo
             request.Prefer("return=representation");
             request.RequestBody(new AuthorizeRequest());
             var response = await PayPalClient.client().Execute(request);
+            return response;
+        }
 
-            if (debug)
-            {
-                var result = response.Result<Order>();
-                Console.WriteLine("Status: {0}", result.Status);
-                Console.WriteLine("Order Id: {0}", result.Id);
-                Console.WriteLine("Authorization Id: {0}", result.PurchaseUnits[0].Payments.Authorizations[0].Id);
-                Console.WriteLine("Intent: {0}", result.CheckoutPaymentIntent);
-                Console.WriteLine("Links:");
-                foreach (LinkDescription link in result.Links)
-                {
-                    Console.WriteLine("\t{0}: {1}\tCall Type: {2}", link.Rel, link.Href, link.Method);
-                }
-                AmountWithBreakdown amount = result.PurchaseUnits[0].AmountWithBreakdown;
-                Console.WriteLine("Buyer:");
-                Console.WriteLine("\tEmail Address: {0}", result.Payer.Email);
-                Console.WriteLine("Response JSON: \n {0}", PayPalClient.ObjectToJSONString(result));
-            }
-
+        public async static Task<HttpResponse> CaptureOrder(string AuthorizationId, bool debug = false)
+        {
+            var request = new AuthorizationsCaptureRequest(AuthorizationId);
+            request.Prefer("return=representation");
+            request.RequestBody(new CaptureRequest());
+            var response = await PayPalClient.client().Execute(request);
             return response;
         }
 
