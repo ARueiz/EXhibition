@@ -212,6 +212,7 @@ namespace EXhibition.Controllers
 
             order = db.orders.Find(order.id);
             order.paypal_Id = orderResult.Id;
+            db.SaveChanges();
 
             string url = orderResult.Links.Where(i => i.Rel == "approve").First().Href;
 

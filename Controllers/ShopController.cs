@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 
 namespace EXhibition.Controllers
 {
@@ -28,8 +29,19 @@ namespace EXhibition.Controllers
             }
         }
 
-        public ActionResult CheckoutSuccess()
+        public async System.Threading.Tasks.Task<ActionResult> CheckoutSuccess(string token)
         {
+            if (Session[Models.GlobalVariables.AccountID] == null || token == null )
+            {
+                return RedirectToAction("Index");
+            }
+            Models.DBConnector db = new Models.DBConnector();
+            var authorizeOrderResponse = await Repo.PayPalClient.AuthorizeOrder(token);
+            var authorizeOrderResult = authorizeOrderResponse.Result<PayPalCheckoutSdk.Orders.Order>();            
+            var order = db.orders.Where(e=>e.paypal_Id == token).FirstOrDefault();
+            if(order == null) return RedirectToAction("Index");
+            order.isPay = true;
+            db.SaveChanges();
             return View();
         }
 
