@@ -12,11 +12,14 @@ namespace EXhibition.Controllers
         public ActionResult Index()
         {
 
+            var twtzinfo = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime localdt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, twtzinfo);
+
             string ip = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
 
             if (ip == null) ip = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
                       
-            db.request_log.Add(new Models.request_log() { access_time = DateTime.Now , client_ip = ip  });
+            db.request_log.Add(new Models.request_log() { access_time = localdt , client_ip = ip  });
             db.SaveChanges();
 
             if (Session["UserRole"] == null)
