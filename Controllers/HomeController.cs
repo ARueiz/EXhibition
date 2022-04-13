@@ -11,6 +11,14 @@ namespace EXhibition.Controllers
         private DBConnector db = new DBConnector();
         public ActionResult Index()
         {
+
+            string ip = System.Web.HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+
+            if (ip == null) ip = System.Web.HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+                      
+            db.request_log.Add(new Models.request_log() { access_time = DateTime.Now , client_ip = ip  });
+            db.SaveChanges();
+
             if (Session["UserRole"] == null)
             {
                 Session["UserRole"] = "Visitor";

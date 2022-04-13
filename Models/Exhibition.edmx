@@ -115,6 +115,14 @@
           <Property Name="accountType" Type="nvarchar" MaxLength="50" />
           <Property Name="accountId" Type="int" />
         </EntityType>
+        <EntityType Name="request_log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="client_ip" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="access_time" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="TagsName">
           <Key>
             <PropertyRef Name="id" />
@@ -216,6 +224,7 @@
           <EntitySet Name="orderDetail" EntityType="Self.orderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="orders" EntityType="Self.orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QRCodeLoginToken" EntityType="Self.QRCodeLoginToken" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="request_log" EntityType="Self.request_log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TagsName" EntityType="Self.TagsName" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tickets" EntityType="Self.Tickets" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="users" EntityType="Self.users" Schema="dbo" store:Type="Tables" />
@@ -393,6 +402,7 @@
           <EntitySet Name="TagsName" EntityType="ExhibitionModel.TagsName" />
           <EntitySet Name="orders" EntityType="ExhibitionModel.orders" />
           <EntitySet Name="forgetPassword" EntityType="ExhibitionModel.forgetPassword" />
+          <EntitySet Name="request_log" EntityType="ExhibitionModel.request_log" />
           </EntityContainer>
         <EntityType Name="Tickets">
           <Key>
@@ -488,6 +498,14 @@
           <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="uuid" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="userType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="request_log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="client_ip" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="access_time" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -644,6 +662,15 @@
                 <ScalarProperty Name="userType" ColumnName="userType" />
                 <ScalarProperty Name="uuid" ColumnName="uuid" />
                 <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="request_log">
+            <EntityTypeMapping TypeName="ExhibitionModel.request_log">
+              <MappingFragment StoreEntitySet="request_log">
+                <ScalarProperty Name="access_time" ColumnName="access_time" />
+                <ScalarProperty Name="client_ip" ColumnName="client_ip" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>

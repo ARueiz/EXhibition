@@ -22,6 +22,7 @@
         <EntityTypeShape EntityType="ExhibitionModel.TagsName" Width="1.5" PointX="3.375" PointY="8.75" />
         <EntityTypeShape EntityType="ExhibitionModel.orders" Width="1.5" PointX="5.375" PointY="8.75" />
         <EntityTypeShape EntityType="ExhibitionModel.forgetPassword" Width="1.5" PointX="7.375" PointY="8.75" />
+        <EntityTypeShape EntityType="ExhibitionModel.request_log" Width="1.5" PointX="9.375" PointY="0.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
